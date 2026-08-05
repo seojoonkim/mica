@@ -16,6 +16,12 @@ export const TASK_FAMILY_IDS = [
   "shopping-delivery",
   "travel-accommodation",
   "restaurants-local",
+  "money-banking-investing",
+  "mobility-transit",
+  "healthcare-administration",
+  "government-civic",
+  "home-utilities",
+  "telecom-subscriptions",
 ] as const;
 export const taskFamilySchema = z.enum(TASK_FAMILY_IDS);
 export type TaskFamilyId = z.infer<typeof taskFamilySchema>;

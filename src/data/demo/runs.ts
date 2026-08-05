@@ -2,13 +2,15 @@ import {
   runCellSchema,
   assertDemoInvariants,
   COUNTRY_CODES,
-  TASK_FAMILY_IDS,
   type RunCell,
   type CountryCode,
-  type TaskFamilyId,
 } from "@/lib/schema";
 import { z } from "zod";
 import { SYSTEMS } from "@/data/demo/systems";
+import {
+  SEEDED_DEMO_FAMILY_IDS,
+  type SeededDemoFamilyId,
+} from "@/data/demo/tasks";
 
 /**
  * Canonical demo run cells — one aggregate per system × country × family.
@@ -80,8 +82,10 @@ const COUNTRY_FACTORS: Record<
   th: { accuracy: -0.07, latency: 1.04, currencyScale: 36 },
 };
 
+// Only the seeded demo families have run aggregates; the other six taxonomy
+// families deliberately have no cells rather than fabricated ones.
 const FAMILY_FACTORS: Record<
-  TaskFamilyId,
+  SeededDemoFamilyId,
   { accuracy: number; latency: number }
 > = {
   "email-calendar": { accuracy: 0.09, latency: 0.72 },
@@ -95,7 +99,7 @@ const TASKS_DEFINED = 3;
 function buildCell(
   systemSlug: string,
   country: CountryCode,
-  family: TaskFamilyId,
+  family: SeededDemoFamilyId,
 ): unknown {
   const profile = PROFILES[systemSlug];
   const next = sequence(`${systemSlug}:${country}:${family}`);
@@ -183,7 +187,7 @@ function buildCell(
 const raw: unknown[] = SYSTEMS.flatMap((system) => {
   const markets = PROFILES[system.slug].markets ?? COUNTRY_CODES;
   return markets.flatMap((country) =>
-    TASK_FAMILY_IDS.map((family) => buildCell(system.slug, country, family)),
+    SEEDED_DEMO_FAMILY_IDS.map((family) => buildCell(system.slug, country, family)),
   );
 });
 

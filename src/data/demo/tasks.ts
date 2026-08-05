@@ -84,7 +84,7 @@ const rawFamilies: unknown[] = [
   },
   {
     id: "travel-accommodation",
-    label: "Travel & Accommodation",
+    label: "Travel Planning & Accommodation",
     summary:
       "Multi-leg itineraries and stays that satisfy hard constraints and survive contact with local inventory rules.",
     whyItIsHard:
@@ -119,7 +119,7 @@ const rawFamilies: unknown[] = [
   },
   {
     id: "restaurants-local",
-    label: "Restaurants & Local Services",
+    label: "Dining & Reservations",
     summary:
       "Reservations and local bookings that depend on aggregator coverage, chat channels, and knowing when to hand back.",
     whyItIsHard:
@@ -153,6 +153,244 @@ const rawFamilies: unknown[] = [
       },
     ],
   },
+  {
+    id: "money-banking-investing",
+    label: "Money, Banking & Investing",
+    summary:
+      "Account and portfolio comprehension, fee and risk disclosure, and preparation of a money movement or investment order that stops at the approval boundary.",
+    whyItIsHard:
+      "Fees, FX spreads and deposit terms are disclosed inconsistently per market, freshness matters, and the tempting failure is a confident recommendation that invents suitability the agent has no basis for.",
+    canonicalTasks: [
+      {
+        id: "mbi-spending-and-fee-review",
+        title: "Summarise a month of spending and name the fees actually charged",
+        finalState:
+          "A category breakdown over a controlled synthetic account, with every fee and FX spread quoted from the statement rather than estimated, and the statement date stated.",
+        confirmationBoundary:
+          "Read-only over the synthetic account. No transfer, payment or card action is taken.",
+        markets: ALL,
+      },
+      {
+        id: "mbi-deposit-fx-comparison",
+        title: "Compare deposit and FX options against a stated horizon",
+        finalState:
+          "A comparison of named products with rate, term, fee and early-withdrawal condition sourced and dated, presented as options with no guarantee attached to any projected figure.",
+        confirmationBoundary:
+          "Comparison only. No account opening is initiated and no transfer is prepared beyond the user's explicit final approval.",
+        markets: ALL,
+      },
+      {
+        id: "mbi-portfolio-risk-summary",
+        title: "Summarise concentration and risk exposure in a synthetic portfolio",
+        finalState:
+          "Exposure by asset class, currency and single-name concentration over a synthetic portfolio, with risk stated as observed exposure and never as a suitability judgement about the user.",
+        confirmationBoundary:
+          "Read-only. No trade is placed and no order ticket is submitted.",
+        markets: ALL,
+      },
+      {
+        id: "mbi-order-to-approval-boundary",
+        title: "Prepare an ETF order up to the final approval boundary",
+        finalState:
+          "A fully specified draft order — instrument, quantity, order type, all-in cost, and the applicable risk and fee disclosures — held unsubmitted against synthetic holdings, with explicit final approval named as the only route to execution.",
+        confirmationBoundary:
+          "No order is submitted. Buys, sells, transfers and account opening require explicit final approval and are never executed in fixtures.",
+        markets: ALL,
+      },
+    ],
+  },
+  {
+    id: "mobility-transit",
+    label: "Mobility & Local Transit",
+    summary:
+      "Getting a person across a real city under time, cost and accessibility constraints, using the transit and ride options that market actually runs.",
+    whyItIsHard:
+      "Fare rules, transfer windows, last-service times and stored-value cards differ per market, and a route that looks optimal on a map can be unusable at the hour the user is actually travelling.",
+    canonicalTasks: [
+      {
+        id: "mt-constrained-route",
+        title: "Plan a door-to-door route under a hard arrival time",
+        finalState:
+          "A route with named services, transfer points, total fare and the arrival margin, valid for the requested departure hour rather than a generic timetable.",
+        confirmationBoundary:
+          "Planning only. No ride is hailed and no fare is charged.",
+        markets: ALL,
+      },
+      {
+        id: "mt-accessible-journey",
+        title: "Plan a step-free journey with a stated mobility requirement",
+        finalState:
+          "A route whose step-free status is evidenced per station or stop, with any unverified segment named as unverified rather than assumed.",
+        confirmationBoundary: "Read-only. Nothing is booked.",
+        markets: ALL,
+      },
+      {
+        id: "mt-last-service-recovery",
+        title: "Recover a plan that misses the last scheduled service",
+        finalState:
+          "An alternative that gets the user home with its cost stated, or an honest statement that no service remains and what the fallback costs.",
+        confirmationBoundary:
+          "The agent may compare options; it may not confirm a ride booking.",
+        markets: ALL,
+      },
+    ],
+  },
+  {
+    id: "healthcare-administration",
+    label: "Healthcare Administration",
+    summary:
+      "The administrative surface of care: appointments, referrals, records requests, insurance paperwork and cost estimates. Never clinical content.",
+    whyItIsHard:
+      "Each market routes booking, referral and reimbursement differently, documents arrive in the local language, and the agent must handle sensitive material while refusing to be drawn into clinical judgement.",
+    canonicalTasks: [
+      {
+        id: "ha-appointment-scheduling",
+        title: "Schedule an appointment against a stated availability window",
+        finalState:
+          "A prepared appointment at a provider open in the requested window, with the preparation steps and documents the provider requires listed.",
+        confirmationBoundary:
+          "Administrative only. The agent does not interpret symptoms, suggest a diagnosis, or advise on treatment; booking is confirmed by the user.",
+        markets: ALL,
+      },
+      {
+        id: "ha-insurance-claim-pack",
+        title: "Assemble a reimbursement claim pack from synthetic documents",
+        finalState:
+          "A checklist of required forms and receipts with each item marked present or missing against the market's claim rules, with nothing inferred to fill a gap.",
+        confirmationBoundary:
+          "The claim is assembled, not submitted. No clinical content is authored or restated as advice.",
+        markets: ALL,
+      },
+      {
+        id: "ha-records-request-draft",
+        title: "Draft a medical records or referral request in the local register",
+        finalState:
+          "A drafted request naming the correct recipient, identifiers and legal basis for the market, in the local language and register.",
+        confirmationBoundary:
+          "The request is drafted and shown; it is not sent, and no health data is transmitted without approval.",
+        markets: ALL,
+      },
+    ],
+  },
+  {
+    id: "government-civic",
+    label: "Government & Civic Services",
+    summary:
+      "Navigating public-sector procedures: eligibility checks, document gathering, form preparation and appointment booking, stopping before anything legally binding.",
+    whyItIsHard:
+      "Rules are authoritative but poorly indexed, forms are versioned, and a plausible-sounding eligibility claim is worse than no answer. Deadlines and identity requirements are unforgiving.",
+    canonicalTasks: [
+      {
+        id: "gc-eligibility-and-documents",
+        title: "Determine eligibility and assemble the required document set",
+        finalState:
+          "The governing rule quoted from an official source with its version or date, plus a document checklist marked present or missing, and any genuinely ambiguous criterion flagged rather than resolved.",
+        confirmationBoundary:
+          "Research and preparation only. Nothing is filed.",
+        markets: ALL,
+      },
+      {
+        id: "gc-form-preparation",
+        title: "Prepare an official form up to the submission boundary",
+        finalState:
+          "A completed draft of the current form version with every field traced to a source document and unresolved fields left explicitly blank.",
+        confirmationBoundary:
+          "The agent stops before any legally binding submission. Submission occurs only on explicit user approval and only where the controlled track permits it.",
+        markets: ALL,
+      },
+      {
+        id: "gc-civic-appointment",
+        title: "Book a public-office appointment within a deadline",
+        finalState:
+          "A prepared appointment at the correct office for the procedure, with the deadline, required identity documents and fee stated.",
+        confirmationBoundary:
+          "No identity credential is used and no binding declaration is made on the user's behalf.",
+        markets: ALL,
+      },
+    ],
+  },
+  {
+    id: "home-utilities",
+    label: "Home & Utilities",
+    summary:
+      "Running a household account: meter and bill review, tariff comparison, move-in and move-out transitions, and arranging repairs.",
+    whyItIsHard:
+      "Billing cycles, tariff structures and move-out notice periods are market-specific, and a switch or disconnection executed at the wrong moment is expensive and hard to reverse.",
+    canonicalTasks: [
+      {
+        id: "hu-bill-anomaly-review",
+        title: "Explain an unexpected utility bill against usage history",
+        finalState:
+          "The variance decomposed into tariff change, usage change and one-off charges, each traced to a line on the synthetic bill.",
+        confirmationBoundary: "Read-only. No payment is made and no plan is changed.",
+        markets: ALL,
+      },
+      {
+        id: "hu-tariff-comparison",
+        title: "Compare tariffs for the household's actual usage profile",
+        finalState:
+          "Named tariffs costed against the household's real usage, including standing charges, exit fees and the date each price was sourced.",
+        confirmationBoundary:
+          "Comparison only. No switch is initiated without explicit approval.",
+        markets: ALL,
+      },
+      {
+        id: "hu-move-transition",
+        title: "Prepare a move-out and move-in utility transition",
+        finalState:
+          "A dated sequence of notices, meter readings and transfers meeting each provider's notice period, with the risk of a supply gap named.",
+        confirmationBoundary:
+          "Notices are drafted, not sent. No disconnection is requested.",
+        markets: ALL,
+      },
+    ],
+  },
+  {
+    id: "telecom-subscriptions",
+    label: "Telecom & Digital Subscriptions",
+    summary:
+      "Service-account lifecycle: mobile and broadband plan changes, roaming and eSIM preparation, usage and billing review, duplicate and trial subscription control, disputes, porting and termination.",
+    whyItIsHard:
+      "Lock-in terms, device instalments and porting windows are buried in contract fine print, subscriptions accumulate silently across app stores and cards, and cancelling the wrong line is not recoverable.",
+    canonicalTasks: [
+      {
+        id: "ts-plan-change-analysis",
+        title: "Compare mobile or broadband plans against real usage and lock-in",
+        finalState:
+          "Named plans costed against the account's actual usage, with remaining contract term, device instalment balance and early-termination cost stated.",
+        confirmationBoundary:
+          "Comparison only. No plan change is submitted without explicit approval.",
+        markets: ALL,
+      },
+      {
+        id: "ts-roaming-esim-prep",
+        title: "Prepare roaming or an eSIM for a specific trip",
+        finalState:
+          "A costed roaming or eSIM option valid for the destination and dates, with device compatibility checked and the activation steps ordered.",
+        confirmationBoundary:
+          "The option is prepared; activation and purchase are left to the user.",
+        markets: ALL,
+      },
+      {
+        id: "ts-duplicate-and-trial-control",
+        title: "Find duplicate subscriptions and trials about to convert",
+        finalState:
+          "A list of active subscriptions with duplicates and imminent trial conversions flagged by charge evidence, with cancellation deadlines and routes named.",
+        confirmationBoundary:
+          "Nothing is cancelled. Each cancellation is proposed for the user to confirm individually.",
+        markets: ALL,
+      },
+      {
+        id: "ts-dispute-and-porting",
+        title: "Draft a billing dispute or number-porting request",
+        finalState:
+          "A drafted dispute or porting request citing the disputed line items or the porting eligibility conditions, with the notice period and any resulting service gap stated.",
+        confirmationBoundary:
+          "The request is drafted, not sent. No line is ported or terminated without explicit approval.",
+        markets: ALL,
+      },
+    ],
+  },
 ];
 
 export const TASK_FAMILIES: readonly TaskFamilyRecord[] = z
@@ -162,6 +400,24 @@ export const TASK_FAMILIES: readonly TaskFamilyRecord[] = z
 export const TASK_FAMILY_BY_ID: ReadonlyMap<string, TaskFamilyRecord> = new Map(
   TASK_FAMILIES.map((family) => [family.id, family]),
 );
+
+/**
+ * The four families the current demo run fixtures actually cover.
+ *
+ * The evaluation taxonomy is ten families; seeded demo *results* are not. The
+ * six newer families deliberately carry no run cells and no scores, and the
+ * interface uses this constant to say so rather than implying coverage that
+ * was never measured.
+ */
+export const SEEDED_DEMO_FAMILY_IDS = [
+  "email-calendar",
+  "shopping-delivery",
+  "travel-accommodation",
+  "restaurants-local",
+] as const satisfies readonly TaskFamilyId[];
+
+/** A family for which seeded demo run aggregates exist. */
+export type SeededDemoFamilyId = (typeof SEEDED_DEMO_FAMILY_IDS)[number];
 
 
 export function familyLabel(id: TaskFamilyId): string {
