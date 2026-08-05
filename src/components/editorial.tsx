@@ -1,56 +1,89 @@
 import type { ReactNode } from "react";
-import { DEMO_LABEL, NOT_A_RANKING, SITE } from "@/lib/site";
+import { DemoWords } from "@/components/chrome";
+import type { Locale } from "@/lib/i18n/config";
+import { getDict } from "@/lib/i18n/dictionary";
 
 /**
  * Shared editorial primitives. The demo disclosure lives here so that every
- * score surface carries the same two strings, spelled identically.
+ * score surface carries the same two English strings, spelled identically, with
+ * the Korean restatement beside them rather than instead of them.
  */
 
 /**
- * The mandatory disclosure. It appears on every surface that shows a score,
- * and always carries both `Illustrative demo data` and `Not an official
- * ranking` as visible text.
+ * The mandatory disclosure. It appears on every surface that shows a score, and
+ * always carries both `Illustrative demo data` and `Not an official ranking` as
+ * visible text, in every locale.
  */
-export function DemoDisclosure({ detail }: { detail?: string }) {
+export function DemoDisclosure({
+  lang,
+  detail,
+}: {
+  lang: Locale;
+  detail?: string;
+}) {
+  const dict = getDict(lang);
   return (
     <aside
       className="mica-notice"
-      aria-label="Data status detail"
+      aria-label={dict.disclosure.detailLabel}
       data-testid="demo-disclosure"
     >
       {/* Quieter than it was: the global status bar now carries the alarm. */}
       <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.08em] text-[var(--color-ink-faint)]">
-        {DEMO_LABEL} · {NOT_A_RANKING}
+        <DemoWords lang={lang} />
       </p>
       <p className="mt-1.5 max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
-        {detail ??
-          "Every figure below is generated for interface development. It carries no evidentiary weight and no system on this page has been ranked by MICA."}
+        {detail ?? dict.disclosure.defaultDetail}
       </p>
     </aside>
   );
 }
 
 /** Compact inline restatement, for use directly above a table. */
-export function DemoStamp({ className = "" }: { className?: string }) {
+export function DemoStamp({
+  lang,
+  className = "",
+}: {
+  lang: Locale;
+  className?: string;
+}) {
+  const dict = getDict(lang);
   return (
     <p className={`flex flex-wrap gap-2 ${className}`}>
-      <span className="mica-stamp">{DEMO_LABEL}</span>
-      <span className="mica-stamp mica-stamp-quiet">{NOT_A_RANKING}</span>
+      <span className="mica-stamp" lang="en">
+        {dict.disclosure.demoLabel}
+      </span>
+      <span className="mica-stamp mica-stamp-quiet" lang="en">
+        {dict.disclosure.notRanking}
+      </span>
+      {lang === "en" ? null : (
+        <>
+          <span className="mica-stamp mica-stamp-quiet" lang={lang}>
+            {dict.disclosure.demoLabelLocal}
+          </span>
+          <span className="mica-stamp mica-stamp-quiet" lang={lang}>
+            {dict.disclosure.notRankingLocal}
+          </span>
+        </>
+      )}
     </p>
   );
 }
 
 export function PageHeader({
+  lang,
   eyebrow,
   title,
   standfirst,
   children,
 }: {
+  lang: Locale;
   eyebrow: string;
   title: string;
   standfirst: string;
   children?: ReactNode;
 }) {
+  const dict = getDict(lang);
   return (
     <div className="border-b border-[var(--color-rule-strong)] pb-7">
       <div className="mica-grid pt-8 md:pt-10">
@@ -61,9 +94,9 @@ export function PageHeader({
         </div>
         <div className="md:col-span-3 md:col-start-10">
           <span className="mica-ticks" aria-hidden="true" />
-          <p className="mica-eyebrow mt-3">{SITE.edition}</p>
+          <p className="mica-eyebrow mt-3">{dict.site.edition}</p>
           <p className="mt-2 text-[13.5px] text-[var(--color-ink-faint)]">
-            Five markets · four task families · three separate outcome axes.
+            {dict.common.editionSummary}
           </p>
         </div>
       </div>
@@ -108,14 +141,16 @@ export function Section({
  * client component and no focus that moves without the reader asking.
  */
 export function OnThisPage({
+  lang,
   items,
 }: {
+  lang: Locale;
   items: readonly { id: string; label: string }[];
 }) {
   return (
     <nav aria-labelledby="on-this-page" className="mt-6">
       <p className="mica-eyebrow" id="on-this-page">
-        On this page
+        {getDict(lang).common.onThisPage}
       </p>
       <ul className="mica-toc mt-2">
         {items.map((item) => (

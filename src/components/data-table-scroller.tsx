@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { getDict } from "@/lib/i18n/dictionary";
 
 /**
  * The shared wrapper for every wide data table on the site.
@@ -12,10 +14,12 @@ import type { ReactNode } from "react";
  */
 export function DataTableScroller({
   label,
+  lang = DEFAULT_LOCALE,
   children,
   className = "",
 }: {
   label: string;
+  lang?: Locale;
   children: ReactNode;
   className?: string;
 }) {
@@ -30,7 +34,7 @@ export function DataTableScroller({
         {children}
       </div>
       <p className="mica-scroll-cue" aria-hidden="true">
-        Scroll horizontally for all columns →
+        {getDict(lang).table.scrollCue}
       </p>
     </div>
   );

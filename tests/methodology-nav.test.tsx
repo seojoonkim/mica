@@ -1,10 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import MethodologyPage from "@/app/methodology/page";
+import MethodologyPage from "@/app/[lang]/methodology/page";
 
 describe("methodology on-this-page navigation", () => {
-  it("offers a named nav whose links all resolve to real section ids", () => {
-    const { container } = render(MethodologyPage());
+  it("offers a named nav whose links all resolve to real section ids", async () => {
+    const { container } = render(
+      await MethodologyPage({ params: Promise.resolve({ lang: "en" }) }),
+    );
     const nav = screen.getByRole("navigation", { name: /on this page/i });
     const links = within(nav).getAllByRole("link");
     expect(links.length).toBeGreaterThanOrEqual(5);

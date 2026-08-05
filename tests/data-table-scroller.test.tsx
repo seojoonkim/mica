@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import { DataTableScroller } from "@/components/data-table-scroller";
 import { ResultsTable } from "@/components/results-table";
 import { aggregateBySystem } from "@/lib/derive";
-import HomePage from "@/app/page";
+import HomePage from "@/app/[lang]/page";
 
 describe("DataTableScroller", () => {
   it("is a keyboard-focusable region with the caption as its name", () => {
@@ -70,8 +70,8 @@ describe("ResultsTable uses the shared scroller", () => {
 });
 
 describe("home page tables adopt the scroller", () => {
-  it("gives every data table a focusable named region", () => {
-    render(HomePage());
+  it("gives every data table a focusable named region", async () => {
+    render(await HomePage({ params: Promise.resolve({ lang: "en" }) }));
     const tables = screen.getAllByRole("table");
     const regions = screen.getAllByRole("region");
     expect(regions.length).toBeGreaterThanOrEqual(tables.length);

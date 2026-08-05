@@ -7,9 +7,9 @@ import { RUN_CELLS } from "@/data/demo/runs";
 import { SYSTEMS } from "@/data/demo/systems";
 import { runCellSchema } from "@/lib/schema";
 import { ResultsTable } from "@/components/results-table";
-import RankingsPage from "@/app/rankings/page";
-import HomePage from "@/app/page";
-import { metadata as rootMetadata } from "@/app/layout";
+import RankingsPage from "@/app/[lang]/rankings/page";
+import HomePage from "@/app/[lang]/page";
+import { generateMetadata as layoutMetadata } from "@/app/[lang]/layout";
 import { SITE } from "@/lib/site";
 
 describe("p95 replaces p90", () => {
@@ -105,8 +105,8 @@ describe("global accuracy is a country macro-average", () => {
     expect(macro).not.toBe(pooled);
   });
 
-  it("says macro-average on the home page and never pooled", () => {
-    render(HomePage());
+  it("says macro-average on the home page and never pooled", async () => {
+    render(await HomePage({ params: Promise.resolve({ lang: "en" }) }));
     expect(screen.getAllByText(/country macro-average/i).length).toBeGreaterThan(
       0,
     );
@@ -143,14 +143,14 @@ describe("ResultsTable", () => {
 
 describe("Rankings is country-first and verified-first", () => {
   it("prompts for a market and shows no results table when none is selected", async () => {
-    render(await RankingsPage({ searchParams: Promise.resolve({}) }));
+    render(await RankingsPage({ params: Promise.resolve({ lang: "en" }), searchParams: Promise.resolve({}) }));
     expect(screen.getByText(/select a market/i)).toBeInTheDocument();
     expect(screen.queryByRole("table")).toBeNull();
   });
 
   it("shows only independently rerun systems by default once a market is chosen", async () => {
     render(
-      await RankingsPage({ searchParams: Promise.resolve({ country: "kr" }) }),
+      await RankingsPage({ params: Promise.resolve({ lang: "en" }), searchParams: Promise.resolve({ country: "kr" }) }),
     );
     const table = screen.getByRole("table");
     expect(within(table).getByText("Atlas Concierge")).toBeInTheDocument();
@@ -161,6 +161,7 @@ describe("Rankings is country-first and verified-first", () => {
   it("can widen to self-reported rows through the verification filter", async () => {
     render(
       await RankingsPage({
+        params: Promise.resolve({ lang: "en" }),
         searchParams: Promise.resolve({
           country: "kr",
           verification: "self-reported",
@@ -175,6 +176,7 @@ describe("Rankings is country-first and verified-first", () => {
   it("offers a verification control preserved in the GET URL", async () => {
     render(
       await RankingsPage({
+        params: Promise.resolve({ lang: "en" }),
         searchParams: Promise.resolve({
           country: "kr",
           family: "email-calendar",
@@ -195,11 +197,14 @@ describe("Rankings is country-first and verified-first", () => {
 });
 
 describe("demo preview metadata", () => {
-  it("is noindex, nofollow while the canonical stays the live preview", () => {
+  it("is noindex, nofollow while the canonical stays the live preview", async () => {
+    const rootMetadata = await layoutMetadata({
+      params: Promise.resolve({ lang: "en" }),
+    });
     expect(rootMetadata.robots).toMatchObject({ index: false, follow: false });
     expect(rootMetadata.metadataBase?.toString()).toContain(
       new URL(SITE.url).host,
     );
-    expect(rootMetadata.alternates?.canonical).toBe("/");
+    expect(rootMetadata.alternates?.canonical).toBe("/en");
   });
 });

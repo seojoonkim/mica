@@ -4,25 +4,31 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV } from "@/components/nav-items";
+import { localeHref, splitLocale, type Locale } from "@/lib/i18n/config";
+import { getDict } from "@/lib/i18n/dictionary";
 
 /**
  * A route is current when it is the nav href itself or a detail page beneath
  * it, so `/agents/hangang-assistant` lights `Systems`. The boundary check keeps
- * `/tasks-archive` from matching `/tasks`.
+ * `/tasks-archive` from matching `/tasks`. The comparison is made on the
+ * logical path with the locale segment removed, so the active state is the same
+ * in both languages.
  */
 function isCurrent(pathname: string, href: string) {
-  return pathname === href || pathname.startsWith(`${href}/`);
+  const { path } = splitLocale(pathname);
+  return path === href || path.startsWith(`${href}/`);
 }
 
 /**
- * The only client component in MICA. It exists so the primary nav can collapse
- * behind a disclosure on narrow screens; at 48rem CSS shows the list
- * unconditionally and hides the toggle, so the same markup serves both.
+ * The primary nav. It is a client component so the list can collapse behind a
+ * disclosure on narrow screens; at 48rem CSS shows the list unconditionally and
+ * hides the toggle, so the same markup serves both.
  */
-export function NavLinks() {
+export function NavLinks({ lang }: { lang: Locale }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() ?? "/";
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const dict = getDict(lang);
 
   useEffect(() => {
     if (!open) return;
@@ -46,7 +52,7 @@ export function NavLinks() {
         aria-controls="mica-primary-nav"
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? "Close menu" : "Menu"}
+        {open ? dict.chrome.closeMenu : dict.chrome.menu}
       </button>
       <ul
         id="mica-primary-nav"
@@ -55,12 +61,12 @@ export function NavLinks() {
         {NAV.map((item) => (
           <li key={item.href}>
             <Link
-              href={item.href}
+              href={localeHref(lang, item.href)}
               className="mica-navlink"
               aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
-              {item.label}
+              {dict.nav[item.key]}
             </Link>
           </li>
         ))}

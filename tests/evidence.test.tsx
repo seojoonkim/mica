@@ -11,10 +11,10 @@ import {
 import { RUN_CELLS } from "@/data/demo/runs";
 import { NAV } from "@/components/nav-items";
 import sitemap from "@/app/sitemap";
-import EvidenceIndexPage from "@/app/evidence/page";
+import EvidenceIndexPage from "@/app/[lang]/evidence/page";
 import EvidenceCellPage, {
   generateStaticParams,
-} from "@/app/evidence/[cell]/page";
+} from "@/app/[lang]/evidence/[cell]/page";
 
 describe("run-cell identity", () => {
   it("builds a stable id from system, market and family", () => {
@@ -81,10 +81,10 @@ describe("run-cell evidence view", () => {
 
 describe("evidence index page", () => {
   it("lists every canonical run cell as a link and stays demo-labelled", async () => {
-    render(await EvidenceIndexPage({ searchParams: Promise.resolve({}) }));
+    render(await EvidenceIndexPage({ params: Promise.resolve({ lang: "en" }), searchParams: Promise.resolve({}) }));
     for (const id of RUN_CELL_IDS.slice(0, 5)) {
       expect(
-        document.querySelector(`a[href="/evidence/${id}"]`),
+        document.querySelector(`a[href="/en/evidence/${id}"]`),
       ).not.toBeNull();
     }
     expect(document.body.textContent).toMatch(/illustrative demo data/i);
@@ -95,13 +95,14 @@ describe("evidence index page", () => {
   it("filters by market when asked", async () => {
     render(
       await EvidenceIndexPage({
+        params: Promise.resolve({ lang: "en" }),
         searchParams: Promise.resolve({ country: "kr" }),
       }),
     );
-    const hrefs = [...document.querySelectorAll("a[href^='/evidence/']")].map(
+    const hrefs = [...document.querySelectorAll("a[href^='/en/evidence/']")].map(
       (a) => a.getAttribute("href")!,
     );
-    const cellLinks = hrefs.filter((href) => href !== "/evidence");
+    const cellLinks = hrefs.filter((href) => href !== "/en/evidence");
     expect(cellLinks.length).toBeGreaterThan(0);
     expect(cellLinks.every((href) => href.includes("--kr--"))).toBe(true);
   });
@@ -116,7 +117,7 @@ describe("evidence detail page", () => {
   });
 
   it("states the aggregate lineage without inventing a transcript", async () => {
-    render(await EvidenceCellPage({ params: Promise.resolve({ cell: id }) }));
+    render(await EvidenceCellPage({ params: Promise.resolve({ lang: "en", cell: id }) }));
     const text = document.body.textContent ?? "";
     expect(text).toMatch(/aggregate run cell/i);
     expect(text).toMatch(/not an individual transcript/i);
