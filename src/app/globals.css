@@ -14,19 +14,79 @@
 
 @theme {
   --color-paper: #f0ede6;
+  --color-paper-alt: #e3ddca;
   --color-paper-deep: #e6e1d6;
   --color-surface: #faf8f4;
   --color-ink: #14120f;
-  --color-ink-soft: #423c33;
-  --color-ink-faint: #6b6357;
+  --color-ink-soft: #3a352c;
+  --color-ink-faint: #5f584c;
   --color-bone: #f4f1ea;
   --color-rule: #d3cdc0;
   --color-rule-strong: #2a251d;
 
-  /* The three outcome axes carry one fixed hue each, site-wide. */
+  /*
+   * The three outcome axes carry one fixed hue each, site-wide. Each has a
+   * three-stop ramp so the same identity can be a fill, a text colour or a
+   * cell wash without ever dropping below its contrast floor. These three
+   * hues are semantic: they appear only where an outcome axis is named, and
+   * never as a generic hover or accent colour.
+   */
   --color-axis-accuracy: #1a3e6e;
+  --color-axis-accuracy-text: #16345c;
+  --color-axis-accuracy-tint: #dde3ec;
   --color-axis-speed: #c2461e;
-  --color-axis-cost: #4c5a2a;
+  --color-axis-speed-text: #9e360f;
+  --color-axis-speed-tint: #f2e2da;
+  --color-axis-cost: #45591f;
+  --color-axis-cost-text: #374a17;
+  --color-axis-cost-tint: #e2e6d6;
+
+  /*
+   * The five market editions. A deliberately different family from the axes —
+   * deep, desaturated, one flat tone each — so "this is Korea" can never be
+   * misread as "this is speed". They arrive as edges and codes, never as a
+   * fill behind prose. All five differ in value as well as hue, so the band
+   * still separates in a greyscale print.
+   */
+  --color-mkt-kr: #7a2e3b;
+  --color-mkt-jp: #2f4858;
+  --color-mkt-sg: #1f6152;
+  --color-mkt-tw: #8a5a12;
+  --color-mkt-th: #5b3e86;
+
+  /*
+   * One pale paper per market, authored explicitly rather than mixed at
+   * runtime so the five tints can be balanced against each other by eye and
+   * are identical in every browser. Each sits above 88% lightness, so ink
+   * copy on top of it stays well past 12:1.
+   */
+  --color-mkt-kr-tint: #f1e2e3;
+  --color-mkt-jp-tint: #e1e8ec;
+  --color-mkt-sg-tint: #dee9e3;
+  --color-mkt-tw-tint: #f1e7d3;
+  --color-mkt-th-tint: #e7e3f0;
+
+  /*
+   * The editorial ink. A print sepia and its straw paper, deliberately outside
+   * both the axis and the market families: it is the colour of the apparatus
+   * itself — the running status band and the hero ledger — and it therefore
+   * must never be mistaken for an outcome axis or for an edition.
+   */
+  --color-editorial: #4a3323;
+  --color-editorial-field: #ecdfbe;
+  --color-editorial-rule: #a98a4d;
+
+  /*
+   * Build-state. These describe the state of the apparatus, never the quality
+   * of a result, so they cannot be misread as scores. `empty` is deliberately
+   * a neutral grey-ink rather than red: zero published results is the honest
+   * state of this benchmark, not an error. Every state edge travels with its
+   * own text label, so colour is never the only carrier.
+   */
+  --color-state-built: #1f6152;
+  --color-state-open: #8a5a12;
+  --color-state-empty: #5f584c;
+  --color-state-blocked: #8f1f14;
 
   /* Legacy token names, re-pointed onto the axis identities. */
   --color-atlas: #1a3e6e;
@@ -73,6 +133,32 @@
   --step-h2: clamp(1.5rem, 1.22rem + 1.25vw, 2.15rem);
   --step-h3: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
   --step-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+
+  /*
+   * The prose steps the display scale was missing. Nothing prose-like is set
+   * below --step-body-sm; --step-micro is a 13px floor reserved for labels,
+   * captions and stamps, which are short, high-contrast and never read in
+   * runs.
+   */
+  --step-body: clamp(1rem, 0.965rem + 0.17vw, 1.0625rem);
+  --step-body-sm: clamp(0.9375rem, 0.92rem + 0.09vw, 0.975rem);
+  --step-micro: 0.8125rem;
+
+  --measure: 62ch;
+  --measure-tight: 52ch;
+
+  --shell-pad: 18px;
+}
+
+/*
+ * `ch` is measured on the Latin zero, and Hangul badly overruns it: a 62ch
+ * container holds far more Korean syllables than Latin words. Korean measures
+ * are therefore bounded in em instead, so a Korean paragraph and its English
+ * counterpart wrap to a comparable number of lines.
+ */
+html[lang="ko"] {
+  --measure: 36em;
+  --measure-tight: 30em;
 }
 
 html {
@@ -84,8 +170,8 @@ body {
   background-color: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--step-body);
+  line-height: 1.68;
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -98,11 +184,11 @@ body {
 :lang(ko) {
   word-break: keep-all;
   overflow-wrap: anywhere;
-  line-height: 1.72;
+  line-height: 1.82;
 }
 
 html[lang="ko"] body {
-  line-height: 1.72;
+  line-height: 1.82;
 }
 
 html[lang="ko"] .mica-display,
@@ -146,6 +232,8 @@ html[lang="ko"] .mica-stack {
  */
 @media (min-width: 48rem) {
   .mica-shell {
+    /* --shell-pad is read by the zoning bleed so the two never disagree. */
+    --shell-pad: 32px;
     padding-inline: 32px;
   }
 }
@@ -206,6 +294,42 @@ html[lang="ko"] .mica-stack {
   color: var(--color-ink-soft);
 }
 
+/*
+ * The three prose primitives. Every run of body copy on the site is one of
+ * these: each carries its own size, leading, ink and measure, so no component
+ * has to restate them as inline literals and no two paragraphs disagree.
+ */
+.mica-body {
+  font-size: var(--step-body);
+  line-height: 1.68;
+  color: var(--color-ink-soft);
+  max-width: var(--measure);
+}
+
+.mica-body-sm {
+  font-size: var(--step-body-sm);
+  line-height: 1.7;
+  color: var(--color-ink-soft);
+  max-width: var(--measure);
+}
+
+/* Labels, captions and counts only — never a run of prose. */
+.mica-micro {
+  font-size: var(--step-micro);
+  line-height: 1.6;
+  color: var(--color-ink-faint);
+  max-width: var(--measure-tight);
+}
+
+html[lang="ko"] :is(.mica-body, .mica-body-sm) {
+  line-height: 1.84;
+}
+
+.mica-body + .mica-body,
+.mica-body-sm + .mica-body-sm {
+  margin-top: 0.85em;
+}
+
 .mica-rule {
   border: 0;
   border-top: 1px solid var(--color-rule);
@@ -251,10 +375,34 @@ main {
   }
 }
 
+/*
+ * Zoning. Alternate sections sit on a slightly deeper paper that bleeds to the
+ * shell edge, so a five-section page stops reading as one continuous slab at a
+ * squint. It is a paper change, not a card: no border, no radius, no shadow.
+ */
+.mica-section:nth-of-type(even) {
+  background: var(--color-paper-alt);
+  padding-block: 40px 48px;
+  margin-inline: calc(-1 * var(--shell-pad));
+  padding-inline: var(--shell-pad);
+  /*
+   * The band is a change of paper stock, so it declares itself at the edge as
+   * well as across the field. Full-bleed and square: a zone, not a card.
+   */
+  border-block: 1px solid var(--color-rule);
+}
+
+/*
+ * The section spine. Each header opens on a 6px rule in the section's own hue,
+ * running the full measure of the header — a colour anchor large enough to read
+ * at a full-page squint, where a coloured numeral alone disappears. The hue is
+ * pure wayfinding: the numeral it sits above is aria-hidden and the heading
+ * beside it is untouched.
+ */
 .mica-section-head {
   display: grid;
   gap: 10px 28px;
-  border-top: 1px solid var(--color-ink);
+  border-top: 6px solid var(--section-hue, var(--color-ink));
   padding-top: 14px;
 }
 
@@ -274,6 +422,33 @@ main {
 
 .mica-section-num::before {
   content: counter(mica-section, decimal-leading-zero) " —";
+  color: var(--section-hue, var(--color-ink));
+}
+
+/*
+ * The section spine. The numeral in the left column rotates through the axis
+ * and market families, giving every section a chromatic anchor at zero cost to
+ * the document outline — the numeral is aria-hidden and the heading beside it
+ * is untouched, so the colour is pure wayfinding and never carries meaning.
+ */
+.mica-section:nth-of-type(5n + 1) {
+  --section-hue: var(--color-axis-accuracy-text);
+}
+
+.mica-section:nth-of-type(5n + 2) {
+  --section-hue: var(--color-axis-speed-text);
+}
+
+.mica-section:nth-of-type(5n + 3) {
+  --section-hue: var(--color-axis-cost-text);
+}
+
+.mica-section:nth-of-type(5n + 4) {
+  --section-hue: var(--color-mkt-jp);
+}
+
+.mica-section:nth-of-type(5n + 5) {
+  --section-hue: var(--color-mkt-kr);
 }
 
 /* --- Masthead --------------------------------------------------------- */
@@ -312,7 +487,7 @@ main {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 14.5px;
+  font-size: 15px;
   background: var(--color-surface);
 }
 
@@ -329,7 +504,7 @@ main {
 .mica-table th,
 .mica-table td {
   border-bottom: 1px solid var(--color-rule);
-  padding: 11px 14px;
+  padding: 12px 14px;
   text-align: left;
   vertical-align: top;
 }
@@ -362,22 +537,27 @@ main {
 .mica-table th.is-metric,
 .mica-table td.is-metric {
   --axis-hue: var(--color-ink);
+  --axis-tint: var(--color-surface);
 }
 
 .mica-table .is-metric-accuracy {
   --axis-hue: var(--color-axis-accuracy);
+  --axis-tint: var(--color-axis-accuracy-tint);
 }
 
 .mica-table .is-metric-speed {
   --axis-hue: var(--color-axis-speed);
+  --axis-tint: var(--color-axis-speed-tint);
 }
 
 .mica-table .is-metric-cost {
   --axis-hue: var(--color-axis-cost);
+  --axis-tint: var(--color-axis-cost-tint);
 }
 
+/* An explicit tint rather than a color-mix: predictable across browsers. */
 .mica-table td.is-metric {
-  background: color-mix(in srgb, var(--axis-hue) 7%, var(--color-surface));
+  background: var(--axis-tint);
   border-left: 2px solid var(--axis-hue);
   color: var(--color-ink);
   font-weight: 500;
@@ -552,9 +732,15 @@ main {
     text-decoration-color 120ms ease;
 }
 
+/*
+ * Hover is an ink event, not an axis event. The axis hues are reserved for
+ * surfaces where an outcome axis is actually named, so a link never asserts
+ * "speed" simply by being pointed at.
+ */
 .mica-link:hover {
-  color: var(--color-axis-speed);
-  text-decoration-color: var(--color-axis-speed);
+  color: var(--color-ink);
+  text-decoration-color: var(--color-ink);
+  text-decoration-thickness: 2px;
 }
 
 /* The lede links under the hero: larger, mono-labelled, rule-separated. */
@@ -566,20 +752,36 @@ main {
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-ink);
+  color: var(--color-bone);
+  background: var(--color-editorial);
+  padding-inline: 14px;
   text-decoration: none;
-  border-bottom: 1px solid var(--color-ink);
+  border: 1px solid var(--color-editorial);
   transition:
     color 120ms ease,
+    background-color 120ms ease,
     border-color 120ms ease;
 }
 
 .mica-cta:hover {
-  color: var(--color-axis-speed);
-  border-color: var(--color-axis-speed);
+  color: var(--color-editorial);
+  background: var(--color-editorial-field);
+  border-color: var(--color-editorial);
 }
 
 /* --- Hero apparatus --------------------------------------------------- */
+
+/*
+ * A full editorial paper field makes the opening register in colour even at
+ * mobile scale. This sepia/straw family is deliberately separate from both
+ * outcome and market colours, so it cannot imply a score or an edition.
+ */
+.mica-home-hero {
+  background: var(--color-editorial-field);
+  border-top: 8px solid var(--color-editorial);
+  margin-inline: calc(-1 * var(--shell-pad));
+  padding-inline: var(--shell-pad);
+}
 
 /* The edition strip that opens the page, set as a running masthead line. */
 .mica-strip {
@@ -674,19 +876,55 @@ main {
   padding: 0;
 }
 
+/*
+ * Each edition takes its market hue as a hard top edge, on its ISO code, and as
+ * a pale wash across the whole cell — the band is the one place on the page
+ * where five editions sit side by side, so it is where the market family can be
+ * read as colour rather than as trim. The wash is a named tint token, never a
+ * runtime mix, and it stays pale enough that the names above it are ink-dark.
+ * Hue is still never the only signal: the code, the native name and the
+ * localised name each name the market in words.
+ */
 .mica-band li {
-  background: var(--color-surface);
-  padding: 12px 14px;
+  background: var(--mkt-tint, var(--color-surface));
+  border-top: 6px solid var(--mkt-hue, var(--color-ink));
+  padding: 14px;
   min-width: 0;
+}
+
+.mica-band li[data-market="kr"] {
+  --mkt-hue: var(--color-mkt-kr);
+  --mkt-tint: var(--color-mkt-kr-tint);
+}
+
+.mica-band li[data-market="jp"] {
+  --mkt-hue: var(--color-mkt-jp);
+  --mkt-tint: var(--color-mkt-jp-tint);
+}
+
+.mica-band li[data-market="sg"] {
+  --mkt-hue: var(--color-mkt-sg);
+  --mkt-tint: var(--color-mkt-sg-tint);
+}
+
+.mica-band li[data-market="tw"] {
+  --mkt-hue: var(--color-mkt-tw);
+  --mkt-tint: var(--color-mkt-tw-tint);
+}
+
+.mica-band li[data-market="th"] {
+  --mkt-hue: var(--color-mkt-th);
+  --mkt-tint: var(--color-mkt-th-tint);
 }
 
 .mica-band-code {
   display: block;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-ink-faint);
+  color: var(--mkt-hue, var(--color-ink-faint));
 }
 
 .mica-band-native {
@@ -700,9 +938,9 @@ main {
 
 .mica-band-name {
   display: block;
-  font-size: 12.5px;
+  font-size: var(--step-micro);
   color: var(--color-ink-soft);
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 /* --- Outcome axis triptych ------------------------------------------- */
@@ -727,16 +965,27 @@ main {
   min-width: 0;
 }
 
+/*
+ * Two stops per axis. The saturated hue is a fill or an edge only; anything
+ * set as text takes the darker `-text` stop, which clears 6:1 on paper at any
+ * size. `#c2461e` in particular is never used for small text.
+ */
 .mica-axis[data-axis="accuracy"] {
   --axis-hue: var(--color-axis-accuracy);
+  --axis-hue-text: var(--color-axis-accuracy-text);
+  --axis-tint: var(--color-axis-accuracy-tint);
 }
 
 .mica-axis[data-axis="speed"] {
   --axis-hue: var(--color-axis-speed);
+  --axis-hue-text: var(--color-axis-speed-text);
+  --axis-tint: var(--color-axis-speed-tint);
 }
 
 .mica-axis[data-axis="cost"] {
   --axis-hue: var(--color-axis-cost);
+  --axis-hue-text: var(--color-axis-cost-text);
+  --axis-tint: var(--color-axis-cost-tint);
 }
 
 /* The hue bar and the glyph carry the identity together; neither is alone. */
@@ -754,8 +1003,23 @@ main {
   text-transform: uppercase;
 }
 
+/*
+ * The three panels are the page's clearest statement that there is no single
+ * score, so each one carries its axis as a full pale field rather than as a
+ * stripe: three visibly different papers side by side. The tint is a named
+ * token, the copy on it stays ink-dark, and the glyph and the written axis name
+ * in the bar above continue to carry the identity without colour.
+ */
 .mica-axis-body {
-  padding: 18px;
+  padding: 20px 18px 22px;
+  background: var(--axis-tint, var(--color-surface));
+  border-left: 6px solid var(--axis-hue);
+  color: var(--color-ink-soft);
+}
+
+.mica-axis-body .mica-h3 {
+  color: var(--axis-hue-text);
+  font-weight: 600;
 }
 
 .mica-axis-mark {
@@ -763,16 +1027,90 @@ main {
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--axis-hue);
+  font-size: var(--step-micro);
+  color: var(--axis-hue-text);
+  border-top: 3px solid var(--axis-hue);
+  padding-top: 8px;
+}
+
+/*
+ * The ten-family index is the longest reading run on the homepage. Alternating
+ * market papers turn that run into a visible editorial register instead of a
+ * beige tail, while the written family names remain the primary encoding.
+ */
+.mica-family-row {
+  --family-hue: var(--color-mkt-kr);
+  --family-tint: var(--color-mkt-kr-tint);
+  background: var(--family-tint);
+  border-left: 6px solid var(--family-hue);
+  padding-inline: 16px;
+}
+
+.mica-family-row:nth-child(5n + 2) {
+  --family-hue: var(--color-mkt-jp);
+  --family-tint: var(--color-mkt-jp-tint);
+}
+
+.mica-family-row:nth-child(5n + 3) {
+  --family-hue: var(--color-mkt-sg);
+  --family-tint: var(--color-mkt-sg-tint);
+}
+
+.mica-family-row:nth-child(5n + 4) {
+  --family-hue: var(--color-mkt-tw);
+  --family-tint: var(--color-mkt-tw-tint);
+}
+
+.mica-family-row:nth-child(5n + 5) {
+  --family-hue: var(--color-mkt-th);
+  --family-tint: var(--color-mkt-th-tint);
+}
+
+.mica-family-row .mica-h3 {
+  color: var(--family-hue);
+  font-weight: 600;
+}
+
+@media (max-width: 47.999rem) {
+  .mica-home-hero {
+    border-top-width: 10px;
+  }
+
+  .mica-family-row {
+    padding: 18px 14px;
+  }
 }
 
 /* --- Inverted ink notice --------------------------------------------- */
 
 .mica-notice {
-  border-left: 3px solid var(--color-ink);
+  border-left: 4px solid var(--color-ink);
   background: var(--color-surface);
-  padding: 12px 14px;
+  padding: 16px 18px 18px;
+  max-width: var(--measure);
+}
+
+.mica-notice-head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+html[lang="ko"] .mica-notice-head {
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.mica-notice-empty {
+  border-left-color: var(--color-state-empty);
+}
+
+.mica-notice-open {
+  border-left-color: var(--color-state-open);
 }
 
 /*
@@ -786,7 +1124,10 @@ main {
   border: 1px solid var(--color-ink);
 }
 
-.mica-invert .mica-eyebrow {
+.mica-invert .mica-eyebrow,
+.mica-invert .mica-body,
+.mica-invert .mica-body-sm,
+.mica-invert .mica-micro {
   color: var(--color-bone);
 }
 
@@ -1024,7 +1365,8 @@ main {
 }
 
 .mica-toc a:hover {
-  border-bottom-color: var(--color-axis-speed);
+  border-bottom-color: var(--color-ink);
+  border-bottom-width: 2px;
 }
 
 /* --- Prose ----------------------------------------------------------- */

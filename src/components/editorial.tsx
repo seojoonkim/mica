@@ -55,7 +55,7 @@ export function DemoDisclosure({
           <DemoWords lang={lang} />
         </span>
       </p>
-      <p className="mt-3 mb-0 max-w-[76ch] text-[14.5px] leading-relaxed text-[var(--color-bone)]">
+      <p className="mica-body-sm mt-3 mb-0 text-[var(--color-bone)]">
         {detail ?? dict.disclosure.defaultDetail}
       </p>
     </aside>
@@ -118,7 +118,7 @@ export function PageHeader({
         <div className="md:col-span-3 md:col-start-10">
           <span className="mica-ticks" aria-hidden="true" />
           <p className="mica-eyebrow mt-3">{dict.site.edition}</p>
-          <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--color-ink-faint)]">
+          <p className="mica-micro mt-2">
             {dict.common.editionSummary}
           </p>
         </div>
@@ -154,7 +154,7 @@ export function Section({
           {eyebrow ? <p className="mica-eyebrow">{eyebrow}</p> : null}
           <h2 className="mica-display mica-h2 mt-2">{title}</h2>
           {intro ? (
-            <p className="mt-3 max-w-[68ch] text-[15.5px] text-[var(--color-ink-soft)]">
+            <p className="mica-body mt-3">
               {intro}
             </p>
           ) : null}
@@ -209,7 +209,7 @@ export function DataList({
           <dt className="mica-eyebrow pt-1 text-[var(--color-ink)]">
             {item.term}
           </dt>
-          <dd className="m-0 max-w-[70ch] text-[15px] text-[var(--color-ink-soft)]">
+          <dd className="mica-body m-0">
             {item.detail}
           </dd>
         </div>

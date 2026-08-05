@@ -130,7 +130,7 @@ export function Colophon({ lang }: { lang: Locale }) {
             <p className="mica-display text-[26px] leading-tight">
               {dict.site.longName}
             </p>
-            <p className="mt-2 max-w-[42ch] text-[13.5px] text-[var(--color-ink-soft)]">
+            <p className="mica-body-sm mt-2">
               {dict.site.tagline} {dict.site.secondary}
             </p>
             <p className="mt-2 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.1em] text-[var(--color-ink-faint)]">

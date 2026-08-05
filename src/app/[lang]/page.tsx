@@ -53,7 +53,7 @@ export default async function HomePage({
        * unit of measurement is the whole orchestration, and the market band
        * that names the five editions in their own scripts.
        */}
-      <header className="border-b border-[var(--color-ink)] pb-9">
+      <header className="mica-home-hero border-b border-[var(--color-ink)] pb-9">
         <ul className="mica-strip">
           {dict.site.editionStrip.map((item) => (
             <li key={item}>{item}</li>
@@ -63,7 +63,7 @@ export default async function HomePage({
         <div className="mica-grid pt-8 md:pt-10">
           <div className="md:col-span-7">
             <h1 className="mica-display mica-hero">{dict.site.tagline}</h1>
-            <p className="mica-display mica-h2 mt-5 text-[var(--color-axis-speed)]">
+            <p className="mica-display mica-h2 mt-5">
               {dict.site.secondary}
             </p>
             <p className="mica-lead mt-6 max-w-[54ch]">{dict.site.definition}</p>
@@ -104,7 +104,7 @@ export default async function HomePage({
                 </div>
               ))}
             </dl>
-            <p className="mt-3 text-[12.5px] text-[var(--color-ink-faint)]">
+            <p className="mica-micro mt-3">
               {dict.home.countedNote}
             </p>
           </div>
@@ -133,7 +133,7 @@ export default async function HomePage({
           <p className="mica-eyebrow md:col-span-3">{dict.home.bandEyebrow}</p>
           <ul className="mica-band md:col-span-9">
             {COUNTRIES.map((country) => (
-              <li key={country.code}>
+              <li key={country.code} data-market={country.code}>
                 <LocaleLink
                   lang={lang}
                   href={`/countries/${country.code}`}
@@ -164,19 +164,19 @@ export default async function HomePage({
          * read from the canonical records, so neither can be overstated in
          * copy.
          */}
-        <div className="mica-notice mt-4 max-w-[76ch]">
-          <p className="mica-eyebrow m-0 text-[var(--color-ink)]">
+        <div className="mica-notice mica-notice-empty mt-4">
+          <p className="mica-notice-head">
             {dict.home.noResultsHeadline}
           </p>
-          <p className="mt-2 mb-0 text-[14px] text-[var(--color-ink-soft)]">
+          <p className="mica-body-sm mt-2 mb-0">
             {dict.home.noResultsDetail}
           </p>
         </div>
-        <div className="mica-notice mt-4 max-w-[76ch]">
-          <p className="mica-eyebrow m-0 text-[var(--color-ink)]">
+        <div className="mica-notice mica-notice-open mt-4">
+          <p className="mica-notice-head">
             {dict.coverage.headline}
           </p>
-          <p className="mt-2 mb-0 text-[14px] text-[var(--color-ink-soft)]">
+          <p className="mica-body-sm mt-2 mb-0">
             {dict.coverage.detail}
           </p>
         </div>
@@ -206,7 +206,7 @@ export default async function HomePage({
                 <p className="mica-eyebrow mt-2">
                   {dict.outcomeAxes[axis.id].unit}
                 </p>
-                <p className="mt-4 max-w-[42ch] text-[14.5px] text-[var(--color-ink-soft)]">
+                <p className="mica-body-sm mt-4">
                   {dict.outcomeAxes[axis.id].description}
                 </p>
               </div>
@@ -243,15 +243,15 @@ export default async function HomePage({
           {TASK_FAMILIES.map((family) => (
             <article
               key={family.id}
-              className="mica-grid border-b border-[var(--color-rule)] py-5"
+              className="mica-family-row mica-grid border-b border-[var(--color-rule)] py-5"
             >
               <h3 className="mica-display mica-h3 md:col-span-3">
                 {dict.families[family.id].label}
               </h3>
-              <p className="max-w-[62ch] text-[15px] text-[var(--color-ink-soft)] md:col-span-6">
+              <p className="mica-body md:col-span-6">
                 {dict.families[family.id].summary}
               </p>
-              <p className="text-[13.5px] text-[var(--color-ink-faint)] md:col-span-3">
+              <p className="mica-micro md:col-span-3">
                 {family.canonicalTasks.length} {dict.common.canonicalTasks}
               </p>
             </article>
