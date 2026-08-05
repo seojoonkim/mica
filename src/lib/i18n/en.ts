@@ -159,6 +159,7 @@ export const en = {
     allSystems: "All systems",
     allMarkets: "All markets",
     allTaskFamilies: "All task families",
+    categoryLabel: "Category",
     canonicalTasks: "canonical tasks",
     finalState: "Final state",
     confirmationBoundary: "Confirmation boundary",

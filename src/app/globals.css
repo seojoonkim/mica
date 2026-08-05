@@ -13,16 +13,16 @@
  */
 
 @theme {
-  --color-paper: #f0ede6;
-  --color-paper-alt: #e3ddca;
-  --color-paper-deep: #e6e1d6;
-  --color-surface: #faf8f4;
-  --color-ink: #14120f;
-  --color-ink-soft: #3a352c;
-  --color-ink-faint: #5f584c;
-  --color-bone: #f4f1ea;
-  --color-rule: #d3cdc0;
-  --color-rule-strong: #2a251d;
+  --color-paper: #f6f3ec;
+  --color-paper-alt: #eae4d4;
+  --color-paper-deep: #ede8dc;
+  --color-surface: #fcfaf5;
+  --color-ink: #141312;
+  --color-ink-soft: #38352f;
+  --color-ink-faint: #6a6459;
+  --color-bone: #f2eee4;
+  --color-rule: #d8d2c4;
+  --color-rule-strong: #141312;
 
   /*
    * The three outcome axes carry one fixed hue each, site-wide. Each has a
@@ -31,15 +31,15 @@
    * hues are semantic: they appear only where an outcome axis is named, and
    * never as a generic hover or accent colour.
    */
-  --color-axis-accuracy: #1a3e6e;
-  --color-axis-accuracy-text: #16345c;
-  --color-axis-accuracy-tint: #dde3ec;
-  --color-axis-speed: #c2461e;
-  --color-axis-speed-text: #9e360f;
-  --color-axis-speed-tint: #f2e2da;
-  --color-axis-cost: #45591f;
-  --color-axis-cost-text: #374a17;
-  --color-axis-cost-tint: #e2e6d6;
+  --color-axis-accuracy: #17429c;
+  --color-axis-accuracy-text: #143a88;
+  --color-axis-accuracy-tint: #dde4f4;
+  --color-axis-speed: #bd430b;
+  --color-axis-speed-text: #a63a06;
+  --color-axis-speed-tint: #f7e4d5;
+  --color-axis-cost: #16704b;
+  --color-axis-cost-text: #125c3d;
+  --color-axis-cost-tint: #d9eadf;
 
   /*
    * The five market editions. A deliberately different family from the axes —
@@ -48,11 +48,11 @@
    * fill behind prose. All five differ in value as well as hue, so the band
    * still separates in a greyscale print.
    */
-  --color-mkt-kr: #7a2e3b;
-  --color-mkt-jp: #2f4858;
-  --color-mkt-sg: #1f6152;
-  --color-mkt-tw: #8a5a12;
-  --color-mkt-th: #5b3e86;
+  --color-mkt-kr: #8e2f3c;
+  --color-mkt-jp: #24405e;
+  --color-mkt-sg: #14705c;
+  --color-mkt-tw: #8a5e14;
+  --color-mkt-th: #52397e;
 
   /*
    * One pale paper per market, authored explicitly rather than mixed at
@@ -60,21 +60,21 @@
    * are identical in every browser. Each sits above 88% lightness, so ink
    * copy on top of it stays well past 12:1.
    */
-  --color-mkt-kr-tint: #f1e2e3;
-  --color-mkt-jp-tint: #e1e8ec;
-  --color-mkt-sg-tint: #dee9e3;
-  --color-mkt-tw-tint: #f1e7d3;
-  --color-mkt-th-tint: #e7e3f0;
+  --color-mkt-kr-tint: #f4e0e2;
+  --color-mkt-jp-tint: #dde6ee;
+  --color-mkt-sg-tint: #d9ebe5;
+  --color-mkt-tw-tint: #f4e8ce;
+  --color-mkt-th-tint: #e6e0f2;
 
   /*
-   * The editorial ink. A print sepia and its straw paper, deliberately outside
-   * both the axis and the market families: it is the colour of the apparatus
-   * itself — the running status band and the hero ledger — and it therefore
-   * must never be mistaken for an outcome axis or for an edition.
+   * Editorial ink and acid highlighter, deliberately outside both the axis and
+   * market families. The acid is a field under dark ink, never text itself.
    */
-  --color-editorial: #4a3323;
-  --color-editorial-field: #ecdfbe;
-  --color-editorial-rule: #a98a4d;
+  --color-editorial: #141312;
+  --color-editorial-field: #e4e24a;
+  --color-editorial-rule: #a8a62f;
+  --color-editorial-blue: #284d66;
+  --color-editorial-coral: #9b3d2b;
 
   /*
    * Build-state. These describe the state of the apparatus, never the quality
@@ -83,14 +83,14 @@
    * state of this benchmark, not an error. Every state edge travels with its
    * own text label, so colour is never the only carrier.
    */
-  --color-state-built: #1f6152;
-  --color-state-open: #8a5a12;
-  --color-state-empty: #5f584c;
-  --color-state-blocked: #8f1f14;
+  --color-state-built: #14705c;
+  --color-state-open: #8a5e14;
+  --color-state-empty: #6a6459;
+  --color-state-blocked: #a31a0e;
 
-  /* Legacy token names, re-pointed onto the axis identities. */
-  --color-atlas: #1a3e6e;
-  --color-vermilion: #c2461e;
+  /* Legacy aliases remain non-semantic editorial accents. */
+  --color-atlas: var(--color-editorial-blue);
+  --color-vermilion: var(--color-editorial-coral);
 
   --font-display: var(--font-serif-display);
   --font-sans: var(--font-sans-ui);
@@ -422,34 +422,12 @@ main {
 
 .mica-section-num::before {
   content: counter(mica-section, decimal-leading-zero) " —";
-  color: var(--section-hue, var(--color-ink));
+  padding-inline: 0.16em;
+  color: var(--color-ink);
+  background: var(--color-editorial-field);
 }
 
-/*
- * The section spine. The numeral in the left column rotates through the axis
- * and market families, giving every section a chromatic anchor at zero cost to
- * the document outline — the numeral is aria-hidden and the heading beside it
- * is untouched, so the colour is pure wayfinding and never carries meaning.
- */
-.mica-section:nth-of-type(5n + 1) {
-  --section-hue: var(--color-axis-accuracy-text);
-}
-
-.mica-section:nth-of-type(5n + 2) {
-  --section-hue: var(--color-axis-speed-text);
-}
-
-.mica-section:nth-of-type(5n + 3) {
-  --section-hue: var(--color-axis-cost-text);
-}
-
-.mica-section:nth-of-type(5n + 4) {
-  --section-hue: var(--color-mkt-jp);
-}
-
-.mica-section:nth-of-type(5n + 5) {
-  --section-hue: var(--color-mkt-kr);
-}
+/* Section numerals use the editorial marker, never an axis or market identity. */
 
 /* --- Masthead --------------------------------------------------------- */
 
@@ -968,7 +946,7 @@ main {
 /*
  * Two stops per axis. The saturated hue is a fill or an edge only; anything
  * set as text takes the darker `-text` stop, which clears 6:1 on paper at any
- * size. `#c2461e` in particular is never used for small text.
+ * size. The speed fill is dark enough to support bone microcopy at AA contrast.
  */
 .mica-axis[data-axis="accuracy"] {
   --axis-hue: var(--color-axis-accuracy);
@@ -1033,42 +1011,23 @@ main {
   padding-top: 8px;
 }
 
-/*
- * The ten-family index is the longest reading run on the homepage. Alternating
- * market papers turn that run into a visible editorial register instead of a
- * beige tail, while the written family names remain the primary encoding.
- */
+/* The ten task families form a numbered editorial index, not a market key. */
 .mica-family-row {
-  --family-hue: var(--color-mkt-kr);
-  --family-tint: var(--color-mkt-kr-tint);
-  background: var(--family-tint);
-  border-left: 6px solid var(--family-hue);
-  padding-inline: 16px;
+  padding-block: 22px;
 }
 
-.mica-family-row:nth-child(5n + 2) {
-  --family-hue: var(--color-mkt-jp);
-  --family-tint: var(--color-mkt-jp-tint);
-}
-
-.mica-family-row:nth-child(5n + 3) {
-  --family-hue: var(--color-mkt-sg);
-  --family-tint: var(--color-mkt-sg-tint);
-}
-
-.mica-family-row:nth-child(5n + 4) {
-  --family-hue: var(--color-mkt-tw);
-  --family-tint: var(--color-mkt-tw-tint);
-}
-
-.mica-family-row:nth-child(5n + 5) {
-  --family-hue: var(--color-mkt-th);
-  --family-tint: var(--color-mkt-th-tint);
-}
-
-.mica-family-row .mica-h3 {
-  color: var(--family-hue);
+.mica-family-index {
+  width: fit-content;
+  margin: 0;
+  padding: 0.12em 0.2em 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
   font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  background: var(--color-editorial-field);
 }
 
 @media (max-width: 47.999rem) {
@@ -1077,7 +1036,14 @@ main {
   }
 
   .mica-family-row {
-    padding: 18px 14px;
+    padding: 18px 0;
+  }
+
+  .mica-family-index {
+    margin-bottom: 2px;
+    padding: 0.12em 0.2em 0;
+    font-size: 1.125rem;
+    color: var(--color-ink);
   }
 }
 

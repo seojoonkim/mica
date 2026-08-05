@@ -129,6 +129,7 @@ export const ko = {
     allSystems: "전체 시스템",
     allMarkets: "전체 시장",
     allTaskFamilies: "전체 과제 계열",
+    categoryLabel: "카테고리",
     canonicalTasks: "개 표준 과제",
     finalState: "최종 상태",
     confirmationBoundary: "확인 경계",

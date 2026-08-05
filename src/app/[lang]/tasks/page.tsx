@@ -67,18 +67,21 @@ export default async function TasksPage({
         </div>
       </Section>
 
-      {TASK_FAMILIES.map((family) => (
-        <Section
-          key={family.id}
-          id={family.id}
-          eyebrow={`${family.canonicalTasks.length} ${dict.common.canonicalTasks} · ${
-            hasPublishedResults(family.id)
-              ? dict.coverage.measuredBadge
-              : dict.coverage.unmeasuredBadge
-          }`}
-          title={dict.families[family.id].label}
-          intro={dict.families[family.id].summary}
-        >
+      {TASK_FAMILIES.map((family, index) => {
+        const categoryNumber = String(index + 1).padStart(2, "0");
+
+        return (
+          <Section
+            key={family.id}
+            id={family.id}
+            eyebrow={`${dict.common.categoryLabel} ${categoryNumber} · ${family.canonicalTasks.length} ${dict.common.canonicalTasks} · ${
+              hasPublishedResults(family.id)
+                ? dict.coverage.measuredBadge
+                : dict.coverage.unmeasuredBadge
+            }`}
+            title={dict.families[family.id].label}
+            intro={dict.families[family.id].summary}
+          >
           <p className="mica-notice max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
             <span className="mica-eyebrow mr-2">{dict.common.whyItIsHard}</span>
             {dict.families[family.id].whyItIsHard}
@@ -123,8 +126,9 @@ export default async function TasksPage({
               </tbody>
             </table>
           </DataTableScroller>
-        </Section>
-      ))}
+          </Section>
+        );
+      })}
 
       <Section
         eyebrow={dict.tasks.missionsEyebrow}
