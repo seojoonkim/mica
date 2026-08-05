@@ -10,6 +10,7 @@ import {
   PageHeader,
   Section,
 } from "@/components/editorial";
+import { DataTableScroller } from "@/components/data-table-scroller";
 
 export const metadata: Metadata = {
   title: "Countries",
@@ -35,7 +36,7 @@ export default function CountriesPage() {
         intro="Systems covered counts the systems with at least one demo run cell in the market."
       >
         <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
+        <DataTableScroller label="Market coverage">
           <table className="mica-table">
             <caption>
               Market coverage — Illustrative demo data, not an official ranking.
@@ -91,7 +92,7 @@ export default function CountriesPage() {
               })}
             </tbody>
           </table>
-        </div>
+        </DataTableScroller>
       </Section>
 
       <Section

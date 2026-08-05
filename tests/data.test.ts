@@ -67,6 +67,7 @@ describe("fixtures", () => {
     for (const cell of RUN_CELLS) {
       expect(cell.successfulRuns).toBeLessThanOrEqual(cell.eligibleRuns);
       expect(cell.successLatenciesSec).toHaveLength(cell.successfulRuns);
+      expect(cell.allEligibleLatenciesSec).toHaveLength(cell.eligibleRuns);
     }
   });
 

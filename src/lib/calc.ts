@@ -1,4 +1,8 @@
-import { PUBLICATION_RULES } from "@/data/policy/publication";
+import {
+  NEVER_PUBLISHABLE_STATUSES,
+  PUBLICATION_RULES,
+  THRESHOLDS_NOT_SET,
+} from "@/data/policy/publication";
 import type { VerificationStatusId } from "@/lib/schema";
 
 /**
@@ -171,8 +175,12 @@ export function evaluatePublicationEligibility(
     );
   }
 
-  if (input.dataStatus === "demo") {
-    blockers.push("Illustrative demo data is never publication eligible.");
+  if (
+    (NEVER_PUBLISHABLE_STATUSES as readonly string[]).includes(input.dataStatus)
+  ) {
+    blockers.push(
+      `Illustrative ${input.dataStatus} data is never publication eligible.`,
+    );
   }
 
   if (input.verification !== "independent-rerun") {
@@ -181,20 +189,27 @@ export function evaluatePublicationEligibility(
     );
   }
 
-  if (input.eligibleRuns < PUBLICATION_RULES.minEligibleRuns) {
-    blockers.push(
-      `${input.eligibleRuns} eligible runs is below the minimum of ${PUBLICATION_RULES.minEligibleRuns}.`,
-    );
-  }
-
-  const coverage =
-    input.tasksDefined > 0 ? input.tasksAttempted / input.tasksDefined : 0;
-  if (coverage < PUBLICATION_RULES.minCoverage) {
-    blockers.push(
-      `Task coverage of ${(coverage * 100).toFixed(0)}% is below the minimum of ${(
-        PUBLICATION_RULES.minCoverage * 100
-      ).toFixed(0)}%.`,
-    );
+  // With no agreed minimum there is nothing to compare a cell against, so the
+  // gate refuses rather than inventing a number or waving the cell through.
+  const minRuns: number | null = PUBLICATION_RULES.minEligibleRuns;
+  const minCoverage: number | null = PUBLICATION_RULES.minCoverage;
+  if (minRuns === null || minCoverage === null) {
+    blockers.push(THRESHOLDS_NOT_SET);
+  } else {
+    if (input.eligibleRuns < minRuns) {
+      blockers.push(
+        `${input.eligibleRuns} eligible runs is below the minimum of ${minRuns}.`,
+      );
+    }
+    const coverage =
+      input.tasksDefined > 0 ? input.tasksAttempted / input.tasksDefined : 0;
+    if (coverage < minCoverage) {
+      blockers.push(
+        `Task coverage of ${(coverage * 100).toFixed(0)}% is below the minimum of ${(
+          minCoverage * 100
+        ).toFixed(0)}%.`,
+      );
+    }
   }
 
   return { eligible: blockers.length === 0, blockers };

@@ -78,17 +78,23 @@ export default function SubmitPage() {
       <Section
         eyebrow="Step three"
         title="The bar for publication"
-        intro="Meeting the bar is not a ranking. It only means the cell may appear as an official MICA figure."
+        intro="Meeting the bar is not a ranking. It only means the cell may appear as an official MICA figure. In this preview the numeric parts of the bar are not set, so no submission can clear it yet."
       >
         <DataList
           items={[
             {
               term: "Sample size",
-              detail: `At least ${PUBLICATION_RULES.minEligibleRuns} eligible runs per country × family cell.`,
+              detail:
+                PUBLICATION_RULES.minEligibleRuns === null
+                  ? "Not set yet. MICA will state a minimum number of eligible runs per country × family cell before anything is published."
+                  : `At least ${PUBLICATION_RULES.minEligibleRuns} eligible runs per country × family cell.`,
             },
             {
               term: "Coverage",
-              detail: `At least ${(PUBLICATION_RULES.minCoverage * 100).toFixed(0)}% of the market's canonical tasks attempted.`,
+              detail:
+                PUBLICATION_RULES.minCoverage === null
+                  ? "Not set yet. MICA will state the share of a market's canonical tasks a submission must attempt before anything is published."
+                  : `At least ${(PUBLICATION_RULES.minCoverage * 100).toFixed(0)}% of the market's canonical tasks attempted.`,
             },
             {
               term: "Safety",

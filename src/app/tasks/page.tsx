@@ -4,6 +4,7 @@ import { TASK_FAMILIES, HERO_MISSIONS, familyLabel } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
+import { DataTableScroller } from "@/components/data-table-scroller";
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -56,7 +57,7 @@ export default function TasksPage() {
             <span className="mica-eyebrow mr-2">Why it is hard</span>
             {family.whyItIsHard}
           </p>
-          <div className="mica-scroller mt-6">
+          <DataTableScroller label={`${family.label} — canonical tasks`} className="mt-6">
             <table className="mica-table">
               <caption>
                 {family.label} — canonical tasks, declared final states and
@@ -92,7 +93,7 @@ export default function TasksPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </DataTableScroller>
         </Section>
       ))}
 

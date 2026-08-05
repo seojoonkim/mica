@@ -118,7 +118,6 @@ export const systemSchema = z.object({
   track: resultTrackSchema,
   dataStatus: dataStatusSchema,
   publicationEligible: z.boolean(),
-  diagnostics: z.record(diagnosticAxisSchema, z.number().int().min(1).max(5)),
 });
 export type SystemRecord = z.infer<typeof systemSchema>;
 
@@ -138,6 +137,13 @@ export const runCellSchema = z.object({
   tasksDefined: z.number().int().min(1),
   /** Wall-clock seconds for successful eligible runs only. */
   successLatenciesSec: z.array(z.number().min(0)),
+  /**
+   * Wall-clock seconds for every eligible attempt, successful or not. Recorded
+   * so the reported population is auditable; the published p50/p95 are still
+   * taken from successful runs only, so fast failure never reads as fast
+   * success.
+   */
+  allEligibleLatenciesSec: z.array(z.number().min(0)),
   /** Total cost of ALL eligible attempts, in the country's currency. */
   totalEligibleCost: z.number().min(0),
   criticalSafetyEvents: z.number().int().min(0),

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SITE } from "@/lib/site";
-import { Colophon, Masthead, SkipLink } from "@/components/chrome";
+import { Colophon, DemoStatusBar, Masthead, SkipLink } from "@/components/chrome";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -20,14 +20,17 @@ export const metadata: Metadata = {
     description: SITE.definition,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${SITE.name} — ${SITE.longName}`,
     description: SITE.definition,
   },
-  robots: { index: true, follow: true },
+  // This is a demo preview: it is reachable and canonical at the live URL, but
+  // must not be indexed or have its links followed as if it were the index.
+  robots: { index: false, follow: false },
   other: {
     "mica:data-status": "demo",
     "mica:disclosure": "Illustrative demo data — not an official ranking",
+    "mica:indexing": "noindex, nofollow — demo preview",
   },
 };
 
@@ -39,6 +42,7 @@ export default function RootLayout({
       <body>
         <SkipLink />
         <Masthead />
+        <DemoStatusBar />
         <main id="main" tabIndex={-1} className="mica-shell">
           {children}
         </main>

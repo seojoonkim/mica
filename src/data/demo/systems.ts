@@ -31,18 +31,9 @@ const raw: unknown[] = [
       memory: "Persona store plus per-task scratchpad, cleared between runs",
     },
     summary:
-      "A conservative orchestrator that stops early and often. Its accuracy comes from refusing ambiguous steps rather than from stronger reasoning, which shows up as high safety and recovery scores against modest speed.",
+      "A conservative orchestrator that stops early and often. Its accuracy comes from refusing ambiguous steps rather than from stronger reasoning, which shows up as careful behaviour at the confirmation boundary against modest speed.",
     verification: "independent-rerun",
     track: "simulator",
-    diagnostics: {
-      orchestration: 4,
-      "model-routing": 3,
-      memory: 4,
-      "tool-api-use": 4,
-      localization: 3,
-      safety: 5,
-      recovery: 4,
-    },
   },
   {
     slug: "meridian-agent",
@@ -60,15 +51,6 @@ const raw: unknown[] = [
       "Shares a base model with Atlas Concierge but no routing layer and no address normalisation. The gap between the two is the clearest illustrative demonstration in this preview that orchestration, not the model, carries the outcome.",
     verification: "independent-rerun",
     track: "simulator",
-    diagnostics: {
-      orchestration: 2,
-      "model-routing": 1,
-      memory: 2,
-      "tool-api-use": 3,
-      localization: 2,
-      safety: 3,
-      recovery: 2,
-    },
   },
   {
     slug: "hangang-assistant",
@@ -94,15 +76,6 @@ const raw: unknown[] = [
       "Deep coverage in two markets and thin coverage elsewhere. Included to show how the index reports partial coverage without averaging the gaps away.",
     verification: "provisional",
     track: "live-shadow",
-    diagnostics: {
-      orchestration: 4,
-      "model-routing": 4,
-      memory: 4,
-      "tool-api-use": 4,
-      localization: 5,
-      safety: 4,
-      recovery: 3,
-    },
   },
   {
     slug: "kaiyo-orchestrator",
@@ -124,15 +97,6 @@ const raw: unknown[] = [
       "Built around form correctness rather than conversation. Strong where a task fails on a field and weaker where it fails on judgement.",
     verification: "independent-rerun",
     track: "live-shadow",
-    diagnostics: {
-      orchestration: 3,
-      "model-routing": 3,
-      memory: 5,
-      "tool-api-use": 5,
-      localization: 4,
-      safety: 4,
-      recovery: 3,
-    },
   },
   {
     slug: "swift-errand",
@@ -150,15 +114,6 @@ const raw: unknown[] = [
       "The fastest and cheapest entry, and the least accurate. Present to demonstrate why MICA reports Accuracy, Speed and Cost separately: collapsing them would rank this system somewhere it does not belong.",
     verification: "self-reported",
     track: "simulator",
-    diagnostics: {
-      orchestration: 1,
-      "model-routing": 2,
-      memory: 1,
-      "tool-api-use": 2,
-      localization: 1,
-      safety: 2,
-      recovery: 1,
-    },
   },
   {
     slug: "nanyang-copilot",
@@ -180,15 +135,6 @@ const raw: unknown[] = [
       "A critic pass before the confirmation boundary catches late fee changes and wrong payment rails. Costs time; buys accuracy.",
     verification: "independent-rerun",
     track: "verified-live",
-    diagnostics: {
-      orchestration: 5,
-      "model-routing": 5,
-      memory: 3,
-      "tool-api-use": 4,
-      localization: 3,
-      safety: 4,
-      recovery: 5,
-    },
   },
 ];
 

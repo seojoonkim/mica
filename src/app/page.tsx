@@ -6,10 +6,10 @@ import { SYSTEMS } from "@/data/demo/systems";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { OUTCOME_AXES } from "@/data/policy/axes";
-import { aggregateBySystem, countrySnapshot } from "@/lib/derive";
+import { countrySnapshot, globalAccuracyRows } from "@/lib/derive";
 import { formatPercent, NO_DATA } from "@/lib/format";
 import { DemoDisclosure, DemoStamp, Section } from "@/components/editorial";
-import { ResultsTable } from "@/components/results-table";
+import { DataTableScroller } from "@/components/data-table-scroller";
 
 export const metadata: Metadata = {
   title: `${SITE.name} — ${SITE.longName}`,
@@ -26,7 +26,7 @@ export default function HomePage() {
     (sum, cell) => sum + cell.eligibleRuns,
     0,
   );
-  const globalRows = aggregateBySystem();
+  const globalRows = globalAccuracyRows();
 
   const marketLedger = COUNTRIES.map((country) => {
     const rows = countrySnapshot(country.code);
@@ -44,18 +44,14 @@ export default function HomePage() {
 
   return (
     <div>
-      <div className="mica-grid border-b border-[var(--color-rule-strong)] pt-12 pb-10">
+      <div className="mica-grid border-b border-[var(--color-rule-strong)] pt-9 pb-9 md:pt-12">
         <div className="md:col-span-8">
           <p className="mica-eyebrow">{SITE.editionStrip.join(" · ")}</p>
-          <h1 className="mica-display mt-4 text-[44px] leading-[1.03] sm:text-[68px]">
-            {SITE.tagline}
-          </h1>
-          <p className="mica-display mt-3 text-[24px] text-[var(--color-vermilion)] sm:text-[30px]">
+          <h1 className="mica-display mica-hero mt-3">{SITE.tagline}</h1>
+          <p className="mica-display mica-h2 mt-3 text-[var(--color-atlas)]">
             {SITE.secondary}
           </p>
-          <p className="mt-6 max-w-[60ch] text-[17.5px] leading-relaxed text-[var(--color-ink-soft)]">
-            {SITE.definition}
-          </p>
+          <p className="mica-lead mt-5 max-w-[60ch]">{SITE.definition}</p>
           <p className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
             <Link href="/rankings" className="mica-link text-[15px]">
               Read the result tables
@@ -70,7 +66,8 @@ export default function HomePage() {
         </div>
         <div className="md:col-span-3 md:col-start-10">
           <span className="mica-ticks" aria-hidden="true" />
-          <dl className="m-0 mt-4">
+          {/* Status metrics: a plain figure ledger, two-up on a phone. */}
+          <dl className="m-0 mt-4 grid grid-cols-2 gap-x-6 md:grid-cols-1">
             {[
               { term: "Markets", value: String(COUNTRIES.length) },
               { term: "Task families", value: String(TASK_FAMILIES.length) },
@@ -79,16 +76,16 @@ export default function HomePage() {
             ].map((item) => (
               <div
                 key={item.term}
-                className="flex items-baseline justify-between border-b border-[var(--color-rule)] py-2"
+                className="flex items-baseline justify-between gap-3 border-b border-[var(--color-rule)] py-2"
               >
                 <dt className="mica-eyebrow">{item.term}</dt>
-                <dd className="m-0 font-[family-name:var(--font-mono)] text-[18px] tabular-nums">
+                <dd className="m-0 font-[family-name:var(--font-mono)] text-[19px] font-medium tabular-nums">
                   {item.value}
                 </dd>
               </div>
             ))}
           </dl>
-          <p className="mt-3 text-[12px] text-[var(--color-ink-faint)]">
+          <p className="mt-3 text-[13px] text-[var(--color-ink-faint)]">
             Counted from the demo fixtures at build time.
           </p>
         </div>
@@ -105,10 +102,10 @@ export default function HomePage() {
       >
         <div className="grid gap-px border border-[var(--color-rule)] bg-[var(--color-rule)] md:grid-cols-3">
           {OUTCOME_AXES.map((axis) => (
-            <article key={axis.id} className="bg-[var(--color-paper)] p-5">
-              <h3 className="mica-display text-[21px]">{axis.label}</h3>
+            <article key={axis.id} className="bg-[var(--color-surface)] p-5">
+              <h3 className="mica-display mica-h3">{axis.label}</h3>
               <p className="mica-eyebrow mt-1.5">{axis.unit}</p>
-              <p className="mt-3 max-w-[42ch] text-[14px] text-[var(--color-ink-soft)]">
+              <p className="mt-3 max-w-[42ch] text-[14.5px] text-[var(--color-ink-soft)]">
                 {axis.description}
               </p>
             </article>
@@ -122,7 +119,7 @@ export default function HomePage() {
         intro="Every market is scored on its own terms. A system that has not run in a market shows as missing coverage, never as a zero."
       >
         <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
+        <DataTableScroller label="Demo accuracy spread by market">
           <table className="mica-table">
             <caption>
               Demo accuracy spread by market — Illustrative demo data, not an
@@ -173,19 +170,61 @@ export default function HomePage() {
               ))}
             </tbody>
           </table>
-        </div>
+        </DataTableScroller>
       </Section>
 
       <Section
-        eyebrow="All markets combined"
-        title="Index-wide demo results"
-        intro="Accuracy pooled across every market and family in the demo fixture. Cost is withheld here because the five markets do not share a currency."
+        eyebrow="Every market weighted equally"
+        title="Index-wide demo accuracy"
+        intro="One figure per system, computed as the country macro-average: the mean of that system's per-market accuracy. Runs are not pooled, so a market with more attempts does not count for more. A system missing a market has no global figure at all. Speed and cost are not shown here; they belong to a single market and currency."
       >
-        <ResultsTable
-          rows={globalRows}
-          caption="All markets, all task families"
-          showCost={false}
-        />
+        <DemoStamp className="mb-4" />
+        <DataTableScroller label="Global accuracy by system, country macro-average">
+          <table className="mica-table">
+            <caption>
+              Global accuracy by system, country macro-average — Illustrative
+              demo data, not an official ranking. MICA publishes no composite
+              score.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">System</th>
+                <th scope="col" className="num" aria-sort="descending">
+                  Global accuracy
+                </th>
+                <th scope="col" className="num">
+                  Markets covered
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {globalRows.map((row) => (
+                <tr key={row.systemSlug}>
+                  <th scope="row" className="font-normal">
+                    <Link
+                      href={`/agents/${row.systemSlug}`}
+                      className="mica-link"
+                    >
+                      {row.systemName}
+                    </Link>
+                  </th>
+                  <td className="num">
+                    {row.accuracy === null
+                      ? "Withheld — not in every market"
+                      : formatPercent(row.accuracy)}
+                  </td>
+                  <td className="num text-[var(--color-ink-faint)]">
+                    {row.markets.length} / {COUNTRIES.length}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </DataTableScroller>
+        <p className="mt-3 max-w-[76ch] text-[12.5px] text-[var(--color-ink-faint)]">
+          The country macro-average is withheld, never estimated, when a system
+          has no cells in one of the five markets.
+        </p>
         <p className="mt-4">
           <Link href="/rankings" className="mica-link">
             Filter by market, task family and outcome axis →
@@ -204,13 +243,13 @@ export default function HomePage() {
               key={family.id}
               className="mica-grid border-b border-[var(--color-rule)] py-5"
             >
-              <h3 className="mica-display text-[20px] md:col-span-3">
+              <h3 className="mica-display mica-h3 md:col-span-3">
                 {family.label}
               </h3>
-              <p className="max-w-[62ch] text-[14.5px] text-[var(--color-ink-soft)] md:col-span-6">
+              <p className="max-w-[62ch] text-[15px] text-[var(--color-ink-soft)] md:col-span-6">
                 {family.summary}
               </p>
-              <p className="text-[13px] text-[var(--color-ink-faint)] md:col-span-3">
+              <p className="text-[13.5px] text-[var(--color-ink-faint)] md:col-span-3">
                 {family.canonicalTasks.length} canonical tasks
               </p>
             </article>

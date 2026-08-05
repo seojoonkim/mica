@@ -8,7 +8,7 @@ import {
   type Interval,
 } from "@/lib/calc";
 import { RUN_CELLS } from "@/data/demo/runs";
-import { SYSTEM_BY_SLUG } from "@/data/demo/systems";
+import { SYSTEMS, SYSTEM_BY_SLUG } from "@/data/demo/systems";
 import { COUNTRIES } from "@/data/demo/countries";
 import {
   COUNTRY_CODES,
@@ -34,7 +34,8 @@ export interface AggregateView {
   accuracy: number | null;
   accuracyInterval: Interval | null;
   latencyP50: number | null;
-  latencyP90: number | null;
+  /** Both percentiles are over successful eligible runs only. */
+  latencyP95: number | null;
   costPerSuccess: number | null;
   currency: string | null;
   coverage: number | null;
@@ -61,6 +62,8 @@ function combine(
     (sum, cell) => sum + cell.successfulRuns,
     0,
   );
+  // Successful runs only: including failures would let fast failure read as
+  // fast success. `allEligibleLatenciesSec` is kept on the cell for auditing.
   const latencies = cells.flatMap((cell) => cell.successLatenciesSec);
   const tasksAttempted = cells.reduce(
     (sum, cell) => sum + cell.tasksAttempted,
@@ -98,7 +101,7 @@ function combine(
     accuracy: eligibleRuns > 0 ? successfulRuns / eligibleRuns : null,
     accuracyInterval: wilsonInterval(successfulRuns, eligibleRuns),
     latencyP50: percentile(latencies, 0.5),
-    latencyP90: percentile(latencies, 0.9),
+    latencyP95: percentile(latencies, 0.95),
     costPerSuccess: singleCurrency
       ? costPerSuccess(totalCost, successfulRuns)
       : null,
@@ -202,6 +205,35 @@ export function globalAccuracy(systemSlug: string): number | null {
     byCountry.set(code, eligible > 0 ? successful / eligible : null);
   }
   return countryMacroAverage(byCountry, COUNTRY_CODES);
+}
+
+export interface GlobalAccuracyRow {
+  systemSlug: string;
+  systemName: string;
+  verification: VerificationStatusId;
+  /** Country macro-average, or `null` when a market is missing. */
+  accuracy: number | null;
+  markets: CountryCode[];
+}
+
+/**
+ * Index-wide accuracy per system, as the country macro-average from
+ * `globalAccuracy` — never a pooling of runs, which would silently weight the
+ * markets that happen to have more attempts. Systems with no macro-average sink
+ * to the bottom rather than being dropped or shown as a zero.
+ */
+export function globalAccuracyRows(): GlobalAccuracyRow[] {
+  return SYSTEMS.map((system) => ({
+    systemSlug: system.slug,
+    systemName: system.name,
+    verification: system.verification,
+    accuracy: globalAccuracy(system.slug),
+    markets: marketsCovered(system.slug),
+  })).sort(
+    (a, b) =>
+      (b.accuracy ?? -1) - (a.accuracy ?? -1) ||
+      a.systemName.localeCompare(b.systemName),
+  );
 }
 
 /** The markets a system has any demo coverage in. */

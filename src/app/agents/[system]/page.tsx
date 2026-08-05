@@ -12,7 +12,6 @@ import {
   formatPercent,
   formatSeconds,
   NO_DATA,
-  NOT_MEASURED,
 } from "@/lib/format";
 import {
   RESULT_TRACKS,
@@ -25,6 +24,8 @@ import {
   PageHeader,
   Section,
 } from "@/components/editorial";
+import { DataTableScroller } from "@/components/data-table-scroller";
+import { evidenceHref, runCellsFor } from "@/lib/evidence";
 
 const VERIFICATION = new Map(
   VERIFICATION_STATUSES.map((status) => [status.id, status]),
@@ -70,6 +71,8 @@ export default async function SystemPage({
       (entry) => entry.systemSlug === system.slug,
     ),
   }));
+
+  const cells = runCellsFor({ system: system.slug });
 
   const blockers =
     byCountry.find((entry) => entry.row)?.row?.blockers ??
@@ -132,7 +135,7 @@ export default async function SystemPage({
                     a zero.
                   </>
                 ) : (
-                  `${formatPercent(global)} — country macro-average`
+                  `${formatPercent(global)} — country macro-average, not a pooling of runs`
                 ),
             },
           ]}
@@ -142,10 +145,10 @@ export default async function SystemPage({
       <Section
         eyebrow="Accuracy, speed and cost read separately"
         title="Results by market"
-        intro="Cost appears in each market's own currency. Markets with no run cells say so in words."
+        intro="Cost appears in each market's own currency. Speed p50 and p95 cover successful eligible runs only, so they describe how long success took, not how long an attempt took. Markets with no run cells say so in words."
       >
         <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
+        <DataTableScroller label={`${system.name} by market`}>
           <table className="mica-table">
             <caption>
               {system.name} by market — Illustrative demo data, not an official
@@ -161,7 +164,7 @@ export default async function SystemPage({
                   Speed p50
                 </th>
                 <th scope="col" className="num">
-                  Speed p90
+                  Speed p95
                 </th>
                 <th scope="col" className="num">
                   Cost per success
@@ -186,7 +189,7 @@ export default async function SystemPage({
                     <>
                       <td className="num">{formatPercent(row.accuracy)}</td>
                       <td className="num">{formatSeconds(row.latencyP50)}</td>
-                      <td className="num">{formatSeconds(row.latencyP90)}</td>
+                      <td className="num">{formatSeconds(row.latencyP95)}</td>
                       <td className="num">
                         {formatCost(row.costPerSuccess, row.currency)}
                       </td>
@@ -203,7 +206,7 @@ export default async function SystemPage({
               ))}
             </tbody>
           </table>
-        </div>
+        </DataTableScroller>
       </Section>
 
       <Section
@@ -212,7 +215,7 @@ export default async function SystemPage({
         intro="Pooled across markets, so cost is withheld — the five editions do not share a currency."
       >
         <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
+        <DataTableScroller label={`${system.name} by task family`}>
           <table className="mica-table">
             <caption>
               {system.name} by task family — Illustrative demo data, not an
@@ -260,62 +263,54 @@ export default async function SystemPage({
               })}
             </tbody>
           </table>
-        </div>
+        </DataTableScroller>
+      </Section>
+
+      <Section
+        eyebrow="Lineage"
+        title="Run cells behind these figures"
+        intro="Every figure above is computed from these aggregate run cells — one per market and task family. A cell page states what the cell holds and, just as plainly, what it does not."
+      >
+        {cells.length === 0 ? (
+          <p className="mica-notice max-w-[70ch] text-[14px] text-[var(--color-ink-soft)]">
+            {NO_DATA} This snapshot has no run cells in the demo edition.
+          </p>
+        ) : (
+          <ul className="m-0 grid list-none gap-x-8 gap-y-1 p-0 text-[14px] md:grid-cols-2">
+            {cells.map((cell) => (
+              <li key={`${cell.country}-${cell.family}`}>
+                <Link href={evidenceHref(cell)} className="mica-link">
+                  {COUNTRIES.find((entry) => entry.code === cell.country)?.name ??
+                    cell.country}{" "}
+                  · {TASK_FAMILIES.find((entry) => entry.id === cell.family)?.label ?? cell.family}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="mt-4">
+          <Link href={`/evidence?system=${system.slug}`} className="mica-link">
+            All run cells for {system.name} →
+          </Link>
+        </p>
       </Section>
 
       <Section
         eyebrow="Diagnostics"
         title="Why the outcome looks like this"
-        intro="Diagnostic axes are ordinal readings from 1 to 5. They explain outcomes; they are never summed, and they are not a score."
+        intro="Diagnostic axes are evidence-led in this preview: they name what MICA looks at when explaining an outcome. They carry no reading, no score and no rating, because MICA has no evidence base to read them from yet."
       >
-        <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
-          <table className="mica-table">
-            <caption>
-              Diagnostic axes, 1–5 ordinal — Illustrative demo data, not an
-              official ranking.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Axis</th>
-                <th scope="col" className="num">
-                  Reading
-                </th>
-                <th scope="col">What the axis covers</th>
-              </tr>
-            </thead>
-            <tbody>
-              {DIAGNOSTIC_AXES.map((axis) => {
-                const value = system.diagnostics[axis.id];
-                return (
-                  <tr key={axis.id}>
-                    <th scope="row" className="font-normal">
-                      {axis.label}
-                    </th>
-                    <td className="num">
-                      {value === undefined ? (
-                        NOT_MEASURED
-                      ) : (
-                        <>
-                          <span aria-hidden="true">
-                            {"■".repeat(value)}
-                            <span className="text-[var(--color-rule)]">
-                              {"■".repeat(5 - value)}
-                            </span>
-                          </span>
-                          <span className="ml-2">{value} / 5</span>
-                        </>
-                      )}
-                    </td>
-                    <td className="max-w-[52ch] text-[13.5px] text-[var(--color-ink-soft)]">
-                      {axis.description}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <DataList
+          items={DIAGNOSTIC_AXES.map((axis) => ({
+            term: axis.label,
+            detail: axis.description,
+          }))}
+        />
+        <p className="mt-4 max-w-[76ch] text-[13.5px] text-[var(--color-ink-faint)]">
+          Earlier drafts of this interface showed a 1–5 reading per axis. Those
+          numbers were not supported by any measurement and have been removed
+          rather than relabelled.
+        </p>
       </Section>
 
       <Section

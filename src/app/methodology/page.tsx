@@ -3,12 +3,19 @@ import type { Metadata } from "next";
 import { OUTCOME_AXES, DIAGNOSTIC_AXES } from "@/data/policy/axes";
 import {
   PUBLICATION_RULES,
+  THRESHOLDS_NOT_SET,
   RESULT_TRACKS,
   VERIFICATION_STATUSES,
   EVIDENCE_LABELS,
 } from "@/data/policy/publication";
 import { NO_SUCCESS, NO_DATA, NOT_MEASURED } from "@/lib/format";
-import { DataList, DemoDisclosure, PageHeader, Section } from "@/components/editorial";
+import {
+  DataList,
+  DemoDisclosure,
+  OnThisPage,
+  PageHeader,
+  Section,
+} from "@/components/editorial";
 
 export const metadata: Metadata = {
   title: "Methodology",
@@ -16,6 +23,17 @@ export const metadata: Metadata = {
     "How MICA defines eligibility, measures accuracy, speed and cost, and decides what may be published.",
   alternates: { canonical: "/methodology" },
 };
+
+const SECTIONS = [
+  { id: "axes", label: "Outcome axes" },
+  { id: "counting", label: "Eligibility" },
+  { id: "missing-values", label: "Missing values" },
+  { id: "diagnostics", label: "Diagnostics" },
+  { id: "evidence", label: "Evidence" },
+  { id: "publication", label: "Publication rules" },
+  { id: "claims", label: "Claims" },
+  { id: "limits", label: "Limits" },
+] as const;
 
 export default function MethodologyPage() {
   return (
@@ -26,9 +44,11 @@ export default function MethodologyPage() {
         standfirst="MICA is a measurement instrument before it is a league table. This page states the definitions, the gates and the known limits, so a disagreement can be about the method rather than about the number."
       >
         <DemoDisclosure detail="The method described here is real. The figures used to exercise it across this site are illustrative demo data and not an official ranking." />
+        <OnThisPage items={SECTIONS} />
       </PageHeader>
 
       <Section
+        id="axes"
         eyebrow="Definitions"
         title="The three outcome axes"
         intro="These are reported side by side, always. MICA publishes no composite score, and will not accept one from a submitter either — a weighting is a buyer's judgement, not a measurement."
@@ -47,6 +67,7 @@ export default function MethodologyPage() {
       </Section>
 
       <Section
+        id="counting"
         eyebrow="Counting rules"
         title="Eligibility and denominators"
         intro="Most disputes about benchmarks are really disputes about denominators, so MICA writes its own down."
@@ -68,9 +89,12 @@ export default function MethodologyPage() {
           </p>
           <p>
             <strong>Speed</strong> uses wall-clock seconds from successful
-            eligible runs only, reported as p50 and p90. Failed runs are
-            excluded deliberately: if they were included, a system that gives up
-            quickly would read as fast.
+            eligible runs only, reported as p50 and p95. Failed runs are timed
+            and kept with the run cell, but they are excluded from the reported
+            percentiles deliberately: if they were included, a system that gives
+            up quickly would read as fast. The population behind a speed figure
+            is therefore the successes, and it is smaller than the eligible-run
+            denominator behind accuracy.
           </p>
           <p>
             <strong>Cost</strong> is the total cost of all eligible attempts
@@ -90,6 +114,7 @@ export default function MethodologyPage() {
       </Section>
 
       <Section
+        id="missing-values"
         eyebrow="Missing values"
         title="What each phrase means"
         intro="MICA never renders an unknown as a number. These are the exact strings used across the site."
@@ -116,9 +141,10 @@ export default function MethodologyPage() {
       </Section>
 
       <Section
+        id="diagnostics"
         eyebrow="Diagnostics"
         title="Seven diagnostic axes"
-        intro="Ordinal readings from 1 to 5 that explain an outcome. They are never summed, never averaged into an outcome, and never presented as a score."
+        intro="The seven things MICA looks at when explaining an outcome. In this preview they are evidence-led and unscored: there is no 1–5 reading, no rating and nothing to sum, because MICA has no evidence base to score them from yet."
       >
         <DataList
           items={DIAGNOSTIC_AXES.map((axis) => ({
@@ -129,6 +155,7 @@ export default function MethodologyPage() {
       </Section>
 
       <Section
+        id="evidence"
         eyebrow="Evidence"
         title="Verification status and result tracks"
         intro="Every figure carries how it was obtained. Only independently rerun results on a publication track can ever become official."
@@ -152,19 +179,30 @@ export default function MethodologyPage() {
       </Section>
 
       <Section
+        id="publication"
         eyebrow="The gate"
         title="Publication rules"
-        intro="A cell must clear every condition below. Failing any one of them means the cell is shown with its blockers stated, not hidden."
+        intro="A cell must clear every condition below. Failing any one of them means the cell is shown with its blockers stated, not hidden. Two of the conditions have no agreed number yet, so nothing in this preview can clear the gate."
       >
         <DataList
           items={[
             {
               term: "Minimum eligible runs",
-              detail: `${PUBLICATION_RULES.minEligibleRuns} eligible attempts on a country × family cell.`,
+              detail:
+                PUBLICATION_RULES.minEligibleRuns === null
+                  ? "Not set. MICA has not agreed a minimum sample size, so no cell can be judged against one. The gate refuses rather than guessing a number."
+                  : `${PUBLICATION_RULES.minEligibleRuns} eligible attempts on a country × family cell.`,
             },
             {
               term: "Minimum coverage",
-              detail: `${(PUBLICATION_RULES.minCoverage * 100).toFixed(0)}% of the market's canonical tasks attempted.`,
+              detail:
+                PUBLICATION_RULES.minCoverage === null
+                  ? "Not set. Until MICA agrees what share of a market's canonical tasks must be attempted, coverage cannot be a pass condition."
+                  : `${(PUBLICATION_RULES.minCoverage * 100).toFixed(0)}% of the market's canonical tasks attempted.`,
+            },
+            {
+              term: "Thresholds",
+              detail: THRESHOLDS_NOT_SET,
             },
             {
               term: "Critical safety events",
@@ -180,13 +218,14 @@ export default function MethodologyPage() {
             {
               term: "Data status",
               detail:
-                "Demo data can never be publication eligible. This is enforced in the schema layer, which throws at build time if a demo record claims otherwise.",
+                "Demo and preview data can never be publication eligible. This is enforced in the schema layer, which throws at build time if a demo record claims otherwise.",
             },
           ]}
         />
       </Section>
 
       <Section
+        id="claims"
         eyebrow="Claims"
         title="Measurement, interpretation, recommendation"
         intro="MICA separates what it observed from what it thinks it means and from what it advises. Only the first is a measurement."
@@ -200,6 +239,7 @@ export default function MethodologyPage() {
       </Section>
 
       <Section
+        id="limits"
         eyebrow="Limits"
         title="What this method cannot tell you"
         intro="Stated plainly, because a benchmark that hides its limits is advertising."

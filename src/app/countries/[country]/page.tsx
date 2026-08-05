@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COUNTRIES, getCountry } from "@/data/demo/countries";
+import { systemName } from "@/data/demo/systems";
 import { heroMissionsForCountry, familyLabel } from "@/data/demo/tasks";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { DIAGNOSTIC_AXES } from "@/data/policy/axes";
@@ -16,6 +17,8 @@ import {
   Section,
 } from "@/components/editorial";
 import { ResultsTable } from "@/components/results-table";
+import { DataTableScroller } from "@/components/data-table-scroller";
+import { evidenceHref, runCellsFor } from "@/lib/evidence";
 
 const AXIS_LABEL = new Map(DIAGNOSTIC_AXES.map((axis) => [axis.id, axis.label]));
 
@@ -79,7 +82,7 @@ export default async function CountryPage({
         intro="The same system can be competent in one family and unable to finish in another. Family cells are shown separately for that reason."
       >
         <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
+        <DataTableScroller label={`${country.name} accuracy by task family`}>
           <table className="mica-table">
             <caption>
               {country.name} accuracy by task family — Illustrative demo data,
@@ -148,7 +151,28 @@ export default async function CountryPage({
               })}
             </tbody>
           </table>
-        </div>
+        </DataTableScroller>
+      </Section>
+
+      <Section
+        eyebrow="Lineage"
+        title={`Run cells for ${country.name}`}
+        intro="Each cell is one system on one task family in this market. The tables above are computed from them; the cell pages state what each aggregate holds and what it cannot show."
+      >
+        <ul className="m-0 grid list-none gap-x-8 gap-y-1 p-0 text-[14px] md:grid-cols-2">
+          {runCellsFor({ country: code }).map((cell) => (
+            <li key={`${cell.system}-${cell.family}`}>
+              <Link href={evidenceHref(cell)} className="mica-link">
+                {systemName(cell.system)} · {familyLabel(cell.family)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4">
+          <Link href={`/evidence?country=${code}`} className="mica-link">
+            All run cells for {country.name} →
+          </Link>
+        </p>
       </Section>
 
       <Section

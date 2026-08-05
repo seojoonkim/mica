@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { COUNTRIES } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
+import { RUN_CELL_IDS } from "@/lib/evidence";
 
 const STATIC_PATHS = [
   "/",
@@ -9,6 +10,7 @@ const STATIC_PATHS = [
   "/rankings",
   "/agents",
   "/tasks",
+  "/evidence",
   "/methodology",
   "/about/governance",
   "/submit",
@@ -23,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...STATIC_PATHS,
     ...COUNTRIES.map((country) => `/countries/${country.code}`),
     ...SYSTEMS.map((system) => `/agents/${system.slug}`),
+    ...RUN_CELL_IDS.map((id) => `/evidence/${id}`),
   ];
 
   return paths.map((path) => ({

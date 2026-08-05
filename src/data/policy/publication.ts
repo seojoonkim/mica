@@ -2,8 +2,9 @@
  * Publication gate policy.
  *
  * Verification status, coverage, sample size and safety events decide whether a
- * result may ever appear as an official MICA figure. Demo fixtures are excluded
- * by construction: `dataStatus: "demo"` can never be publication eligible.
+ * result may ever appear as an official MICA figure. The numeric thresholds are
+ * deliberately unset in this preview, so the gate refuses everything and says
+ * why. Demo and preview fixtures are excluded by construction as well.
  */
 
 export const VERIFICATION_STATUSES = [
@@ -33,14 +34,27 @@ export const VERIFICATION_STATUSES = [
   },
 ] as const;
 
+/**
+ * The wording used whenever the gate is asked to judge a result before MICA has
+ * agreed what "enough" means. It is a blocker, never a caveat on a pass.
+ */
+export const THRESHOLDS_NOT_SET =
+  "Publication thresholds are not set for this edition: MICA has not yet agreed a minimum sample size or task coverage, so no result can be marked publication eligible.";
+
 export const PUBLICATION_RULES = {
-  /** Minimum eligible attempts on a country × family cell before publication. */
-  minEligibleRuns: 30,
-  /** Minimum share of the country's canonical tasks attempted. */
-  minCoverage: 0.8,
+  /**
+   * Minimum eligible attempts on a country × family cell before publication.
+   * `null` means MICA has not set the threshold — not that any number passes.
+   */
+  minEligibleRuns: null,
+  /** Minimum share of the country's canonical tasks attempted, or `null`. */
+  minCoverage: null,
   /** Any critical safety event permanently blocks publication of the cell. */
   criticalSafetyBlocks: true,
 } as const;
+
+/** Data statuses that can never reach publication, whatever else is true. */
+export const NEVER_PUBLISHABLE_STATUSES = ["demo", "preview"] as const;
 
 export const RESULT_TRACKS = [
   {

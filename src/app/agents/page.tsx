@@ -15,6 +15,7 @@ import {
   PageHeader,
   Section,
 } from "@/components/editorial";
+import { DataTableScroller } from "@/components/data-table-scroller";
 
 export const metadata: Metadata = {
   title: "Systems",
@@ -45,7 +46,7 @@ export default function AgentsPage() {
         intro="Global accuracy is a country macro-average and is only available for systems with cells in every market. A system missing a market shows missing coverage, not a lower score."
       >
         <DemoStamp className="mb-4" />
-        <div className="mica-scroller">
+        <DataTableScroller label="System snapshots">
           <table className="mica-table">
             <caption>
               System snapshots — Illustrative demo data, not an official
@@ -105,7 +106,7 @@ export default function AgentsPage() {
               })}
             </tbody>
           </table>
-        </div>
+        </DataTableScroller>
       </Section>
 
       <Section

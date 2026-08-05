@@ -13,19 +13,26 @@ export function SkipLink() {
 
 export function Masthead() {
   return (
-    <header className="border-b border-[var(--color-rule-strong)] bg-[var(--color-paper)]">
+    <header className="border-b border-[var(--color-rule-strong)] bg-[var(--color-surface)]">
       <div className="mica-shell">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 pt-5 pb-3">
+        {/*
+         * One horizontal identity line on every viewport: the wordmark, the
+         * expansion where there is room, and the edition stamp. It costs about
+         * 44px of height on a phone instead of the old stacked block.
+         */}
+        <div className="flex items-center justify-between gap-x-4 pt-2.5 pb-1.5 md:pt-4 md:pb-2">
           <Link
             href="/"
-            className="mica-display text-[26px] tracking-tight text-[var(--color-ink)] no-underline"
+            className="flex min-h-[44px] items-center gap-3 text-[var(--color-ink)] no-underline"
           >
-            MICA
-            <span className="ml-3 hidden align-middle font-[family-name:var(--font-mono)] text-[10.5px] font-normal uppercase tracking-[0.16em] text-[var(--color-ink-faint)] sm:inline">
+            <span className="mica-display text-[21px] tracking-[-0.02em] md:text-[24px]">
+              MICA
+            </span>
+            <span className="hidden font-[family-name:var(--font-mono)] text-[12px] font-normal uppercase tracking-[0.1em] text-[var(--color-ink-faint)] sm:inline">
               {SITE.longName}
             </span>
           </Link>
-          <p className="mica-eyebrow">{SITE.edition} · Demo build</p>
+          <p className="mica-eyebrow shrink-0 text-right">{SITE.edition}</p>
         </div>
         <nav
           aria-label="Primary"
@@ -35,6 +42,37 @@ export function Masthead() {
         </nav>
       </div>
     </header>
+  );
+}
+
+/**
+ * The single global status bar. Every page carries both mandated strings above
+ * the fold whether or not it renders a score surface, plus the two shortest
+ * routes to check the claim: the method, and the raw fixture.
+ */
+export function DemoStatusBar() {
+  return (
+    <aside className="mica-statusbar" aria-label="Data status">
+      <div className="mica-shell">
+        <p className="mica-statusbar-inner">
+          <span className="font-semibold uppercase tracking-[0.08em] text-[var(--color-vermilion)]">
+            {DEMO_LABEL}
+          </span>
+          <span aria-hidden="true" className="text-[var(--color-rule-strong)]">
+            /
+          </span>
+          <span className="uppercase tracking-[0.08em]">{NOT_A_RANKING}</span>
+          <span className="ml-auto flex gap-4">
+            <Link href="/methodology" className="mica-link">
+              Method
+            </Link>
+            <a href="/data/demo/mica-demo.json" className="mica-link" download>
+              JSON data
+            </a>
+          </span>
+        </p>
+      </div>
+    </aside>
   );
 }
 

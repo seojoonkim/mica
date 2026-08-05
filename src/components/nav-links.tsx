@@ -1,20 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { NAV } from "@/components/nav-items";
 
 /**
- * The only client component in MICA. It exists solely so the primary nav can
- * collapse behind a disclosure on narrow screens; above 760px CSS shows the
- * list unconditionally and the toggle is hidden, so the same markup serves both.
+ * A route is current when it is the nav href itself or a detail page beneath
+ * it, so `/agents/hangang-assistant` lights `Systems`. The boundary check keeps
+ * `/tasks-archive` from matching `/tasks`.
+ */
+function isCurrent(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/**
+ * The only client component in MICA. It exists so the primary nav can collapse
+ * behind a disclosure on narrow screens; at 48rem CSS shows the list
+ * unconditionally and hides the toggle, so the same markup serves both.
  */
 export function NavLinks() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname() ?? "/";
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      // Escape must not strand focus inside a list that just disappeared.
+      toggleRef.current?.focus();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <>
       <button
+        ref={toggleRef}
         type="button"
         className="mica-nav-toggle"
         aria-expanded={open}
@@ -32,6 +57,7 @@ export function NavLinks() {
             <Link
               href={item.href}
               className="mica-navlink"
+              aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
               {item.label}

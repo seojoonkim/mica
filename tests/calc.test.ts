@@ -71,8 +71,8 @@ describe("percentile", () => {
     expect(percentile([5, 1, 9], 1)).toBe(9);
   });
 
-  it("interpolates p90 linearly", () => {
-    expect(percentile([10, 20, 30, 40, 50], 0.9)).toBeCloseTo(46, 6);
+  it("interpolates p95 linearly", () => {
+    expect(percentile([10, 20, 30, 40, 50], 0.95)).toBeCloseTo(48, 6);
   });
 
   it("does not mutate the input", () => {
@@ -163,10 +163,10 @@ describe("evaluatePublicationEligibility", () => {
     criticalSafetyEvents: 0,
   };
 
-  it("passes a complete independently rerun cell", () => {
+  it("passes nothing while publication thresholds are unset", () => {
     const verdict = evaluatePublicationEligibility(passing);
-    expect(verdict.eligible).toBe(true);
-    expect(verdict.blockers).toEqual([]);
+    expect(verdict.eligible).toBe(false);
+    expect(verdict.blockers.join(" ")).toContain("thresholds");
   });
 
   it("blocks demo data unconditionally", () => {
@@ -197,22 +197,13 @@ describe("evaluatePublicationEligibility", () => {
     }
   });
 
-  it("blocks on insufficient sample size", () => {
+  it("invents no sample-size or coverage threshold of its own", () => {
     const verdict = evaluatePublicationEligibility({
       ...passing,
-      eligibleRuns: 12,
+      eligibleRuns: 1,
+      tasksAttempted: 1,
     });
-    expect(verdict.eligible).toBe(false);
-    expect(verdict.blockers.join(" ")).toContain("eligible runs");
-  });
-
-  it("blocks on insufficient coverage", () => {
-    const verdict = evaluatePublicationEligibility({
-      ...passing,
-      tasksAttempted: 4,
-    });
-    expect(verdict.eligible).toBe(false);
-    expect(verdict.blockers.join(" ")).toContain("coverage");
+    expect(verdict.blockers.join(" ")).not.toMatch(/minimum of/);
   });
 });
 

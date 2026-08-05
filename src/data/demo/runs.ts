@@ -131,6 +131,18 @@ function buildCell(
     Math.round(baseLatency * (0.66 + next() * 0.85)),
   );
 
+  // Failed attempts have wall-clock times too. They are recorded so the
+  // population behind every published figure is auditable, but they are not
+  // mixed into the reported p50/p95, which stay successful-runs-only.
+  const failedLatenciesSec = Array.from(
+    { length: eligibleRuns - successfulRuns },
+    () => Math.round(baseLatency * (0.28 + next() * 1.1)),
+  );
+  const allEligibleLatenciesSec = [
+    ...successLatenciesSec,
+    ...failedLatenciesSec,
+  ];
+
   const scale = COUNTRY_FACTORS[country].currencyScale;
   const rawCost =
     profile.attemptCost * eligibleRuns * scale * (0.85 + next() * 0.4);
@@ -160,6 +172,7 @@ function buildCell(
     tasksAttempted,
     tasksDefined: TASKS_DEFINED,
     successLatenciesSec,
+    allEligibleLatenciesSec,
     totalEligibleCost,
     criticalSafetyEvents,
     dataStatus: "demo",
