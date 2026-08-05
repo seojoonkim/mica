@@ -7,11 +7,7 @@ import {
 } from "@/lib/schema";
 import { COUNTRIES, getCountry } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
-import {
-  TASK_FAMILIES,
-  HERO_MISSIONS,
-  SEEDED_DEMO_FAMILY_IDS,
-} from "@/data/demo/tasks";
+import { TASK_FAMILIES, HERO_MISSIONS } from "@/data/demo/tasks";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { DATA_SOURCE, hasRemoteConfig } from "@/lib/data/source";
 
@@ -73,43 +69,23 @@ describe("fixtures", () => {
     }
   });
 
-  it("keeps seeded demo result coverage to the original four families", () => {
-    expect([...SEEDED_DEMO_FAMILY_IDS]).toEqual([
-      "email-calendar",
-      "shopping-delivery",
-      "travel-accommodation",
-      "restaurants-local",
-    ]);
-    const seeded = new Set<string>(SEEDED_DEMO_FAMILY_IDS);
-    for (const cell of RUN_CELLS) {
-      expect(seeded.has(cell.family)).toBe(true);
-    }
-  });
-
-  it("fabricates no run cells for the six newly added families", () => {
-    const seeded = new Set<string>(SEEDED_DEMO_FAMILY_IDS);
-    const unseeded = TASK_FAMILIES.filter((f) => !seeded.has(f.id));
-    expect(unseeded).toHaveLength(6);
-    for (const family of unseeded) {
+  it("publishes no result family at all", () => {
+    expect(RUN_CELLS).toEqual([]);
+    expect(SYSTEMS).toEqual([]);
+    expect(new Set(RUN_CELLS.map((cell) => cell.family)).size).toBe(0);
+    for (const family of TASK_FAMILIES) {
       expect(RUN_CELLS.some((cell) => cell.family === family.id)).toBe(false);
     }
   });
 
-  it("leaves the existing run aggregates untouched", () => {
-    expect(RUN_CELLS).toHaveLength(108);
-    expect(RUN_CELLS.reduce((sum, c) => sum + c.eligibleRuns, 0)).toBe(2662);
-    expect(RUN_CELLS.reduce((sum, c) => sum + c.successfulRuns, 0)).toBe(1423);
-  });
-
-  it("gives every market four hero missions across the seeded families", () => {
-    const seeded = new Set<string>(SEEDED_DEMO_FAMILY_IDS);
-    for (const code of COUNTRY_CODES) {
-      const missions = HERO_MISSIONS.filter((m) => m.country === code);
-      expect(missions).toHaveLength(4);
-      expect(new Set(missions.map((m) => m.family)).size).toBe(4);
-      for (const mission of missions) {
-        expect(seeded.has(mission.family)).toBe(true);
-      }
+  it("keeps hero missions as task illustrations, not results", () => {
+    const defined = new Set(TASK_FAMILIES.map((f) => f.id));
+    expect(HERO_MISSIONS.length).toBeGreaterThan(0);
+    for (const mission of HERO_MISSIONS) {
+      expect(defined.has(mission.family)).toBe(true);
+      expect(COUNTRY_CODES).toContain(mission.country);
+      expect(Object.keys(mission)).not.toContain("accuracy");
+      expect(mission.persona.toLowerCase()).toContain("synthetic");
     }
   });
 
@@ -149,23 +125,6 @@ describe("fixtures", () => {
       expect(cell.successLatenciesSec).toHaveLength(cell.successfulRuns);
       expect(cell.allEligibleLatenciesSec).toHaveLength(cell.eligibleRuns);
     }
-  });
-
-  it("omits cells for uncovered markets instead of writing zeros", () => {
-    const covered = new Set(
-      RUN_CELLS.filter((c) => c.system === "hangang-assistant").map(
-        (c) => c.country,
-      ),
-    );
-    expect([...covered].sort()).toEqual(["jp", "kr"]);
-  });
-
-  it("includes a zero-success cell so the interface must render words", () => {
-    expect(RUN_CELLS.some((cell) => cell.successfulRuns === 0)).toBe(true);
-  });
-
-  it("includes a critical safety event", () => {
-    expect(RUN_CELLS.some((cell) => cell.criticalSafetyEvents > 0)).toBe(true);
   });
 
   it("resolves known country codes and rejects unknown ones", () => {

@@ -3,25 +3,36 @@
 /*
  * MICA — Public Evidence Interface
  *
- * A precise contemporary public data instrument. Cool near-white canvas, white
- * surfaces, charcoal ink, one functional blue for structure and one restrained
- * signal red for status. Rules, not cards. No gradients, no glass, no rounded
- * SaaS card grids. Data and status first.
+ * Art direction: Bilingual Index Broadsheet. Contemporary Asian independent
+ * publishing crossed with a statistical yearbook. Warm paper, black ink, hard
+ * 1px rules, square corners. A high-contrast serif carries the display line;
+ * a precise sans carries prose and a mono carries every figure and label.
+ *
+ * No cards, no shadows, no glass, no gradients as decoration, no rounded SaaS
+ * geometry. Structure is made of rules and inverted ink blocks.
  */
 
 @theme {
-  --color-paper: #f4f6f8;
-  --color-paper-deep: #e9edf1;
-  --color-surface: #ffffff;
-  --color-ink: #14171c;
-  --color-ink-soft: #363c45;
-  --color-ink-faint: #5b626c;
-  --color-rule: #d8dde3;
-  --color-rule-strong: #a9b1bb;
-  --color-atlas: #14479e;
-  --color-vermilion: #a8331a;
+  --color-paper: #f0ede6;
+  --color-paper-deep: #e6e1d6;
+  --color-surface: #faf8f4;
+  --color-ink: #14120f;
+  --color-ink-soft: #423c33;
+  --color-ink-faint: #6b6357;
+  --color-bone: #f4f1ea;
+  --color-rule: #d3cdc0;
+  --color-rule-strong: #2a251d;
 
-  --font-display: var(--font-sans-ui);
+  /* The three outcome axes carry one fixed hue each, site-wide. */
+  --color-axis-accuracy: #1a3e6e;
+  --color-axis-speed: #c2461e;
+  --color-axis-cost: #4c5a2a;
+
+  /* Legacy token names, re-pointed onto the axis identities. */
+  --color-atlas: #1a3e6e;
+  --color-vermilion: #c2461e;
+
+  --font-display: var(--font-serif-display);
   --font-sans: var(--font-sans-ui);
   --font-mono: var(--font-mono-data);
 }
@@ -32,7 +43,16 @@
    * Local-only stacks: MICA ships no webfont, so a build never needs network.
    * The Latin faces come first; the CJK fallbacks below them cover Korean,
    * Japanese and Chinese copy that appears in market and system names.
+   *
+   * The display stack is deliberately a high-contrast didone-to-oldstyle
+   * cascade, with Myeongjo/Mincho/Songti below it so a Korean headline lands
+   * on an editorial serif rather than on a UI gothic.
    */
+  --font-serif-display:
+    "Didot", "Bodoni 72", "Bodoni MT", "Playfair Display", "Iowan Old Style",
+    "Hoefler Text", "Times New Roman", "Nanum Myeongjo", "AppleMyungjo",
+    "Batang", "Hiragino Mincho ProN", "Yu Mincho", "Songti SC", "Noto Serif KR",
+    serif;
   --font-sans-ui:
     ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text",
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple SD Gothic Neo",
@@ -43,11 +63,15 @@
     ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", "Roboto Mono",
     Menlo, Consolas, monospace;
 
-  /* Fluid but restrained. Every step is bounded at both ends. */
-  --step-hero: clamp(2.25rem, 1.55rem + 3.1vw, 3.75rem);
-  --step-h1: clamp(1.95rem, 1.45rem + 2.2vw, 3rem);
-  --step-h2: clamp(1.4rem, 1.2rem + 0.9vw, 1.8rem);
-  --step-h3: clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem);
+  /*
+   * Fluid but bounded at both ends. The display steps are larger and the gap
+   * between display and prose is wider than before: size contrast is the main
+   * editorial device on the page.
+   */
+  --step-hero: clamp(2.6rem, 1.5rem + 4.8vw, 5.25rem);
+  --step-h1: clamp(2.1rem, 1.45rem + 2.9vw, 3.6rem);
+  --step-h2: clamp(1.5rem, 1.22rem + 1.25vw, 2.15rem);
+  --step-h3: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
   --step-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
 }
 
@@ -61,15 +85,49 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.6;
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Korean typography parity. Hangul is broken at word boundaries rather than
+ * mid-word, gets slightly more leading, and never inherits the tight negative
+ * tracking a didone Latin display line wants.
+ */
+:lang(ko) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-height: 1.72;
+}
+
+html[lang="ko"] body {
+  line-height: 1.72;
+}
+
+html[lang="ko"] .mica-display,
+:lang(ko).mica-display {
+  letter-spacing: -0.005em;
+  line-height: 1.24;
+  font-weight: 600;
+  word-break: keep-all;
+}
+
+html[lang="ko"] .mica-hero,
+:lang(ko).mica-hero {
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+}
+
+html[lang="ko"] .mica-eyebrow,
+html[lang="ko"] .mica-stack {
+  letter-spacing: 0.06em;
 }
 
 /* --- Focus ---------------------------------------------------------- */
 
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--color-atlas);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
 }
 
@@ -77,9 +135,9 @@ body {
 
 .mica-shell {
   width: 100%;
-  max-width: 1180px;
+  max-width: 1240px;
   margin-inline: auto;
-  padding-inline: 20px;
+  padding-inline: 18px;
 }
 
 /*
@@ -101,35 +159,37 @@ body {
 @media (min-width: 48rem) {
   .mica-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: 24px;
+    column-gap: 28px;
   }
 }
 
 .mica-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.4;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-faint);
 }
 
 .mica-display {
   font-family: var(--font-display);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
   text-wrap: balance;
 }
 
 .mica-hero {
   font-size: var(--step-hero);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+  line-height: 0.98;
+  letter-spacing: -0.028em;
 }
 
 .mica-h1 {
   font-size: var(--step-h1);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
 }
 
 .mica-h2 {
@@ -142,7 +202,7 @@ body {
 
 .mica-lead {
   font-size: var(--step-lead);
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--color-ink-soft);
 }
 
@@ -152,15 +212,98 @@ body {
   margin: 0;
 }
 
+/* The broadsheet double rule: two hairlines, no weight in between. */
+.mica-rule-double {
+  border-top: 1px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
+  height: 3px;
+}
+
 /* Data ticks used along section headers. */
 .mica-ticks {
   display: block;
   height: 6px;
   background-image: repeating-linear-gradient(
     to right,
-    var(--color-rule-strong) 0 1px,
+    var(--color-ink) 0 1px,
     transparent 1px 9px
   );
+}
+
+/* --- Section rhythm --------------------------------------------------- */
+
+/*
+ * Sections number themselves. The counter lives in CSS so no page has to pass
+ * an index down, and the numeral is decorative — the heading is untouched.
+ */
+main {
+  counter-reset: mica-section;
+}
+
+.mica-section {
+  counter-increment: mica-section;
+  margin-top: 72px;
+}
+
+@media (min-width: 48rem) {
+  .mica-section {
+    margin-top: 96px;
+  }
+}
+
+.mica-section-head {
+  display: grid;
+  gap: 10px 28px;
+  border-top: 1px solid var(--color-ink);
+  padding-top: 14px;
+}
+
+@media (min-width: 48rem) {
+  .mica-section-head {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+}
+
+.mica-section-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.mica-section-num::before {
+  content: counter(mica-section, decimal-leading-zero) " —";
+}
+
+/* --- Masthead --------------------------------------------------------- */
+
+.mica-masthead {
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.mica-masthead-rule {
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.mica-wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 1.3rem + 3vw, 3.25rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+  display: block;
+}
+
+.mica-wordmark-expansion {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  display: block;
 }
 
 /* --- Tables ---------------------------------------------------------- */
@@ -176,8 +319,8 @@ body {
 .mica-table caption {
   text-align: left;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-ink-faint);
   padding-bottom: 10px;
@@ -191,16 +334,17 @@ body {
   vertical-align: top;
 }
 
+/* Ink header, bone text: the hardest block on any data surface. */
 .mica-table thead th {
-  border-bottom: 1px solid var(--color-rule-strong);
+  border-bottom: 1px solid var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--color-ink-soft);
+  color: var(--color-bone);
   white-space: nowrap;
-  background: var(--color-paper-deep);
+  background: var(--color-ink);
 }
 
 .mica-table td.num,
@@ -210,23 +354,52 @@ body {
   text-align: right;
 }
 
-/* The axis the rows were ordered by, marked visually as well as by aria-sort. */
+/*
+ * The axis the rows were ordered by. Hue comes from the axis identity, but it
+ * is never the only channel: the header also carries the axis glyph and both
+ * header and body cells carry a hard left edge.
+ */
 .mica-table th.is-metric,
 .mica-table td.is-metric {
-  background: color-mix(in srgb, var(--color-atlas) 7%, var(--color-surface));
-  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--color-atlas) 45%, transparent);
+  --axis-hue: var(--color-ink);
+}
+
+.mica-table .is-metric-accuracy {
+  --axis-hue: var(--color-axis-accuracy);
+}
+
+.mica-table .is-metric-speed {
+  --axis-hue: var(--color-axis-speed);
+}
+
+.mica-table .is-metric-cost {
+  --axis-hue: var(--color-axis-cost);
+}
+
+.mica-table td.is-metric {
+  background: color-mix(in srgb, var(--axis-hue) 7%, var(--color-surface));
+  border-left: 2px solid var(--axis-hue);
+  color: var(--color-ink);
+  font-weight: 500;
 }
 
 .mica-table thead th.is-metric {
-  background: color-mix(in srgb, var(--color-atlas) 12%, var(--color-paper-deep));
-  color: var(--color-atlas);
+  background: var(--axis-hue);
+  border-left: 2px solid var(--axis-hue);
+  color: var(--color-bone);
+}
+
+.mica-axis-glyph {
+  font-size: 0.9em;
+  line-height: 1;
+  margin-inline-end: 6px;
 }
 
 /* --- Table scroller -------------------------------------------------- */
 
 .mica-scroll {
   position: relative;
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-ink);
   background: var(--color-surface);
 }
 
@@ -237,7 +410,7 @@ body {
 }
 
 .mica-scroll-viewport:focus-visible {
-  outline: 2px solid var(--color-atlas);
+  outline: 2px solid var(--color-ink);
   outline-offset: -2px;
 }
 
@@ -258,8 +431,8 @@ body {
   display: flex;
   justify-content: flex-end;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--color-ink-faint);
   padding: 6px 12px;
@@ -279,11 +452,12 @@ body {
   border: 1px solid var(--color-rule-strong);
   color: var(--color-ink);
   padding: 0 12px;
-  border-radius: 2px;
+  border-radius: 0;
+  transition: border-color 120ms ease;
 }
 
 .mica-control:hover {
-  border-color: var(--color-ink-faint);
+  border-color: var(--color-ink);
 }
 
 .mica-button {
@@ -293,24 +467,28 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  background: var(--color-atlas);
-  border: 1px solid var(--color-atlas);
-  color: #ffffff;
+  background: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  color: var(--color-bone);
   padding: 0 18px;
-  border-radius: 2px;
+  border-radius: 0;
   cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
 }
 
 .mica-button:hover {
-  background: color-mix(in srgb, var(--color-atlas) 85%, #000);
+  background: var(--color-surface);
+  color: var(--color-ink);
 }
 
 /* The query panel: dense, aligned, never a 275px stack of full-width boxes. */
 .mica-panel {
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-ink);
   background: var(--color-surface);
   padding: 16px;
 }
@@ -339,7 +517,7 @@ body {
 /* The axis choice is the decision the page is about, so it reads first. */
 .mica-field-primary {
   grid-column: 1 / -1;
-  border-left: 3px solid var(--color-atlas);
+  border-left: 3px solid var(--color-ink);
   padding-left: 12px;
 }
 
@@ -354,7 +532,7 @@ body {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 8px 18px;
-  border-top: 1px solid var(--color-rule);
+  border-top: 1px solid var(--color-ink);
   border-bottom: 1px solid var(--color-rule);
   padding: 12px 0;
 }
@@ -364,14 +542,312 @@ body {
 }
 
 .mica-link {
-  color: var(--color-atlas);
+  color: var(--color-ink);
   text-decoration: underline;
+  text-decoration-color: var(--color-rule-strong);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+  transition:
+    color 120ms ease,
+    text-decoration-color 120ms ease;
 }
 
 .mica-link:hover {
-  color: var(--color-vermilion);
+  color: var(--color-axis-speed);
+  text-decoration-color: var(--color-axis-speed);
+}
+
+/* The lede links under the hero: larger, mono-labelled, rule-separated. */
+.mica-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-ink);
+  transition:
+    color 120ms ease,
+    border-color 120ms ease;
+}
+
+.mica-cta:hover {
+  color: var(--color-axis-speed);
+  border-color: var(--color-axis-speed);
+}
+
+/* --- Hero apparatus --------------------------------------------------- */
+
+/* The edition strip that opens the page, set as a running masthead line. */
+.mica-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/*
+ * The system stack line. This is the differentiation claim made graphic: MICA
+ * measures the whole stack, not the model that sits at one end of it.
+ */
+.mica-stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mica-stack li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-ink);
+}
+
+.mica-stack li::after {
+  content: "→";
+  color: var(--color-ink-faint);
+}
+
+.mica-stack li:last-child::after {
+  content: "";
+}
+
+.mica-stack-term {
+  border-bottom: 1px solid var(--color-ink);
+  padding-bottom: 2px;
+}
+
+/* The figure ledger beside the hero: mono numerals on hairline rows. */
+.mica-ledger {
+  margin: 0;
+  border-top: 1px solid var(--color-ink);
+}
+
+.mica-ledger > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--color-rule);
+  padding: 9px 0;
+}
+
+.mica-ledger dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+/* The market band: five editions, one hard block each. */
+.mica-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 1px;
+  background: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mica-band li {
+  background: var(--color-surface);
+  padding: 12px 14px;
+  min-width: 0;
+}
+
+.mica-band-code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.mica-band-native {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.6rem);
+  line-height: 1.15;
+  margin-top: 4px;
+  word-break: keep-all;
+}
+
+.mica-band-name {
+  display: block;
+  font-size: 12.5px;
+  color: var(--color-ink-soft);
+  margin-top: 2px;
+}
+
+/* --- Outcome axis triptych ------------------------------------------- */
+
+.mica-triptych {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--color-ink);
+  border: 1px solid var(--color-ink);
+}
+
+@media (min-width: 48rem) {
+  .mica-triptych {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.mica-axis {
+  background: var(--color-surface);
+  padding: 0;
+  min-width: 0;
+}
+
+.mica-axis[data-axis="accuracy"] {
+  --axis-hue: var(--color-axis-accuracy);
+}
+
+.mica-axis[data-axis="speed"] {
+  --axis-hue: var(--color-axis-speed);
+}
+
+.mica-axis[data-axis="cost"] {
+  --axis-hue: var(--color-axis-cost);
+}
+
+/* The hue bar and the glyph carry the identity together; neither is alone. */
+.mica-axis-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--axis-hue);
+  color: var(--color-bone);
+  padding: 8px 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mica-axis-body {
+  padding: 18px;
+}
+
+.mica-axis-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--axis-hue);
+}
+
+/* --- Inverted ink notice --------------------------------------------- */
+
+.mica-notice {
+  border-left: 3px solid var(--color-ink);
+  background: var(--color-surface);
+  padding: 12px 14px;
+}
+
+/*
+ * The disclosure. It is the strongest block on the site by construction: full
+ * inverted ink, bone text, an inverted chip on the mandated English phrase.
+ */
+.mica-invert {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  padding: 16px 18px;
+  border: 1px solid var(--color-ink);
+}
+
+.mica-invert .mica-eyebrow {
+  color: var(--color-bone);
+}
+
+.mica-invert a,
+.mica-invert .mica-link {
+  color: var(--color-bone);
+  text-decoration-color: var(--color-bone);
+}
+
+.mica-invert :where(a, button, [tabindex]):focus-visible {
+  outline-color: var(--color-bone);
+}
+
+.mica-chip {
+  display: inline-block;
+  background: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+}
+
+/* --- Status and notices ---------------------------------------------- */
+
+/* The one global status bar. It is quiet, but it is never absent. */
+.mica-statusbar {
+  border-bottom: 1px solid var(--color-ink);
+  background: var(--color-paper-deep);
+}
+
+.mica-statusbar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  padding-block: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-soft);
+}
+
+.mica-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  padding: 3px 8px;
+}
+
+.mica-stamp-quiet {
+  color: var(--color-ink-faint);
+  border-color: var(--color-rule-strong);
 }
 
 /* --- Motion ---------------------------------------------------------- */
@@ -407,9 +883,9 @@ body {
   align-items: center;
   min-height: 44px;
   padding: 0 16px;
-  background: var(--color-surface);
+  background: var(--color-ink);
   border: 1px solid var(--color-ink);
-  color: var(--color-ink);
+  color: var(--color-bone);
   text-decoration: none;
 }
 
@@ -420,13 +896,15 @@ body {
   background: none;
   border: 0;
   align-items: center;
+  justify-content: center;
   min-height: 44px;
+  min-width: 44px;
   cursor: pointer;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-ink-soft);
+  color: var(--color-ink);
 }
 
 .mica-nav-list {
@@ -451,7 +929,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    column-gap: 20px;
+    column-gap: 22px;
     padding-bottom: 0;
   }
 }
@@ -461,66 +939,59 @@ body {
   align-items: center;
   min-height: 44px;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-soft);
   text-decoration: none;
   border-bottom: 2px solid transparent;
+  transition: color 120ms ease;
 }
 
 .mica-navlink:hover {
-  color: var(--color-atlas);
+  color: var(--color-ink);
 }
 
 .mica-navlink[aria-current="page"] {
-  color: var(--color-atlas);
+  color: var(--color-ink);
   font-weight: 600;
-  border-bottom-color: var(--color-atlas);
+  border-bottom-color: var(--color-ink);
 }
 
-/* --- Status and notices ---------------------------------------------- */
+/* --- Language switch -------------------------------------------------- */
 
-/* The one global status bar. It is quiet, but it is never absent. */
-.mica-statusbar {
-  border-bottom: 1px solid var(--color-rule-strong);
-  background: var(--color-paper-deep);
+.mica-langswitch {
+  flex-shrink: 0;
 }
 
-.mica-statusbar-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-  padding-block: 8px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  color: var(--color-ink-soft);
-}
-
-.mica-notice {
-  border-left: 3px solid var(--color-rule-strong);
-  background: var(--color-surface);
-  padding: 12px 14px;
-}
-
-.mica-stamp {
+.mica-langlink {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 8px;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-ink-faint);
-  border: 1px solid var(--color-rule-strong);
-  padding: 3px 8px;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
 }
 
-.mica-stamp-quiet {
-  color: var(--color-ink-faint);
-  border-color: var(--color-rule);
+.mica-langlink:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+.mica-langlink[aria-current="true"] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bone);
 }
 
 /* --- Anchor navigation ----------------------------------------------- */
@@ -543,15 +1014,17 @@ body {
   align-items: center;
   min-height: 36px;
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  color: var(--color-atlas);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
   text-decoration: none;
   border-bottom: 1px solid var(--color-rule-strong);
+  transition: border-color 120ms ease;
 }
 
 .mica-toc a:hover {
-  border-bottom-color: var(--color-atlas);
+  border-bottom-color: var(--color-axis-speed);
 }
 
 /* --- Prose ----------------------------------------------------------- */

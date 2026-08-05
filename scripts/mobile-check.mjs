@@ -16,9 +16,7 @@ const routes = [
   { path: '/', nav: null },
   { path: '/rankings?country=kr', nav: '/rankings' },
   { path: '/countries/kr', nav: '/countries' },
-  { path: '/agents/hangang-assistant', nav: '/agents' },
   { path: '/evidence', nav: '/evidence' },
-  { path: '/evidence/atlas-concierge--kr--email-calendar', nav: '/evidence' },
   { path: '/methodology', nav: '/methodology' },
 ];
 
@@ -41,8 +39,13 @@ for (const viewport of viewports) {
     await page.goto(`${BASE}${route.path}`, { waitUntil: 'networkidle' });
     const metrics = await page.evaluate((expectedNav) => {
       const text = document.body.innerText.toLowerCase();
-      const current = [...document.querySelectorAll('nav[aria-label="Primary"] a[aria-current="page"]')]
+      // The navigation's accessible label is localized, so select its stable
+      // structural class rather than an English-only aria-label.
+      const current = [...document.querySelectorAll('.mica-nav-list a[aria-current="page"]')]
         .map((a) => a.getAttribute('href'));
+      const normalizedCurrent = current.map((href) =>
+        href?.replace(/^\/(?:en|ko)(?=\/|$)/, '') || '/',
+      );
       const regions = [...document.querySelectorAll('.mica-scroll-viewport')];
       // A scroller must contain its own overflow: the page never scrolls sideways.
       const scrollerContained = regions.every(
@@ -65,7 +68,10 @@ for (const viewport of viewports) {
         demoTextPresent:
           text.includes('illustrative demo data') && text.includes('not an official ranking'),
         activeNav: current,
-        activeNavOk: expectedNav === null ? current.length === 0 : current.includes(expectedNav),
+        activeNavOk:
+          expectedNav === null
+            ? normalizedCurrent.length === 0
+            : normalizedCurrent.includes(expectedNav),
         scrollers: regions.length,
         scrollerContained,
         scrollerFocusable: regions.every((region) => region.getAttribute('tabindex') === '0'),

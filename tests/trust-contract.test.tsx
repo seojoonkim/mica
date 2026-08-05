@@ -1,26 +1,33 @@
 import { describe, it, expect } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { PUBLICATION_RULES, THRESHOLDS_NOT_SET } from "@/data/policy/publication";
 import { evaluatePublicationEligibility } from "@/lib/calc";
-import { aggregateBySystem, globalAccuracyRows } from "@/lib/derive";
+import { globalAccuracyRows } from "@/lib/derive";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { SYSTEMS } from "@/data/demo/systems";
 import { runCellSchema } from "@/lib/schema";
+import { SYNTHETIC_ROWS, SYNTHETIC_RUN_CELLS } from "./support/synthetic";
 import { ResultsTable } from "@/components/results-table";
 import RankingsPage from "@/app/[lang]/rankings/page";
 import HomePage from "@/app/[lang]/page";
 import { generateMetadata as layoutMetadata } from "@/app/[lang]/layout";
 import { SITE } from "@/lib/site";
 
+/**
+ * The shipped registries are empty and stay empty, so the row and cell shape
+ * contracts are asserted against anonymous synthetic records. The derivation
+ * itself is covered against the same fixtures in `derive.test.ts`; the
+ * empty-registry behaviour is covered in `no-published-results.test.tsx`.
+ */
 describe("p95 replaces p90", () => {
   it("exposes latencyP95 and no longer exposes latencyP90", () => {
-    const row = aggregateBySystem({ country: "kr" })[0];
+    const row = SYNTHETIC_ROWS[0];
     expect(row.latencyP95).not.toBeUndefined();
     expect("latencyP90" in row).toBe(false);
   });
 
-  it("computes p95 from successful runs only and at or above p50", () => {
-    for (const row of aggregateBySystem({ country: "kr" })) {
+  it("keeps p95 at or above p50 on every row", () => {
+    for (const row of SYNTHETIC_ROWS) {
       if (row.latencyP50 === null) continue;
       expect(row.latencyP95).not.toBeNull();
       expect(row.latencyP95!).toBeGreaterThanOrEqual(row.latencyP50);
@@ -30,17 +37,20 @@ describe("p95 replaces p90", () => {
 
 describe("run cells record all eligible latencies", () => {
   it("keeps successLatenciesSec and adds allEligibleLatenciesSec", () => {
-    for (const cell of RUN_CELLS) {
+    for (const cell of SYNTHETIC_RUN_CELLS) {
       expect(cell.successLatenciesSec).toHaveLength(cell.successfulRuns);
       expect(cell.allEligibleLatenciesSec).toHaveLength(cell.eligibleRuns);
     }
   });
 
   it("requires allEligibleLatenciesSec in the schema", () => {
-    const cell = RUN_CELLS[0];
-    const { allEligibleLatenciesSec, ...rest } = cell;
+    const { allEligibleLatenciesSec, ...rest } = SYNTHETIC_RUN_CELLS[0];
     expect(allEligibleLatenciesSec.length).toBeGreaterThan(0);
     expect(runCellSchema.safeParse(rest).success).toBe(false);
+  });
+
+  it("records no cell at all in the shipped registry", () => {
+    expect(RUN_CELLS).toEqual([]);
   });
 });
 
@@ -86,36 +96,22 @@ describe("diagnostics are evidence-led, not scored", () => {
 });
 
 describe("global accuracy is a country macro-average", () => {
-  it("returns one row per system with a macro-average or an explicit null", () => {
-    const rows = globalAccuracyRows();
-    expect(rows).toHaveLength(SYSTEMS.length);
-    const partial = rows.find((row) => row.systemSlug === "hangang-assistant")!;
-    expect(partial.accuracy).toBeNull();
-    const full = rows.find((row) => row.systemSlug === "atlas-concierge")!;
-    expect(full.accuracy).not.toBeNull();
+  it("has no row to average while no system is published", () => {
+    expect(globalAccuracyRows()).toEqual([]);
+    expect(SYSTEMS).toEqual([]);
   });
 
-  it("does not reuse the pooled-run accuracy", () => {
-    const macro = globalAccuracyRows().find(
-      (row) => row.systemSlug === "atlas-concierge",
-    )!.accuracy!;
-    const pooled = aggregateBySystem().find(
-      (row) => row.systemSlug === "atlas-concierge",
-    )!.accuracy!;
-    expect(macro).not.toBe(pooled);
-  });
-
-  it("says macro-average on the home page and never pooled", async () => {
+  it("never claims a pooled index-wide figure on the home page", async () => {
     render(await HomePage({ params: Promise.resolve({ lang: "en" }) }));
-    expect(screen.getAllByText(/country macro-average/i).length).toBeGreaterThan(
-      0,
-    );
+    const text = document.body.textContent ?? "";
     expect(screen.queryByText(/pooled across every market/i)).toBeNull();
+    expect(text).not.toMatch(/index-wide accuracy/i);
+    expect(screen.queryAllByRole("table")).toHaveLength(0);
   });
 });
 
 describe("ResultsTable", () => {
-  const rows = aggregateBySystem({ country: "kr" });
+  const rows = SYNTHETIC_ROWS;
 
   it("shows a p95 column and no p90 column", () => {
     render(<ResultsTable rows={rows} caption="c" metric="accuracy" />);
@@ -148,17 +144,16 @@ describe("Rankings is country-first and verified-first", () => {
     expect(screen.queryByRole("table")).toBeNull();
   });
 
-  it("shows only independently rerun systems by default once a market is chosen", async () => {
+  it("publishes no table and no result rows once a market is chosen", async () => {
     render(
       await RankingsPage({ params: Promise.resolve({ lang: "en" }), searchParams: Promise.resolve({ country: "kr" }) }),
     );
-    const table = screen.getByRole("table");
-    expect(within(table).getByText("Atlas Concierge")).toBeInTheDocument();
-    expect(within(table).queryByText("Swift Errand")).toBeNull();
-    expect(within(table).queryByText("Hangang Assistant")).toBeNull();
+    expect(screen.queryByRole("table")).toBeNull();
+    expect(document.querySelector("a[href*='/evidence/']")).toBeNull();
+    expect(document.body.textContent).toMatch(/no verified results are published/i);
   });
 
-  it("can widen to self-reported rows through the verification filter", async () => {
+  it("publishes nothing when widened to self-reported through the filter", async () => {
     render(
       await RankingsPage({
         params: Promise.resolve({ lang: "en" }),
@@ -168,9 +163,10 @@ describe("Rankings is country-first and verified-first", () => {
         }),
       }),
     );
-    const table = screen.getByRole("table");
-    expect(within(table).getByText("Swift Errand")).toBeInTheDocument();
-    expect(within(table).queryByText("Atlas Concierge")).toBeNull();
+    expect(screen.queryByRole("table")).toBeNull();
+    expect(
+      screen.getByLabelText(/verification/i, { selector: "select" }),
+    ).toHaveValue("self-reported");
   });
 
   it("offers a verification control preserved in the GET URL", async () => {

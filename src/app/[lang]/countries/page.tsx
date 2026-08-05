@@ -3,15 +3,8 @@ import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { COUNTRIES } from "@/data/demo/countries";
-import { countrySnapshot } from "@/lib/derive";
-import { formatPercent, missingLabels } from "@/lib/format";
 import { heroMissionsForCountry } from "@/data/demo/tasks";
-import {
-  DemoDisclosure,
-  DemoStamp,
-  PageHeader,
-  Section,
-} from "@/components/editorial";
+import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
 
 export const metadata: Metadata = {
@@ -44,7 +37,11 @@ export default async function CountriesPage({
         title={dict.countries.coverageTitle}
         intro={dict.countries.coverageIntro}
       >
-        <DemoStamp lang={lang} className="mb-4" />
+        {/*
+         * Edition parameters only. The systems-covered and highest-accuracy
+         * columns are gone with the fixture they read from: a count of covered
+         * systems is a measurement claim, and MICA has made none.
+         */}
         <DataTableScroller lang={lang} label={dict.countries.coverageCaption}>
           <table className="mica-table">
             <caption>
@@ -56,21 +53,12 @@ export default async function CountriesPage({
                 <th scope="col">{dict.table.locale}</th>
                 <th scope="col">{dict.table.currency}</th>
                 <th scope="col" className="num">
-                  {dict.table.systemsCovered}
-                </th>
-                <th scope="col" className="num">
-                  {dict.countries.highestAccuracy}
-                </th>
-                <th scope="col" className="num">
                   {dict.table.heroMissions}
                 </th>
               </tr>
             </thead>
             <tbody>
-              {COUNTRIES.map((country) => {
-                const rows = countrySnapshot(country.code);
-                const best = rows[0]?.accuracy ?? null;
-                return (
+              {COUNTRIES.map((country) => (
                   <tr key={country.code}>
                     <th scope="row" className="font-normal">
                       <LocaleLink lang={lang}
@@ -89,18 +77,11 @@ export default async function CountriesPage({
                     <td className="font-[family-name:var(--font-mono)] text-[12.5px]">
                       {country.currency} {country.currencySymbol}
                     </td>
-                    <td className="num">{rows.length}</td>
-                    <td className="num">
-                      {best === null
-                        ? missingLabels(lang).noData
-                        : formatPercent(best, 1, lang)}
-                    </td>
                     <td className="num">
                       {heroMissionsForCountry(country.code).length}
                     </td>
                   </tr>
-                );
-              })}
+              ))}
             </tbody>
           </table>
         </DataTableScroller>

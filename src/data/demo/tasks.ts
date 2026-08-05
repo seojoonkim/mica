@@ -401,23 +401,6 @@ export const TASK_FAMILY_BY_ID: ReadonlyMap<string, TaskFamilyRecord> = new Map(
   TASK_FAMILIES.map((family) => [family.id, family]),
 );
 
-/**
- * The four families the current demo run fixtures actually cover.
- *
- * The evaluation taxonomy is ten families; seeded demo *results* are not. The
- * six newer families deliberately carry no run cells and no scores, and the
- * interface uses this constant to say so rather than implying coverage that
- * was never measured.
- */
-export const SEEDED_DEMO_FAMILY_IDS = [
-  "email-calendar",
-  "shopping-delivery",
-  "travel-accommodation",
-  "restaurants-local",
-] as const satisfies readonly TaskFamilyId[];
-
-/** A family for which seeded demo run aggregates exist. */
-export type SeededDemoFamilyId = (typeof SEEDED_DEMO_FAMILY_IDS)[number];
 
 
 export function familyLabel(id: TaskFamilyId): string {

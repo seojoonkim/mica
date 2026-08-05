@@ -7,12 +7,17 @@ import { COUNTRIES } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { RUN_CELLS } from "@/data/demo/runs";
-import { OUTCOME_AXES } from "@/data/policy/axes";
-import { countrySnapshot, globalAccuracyRows } from "@/lib/derive";
-import { formatPercent, missingLabels } from "@/lib/format";
-import { DemoDisclosure, DemoStamp, Section } from "@/components/editorial";
-import { DataTableScroller } from "@/components/data-table-scroller";
-import { evaluationFamilyCount, seededFamilyIds } from "@/lib/i18n/coverage";
+import { DIAGNOSTIC_AXES, OUTCOME_AXES } from "@/data/policy/axes";
+import {
+  AxisGlyph,
+  DataList,
+  DemoDisclosure,
+  Section,
+} from "@/components/editorial";
+import {
+  evaluationFamilyCount,
+  publishedResultFamilyIds,
+} from "@/lib/i18n/coverage";
 
 export const metadata: Metadata = {
   title: `${SITE.name} — ${SITE.longName}`,
@@ -21,8 +26,11 @@ export const metadata: Metadata = {
 };
 
 /**
- * The home page states nothing it does not derive. Counts come from the
- * fixtures, market figures come from the run cells; no fact is retyped here.
+ * The home page states nothing it does not derive, and today everything it
+ * derives is a zero: the system registry and the run-cell ledger are both
+ * empty. It therefore leads with the taxonomy, the axes and the readiness of
+ * each part of the apparatus, and says in as many words that no verified result
+ * has been published.
  */
 export default async function HomePage({
   params,
@@ -32,95 +40,146 @@ export default async function HomePage({
   const lang = await readLocale(params);
   const dict = getDict(lang);
 
-  const totalEligibleRuns = RUN_CELLS.reduce(
-    (sum, cell) => sum + cell.eligibleRuns,
-    0,
-  );
-  const globalRows = globalAccuracyRows();
-
-  const marketLedger = COUNTRIES.map((country) => {
-    const rows = countrySnapshot(country.code);
-    const accuracies = rows
-      .map((row) => row.accuracy)
-      .filter((value): value is number => value !== null);
-    return {
-      country,
-      systems: rows.length,
-      best: accuracies.length > 0 ? Math.max(...accuracies) : null,
-      worst: accuracies.length > 0 ? Math.min(...accuracies) : null,
-      leader: rows[0],
-    };
-  });
+  // Both are counted, not asserted, so the honest zeroes below stay honest
+  // if a verified result is ever admitted.
+  const measuredRuns = RUN_CELLS.reduce((sum, cell) => sum + cell.eligibleRuns, 0);
 
   return (
     <div>
-      <div className="mica-grid border-b border-[var(--color-rule-strong)] pt-9 pb-9 md:pt-12">
-        <div className="md:col-span-8">
-          <p className="mica-eyebrow">{dict.site.editionStrip.join(" · ")}</p>
-          <h1 className="mica-display mica-hero mt-3">{dict.site.tagline}</h1>
-          <p className="mica-display mica-h2 mt-3 text-[var(--color-atlas)]">
-            {dict.site.secondary}
-          </p>
-          <p className="mica-lead mt-5 max-w-[60ch]">{dict.site.definition}</p>
-          <p className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
-            <LocaleLink lang={lang} href="/rankings" className="mica-link text-[15px]">
-              {dict.home.readTables}
-            </LocaleLink>
-            <LocaleLink lang={lang} href="/methodology" className="mica-link text-[15px]">
-              {dict.home.howMeasured}
-            </LocaleLink>
-            <LocaleLink lang={lang} href="/submit" className="mica-link text-[15px]">
-              {dict.home.submitSnapshot}
-            </LocaleLink>
-          </p>
-        </div>
-        <div className="md:col-span-3 md:col-start-10">
-          <span className="mica-ticks" aria-hidden="true" />
-          {/* Status metrics: a plain figure ledger, two-up on a phone. */}
-          <dl className="m-0 mt-4 grid grid-cols-2 gap-x-6 md:grid-cols-1">
-            {[
-              { term: dict.home.statMarkets, value: String(COUNTRIES.length) },
-              {
-                term: dict.home.statFamilies,
-                value: String(evaluationFamilyCount()),
-              },
-              {
-                term: dict.home.statSeeded,
-                value: String(seededFamilyIds().length),
-              },
-              { term: dict.home.statSystems, value: String(SYSTEMS.length) },
-              {
-                term: dict.home.statRuns,
-                value: totalEligibleRuns.toLocaleString(lang),
-              },
-            ].map((item) => (
-              <div
-                key={item.term}
-                className="flex items-baseline justify-between gap-3 border-b border-[var(--color-rule)] py-2"
-              >
-                <dt className="mica-eyebrow">{item.term}</dt>
-                <dd className="m-0 font-[family-name:var(--font-mono)] text-[19px] font-medium tabular-nums">
-                  {item.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-3 text-[13px] text-[var(--color-ink-faint)]">
-            {dict.home.countedNote}
-          </p>
-        </div>
-      </div>
+      {/*
+       * The hero is the differentiation argument made visual rather than
+       * argued in prose: the display line, the figure ledger that puts the
+       * 5 / 10 / 0 counts in the reader's eye, the system stack that says the
+       * unit of measurement is the whole orchestration, and the market band
+       * that names the five editions in their own scripts.
+       */}
+      <header className="border-b border-[var(--color-ink)] pb-9">
+        <ul className="mica-strip">
+          {dict.site.editionStrip.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
 
-      <div className="mt-8">
+        <div className="mica-grid pt-8 md:pt-10">
+          <div className="md:col-span-7">
+            <h1 className="mica-display mica-hero">{dict.site.tagline}</h1>
+            <p className="mica-display mica-h2 mt-5 text-[var(--color-axis-speed)]">
+              {dict.site.secondary}
+            </p>
+            <p className="mica-lead mt-6 max-w-[54ch]">{dict.site.definition}</p>
+            <p className="mt-7 flex flex-wrap gap-x-6 gap-y-1">
+              <LocaleLink lang={lang} href="/rankings" className="mica-cta">
+                {dict.home.readTables}
+              </LocaleLink>
+              <LocaleLink lang={lang} href="/methodology" className="mica-cta">
+                {dict.home.howMeasured}
+              </LocaleLink>
+              <LocaleLink lang={lang} href="/submit" className="mica-cta">
+                {dict.home.submitSnapshot}
+              </LocaleLink>
+            </p>
+          </div>
+          <div className="md:col-span-4 md:col-start-9">
+            {/* The figure ledger: hairline rows, mono numerals, no chrome. */}
+            <dl className="mica-ledger">
+              {[
+                { term: dict.home.statMarkets, value: String(COUNTRIES.length) },
+                {
+                  term: dict.home.statFamilies,
+                  value: String(evaluationFamilyCount()),
+                },
+                {
+                  term: dict.home.statPublished,
+                  value: String(publishedResultFamilyIds().length),
+                },
+                { term: dict.home.statSystems, value: String(SYSTEMS.length) },
+                {
+                  term: dict.home.statRuns,
+                  value: measuredRuns.toLocaleString(lang),
+                },
+              ].map((item) => (
+                <div key={item.term}>
+                  <dt className="mica-eyebrow">{item.term}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-3 text-[12.5px] text-[var(--color-ink-faint)]">
+              {dict.home.countedNote}
+            </p>
+          </div>
+        </div>
+
+        {/*
+         * The system stack. Each term is a diagnostic axis MICA already
+         * defines, so the line is read off the policy rather than written
+         * here: a model is one link in it, never the thing being measured.
+         */}
+        <div className="mica-grid mt-9 border-t border-[var(--color-ink)] pt-5">
+          <p className="mica-eyebrow md:col-span-3">{dict.home.stackEyebrow}</p>
+          <ul className="mica-stack md:col-span-9">
+            {DIAGNOSTIC_AXES.map((axis) => (
+              <li key={axis.id}>
+                <span className="mica-stack-term">
+                  {dict.diagnosticAxes[axis.id].label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* The market band: five editions, native name first. */}
+        <div className="mica-grid mt-8 border-t border-[var(--color-ink)] pt-5">
+          <p className="mica-eyebrow md:col-span-3">{dict.home.bandEyebrow}</p>
+          <ul className="mica-band md:col-span-9">
+            {COUNTRIES.map((country) => (
+              <li key={country.code}>
+                <LocaleLink
+                  lang={lang}
+                  href={`/countries/${country.code}`}
+                  className="block text-[var(--color-ink)] no-underline"
+                >
+                  <span className="mica-band-code">{country.code}</span>
+                  <span
+                    className="mica-band-native"
+                    lang={country.locale}
+                  >
+                    {country.nativeName}
+                  </span>
+                  <span className="mica-band-name">
+                    {dict.markets[country.code]}
+                  </span>
+                </LocaleLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </header>
+
+      <div className="mt-9">
         <DemoDisclosure lang={lang} detail={dict.home.disclosureDetail} />
         {/*
-         * Ten families are defined; four carry seeded demo results. Both counts
-         * are read from the fixtures, so neither can be overstated in copy.
+         * The empty state, stated twice and deliberately: once as the standing
+         * of the index, once as the standing of the taxonomy. Both counts are
+         * read from the canonical records, so neither can be overstated in
+         * copy.
          */}
-        <p className="mica-notice mt-4 max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
-          <span className="mica-eyebrow mr-2">{dict.coverage.headline}</span>
-          {dict.coverage.detail}
-        </p>
+        <div className="mica-notice mt-4 max-w-[76ch]">
+          <p className="mica-eyebrow m-0 text-[var(--color-ink)]">
+            {dict.home.noResultsHeadline}
+          </p>
+          <p className="mt-2 mb-0 text-[14px] text-[var(--color-ink-soft)]">
+            {dict.home.noResultsDetail}
+          </p>
+        </div>
+        <div className="mica-notice mt-4 max-w-[76ch]">
+          <p className="mica-eyebrow m-0 text-[var(--color-ink)]">
+            {dict.coverage.headline}
+          </p>
+          <p className="mt-2 mb-0 text-[14px] text-[var(--color-ink-soft)]">
+            {dict.coverage.detail}
+          </p>
+        </div>
       </div>
 
       <Section
@@ -128,132 +187,47 @@ export default async function HomePage({
         title={dict.home.axesTitle}
         intro={dict.home.axesIntro}
       >
-        <div className="grid gap-px border border-[var(--color-rule)] bg-[var(--color-rule)] md:grid-cols-3">
+        {/*
+         * The triptych. Each axis owns one hue and one glyph for the whole
+         * site, and the two always travel together, so the identity survives
+         * greyscale and colour blindness.
+         */}
+        <div className="mica-triptych">
           {OUTCOME_AXES.map((axis) => (
-            <article key={axis.id} className="bg-[var(--color-surface)] p-5">
-              <h3 className="mica-display mica-h3">
-                {dict.outcomeAxes[axis.id].label}
-              </h3>
-              <p className="mica-eyebrow mt-1.5">
-                {dict.outcomeAxes[axis.id].unit}
+            <article key={axis.id} className="mica-axis" data-axis={axis.id}>
+              <p className="mica-axis-bar m-0">
+                <span>{dict.outcomeAxes[axis.id].label}</span>
+                <AxisGlyph axis={axis.id} />
               </p>
-              <p className="mt-3 max-w-[42ch] text-[14.5px] text-[var(--color-ink-soft)]">
-                {dict.outcomeAxes[axis.id].description}
-              </p>
+              <div className="mica-axis-body">
+                <h3 className="mica-display mica-h3">
+                  {dict.outcomeAxes[axis.id].label}
+                </h3>
+                <p className="mica-eyebrow mt-2">
+                  {dict.outcomeAxes[axis.id].unit}
+                </p>
+                <p className="mt-4 max-w-[42ch] text-[14.5px] text-[var(--color-ink-soft)]">
+                  {dict.outcomeAxes[axis.id].description}
+                </p>
+              </div>
             </article>
           ))}
         </div>
       </Section>
 
+      {/*
+       * Where the ledger and the global table used to sit. They are not hidden
+       * behind a flag: the records they read are gone, and the honest thing to
+       * put in a benchmark's most valuable column inch is the state of the
+       * apparatus, not an empty table implying a table is imminent.
+       */}
       <Section
-        eyebrow={dict.home.ledgerEyebrow}
-        title={dict.home.ledgerTitle}
-        intro={dict.home.ledgerIntro}
+        eyebrow={dict.home.readinessEyebrow}
+        title={dict.home.readinessTitle}
+        intro={dict.home.readinessIntro}
       >
-        <DemoStamp lang={lang} className="mb-4" />
-        <DataTableScroller lang={lang} label={dict.home.ledgerCaption}>
-          <table className="mica-table">
-            <caption>
-              {dict.home.ledgerCaption} — {dict.table.captionSuffix}
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">{dict.table.market}</th>
-                <th scope="col">{dict.table.editionNote}</th>
-                <th scope="col" className="num">
-                  {dict.table.systemsCovered}
-                </th>
-                <th scope="col" className="num">
-                  {dict.table.accuracySpread}
-                </th>
-                <th scope="col">{dict.table.highestAccuracy}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {marketLedger.map((entry) => (
-                <tr key={entry.country.code}>
-                  <th scope="row" className="font-normal">
-                    <LocaleLink lang={lang}
-                      href={`/countries/${entry.country.code}`}
-                      className="mica-link"
-                    >
-                      {dict.markets[entry.country.code]}
-                    </LocaleLink>
-                    <span className="ml-2 text-[var(--color-ink-faint)]">
-                      {entry.country.nativeName}
-                    </span>
-                  </th>
-                  <td className="max-w-[38ch] text-[13.5px] text-[var(--color-ink-soft)]">
-                    {entry.country.editionNote}
-                  </td>
-                  <td className="num">
-                    {entry.systems} / {SYSTEMS.length}
-                  </td>
-                  <td className="num">
-                    {entry.worst === null
-                      ? missingLabels(lang).noData
-                      : `${formatPercent(entry.worst, 0, lang)} – ${formatPercent(entry.best, 0, lang)}`}
-                  </td>
-                  <td className="text-[13.5px]">
-                    {entry.leader ? entry.leader.systemName : missingLabels(lang).noData}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </DataTableScroller>
-      </Section>
-
-      <Section
-        eyebrow={dict.home.globalEyebrow}
-        title={dict.home.globalTitle}
-        intro={dict.home.globalIntro}
-      >
-        <DemoStamp lang={lang} className="mb-4" />
-        <DataTableScroller lang={lang} label={dict.home.globalCaption}>
-          <table className="mica-table">
-            <caption>
-              {dict.home.globalCaption} — {dict.home.globalCaptionSuffix}
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">{dict.table.system}</th>
-                <th scope="col" className="num" aria-sort="descending">
-                  {dict.table.globalAccuracy}
-                </th>
-                <th scope="col" className="num">
-                  {dict.table.marketsCovered}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {globalRows.map((row) => (
-                <tr key={row.systemSlug}>
-                  <th scope="row" className="font-normal">
-                    <LocaleLink lang={lang}
-                      href={`/agents/${row.systemSlug}`}
-                      className="mica-link"
-                    >
-                      {row.systemName}
-                    </LocaleLink>
-                  </th>
-                  <td className="num">
-                    {row.accuracy === null
-                      ? dict.table.withheld
-                      : formatPercent(row.accuracy, 1, lang)}
-                  </td>
-                  <td className="num text-[var(--color-ink-faint)]">
-                    {row.markets.length} / {COUNTRIES.length}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </DataTableScroller>
-        <p className="mt-3 max-w-[76ch] text-[12.5px] text-[var(--color-ink-faint)]">
-          {dict.home.globalNote}
-        </p>
-        <p className="mt-4">
+        <DataList items={dict.home.readinessItems} />
+        <p className="mt-6">
           <LocaleLink lang={lang} href="/rankings" className="mica-link">
             {dict.home.filterLink}
           </LocaleLink>

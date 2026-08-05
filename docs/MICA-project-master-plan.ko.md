@@ -654,16 +654,9 @@ system × country × task family 단위의 run cell과 근거 계보를 공개�
 
 ### 데이터 정직성
 
-현재 프로젝트의 평가 taxonomy는 10개 카테고리지만 seeded demo result coverage는 기존 4개 카테고리만 포함한다.
+현재 프로젝트의 평가 taxonomy는 10개 카테고리지만 게시된 result coverage는 0개다.
 
-현재 seeded demo coverage:
-
-1. Email & Calendar
-2. Shopping & Delivery
-3. Travel Planning & Accommodation
-4. Dining & Reservations
-
-나머지 6개는 taxonomy와 태스크 정의는 존재하지만 아직 결과를 측정하지 않았다.
+10개 카테고리 모두 taxonomy와 태스크 정의는 존재하지만 아직 게시할 수 있는 결과를 측정하지 않았다.
 
 - 가짜 run cell을 만들지 않는다.
 - 결과가 없으면 0점이 아니라 `Not measured`로 표시한다.
@@ -834,7 +827,7 @@ Demo와 preview 데이터는 항상 다음 상태를 유지한다.
 
 - 5개국
 - 10개 taxonomy
-- 기존 4개 family의 seeded demo results
+- 게시된 result family 0개 (system registry와 run cell 모두 비어 있음)
 - 공식 결과 아님
 
 ### Phase 1: Task Specification

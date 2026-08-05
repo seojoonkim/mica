@@ -30,7 +30,7 @@ export interface RunCellCoordinates {
   family: TaskFamilyId;
 }
 
-/** e.g. `atlas-concierge--kr--email-calendar`. */
+/** e.g. `<system-slug>--kr--email-calendar`. */
 export function runCellId(cell: RunCellCoordinates): string {
   return [cell.system, cell.country, cell.family].join(SEPARATOR);
 }

@@ -27,7 +27,7 @@ describe("primary nav active state", () => {
   });
 
   it("marks the section for a detail route by prefix match", () => {
-    pathname.current = "/agents/hangang-assistant";
+    pathname.current = "/agents/some-system";
     render(<NavLinks lang="en" />);
     expect(screen.getByRole("link", { name: "Systems" })).toHaveAttribute(
       "aria-current",

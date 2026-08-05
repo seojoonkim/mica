@@ -10,9 +10,31 @@ import { getDict } from "@/lib/i18n/dictionary";
  */
 
 /**
+ * The three outcome axes each carry one fixed glyph as well as one fixed hue,
+ * so the axis identity survives greyscale, colour blindness and a printout.
+ * The glyph is decorative: the axis is always named in text beside it.
+ */
+export const AXIS_GLYPH = {
+  accuracy: "●",
+  speed: "▲",
+  cost: "■",
+} as const;
+
+export function AxisGlyph({ axis }: { axis: keyof typeof AXIS_GLYPH }) {
+  return (
+    <span className="mica-axis-glyph" aria-hidden="true">
+      {AXIS_GLYPH[axis]}
+    </span>
+  );
+}
+
+/**
  * The mandatory disclosure. It appears on every surface that shows a score, and
  * always carries both `Illustrative demo data` and `Not an official ranking` as
  * visible text, in every locale.
+ *
+ * It is the hardest block on the page: full inverted ink, with the mandated
+ * English phrasing set in a bone chip so it cannot read as a footnote.
  */
 export function DemoDisclosure({
   lang,
@@ -24,15 +46,16 @@ export function DemoDisclosure({
   const dict = getDict(lang);
   return (
     <aside
-      className="mica-notice"
+      className="mica-invert"
       aria-label={dict.disclosure.detailLabel}
       data-testid="demo-disclosure"
     >
-      {/* Quieter than it was: the global status bar now carries the alarm. */}
-      <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.08em] text-[var(--color-ink-faint)]">
-        <DemoWords lang={lang} />
+      <p className="m-0">
+        <span className="mica-chip">
+          <DemoWords lang={lang} />
+        </span>
       </p>
-      <p className="mt-1.5 max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
+      <p className="mt-3 mb-0 max-w-[76ch] text-[14.5px] leading-relaxed text-[var(--color-bone)]">
         {detail ?? dict.disclosure.defaultDetail}
       </p>
     </aside>
@@ -85,17 +108,17 @@ export function PageHeader({
 }) {
   const dict = getDict(lang);
   return (
-    <div className="border-b border-[var(--color-rule-strong)] pb-7">
-      <div className="mica-grid pt-8 md:pt-10">
+    <div className="border-b border-[var(--color-ink)] pb-8">
+      <div className="mica-grid pt-7 md:pt-9">
         <div className="md:col-span-8">
           <p className="mica-eyebrow">{eyebrow}</p>
-          <h1 className="mica-display mica-h1 mt-2.5">{title}</h1>
-          <p className="mica-lead mt-4 max-w-[62ch]">{standfirst}</p>
+          <h1 className="mica-display mica-h1 mt-3">{title}</h1>
+          <p className="mica-lead mt-5 max-w-[58ch]">{standfirst}</p>
         </div>
         <div className="md:col-span-3 md:col-start-10">
           <span className="mica-ticks" aria-hidden="true" />
           <p className="mica-eyebrow mt-3">{dict.site.edition}</p>
-          <p className="mt-2 text-[13.5px] text-[var(--color-ink-faint)]">
+          <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--color-ink-faint)]">
             {dict.common.editionSummary}
           </p>
         </div>
@@ -119,18 +142,25 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="mt-12">
-      <span className="mica-ticks" aria-hidden="true" />
-      <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-        <h2 className="mica-display mica-h2">{title}</h2>
-        {eyebrow ? <p className="mica-eyebrow">{eyebrow}</p> : null}
+    <section id={id} className="mica-section">
+      {/*
+       * The section numeral is a CSS counter on an aria-hidden span, so the
+       * editorial rhythm costs the document outline nothing: the h2 below is
+       * unchanged and still the only thing announced.
+       */}
+      <div className="mica-section-head">
+        <p className="mica-section-num m-0" aria-hidden="true" />
+        <div className="min-w-0">
+          {eyebrow ? <p className="mica-eyebrow">{eyebrow}</p> : null}
+          <h2 className="mica-display mica-h2 mt-2">{title}</h2>
+          {intro ? (
+            <p className="mt-3 max-w-[68ch] text-[15.5px] text-[var(--color-ink-soft)]">
+              {intro}
+            </p>
+          ) : null}
+        </div>
       </div>
-      {intro ? (
-        <p className="mt-3 max-w-[70ch] text-[15.5px] text-[var(--color-ink-soft)]">
-          {intro}
-        </p>
-      ) : null}
-      <div className="mt-6">{children}</div>
+      <div className="mt-7">{children}</div>
     </section>
   );
 }

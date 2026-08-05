@@ -5,11 +5,7 @@ import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { COUNTRIES } from "@/data/demo/countries";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { OUTCOME_AXES } from "@/data/policy/axes";
-import {
-  aggregateBySystem,
-  sortByMetric,
-  type MetricKey,
-} from "@/lib/derive";
+import { type MetricKey } from "@/lib/derive";
 import {
   countryCodeSchema,
   taskFamilySchema,
@@ -18,14 +14,12 @@ import {
 } from "@/lib/schema";
 import { VERIFICATION_STATUSES } from "@/data/policy/publication";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
-import { ResultsTable } from "@/components/results-table";
-import { evidenceHref, getRunCellById, runCellId } from "@/lib/evidence";
 import { localeHref } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
   title: "Rankings",
   description:
-    "Demo results by market, task family and outcome axis. Accuracy, speed and cost are never combined.",
+    "No verified results are published. The market, task family and outcome-axis controls are shown as planned methodology; accuracy, speed and cost are never combined.",
   alternates: { canonical: "/rankings" },
 };
 
@@ -57,8 +51,11 @@ function first(value: string | string[] | undefined): string | undefined {
 }
 
 /**
- * The filter is a plain GET form. Ordering changes with the selected axis, but
- * no axis is ever folded into another — MICA publishes no composite score.
+ * Rankings stays a real route with real, bookmarkable controls, and publishes
+ * nothing. The filter is a plain GET form; the ordering it would apply changes
+ * with the selected axis, but no axis is ever folded into another, because MICA
+ * publishes no composite score. Until a verified result exists there is no
+ * table to order and no evidence to link to, and the page says so.
  */
 export default async function RankingsPage({
   params,
@@ -75,17 +72,6 @@ export default async function RankingsPage({
   const metric = readMetric(first(query.metric));
   const verification = readVerification(first(query.verification));
 
-  // Cost is orderable inside one currency only, which a chosen market
-  // guarantees; without a market there is nothing to order at all.
-  const rows =
-    country === null
-      ? []
-      : sortByMetric(
-          aggregateBySystem({ country, family }).filter(
-            (row) => row.verification === verification,
-          ),
-          metric,
-        );
   const countryLabel =
     country === null
       ? dict.rankings.noMarketSelected
@@ -248,54 +234,12 @@ export default async function RankingsPage({
             {dict.rankings.selectMarketNotice}
           </p>
         ) : (
-          <>
-            <ResultsTable lang={lang}
-              rows={rows}
-              caption={`${countryLabel} · ${familyLabelText} · ${
-                verificationStatus
-                  ? dict.verification[verificationStatus.id].label
-                  : verification
-              } · ${dict.rankings.orderedBy} ${
-                axis ? dict.outcomeAxes[axis.id].label : metric
-              }`}
-              showCost
-              metric={metric}
-              /*
-               * A row is one canonical run cell only when both a market and a
-               * single task family are chosen. The all-families view pools
-               * cells per row, so it gets no evidence column at all.
-               */
-              evidenceHrefFor={
-                family === "all"
-                  ? undefined
-                  : (row) => {
-                      const id = runCellId({
-                        system: row.systemSlug,
-                        country,
-                        family,
-                      });
-                      return getRunCellById(id)
-                        ? evidenceHref({
-                            system: row.systemSlug,
-                            country,
-                            family,
-                          })
-                        : null;
-                    }
-              }
-            />
-            {family === "all" ? (
-              <p className="mt-4 max-w-[70ch] text-[13px] text-[var(--color-ink-faint)]">
-                {dict.rankings.pooledNotePrefix}{" "}
-                <LocaleLink lang={lang} href={`/evidence?country=${country}`} className="mica-link">
-                  {dict.rankings.pooledNoteLink} {countryLabel}
-                </LocaleLink>
-                .
-              </p>
-            ) : null}
-          </>
+          <p className="mica-notice max-w-[70ch] text-[14px] text-[var(--color-ink-soft)]">
+            {dict.rankings.noResultsNotice}
+          </p>
         )}
       </Section>
+
     </div>
   );
 }

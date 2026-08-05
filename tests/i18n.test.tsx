@@ -13,7 +13,7 @@ import {
 import { getDict } from "@/lib/i18n/dictionary";
 import { en } from "@/lib/i18n/en";
 import { ko } from "@/lib/i18n/ko";
-import { seededFamilyIds } from "@/lib/i18n/coverage";
+import { publishedResultFamilyIds } from "@/lib/i18n/coverage";
 import sitemap from "@/app/sitemap";
 import HomePage from "@/app/[lang]/page";
 import TasksPage from "@/app/[lang]/tasks/page";
@@ -99,9 +99,9 @@ describe("typed dictionary contract", () => {
 });
 
 describe("coverage honesty", () => {
-  it("separates ten evaluation families from four seeded result families", () => {
+  it("separates ten evaluation families from zero published result families", () => {
     expect(TASK_FAMILIES).toHaveLength(10);
-    expect(seededFamilyIds()).toHaveLength(4);
+    expect(publishedResultFamilyIds()).toHaveLength(0);
   });
 
   it.each(["en", "ko"] as const)(
@@ -110,7 +110,7 @@ describe("coverage honesty", () => {
       render(await HomePage({ params: Promise.resolve({ lang }) }));
       const text = document.body.textContent ?? "";
       expect(text).toContain(String(TASK_FAMILIES.length));
-      expect(text).toContain(String(seededFamilyIds().length));
+      expect(text).toContain(String(publishedResultFamilyIds().length));
       expect(text).toContain(getDict(lang).coverage.headline);
     },
   );
@@ -136,7 +136,7 @@ describe("localized page rendering", () => {
         screen.getByRole("heading", { level: 1, name: dict.site.tagline }),
       ).toBeInTheDocument();
       expect(document.body.textContent).toContain(dict.home.axesTitle);
-      expect(document.body.textContent).toContain(dict.home.ledgerTitle);
+      expect(document.body.textContent).toContain(dict.home.readinessTitle);
     },
   );
 

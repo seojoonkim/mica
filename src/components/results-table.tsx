@@ -8,7 +8,7 @@ import {
   formatSeconds,
   missingLabels,
 } from "@/lib/format";
-import { DemoStamp } from "@/components/editorial";
+import { AxisGlyph, DemoStamp } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
 import { LocaleLink } from "@/components/locale-link";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
@@ -55,10 +55,14 @@ export function ResultsTable({
     metric === column
       ? ({ "aria-sort": column === "accuracy" ? "descending" : "ascending" } as const)
       : {};
-  // The same column that carries aria-sort is tinted, so the ordering axis is
-  // visible as well as announced.
+  // The same column that carries aria-sort is marked, so the ordering axis is
+  // visible as well as announced. The mark is three channels at once — the
+  // axis hue, a hard left edge, and the axis glyph in the header — so no
+  // reader depends on colour alone.
   const cellOf = (column: MetricKey) =>
-    metric === column ? "num is-metric" : "num";
+    metric === column ? `num is-metric is-metric-${column}` : "num";
+  const markOf = (column: MetricKey) =>
+    metric === column ? <AxisGlyph axis={column} /> : null;
 
   return (
     <div>
@@ -73,12 +77,14 @@ export function ResultsTable({
               <th scope="col">{dict.table.system}</th>
               <th scope="col">{dict.table.verification}</th>
               <th scope="col" className={cellOf("accuracy")} {...sortOf("accuracy")}>
+                {markOf("accuracy")}
                 {dict.table.accuracy}
               </th>
               <th scope="col" className="num">
                 {dict.table.interval95}
               </th>
               <th scope="col" className={cellOf("speed")} {...sortOf("speed")}>
+                {markOf("speed")}
                 {dict.table.speedP50}
               </th>
               <th scope="col" className="num">
@@ -86,6 +92,7 @@ export function ResultsTable({
               </th>
               {showCost ? (
                 <th scope="col" className={cellOf("cost")} {...sortOf("cost")}>
+                  {markOf("cost")}
                   {dict.table.costPerSuccess}
                 </th>
               ) : null}

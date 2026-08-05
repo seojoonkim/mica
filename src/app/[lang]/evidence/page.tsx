@@ -1,61 +1,26 @@
-import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { COUNTRIES } from "@/data/demo/countries";
-import { TASK_FAMILIES, familyLabel } from "@/data/demo/tasks";
-import { SYSTEMS, systemName } from "@/data/demo/systems";
-import {
-  RUN_CELL_IDS,
-  evidenceHref,
-  runCellId,
-  runCellsFor,
-} from "@/lib/evidence";
-import {
-  countryCodeSchema,
-  taskFamilySchema,
-  type CountryCode,
-  type TaskFamilyId,
-} from "@/lib/schema";
-import { formatFraction, formatPercent } from "@/lib/format";
 import {
   DataList,
   DemoDisclosure,
-  DemoStamp,
   PageHeader,
   Section,
 } from "@/components/editorial";
-import { DataTableScroller } from "@/components/data-table-scroller";
-import { localeHref } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
   title: "Evidence",
   description:
-    "Every figure in the demo edition traces back to an aggregate run cell: one system, one market, one task family. This is fixture evidence, not official evidence.",
+    "MICA's unit of evidence is the aggregate run cell: one system, one market, one task family. No run cell has been recorded yet, so the evidence registry is empty.",
   alternates: { canonical: "/evidence" },
 };
 
-function first(value: string | string[] | undefined): string | undefined {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-function readCountry(value: string | undefined): CountryCode | null {
-  const parsed = countryCodeSchema.safeParse(value);
-  return parsed.success ? parsed.data : null;
-}
-
-function readFamily(value: string | undefined): TaskFamilyId | null {
-  const parsed = taskFamilySchema.safeParse(value);
-  return parsed.success ? parsed.data : null;
-}
-
-function readSystem(value: string | undefined): string | null {
-  return SYSTEMS.some((system) => system.slug === value) ? value! : null;
-}
-
 /**
- * The index of run cells. The filter is a plain GET form, like Rankings, so
- * every slice is bookmarkable and no client JavaScript is involved.
+ * The index of run cells, with no run cells in it. The evidence model is still
+ * stated in full — it is the commitment being made about every figure MICA will
+ * publish — but there is no filter, no table and no cell link, because there is
+ * nothing to filter, tabulate or open. `searchParams` is still accepted so an
+ * old bookmarked slice resolves to this honest page rather than a 404.
  */
 export default async function EvidenceIndexPage({
   params,
@@ -66,24 +31,7 @@ export default async function EvidenceIndexPage({
 }) {
   const lang = await readLocale(params);
   const dict = getDict(lang);
-  const query = await searchParams;
-  const country = readCountry(first(query.country));
-  const family = readFamily(first(query.family));
-  const system = readSystem(first(query.system));
-
-  const cells = runCellsFor({
-    ...(system ? { system } : {}),
-    ...(country ? { country } : {}),
-    ...(family ? { family } : {}),
-  });
-
-  const scope = [
-    system ? systemName(system) : "All systems",
-    country
-      ? (COUNTRIES.find((entry) => entry.code === country)?.name ?? country)
-      : "All markets",
-    family ? familyLabel(family) : "All task families",
-  ].join(" · ");
+  await searchParams;
 
   return (
     <div>
@@ -96,186 +44,39 @@ export default async function EvidenceIndexPage({
       </PageHeader>
 
       <Section
-        eyebrow="What a run cell is"
-        title="The evidence model"
-        intro="MICA records aggregates, not individual attempts. There is no per-attempt record behind these pages, so none is shown."
+        eyebrow={dict.evidence.emptyEyebrow}
+        title={dict.evidence.emptyTitle}
+      >
+        <p className="mica-notice max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
+          {dict.evidence.emptyNotice}
+        </p>
+      </Section>
+
+      <Section
+        eyebrow={dict.evidence.modelEyebrow}
+        title={dict.evidence.modelTitle}
+        intro={dict.evidence.modelIntro}
       >
         <DataList
           items={[
+            { term: dict.evidence.unitTerm, detail: dict.evidence.unitDetail },
+            { term: dict.evidence.holdsTerm, detail: dict.evidence.holdsDetail },
             {
-              term: "Unit",
-              detail:
-                "One aggregate run cell per system × market × task family. Cell ids read system--market--family, e.g. atlas-concierge--kr--email-calendar.",
+              term: dict.evidence.notHoldsTerm,
+              detail: dict.evidence.notHoldsDetail,
             },
             {
-              term: "What it holds",
-              detail:
-                "Eligible and successful run counts, latencies for successful eligible runs, the latency population for all eligible attempts, total eligible cost, task coverage and critical safety events.",
+              term: dict.evidence.derivedTerm,
+              detail: dict.evidence.derivedDetail,
             },
             {
-              term: "What it does not hold",
-              detail:
-                "No individual attempts, timestamps, transcripts, screenshots, tool logs or provider identities. No user data of any kind: the demo fixture is generated, and a real edition would use synthetic personas and controlled test accounts only.",
-            },
-            {
-              term: "How figures are derived",
-              detail:
-                "Accuracy, its 95% interval, speed percentiles and cost per success are computed from the cell on request. Nothing is stored twice, and no axis is folded into another — MICA publishes no composite score.",
-            },
-            {
-              term: "Standing",
-              detail:
-                "Fixture evidence for interface development. Every cell is dataStatus: demo and publicationEligible: false.",
+              term: dict.evidence.standingTerm,
+              detail: dict.evidence.standingDetail,
             },
           ]}
         />
       </Section>
 
-      <Section
-        eyebrow="Filter"
-        title="Find a cell"
-        intro="Narrow by system, market or task family. The form submits as a normal link."
-      >
-        <form
-          method="get"
-          action={localeHref(lang, "/evidence")}
-          aria-label={dict.evidence.formLabel}
-          className="mica-panel"
-        >
-          <div className="mica-fields">
-            <p className="mica-field">
-              <label className="mica-eyebrow" htmlFor="system">
-                System
-              </label>
-              <select
-                id="system"
-                name="system"
-                defaultValue={system ?? ""}
-                className="mica-control"
-              >
-                <option value="">All systems</option>
-                {SYSTEMS.map((entry) => (
-                  <option key={entry.slug} value={entry.slug}>
-                    {entry.name}
-                  </option>
-                ))}
-              </select>
-            </p>
-            <p className="mica-field">
-              <label className="mica-eyebrow" htmlFor="country">
-                Market
-              </label>
-              <select
-                id="country"
-                name="country"
-                defaultValue={country ?? ""}
-                className="mica-control"
-              >
-                <option value="">All markets</option>
-                {COUNTRIES.map((entry) => (
-                  <option key={entry.code} value={entry.code}>
-                    {entry.name}
-                  </option>
-                ))}
-              </select>
-            </p>
-            <p className="mica-field">
-              <label className="mica-eyebrow" htmlFor="family">
-                Task family
-              </label>
-              <select
-                id="family"
-                name="family"
-                defaultValue={family ?? ""}
-                className="mica-control"
-              >
-                <option value="">All task families</option>
-                {TASK_FAMILIES.map((entry) => (
-                  <option key={entry.id} value={entry.id}>
-                    {entry.label}
-                  </option>
-                ))}
-              </select>
-            </p>
-          </div>
-          <div className="mt-4 flex items-center gap-5 border-t border-[var(--color-rule)] pt-4">
-            <button type="submit" className="mica-button w-auto">
-              Apply
-            </button>
-            <LocaleLink lang={lang} href="/evidence" className="mica-link text-[14px]">
-              Reset
-            </LocaleLink>
-          </div>
-        </form>
-      </Section>
-
-      <Section
-        eyebrow={scope}
-        title={`${cells.length} of ${RUN_CELL_IDS.length} run cells`}
-        intro="Each row is one aggregate run cell, not an individual transcript."
-      >
-        <DemoStamp lang={lang} className="mb-4" />
-        <DataTableScroller lang={lang} label={`Run cells — ${scope}`}>
-          <table className="mica-table">
-            <caption>
-              Run cells — {scope}. Illustrative demo data, not an official
-              ranking.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Run cell</th>
-                <th scope="col">System</th>
-                <th scope="col">Market</th>
-                <th scope="col">Task family</th>
-                <th scope="col" className="num">
-                  Accuracy
-                </th>
-                <th scope="col" className="num">
-                  Eligible runs
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {cells.map((cell) => {
-                const id = runCellId(cell);
-                return (
-                  <tr key={id}>
-                    <th scope="row" className="font-normal">
-                      <LocaleLink lang={lang} href={evidenceHref(cell)} className="mica-link">
-                        <span className="font-[family-name:var(--font-mono)] text-[12.5px]">
-                          {id}
-                        </span>
-                      </LocaleLink>
-                    </th>
-                    <td>{systemName(cell.system)}</td>
-                    <td>
-                      {COUNTRIES.find((entry) => entry.code === cell.country)
-                        ?.name ?? cell.country}
-                    </td>
-                    <td>{familyLabel(cell.family)}</td>
-                    <td className="num">
-                      {formatPercent(
-                        cell.eligibleRuns > 0
-                          ? cell.successfulRuns / cell.eligibleRuns
-                          : null,
-                      )}
-                    </td>
-                    <td className="num text-[var(--color-ink-faint)]">
-                      {formatFraction(cell.successfulRuns, cell.eligibleRuns)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </DataTableScroller>
-        {cells.length === 0 ? (
-          <p className="mica-notice mt-4 max-w-[70ch] text-[14px] text-[var(--color-ink-soft)]">
-            No run cell matches this slice. Missing coverage is missing, never a
-            zero.
-          </p>
-        ) : null}
-      </Section>
     </div>
   );
 }

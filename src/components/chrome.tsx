@@ -45,35 +45,37 @@ export function DemoWords({
 export function Masthead({ lang }: { lang: Locale }) {
   const dict = getDict(lang);
   return (
-    <header className="border-b border-[var(--color-rule-strong)] bg-[var(--color-surface)]">
+    <header className="mica-masthead">
       <div className="mica-shell">
         {/*
-         * One horizontal identity line on every viewport: the wordmark, the
-         * expansion where there is room, the edition stamp and the language
-         * switch.
+         * A masthead, not a product bar: the wordmark is set in the display
+         * serif at broadsheet size with its expansion beneath, and the edition
+         * stamp and language switch sit opposite it on the same baseline band.
+         * On a phone the expansion drops and the wordmark shrinks, but nothing
+         * moves into a second row.
          */}
-        <div className="flex items-center justify-between gap-x-4 pt-2.5 pb-1.5 md:pt-4 md:pb-2">
+        <div className="flex items-end justify-between gap-x-4 pt-3 pb-2.5 md:pt-5 md:pb-3.5">
           <LocaleLink
             lang={lang}
             href="/"
             aria-label={dict.chrome.homeLabel}
-            className="flex min-h-[44px] items-center gap-3 text-[var(--color-ink)] no-underline"
+            className="block min-h-11 min-w-0 text-[var(--color-ink)] no-underline"
           >
-            <span className="mica-display text-[21px] tracking-[-0.02em] md:text-[24px]">
-              MICA
-            </span>
-            <span className="hidden font-[family-name:var(--font-mono)] text-[12px] font-normal uppercase tracking-[0.1em] text-[var(--color-ink-faint)] sm:inline">
+            <span className="mica-wordmark">MICA</span>
+            <span className="mica-wordmark-expansion mt-1.5 hidden sm:block">
               {dict.site.longName}
             </span>
           </LocaleLink>
-          <div className="flex shrink-0 items-center gap-4">
-            <p className="mica-eyebrow text-right">{dict.site.edition}</p>
+          <div className="flex shrink-0 flex-col items-end gap-1.5">
+            <p className="mica-eyebrow hidden text-right sm:block">
+              {dict.site.edition}
+            </p>
             <LocaleSwitchLive lang={lang} />
           </div>
         </div>
         <nav
           aria-label={dict.chrome.primaryNavLabel}
-          className="border-t border-[var(--color-rule)]"
+          className="border-t border-[var(--color-ink)]"
         >
           <NavLinks lang={lang} />
         </nav>
@@ -93,16 +95,10 @@ export function DemoStatusBar({ lang }: { lang: Locale }) {
     <aside className="mica-statusbar" aria-label={dict.chrome.dataStatusLabel}>
       <div className="mica-shell">
         <p className="mica-statusbar-inner">
-          <span
-            lang="en"
-            className="font-semibold uppercase tracking-[0.08em] text-[var(--color-vermilion)]"
-          >
+          <span lang="en" className="mica-chip">
             {dict.disclosure.demoLabel}
           </span>
-          <span aria-hidden="true" className="text-[var(--color-rule-strong)]">
-            /
-          </span>
-          <span lang="en" className="uppercase tracking-[0.08em]">
+          <span lang="en" className="uppercase tracking-[0.1em]">
             {dict.disclosure.notRanking}
           </span>
           {lang === DEFAULT_LOCALE ? null : (
@@ -127,11 +123,13 @@ export function DemoStatusBar({ lang }: { lang: Locale }) {
 export function Colophon({ lang }: { lang: Locale }) {
   const dict = getDict(lang);
   return (
-    <footer className="mt-20 border-t border-[var(--color-rule-strong)] py-10">
+    <footer className="mt-24 border-t border-[var(--color-ink)] py-10">
       <div className="mica-shell">
         <div className="mica-grid">
           <div className="md:col-span-5">
-            <p className="mica-display text-[20px]">{dict.site.longName}</p>
+            <p className="mica-display text-[26px] leading-tight">
+              {dict.site.longName}
+            </p>
             <p className="mt-2 max-w-[42ch] text-[13.5px] text-[var(--color-ink-soft)]">
               {dict.site.tagline} {dict.site.secondary}
             </p>

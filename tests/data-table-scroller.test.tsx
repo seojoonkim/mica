@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import { DataTableScroller } from "@/components/data-table-scroller";
 import { ResultsTable } from "@/components/results-table";
-import { aggregateBySystem } from "@/lib/derive";
 import HomePage from "@/app/[lang]/page";
+import { SYNTHETIC_ROWS } from "./support/synthetic";
 
 describe("DataTableScroller", () => {
   it("is a keyboard-focusable region with the caption as its name", () => {
@@ -43,8 +43,12 @@ describe("DataTableScroller", () => {
   });
 });
 
+/**
+ * `ResultsTable` is a pure function of its rows, so it is exercised with
+ * anonymous synthetic rows. The shipped registries are empty and stay empty.
+ */
 describe("ResultsTable uses the shared scroller", () => {
-  const rows = aggregateBySystem({ country: "kr" });
+  const rows = SYNTHETIC_ROWS;
 
   it("wraps its table in a named focusable region", () => {
     render(<ResultsTable rows={rows} caption="Korea slice" metric="accuracy" />);
@@ -69,14 +73,12 @@ describe("ResultsTable uses the shared scroller", () => {
   });
 });
 
-describe("home page tables adopt the scroller", () => {
-  it("gives every data table a focusable named region", async () => {
+describe("the home page publishes no table to scroll", () => {
+  it("renders an honest empty state instead of a data table", async () => {
     render(await HomePage({ params: Promise.resolve({ lang: "en" }) }));
-    const tables = screen.getAllByRole("table");
-    const regions = screen.getAllByRole("region");
-    expect(regions.length).toBeGreaterThanOrEqual(tables.length);
-    for (const table of tables) {
-      expect(table.closest("[role='region']")).not.toBeNull();
-    }
+    expect(screen.queryAllByRole("table")).toHaveLength(0);
+    expect(document.body.textContent).toMatch(
+      /no verified system results have been published/i,
+    );
   });
 });

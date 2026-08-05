@@ -7,7 +7,7 @@ import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
-import { isSeededFamily } from "@/lib/i18n/coverage";
+import { hasPublishedResults } from "@/lib/i18n/coverage";
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -39,8 +39,8 @@ export default async function TasksPage({
       >
         <DemoDisclosure lang={lang} detail={dict.tasks.disclosureDetail} />
         {/*
-         * Ten families are defined by the taxonomy; four carry seeded demo
-         * results. Both counts are read from the fixtures.
+         * Ten families are defined by the taxonomy; none carries a published
+         * result. Both counts are read from the fixtures.
          */}
         <p className="mica-notice mt-4 max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
           <span className="mica-eyebrow mr-2">{dict.coverage.headline}</span>
@@ -72,7 +72,7 @@ export default async function TasksPage({
           key={family.id}
           id={family.id}
           eyebrow={`${family.canonicalTasks.length} ${dict.common.canonicalTasks} · ${
-            isSeededFamily(family.id)
+            hasPublishedResults(family.id)
               ? dict.coverage.measuredBadge
               : dict.coverage.unmeasuredBadge
           }`}

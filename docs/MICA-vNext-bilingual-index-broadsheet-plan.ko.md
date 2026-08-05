@@ -263,20 +263,15 @@ MICA는 단일 기반 모델의 지식이나 추론 능력만 측정하는 벤�
 
 ## 7. 데이터 정직성
 
-평가 taxonomy는 10개지만 현재 seeded demo 결과는 기존 4개 카테고리만 포함한다.
+평가 taxonomy는 10개지만 게시된 결과는 하나도 없다.
 
 - 평가 범위: 10개 카테고리
-- 현재 seeded demo result coverage: 4개 카테고리
-- 신규 6개 카테고리에는 가짜 run cell이나 점수를 만들지 않는다.
+- 현재 게시된 result coverage: 0개 카테고리
+- 어떤 카테고리에도 가짜 run cell이나 점수를 만들지 않는다.
 - 결과가 없는 영역은 0점이 아니라 `Not measured` 또는 `아직 측정되지 않음`으로 표시한다.
 - 모든 fixture 결과는 publication eligible이 아니다.
 
-현재 demo coverage:
-
-- Email & Calendar
-- Shopping & Delivery
-- Travel Planning & Accommodation
-- Dining & Reservations
+현재 게시된 coverage: 없음. 검증된 스냅숏이 publication gate를 통과할 때 채워진다.
 
 ## 8. 영어·한국어 지원
 
@@ -331,7 +326,7 @@ MICA의 차별성과 5개국, 10개 taxonomy, 3개 결과축을 첫 화면에서
 - country-first
 - verified-first
 - Accuracy, Speed, Cost 개별 정렬
-- 현재 seeded demo coverage만 결과로 제공
+- 게시된 결과가 없으므로 정직한 empty state만 제공
 - 필터와 언어 상태 유지
 
 ### Countries
@@ -383,9 +378,9 @@ Accuracy, Speed, Cost, Wilson interval, macro-average, verification status, publ
 ## 12. 검증 기준
 
 - task taxonomy 정확히 10개
-- seeded demo family 정확히 4개
-- 기존 run aggregate 수치 불변
-- 신규 6개 카테고리에 점수 없음
+- 게시된 result family 정확히 0개
+- system registry와 run cell 배열 비어 있음
+- 어떤 카테고리에도 점수 없음
 - 영어와 한국어 주요 경로 정적 생성
 - 언어 전환 시 현재 경로와 query 유지
 - 한국어 dictionary 누락 시 typecheck 실패

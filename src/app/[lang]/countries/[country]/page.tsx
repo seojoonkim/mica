@@ -4,23 +4,16 @@ import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { notFound } from "next/navigation";
 import { COUNTRIES, getCountry } from "@/data/demo/countries";
-import { systemName } from "@/data/demo/systems";
 import { heroMissionsForCountry, familyLabel } from "@/data/demo/tasks";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { DIAGNOSTIC_AXES } from "@/data/policy/axes";
-import { aggregateBySystem, countrySnapshot } from "@/lib/derive";
 import { countryCodeSchema } from "@/lib/schema";
-import { formatPercent, formatSeconds, formatCost, NO_DATA } from "@/lib/format";
 import {
   DataList,
   DemoDisclosure,
-  DemoStamp,
   PageHeader,
   Section,
 } from "@/components/editorial";
-import { ResultsTable } from "@/components/results-table";
-import { DataTableScroller } from "@/components/data-table-scroller";
-import { evidenceHref, runCellsFor } from "@/lib/evidence";
 
 const AXIS_LABEL = new Map(DIAGNOSTIC_AXES.map((axis) => [axis.id, axis.label]));
 
@@ -56,7 +49,6 @@ export default async function CountryPage({
   if (!parsed.success || !country) notFound();
 
   const code = parsed.data;
-  const rows = countrySnapshot(code);
   const missions = heroMissionsForCountry(code);
 
   return (
@@ -69,114 +61,39 @@ export default async function CountryPage({
         <DemoDisclosure lang={lang} />
       </PageHeader>
 
+      {/*
+       * This market page used to open with a result table, a best-accuracy
+       * table per family and a list of run-cell links. Nothing was measured
+       * here, so all three are gone. What a market edition genuinely has is
+       * what remains: the task families defined for it, the hazards an agent
+       * meets, and what changes when the task is local.
+       */}
       <Section
-        eyebrow="Accuracy, speed and cost read separately"
-        title={`Demo results in ${country.name}`}
-        intro={`Cost is reported in ${country.currency} (${country.currencySymbol}) because a cost figure only means anything inside one currency.`}
+        eyebrow="What will be measured here"
+        title={`Task families defined for ${country.name}`}
+        intro="Each family is written against this market specifically. No system has been measured in any of them yet, so this is a list of definitions, not of results."
       >
-        <ResultsTable lang={lang}
-          rows={rows}
-          caption={`${country.name} — all task families`}
-        />
-      </Section>
-
-      <Section
-        eyebrow="By task family"
-        title="Where the market gets hard"
-        intro="The same system can be competent in one family and unable to finish in another. Family cells are shown separately for that reason."
-      >
-        <DemoStamp lang={lang} className="mb-4" />
-        <DataTableScroller lang={lang} label={`${country.name} accuracy by task family`}>
-          <table className="mica-table">
-            <caption>
-              {country.name} accuracy by task family — Illustrative demo data,
-              not an official ranking.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Task family</th>
-                <th scope="col" className="num">
-                  Systems with cells
-                </th>
-                <th scope="col" className="num">
-                  Best accuracy
-                </th>
-                <th scope="col" className="num">
-                  Best speed p50
-                </th>
-                <th scope="col" className="num">
-                  Lowest cost per success
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {TASK_FAMILIES.map((family) => {
-                const familyRows = aggregateBySystem({
-                  country: code,
-                  family: family.id,
-                });
-                const accuracies = familyRows
-                  .map((row) => row.accuracy)
-                  .filter((value): value is number => value !== null);
-                const speeds = familyRows
-                  .map((row) => row.latencyP50)
-                  .filter((value): value is number => value !== null);
-                const costs = familyRows
-                  .map((row) => row.costPerSuccess)
-                  .filter((value): value is number => value !== null);
-                return (
-                  <tr key={family.id}>
-                    <th scope="row" className="font-normal">
-                      <LocaleLink lang={lang}
-                        href={`/rankings?country=${code}&family=${family.id}`}
-                        className="mica-link"
-                      >
-                        {family.label}
-                      </LocaleLink>
-                    </th>
-                    <td className="num">{familyRows.length}</td>
-                    <td className="num">
-                      {accuracies.length === 0
-                        ? NO_DATA
-                        : formatPercent(Math.max(...accuracies))}
-                    </td>
-                    <td className="num">
-                      {speeds.length === 0
-                        ? "No successful task."
-                        : formatSeconds(Math.min(...speeds))}
-                    </td>
-                    <td className="num">
-                      {costs.length === 0
-                        ? "No successful task."
-                        : formatCost(Math.min(...costs), country.currency)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </DataTableScroller>
-      </Section>
-
-      <Section
-        eyebrow="Lineage"
-        title={`Run cells for ${country.name}`}
-        intro="Each cell is one system on one task family in this market. The tables above are computed from them; the cell pages state what each aggregate holds and what it cannot show."
-      >
-        <ul className="m-0 grid list-none gap-x-8 gap-y-1 p-0 text-[14px] md:grid-cols-2">
-          {runCellsFor({ country: code }).map((cell) => (
-            <li key={`${cell.system}-${cell.family}`}>
-              <LocaleLink lang={lang} href={evidenceHref(cell)} className="mica-link">
-                {systemName(cell.system)} · {familyLabel(cell.family)}
+        <ul className="m-0 grid list-none gap-x-8 gap-y-1 border-t border-[var(--color-rule)] p-0 pt-3 text-[14.5px] md:grid-cols-2">
+          {TASK_FAMILIES.map((family) => (
+            <li key={family.id}>
+              <LocaleLink
+                lang={lang}
+                href={`/tasks#${family.id}`}
+                className="mica-link"
+              >
+                {dict.families[family.id].label}
               </LocaleLink>
+              <span className="ml-2 text-[var(--color-ink-faint)]">
+                {
+                  family.canonicalTasks.filter((task) =>
+                    task.markets.includes(code),
+                  ).length
+                }{" "}
+                {dict.common.canonicalTasks}
+              </span>
             </li>
           ))}
         </ul>
-        <p className="mt-4">
-          <LocaleLink lang={lang} href={`/evidence?country=${code}`} className="mica-link">
-            All run cells for {country.name} →
-          </LocaleLink>
-        </p>
       </Section>
 
       <Section

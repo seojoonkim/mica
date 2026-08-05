@@ -95,16 +95,15 @@ export const en = {
   },
 
   coverage: {
-    headline:
-      "10 evaluation families · 4 seeded demo result families",
+    headline: "10 evaluation families · 0 published result families",
     detail:
-      "MICA's evaluation taxonomy defines ten task families. The seeded demo fixture carries results for four of them only. The remaining six are defined and not yet measured: they have no scores here, and an absent score is never shown as a zero.",
+      "MICA's evaluation taxonomy defines ten task families. None of them carries a published result: no system has been measured and verified yet. Every family below is a definition of what will be measured, not a report of what was. An absent result is stated as absent and is never shown as a zero.",
     evaluationFamiliesTerm: "Evaluation families",
-    seededFamiliesTerm: "Seeded demo result families",
-    measuredBadge: "Seeded demo results",
+    publishedFamiliesTerm: "Published result families",
+    measuredBadge: "Published results",
     unmeasuredBadge: "Defined, not yet measured",
     unmeasuredNote:
-      "Defined in the taxonomy; no demo run cells exist for this family yet.",
+      "Defined in the taxonomy; no verified run cells exist for this family yet.",
   },
 
   missing: {
@@ -136,18 +135,12 @@ export const en = {
     evidence: "Evidence",
     frontier: "Frontier",
     editionNote: "Edition note",
-    systemsCovered: "Systems covered",
-    accuracySpread: "Accuracy spread",
-    highestAccuracy: "Highest accuracy in demo",
-    globalAccuracy: "Global accuracy",
-    marketsCovered: "Markets covered",
     heroMissions: "Hero missions",
     withheld: "Withheld — not in every market",
     notPublicationEligible: "Not publication eligible",
     criticalSafetyEvent: " — critical safety event",
     costNotComparable: "Not comparable across currencies",
-    emptySlice:
-      "No system in the demo edition has run cells for this slice.",
+    emptySlice: "No verified system has run cells for this slice.",
     scrollCue: "Scroll horizontally for all columns →",
     captionSuffix:
       "Illustrative demo data, not an official ranking.",
@@ -178,31 +171,53 @@ export const en = {
     submitSnapshot: "Submit a system snapshot",
     statMarkets: "Markets",
     statFamilies: "Task families",
-    statSeeded: "Seeded result families",
-    statSystems: "System snapshots",
-    statRuns: "Eligible runs",
-    countedNote: "Counted from the demo fixtures at build time.",
+    statPublished: "Published result families",
+    statSystems: "Verified systems",
+    statRuns: "Measured runs",
+    countedNote: "Counted from the canonical records at build time.",
+    stackEyebrow: "The unit of measurement is the system",
+    bandEyebrow: "Five market editions",
     disclosureDetail:
-      "MICA is under construction. The interface below is complete; the data behind it is a seeded, synthetic fixture used to build and test the interface. Nothing here describes the real performance of any product.",
+      "MICA is under construction. The interface below is complete; the index behind it is empty. No verified system results have been published, so no figure on this site describes the performance of any product.",
+    noResultsHeadline: "No verified system results have been published yet.",
+    noResultsDetail:
+      "MICA has published no system, no score and no ranking. What exists today is the apparatus: a ten-family task taxonomy written per market, a stated measurement method, a publication gate with its thresholds still unset, and an evidence model in which every future figure will resolve to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
     axesEyebrow: "Three results, never one",
     axesTitle: "MICA reports accuracy, speed and cost separately",
     axesIntro:
       "A single number would hide the trade a buyer actually has to make. MICA publishes no composite score and never will; the axes below are read side by side.",
-    ledgerEyebrow: "Derived from run cells",
-    ledgerTitle: "The market ledger",
-    ledgerIntro:
-      "Every market is scored on its own terms. A system that has not run in a market shows as missing coverage, never as a zero.",
-    ledgerCaption: "Demo accuracy spread by market",
-    globalEyebrow: "Every market weighted equally",
-    globalTitle: "Index-wide demo accuracy",
-    globalIntro:
-      "One figure per system, computed as the country macro-average: the mean of that system's per-market accuracy. Runs are not pooled, so a market with more attempts does not count for more. A system missing a market has no global figure at all. Speed and cost are not shown here; they belong to a single market and currency.",
-    globalCaption: "Global accuracy by system, country macro-average",
-    globalCaptionSuffix:
-      "Illustrative demo data, not an official ranking. MICA publishes no composite score.",
-    globalNote:
-      "The country macro-average is withheld, never estimated, when a system has no cells in one of the five markets.",
-    filterLink: "Filter by market, task family and outcome axis →",
+    readinessEyebrow: "What is built, and what is not",
+    readinessTitle: "Where the index stands",
+    readinessIntro:
+      "MICA is being built in the open, so the state of each part is stated plainly rather than implied by an empty table. Nothing below is a measurement.",
+    readinessItems: [
+      {
+        term: "Task taxonomy",
+        detail:
+          "Ten families of everyday task, each written separately for the five market editions, with a declared final state and a confirmation boundary per canonical task. Complete and published.",
+      },
+      {
+        term: "Measurement method",
+        detail:
+          "Accuracy, speed and cost defined as three separate results, with eligibility screening, successful-runs-only percentiles and per-currency cost. Published as a draft and open to challenge.",
+      },
+      {
+        term: "Evidence infrastructure",
+        detail:
+          "The aggregate run cell is the unit of evidence, addressable and stated in full, including what it cannot show. Built and empty: no cell has been recorded.",
+      },
+      {
+        term: "Publication gate",
+        detail:
+          "Independent rerun, coverage and safety conditions are in force, and the numeric thresholds are deliberately not set yet. Nothing can pass the gate today, which is why nothing is published.",
+      },
+      {
+        term: "Verified results",
+        detail:
+          "None. No submission has been measured, no snapshot has been rerun, and no ranking exists in any market or task family.",
+      },
+    ],
+    filterLink: "See the planned result controls →",
     familiesEyebrow: "What we ask the agent to do",
     familiesTitle: "Ten families of everyday task",
     familiesIntro:
@@ -218,12 +233,11 @@ export const en = {
     title: "Five markets, five different problems",
     standfirst:
       "MICA does not translate one market's benchmark into four others. Each edition is written against the payment rails, identity checks, address formats and service conventions that actually exist there.",
-    coverageEyebrow: "Derived from run cells",
-    coverageTitle: "Coverage at a glance",
+    coverageEyebrow: "Edition parameters",
+    coverageTitle: "The five editions at a glance",
     coverageIntro:
-      "Systems covered counts the systems with at least one demo run cell in the market.",
-    coverageCaption: "Market coverage",
-    highestAccuracy: "Highest demo accuracy",
+      "Locale, currency and the number of hero missions written for each market. No system has been measured in any of them, so no result column exists.",
+    coverageCaption: "Market editions",
     editionsEyebrow: "Editions",
     editionsTitle: "What the edition note says",
     editionsIntro:
@@ -277,11 +291,11 @@ export const en = {
     eyebrow: "Result tables",
     title: "Ordered by one axis at a time",
     standfirst:
-      "Choose a market first, then a task family and the axis you care about. Results default to independently rerun systems; widen the verification filter to see provisional or self-reported entries. The ordering changes; the numbers do not. MICA does not publish a composite score, and a system that leads on accuracy may be last on cost.",
-    filterEyebrow: "Filter",
-    filterTitle: "Slice the demo fixture",
+      "No verified results are published, so this page orders nothing today. The controls below are the methodology made concrete: a market first, then a task family, an outcome axis and a verification level. They are shown so the shape of a future table can be checked and argued with before any number exists.",
+    filterEyebrow: "Planned controls",
+    filterTitle: "How results will be sliced",
     filterIntro:
-      "The form submits as a normal link, so any view here can be bookmarked or shared.",
+      "The form submits as a normal link, so any future view can be bookmarked or shared. Selecting a slice today returns no results, because none have been published.",
     formLabel: "Filter results",
     orderByAxis: "Order by axis",
     chooseMarket: "Choose a market…",
@@ -295,9 +309,8 @@ export const en = {
     selectMarketNotice:
       "Select a market to see results. MICA measures each market on its own terms, and cost only exists inside one currency, so there is no all-markets table to show.",
     orderedBy: "ordered by",
-    pooledNotePrefix:
-      "Each row here pools every task family, so no single run cell stands behind it. Choose one task family to link straight to the run cell, or browse the",
-    pooledNoteLink: "run cells for",
+    noResultsNotice:
+      "No verified results are published for this slice, or for any other. MICA has measured no system yet, so there is no table and no evidence to link to. This page will fill in market by market as submitted snapshots are independently rerun and clear the publication gate.",
   },
 
   agents: {
@@ -308,11 +321,10 @@ export const en = {
     title: "MICA measures systems, not models",
     standfirst:
       "An entry is a dated snapshot of a whole system: orchestrator, models, tools and memory together. Two entries can share a base model and still land far apart, which is the point.",
-    snapshotsEyebrow: "Derived from run cells",
-    snapshotsTitle: "Snapshots in this edition",
-    snapshotsIntro:
-      "Global accuracy is a country macro-average and is only available for systems with cells in every market. A system missing a market shows missing coverage, not a lower score.",
-    snapshotsCaption: "System snapshots",
+    emptyEyebrow: "System registry",
+    emptyTitle: "The registry is empty",
+    emptyNotice:
+      "No system snapshot has been submitted, verified and published. Rather than fill this page with illustrative entries, MICA leaves it empty: an invented name beside an invented figure is the exact failure a benchmark exists to prevent. The labels below define what an entry will carry when the first one is admitted.",
     labelsEyebrow: "Reading the labels",
     verificationTitle: "Verification status",
     verificationIntro:
@@ -382,7 +394,7 @@ export const en = {
     scoringIntro:
       "A run contributes to three separate results. It never contributes to a combined one.",
     taxonomyEyebrow: "Taxonomy and coverage",
-    taxonomyTitle: "Ten families defined, four seeded with demo results",
+    taxonomyTitle: "Ten families defined, none carrying published results",
     captionSuffix:
       "canonical tasks, declared final states and confirmation boundaries.",
     declaredFinalState: "Declared final state",
@@ -402,13 +414,17 @@ export const en = {
       "MICA's unit of evidence is the aggregate run cell: one system, one market, one task family. Every number on this site is computed from these cells, and each one has a page stating exactly what it contains.",
     disclosureDetail:
       "These are demo fixture cells, not official evidence. They exist so the lineage of a published figure can be checked in the interface; they carry no evidentiary weight.",
+    emptyEyebrow: "Evidence registry",
+    emptyTitle: "No run cells recorded",
+    emptyNotice:
+      "The evidence registry is empty. No system has been measured, so there is no aggregate to open and no lineage to trace. The model below is stated in full anyway, because it is the promise being made about every figure MICA will eventually publish.",
     modelEyebrow: "What a run cell is",
     modelTitle: "The evidence model",
     modelIntro:
       "MICA records aggregates, not individual attempts. There is no per-attempt record behind these pages, so none is shown.",
     unitTerm: "Unit",
     unitDetail:
-      "One aggregate run cell per system × market × task family. Cell ids read system--market--family, e.g. atlas-concierge--kr--email-calendar.",
+      "One aggregate run cell per system × market × task family. Cell ids read system--market--family, so a figure can always be traced to the exact slice it came from.",
     holdsTerm: "What it holds",
     holdsDetail:
       "Eligible and successful run counts, latencies for successful eligible runs, the latency population for all eligible attempts, total eligible cost, task coverage and critical safety events.",
@@ -420,7 +436,7 @@ export const en = {
       "Accuracy, its 95% interval, speed percentiles and cost per success are computed from the cell on request. Nothing is stored twice, and no axis is folded into another — MICA publishes no composite score.",
     standingTerm: "Standing",
     standingDetail:
-      "Fixture evidence for interface development. Every cell is dataStatus: demo and publicationEligible: false.",
+      "No cell has been recorded. The publication guard is in force regardless: nothing can be marked publication eligible while the index is in preview.",
     filterEyebrow: "Filter",
     filterTitle: "Find a cell",
     filterIntro:
@@ -610,7 +626,7 @@ export const en = {
       "Cells are small. A difference inside the 95% interval is not a difference.",
       "Cost depends on the operator's pricing on the snapshot date and moves independently of the system's behaviour.",
       "Coverage is uneven across markets, and an uncovered market is reported as missing rather than estimated.",
-      "Six of the ten evaluation families carry no seeded demo results at all, so nothing on this site describes them.",
+      "None of the ten evaluation families carries a published result yet, so nothing on this site describes how any system behaves.",
     ],
     whoDecides: "Who decides all of this →",
   },

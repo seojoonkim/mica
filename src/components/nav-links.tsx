@@ -9,7 +9,7 @@ import { getDict } from "@/lib/i18n/dictionary";
 
 /**
  * A route is current when it is the nav href itself or a detail page beneath
- * it, so `/agents/hangang-assistant` lights `Systems`. The boundary check keeps
+ * it, so `/agents/<slug>` lights `Systems`. The boundary check keeps
  * `/tasks-archive` from matching `/tasks`. The comparison is made on the
  * logical path with the locale segment removed, so the active state is the same
  * in both languages.
