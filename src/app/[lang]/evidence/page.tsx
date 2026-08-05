@@ -8,12 +8,15 @@ import {
   Section,
 } from "@/components/editorial";
 
-export const metadata: Metadata = {
-  title: "Evidence",
-  description:
-    "MICA's unit of evidence is the aggregate run cell: one system, one market, one task family. No run cell has been recorded yet, so the evidence registry is empty.",
-  alternates: { canonical: "/evidence" },
-};
+export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
+  const lang = await readLocale(params);
+  const dict = getDict(lang);
+  return {
+    title: dict.evidence.metaTitle,
+    description: dict.evidence.metaDescription,
+    alternates: { canonical: `/${lang}/evidence` },
+  };
+}
 
 /**
  * The index of run cells, with no run cells in it. The evidence model is still

@@ -7,12 +7,15 @@ import { OUTCOME_AXES } from "@/data/policy/axes";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
 import { hasPublishedResults } from "@/lib/i18n/coverage";
 
-export const metadata: Metadata = {
-  title: "Tasks",
-  description:
-    "The ten MICA task families, their canonical tasks, declared final states and confirmation boundaries.",
-  alternates: { canonical: "/tasks" },
-};
+export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
+  const lang = await readLocale(params);
+  const dict = getDict(lang);
+  return {
+    title: dict.tasks.metaTitle,
+    description: dict.tasks.metaDescription,
+    alternates: { canonical: `/${lang}/tasks` },
+  };
+}
 
 export default async function TasksPage({
   params,

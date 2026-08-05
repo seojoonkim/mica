@@ -13,12 +13,15 @@ import {
   Section,
 } from "@/components/editorial";
 
-export const metadata: Metadata = {
-  title: "Systems",
-  description:
-    "The MICA system registry. No system snapshot has been verified and published yet.",
-  alternates: { canonical: "/agents" },
-};
+export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
+  const lang = await readLocale(params);
+  const dict = getDict(lang);
+  return {
+    title: dict.agents.metaTitle,
+    description: dict.agents.metaDescription,
+    alternates: { canonical: `/${lang}/agents` },
+  };
+}
 
 export default async function AgentsPage({
   params,

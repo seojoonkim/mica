@@ -259,7 +259,7 @@ export const ko = {
   rankings: {
     metaTitle: "결과표",
     metaDescription:
-      "시장·과제 계열·결과 축별 데모 결과. 정확도·속도·비용은 결코 합산하지 않습니다.",
+      "아직 공개된 검증 결과가 없습니다. 계획된 결과표는 시장·과제 계열·결과 축을 나누며 정확도·속도·비용을 합산하지 않습니다.",
     eyebrow: "결과표",
     title: "한 번에 하나의 축으로만 정렬합니다",
     standfirst:
@@ -288,7 +288,7 @@ export const ko = {
   agents: {
     metaTitle: "시스템",
     metaDescription:
-      "MICA 데모 에디션에 포함된 버전 고정 소비자 에이전트 시스템 스냅샷.",
+      "MICA 시스템 등록부는 비어 있습니다. 아직 제출·검증·공개된 시스템 버전이 없습니다.",
     eyebrow: "시스템 목록",
     title: "MICA는 모델이 아니라 시스템을 측정합니다",
     standfirst:
@@ -354,7 +354,7 @@ export const ko = {
   tasks: {
     metaTitle: "과제",
     metaDescription:
-      "MICA의 10개 과제 계열과 각 계열의 표준 과제, 선언된 최종 상태, 확인 경계.",
+      "MICA의 10개 과제 계열과 각 계열의 표준 과제, 완료 조건, 사용자 승인이 필요한 지점.",
     eyebrow: "과제 정의",
     title: "과제는 대화 기록이 아니라 최종 상태입니다",
     standfirst:
@@ -367,7 +367,7 @@ export const ko = {
       "하나의 실행은 세 개의 독립된 결과에 기여합니다. 결코 합쳐진 하나의 결과에 기여하지 않습니다.",
     taxonomyEyebrow: "분류 체계와 커버리지",
     taxonomyTitle: "정의된 계열 10개, 결과가 게시된 계열 0개",
-    captionSuffix: "표준 과제, 선언된 최종 상태, 확인 경계.",
+    captionSuffix: "표준 과제, 완료 조건, 사용자 승인이 필요한 지점.",
     declaredFinalState: "선언된 최종 상태",
     missionsEyebrow: "사례",
     missionsTitle: "지수 전반의 대표 미션",
@@ -378,7 +378,7 @@ export const ko = {
   evidence: {
     metaTitle: "근거",
     metaDescription:
-      "데모 에디션의 모든 수치는 하나의 집계 실행 셀 — 하나의 시스템, 하나의 시장, 하나의 과제 계열 — 로 거슬러 올라갑니다. 이는 픽스처 근거이지 공식 근거가 아닙니다.",
+      "MICA의 근거 등록부는 비어 있습니다. 아직 측정된 시스템이 없어 기록된 평가 결과 묶음도 없습니다.",
     eyebrow: "실행 셀 계보",
     title: "근거",
     standfirst:

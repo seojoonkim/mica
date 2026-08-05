@@ -7,12 +7,15 @@ import { heroMissionsForCountry } from "@/data/demo/tasks";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
 
-export const metadata: Metadata = {
-  title: "Countries",
-  description:
-    "The six markets in the MICA index and what changes for a consumer agent in each.",
-  alternates: { canonical: "/countries" },
-};
+export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
+  const lang = await readLocale(params);
+  const dict = getDict(lang);
+  return {
+    title: dict.countries.metaTitle,
+    description: dict.countries.metaDescription,
+    alternates: { canonical: `/${lang}/countries` },
+  };
+}
 
 export default async function CountriesPage({
   params,

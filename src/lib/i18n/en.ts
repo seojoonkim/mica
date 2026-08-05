@@ -287,7 +287,7 @@ export const en = {
   rankings: {
     metaTitle: "Rankings",
     metaDescription:
-      "Demo results by market, task family and outcome axis. Accuracy, speed and cost are never combined.",
+      "No verified results are published. Planned controls separate market, task family and outcome axis; accuracy, speed and cost are never combined.",
     eyebrow: "Result tables",
     title: "Ordered by one axis at a time",
     standfirst:
@@ -316,7 +316,7 @@ export const en = {
   agents: {
     metaTitle: "Systems",
     metaDescription:
-      "The versioned consumer-agent system snapshots in the MICA demo edition.",
+      "The MICA system registry is empty: no system snapshot has been submitted, verified or published yet.",
     eyebrow: "System index",
     title: "MICA measures systems, not models",
     standfirst:
@@ -382,7 +382,7 @@ export const en = {
   tasks: {
     metaTitle: "Tasks",
     metaDescription:
-      "The ten MICA task families, their canonical tasks, declared final states and confirmation boundaries.",
+      "The ten MICA task families, their canonical tasks, completion conditions and points that require user approval.",
     eyebrow: "Task definitions",
     title: "A task is a final state, not a transcript",
     standfirst:
@@ -407,7 +407,7 @@ export const en = {
   evidence: {
     metaTitle: "Evidence",
     metaDescription:
-      "Every figure in the demo edition traces back to an aggregate run cell: one system, one market, one task family. This is fixture evidence, not official evidence.",
+      "MICA's evidence registry is empty. No aggregate run cell has been recorded because no system has been measured yet.",
     eyebrow: "Run-cell lineage",
     title: "Evidence",
     standfirst:

@@ -16,12 +16,15 @@ import { VERIFICATION_STATUSES } from "@/data/policy/publication";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
 import { localeHref } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Rankings",
-  description:
-    "No verified results are published. The market, task family and outcome-axis controls are shown as planned methodology; accuracy, speed and cost are never combined.",
-  alternates: { canonical: "/rankings" },
-};
+export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
+  const lang = await readLocale(params);
+  const dict = getDict(lang);
+  return {
+    title: dict.rankings.metaTitle,
+    description: dict.rankings.metaDescription,
+    alternates: { canonical: `/${lang}/rankings` },
+  };
+}
 
 const METRICS: readonly MetricKey[] = ["accuracy", "speed", "cost"];
 

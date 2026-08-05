@@ -19,11 +19,19 @@ import {
   publishedResultFamilyIds,
 } from "@/lib/i18n/coverage";
 
-export const metadata: Metadata = {
-  title: `${SITE.name} — ${SITE.longName}`,
-  description: SITE.definition,
-  alternates: { canonical: "/" },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<LangParams>;
+}): Promise<Metadata> {
+  const lang = await readLocale(params);
+  const dict = getDict(lang);
+  return {
+    title: `${SITE.name} — ${dict.site.longName}`,
+    description: dict.site.definition,
+    alternates: { canonical: `/${lang}` },
+  };
+}
 
 /**
  * The home page states nothing it does not derive, and today everything it
