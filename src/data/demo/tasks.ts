@@ -7,7 +7,7 @@ import {
 } from "@/lib/schema";
 import { z } from "zod";
 
-const ALL = ["kr", "jp", "sg", "tw", "th"] as const;
+const ALL = ["kr", "jp", "sg", "tw", "th", "ae"] as const;
 
 const rawFamilies: unknown[] = [
   {

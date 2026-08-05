@@ -7,7 +7,7 @@ import { z } from "zod";
  * mislabelled demo record fails the build rather than reaching a page.
  */
 
-export const COUNTRY_CODES = ["kr", "jp", "sg", "tw", "th"] as const;
+export const COUNTRY_CODES = ["kr", "jp", "sg", "tw", "th", "ae"] as const;
 export const countryCodeSchema = z.enum(COUNTRY_CODES);
 export type CountryCode = z.infer<typeof countryCodeSchema>;
 

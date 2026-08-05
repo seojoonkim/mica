@@ -11,6 +11,7 @@ import {
   countrySnapshot,
 } from "@/lib/derive";
 import { getDict } from "@/lib/i18n/dictionary";
+import { COUNTRY_CODES } from "@/lib/schema";
 import {
   publishedResultFamilyIds,
   evaluationFamilyCount,
@@ -77,7 +78,7 @@ describe("the canonical fixtures carry no system results", () => {
     expect(aggregateBySystem()).toEqual([]);
     expect(aggregateBySystem({ country: "kr" })).toEqual([]);
     expect(globalAccuracyRows()).toEqual([]);
-    for (const code of ["kr", "jp", "sg", "tw", "th"] as const) {
+    for (const code of COUNTRY_CODES) {
       expect(countrySnapshot(code)).toEqual([]);
     }
   });

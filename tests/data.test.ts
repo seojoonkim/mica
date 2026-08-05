@@ -32,10 +32,22 @@ describe("demo eligibility guard", () => {
 });
 
 describe("fixtures", () => {
-  it("defines all five MVP markets", () => {
+  it("defines all six benchmark markets, including the UAE", () => {
     expect(COUNTRIES.map((c) => c.code).sort()).toEqual(
       [...COUNTRY_CODES].sort(),
     );
+    expect(COUNTRY_CODES).toContain("ae");
+
+    const uae = getCountry("ae");
+    expect(uae).toMatchObject({
+      name: "United Arab Emirates",
+      nativeName: "الإمارات العربية المتحدة",
+      locale: "ar-AE",
+      currency: "AED",
+      timezone: "Asia/Dubai",
+    });
+    expect(uae?.hazards).toHaveLength(4);
+    expect(uae?.whatLocalChanges).toHaveLength(4);
   });
 
   it("defines exactly the ten task families, in canonical order", () => {
@@ -71,6 +83,7 @@ describe("fixtures", () => {
         expect(task.title.length).toBeGreaterThan(0);
         expect(task.finalState.length).toBeGreaterThan(0);
         expect(task.confirmationBoundary.length).toBeGreaterThan(0);
+        expect([...task.markets].sort()).toEqual([...COUNTRY_CODES].sort());
         expect(task.translations.ko.title.length).toBeGreaterThan(0);
         expect(task.translations.ko.finalState.length).toBeGreaterThan(0);
         expect(task.translations.ko.confirmationBoundary.length).toBeGreaterThan(0);
@@ -148,7 +161,7 @@ describe("data source boundary", () => {
   it("serves demo fixtures with no remote configuration", () => {
     expect(DATA_SOURCE.kind).toBe("demo-fixture");
     expect(DATA_SOURCE.dataStatus).toBe("demo");
-    expect(DATA_SOURCE.countries()).toHaveLength(5);
+    expect(DATA_SOURCE.countries()).toHaveLength(6);
   });
 
   it("reports no remote config when the env vars are unset", () => {

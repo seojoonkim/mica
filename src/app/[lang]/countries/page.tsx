@@ -10,7 +10,7 @@ import { DataTableScroller } from "@/components/data-table-scroller";
 export const metadata: Metadata = {
   title: "Countries",
   description:
-    "The five markets in the MICA index and what changes for a consumer agent in each.",
+    "The six markets in the MICA index and what changes for a consumer agent in each.",
   alternates: { canonical: "/countries" },
 };
 

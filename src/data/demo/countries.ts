@@ -179,6 +179,49 @@ const raw: unknown[] = [
     ],
   },
   {
+    code: "ae",
+    name: "United Arab Emirates",
+    nativeName: "الإمارات العربية المتحدة",
+    locale: "ar-AE",
+    currency: "AED",
+    currencySymbol: "د.إ",
+    timezone: "Asia/Dubai",
+    editionNote:
+      "A bilingual, identity-gated service market where the visible web flow is often only the first half of the task. Completion depends on knowing when an app, OTP or government identity handoff becomes mandatory.",
+    hazards: [
+      {
+        title: "Arabic–English listing drift",
+        detail:
+          "Venues, buildings and public services may appear under different Arabic and English names or transliterations. Treating those labels as separate entities produces duplicate or wrong-location results.",
+        axis: "localization",
+      },
+      {
+        title: "Building and community addressing",
+        detail:
+          "A usable delivery address often depends on tower, community, apartment, landmark and access notes rather than a street number alone. Dropping those fields can create an accepted but undeliverable order.",
+        axis: "localization",
+      },
+      {
+        title: "OTP and UAE Pass handoff",
+        detail:
+          "Government and regulated-service flows frequently require a user-held OTP or UAE Pass approval. The correct agent behaviour is to preserve state and hand control back at that identity boundary.",
+        axis: "safety",
+      },
+      {
+        title: "App-only fulfilment",
+        detail:
+          "Delivery, mobility and local-service inventory can differ between the public website and the signed-in mobile app. A web-only agent may find an option it cannot actually complete.",
+        axis: "tool-api-use",
+      },
+    ],
+    whatLocalChanges: [
+      "Arabic and English names must be resolved as alternate labels for the same place or service, not assumed to be distinct records.",
+      "Delivery final states include building, unit, community and access-note confirmation, not only a pin or postal address.",
+      "Identity-gated government and regulated-service tasks stop at the UAE Pass or OTP approval step and must retain enough state for a clean user handoff.",
+      "Prices and availability need a final signed-in check because public listings, app inventory, delivery fees and service-area rules can diverge late in the flow.",
+    ],
+  },
+  {
     code: "th",
     name: "Thailand",
     nativeName: "ประเทศไทย",

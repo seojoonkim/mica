@@ -10,11 +10,11 @@ export const SITE = {
   editionStrip: [
     "Preview",
     "Methodology draft",
-    "5 markets",
-    "4 task families",
+    "6 markets",
+    "10 task families",
   ] as const,
   definition:
-    "MICA measures complete, versioned consumer-agent systems on everyday tasks in five Asian markets, reporting accuracy, speed and cost as three separate results.",
+    "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East, reporting accuracy, speed and cost as three separate results.",
   demoNotice:
     "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
 } as const;

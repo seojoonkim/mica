@@ -54,7 +54,7 @@ export function Masthead({ lang }: { lang: Locale }) {
          * On a phone the expansion drops and the wordmark shrinks, but nothing
          * moves into a second row.
          */}
-        <div className="flex items-end justify-between gap-x-4 pt-3 pb-2.5 md:pt-5 md:pb-3.5">
+        <div className="mica-masthead-top">
           <LocaleLink
             lang={lang}
             href="/"

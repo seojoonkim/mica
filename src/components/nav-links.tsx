@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV } from "@/components/nav-items";
+import { PRIMARY_NAV } from "@/components/nav-items";
 import { localeHref, splitLocale, type Locale } from "@/lib/i18n/config";
 import { getDict } from "@/lib/i18n/dictionary";
 
 /**
  * A route is current when it is the nav href itself or a detail page beneath
- * it, so `/agents/<slug>` lights `Systems`. The boundary check keeps
+ * it, so `/tasks/<slug>` lights `Tasks`. The boundary check keeps
  * `/tasks-archive` from matching `/tasks`. The comparison is made on the
  * logical path with the locale segment removed, so the active state is the same
  * in both languages.
@@ -52,13 +52,17 @@ export function NavLinks({ lang }: { lang: Locale }) {
         aria-controls="mica-primary-nav"
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? dict.chrome.closeMenu : dict.chrome.menu}
+        <span className="mica-nav-toggle-icon" aria-hidden="true">
+          <span />
+          <span />
+        </span>
+        <span>{open ? dict.chrome.closeMenu : dict.chrome.menu}</span>
       </button>
       <ul
         id="mica-primary-nav"
         className={open ? "mica-nav-list is-open" : "mica-nav-list"}
       >
-        {NAV.map((item) => (
+        {PRIMARY_NAV.map((item) => (
           <li key={item.href}>
             <Link
               href={localeHref(lang, item.href)}

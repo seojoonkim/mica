@@ -69,7 +69,7 @@ export const SYNTHETIC_SYSTEMS: readonly SystemRecord[] = [
   system("test-system-3", { verification: "provisional" }),
 ];
 
-const ALL_MARKETS = ["kr", "jp", "sg", "tw", "th"] as const;
+const ALL_MARKETS = ["kr", "jp", "sg", "tw", "th", "ae"] as const;
 
 export const SYNTHETIC_RUN_CELLS: readonly RunCell[] = [
   // Uneven cell sizes on purpose: a country macro-average and a pooled-run

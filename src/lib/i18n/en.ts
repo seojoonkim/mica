@@ -49,9 +49,9 @@ export const en = {
     tagline: "The global benchmark for consumer agent orchestration.",
     secondary: "Models matter. Orchestration wins.",
     definition:
-      "MICA measures complete, versioned consumer-agent systems on everyday tasks in five Asian markets, reporting accuracy, speed and cost as three separate results.",
+      "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East, reporting accuracy, speed and cost as three separate results.",
     edition: "Preview edition 0.1",
-    editionStrip: ["Preview", "Methodology draft", "5 markets", "10 task families"],
+    editionStrip: ["Preview", "Methodology draft", "6 markets", "10 task families"],
     demoNotice:
       "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
   },
@@ -195,7 +195,7 @@ export const en = {
       {
         term: "Task taxonomy",
         detail:
-          "Ten families of everyday task, each written separately for the five market editions, with a declared final state and a confirmation boundary per canonical task. Complete and published.",
+          "Ten families of everyday task, each written separately for the six market editions, with a declared final state and a confirmation boundary per canonical task. Complete and published.",
       },
       {
         term: "Measurement method",
@@ -229,13 +229,13 @@ export const en = {
   countries: {
     metaTitle: "Countries",
     metaDescription:
-      "The five markets in the MICA index and what changes for a consumer agent in each.",
+      "The six markets in the MICA index and what changes for a consumer agent in each.",
     eyebrow: "Market index",
-    title: "Five markets, five different problems",
+    title: "Six markets, six different problems",
     standfirst:
-      "MICA does not translate one market's benchmark into four others. Each edition is written against the payment rails, identity checks, address formats and service conventions that actually exist there.",
+      "MICA does not translate one market's benchmark into the other five. Each edition is written against the payment rails, identity checks, address formats and service conventions that actually exist there.",
     coverageEyebrow: "Edition parameters",
-    coverageTitle: "The five editions at a glance",
+    coverageTitle: "The six editions at a glance",
     coverageIntro:
       "Locale, currency and the number of hero missions written for each market. No system has been measured in any of them, so no result column exists.",
     coverageCaption: "Market editions",
@@ -303,7 +303,7 @@ export const en = {
     noMarketSelected: "No market selected",
     orderingBy: "Ordering by",
     costAcrossMarkets:
-      "Cost cannot be ordered across markets at once: the five editions do not share a currency. Choose a single market to see cost per success.",
+      "Cost cannot be ordered across markets at once: the six editions do not share a currency. Choose a single market to see cost per success.",
     showingOnlyPrefix: "Showing",
     showingOnlySuffix: "only",
     resultsTitle: "Results",
@@ -357,7 +357,7 @@ export const en = {
     byFamilyEyebrow: "By task family",
     byFamilyTitle: "Results by task family",
     byFamilyIntro:
-      "Pooled across markets, so cost is withheld — the five editions do not share a currency.",
+      "Pooled across markets, so cost is withheld — the six editions do not share a currency.",
     byFamilyCaptionSuffix: "by task family",
     lineageEyebrow: "Lineage",
     lineageTitle: "Run cells behind these figures",
@@ -771,7 +771,7 @@ export const en = {
     metaTitle: "Page not found",
     eyebrow: "Error 404",
     title: "No such page in this edition.",
-    body: "MICA covers five markets — Korea, Japan, Singapore, Taiwan and Thailand — and a fixed set of system snapshots. Anything outside that list has no page, rather than an empty one.",
+    body: "MICA covers six markets — South Korea, Japan, Singapore, Taiwan, Thailand and the United Arab Emirates — and a fixed set of system snapshots. Anything outside that list has no page, rather than an empty one.",
   },
 
   /** Market display names. Native names stay on the fixture, untranslated. */
@@ -781,6 +781,7 @@ export const en = {
     sg: "Singapore",
     tw: "Taiwan",
     th: "Thailand",
+    ae: "United Arab Emirates",
   }),
 
   /**

@@ -162,7 +162,7 @@ describe("pareto and coverage", () => {
 
   it("lists only the markets a system actually covers", () => {
     expect(marketsCovered("test-system-2")).toEqual(["kr", "jp"]);
-    expect(marketsCovered("test-system-1")).toHaveLength(5);
+    expect(marketsCovered("test-system-1")).toHaveLength(6);
     expect(marketsCovered("never-submitted")).toEqual([]);
   });
 

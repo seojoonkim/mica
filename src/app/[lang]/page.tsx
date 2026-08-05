@@ -49,9 +49,9 @@ export default async function HomePage({
       {/*
        * The hero is the differentiation argument made visual rather than
        * argued in prose: the display line, the figure ledger that puts the
-       * 5 / 10 / 0 counts in the reader's eye, the system stack that says the
-       * unit of measurement is the whole orchestration, and the market band
-       * that names the five editions in their own scripts.
+       * market / family / result counts in the reader's eye, the system stack
+       * that says the unit of measurement is the whole orchestration, and the
+       * market band that names every edition in its own script.
        */}
       <header className="mica-home-hero border-b border-[var(--color-ink)] pb-9">
         <ul className="mica-strip">
@@ -128,7 +128,7 @@ export default async function HomePage({
           </ul>
         </div>
 
-        {/* The market band: five editions, native name first. */}
+        {/* The market band: every edition, native name first. */}
         <div className="mica-grid mt-8 border-t border-[var(--color-ink)] pt-5">
           <p className="mica-eyebrow md:col-span-3">{dict.home.bandEyebrow}</p>
           <ul className="mica-band md:col-span-9">
@@ -164,21 +164,19 @@ export default async function HomePage({
          * read from the canonical records, so neither can be overstated in
          * copy.
          */}
-        <div className="mica-notice mica-notice-empty mt-4">
-          <p className="mica-notice-head">
-            {dict.home.noResultsHeadline}
-          </p>
-          <p className="mica-body-sm mt-2 mb-0">
-            {dict.home.noResultsDetail}
-          </p>
-        </div>
-        <div className="mica-notice mica-notice-open mt-4">
-          <p className="mica-notice-head">
-            {dict.coverage.headline}
-          </p>
-          <p className="mica-body-sm mt-2 mb-0">
-            {dict.coverage.detail}
-          </p>
+        <div className="mica-home-status mt-4">
+          <div>
+            <p className="mica-notice-head">
+              {dict.home.noResultsHeadline}
+            </p>
+            <p className="mica-body-sm mt-2 mb-0">
+              {dict.home.noResultsDetail}
+            </p>
+          </div>
+          <div className="mica-home-status-next">
+            <p className="mica-eyebrow">{dict.coverage.headline}</p>
+            <p className="mica-body-sm mt-2 mb-0">{dict.coverage.detail}</p>
+          </div>
         </div>
       </div>
 

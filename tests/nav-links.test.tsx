@@ -21,15 +21,15 @@ describe("primary nav active state", () => {
       "aria-current",
       "page",
     );
-    expect(screen.getByRole("link", { name: "Systems" })).not.toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Tasks" })).not.toHaveAttribute(
       "aria-current",
     );
   });
 
   it("marks the section for a detail route by prefix match", () => {
-    pathname.current = "/agents/some-system";
+    pathname.current = "/tasks/some-task";
     render(<NavLinks lang="en" />);
-    expect(screen.getByRole("link", { name: "Systems" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Tasks" })).toHaveAttribute(
       "aria-current",
       "page",
     );
@@ -52,10 +52,35 @@ describe("primary nav active state", () => {
   });
 });
 
+describe("primary navigation structure", () => {
+  it("keeps the global navigation focused on five benchmark journeys", () => {
+    render(<NavLinks lang="en" />);
+
+    expect(screen.getAllByRole("link").map((link) => link.textContent)).toEqual([
+      "Rankings",
+      "Tasks",
+      "Methodology",
+      "Evidence",
+      "Submit",
+    ]);
+  });
+});
+
 describe("mobile nav disclosure", () => {
+  it("has a localized accessible name and exposes its menu state", () => {
+    render(<NavLinks lang="en" />);
+    const toggle = screen.getByRole("button", { name: "Menu" });
+
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveAttribute("aria-controls", "mica-primary-nav");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAccessibleName("Close menu");
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("closes on Escape and returns focus to the toggle", () => {
     render(<NavLinks lang="en" />);
-    const toggle = screen.getByRole("button");
+    const toggle = screen.getByRole("button", { name: "Menu" });
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "true");
 
