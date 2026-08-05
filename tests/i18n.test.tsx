@@ -83,11 +83,18 @@ describe("typed dictionary contract", () => {
     expect(getDict("ko")).toBe(ko);
   });
 
-  it("translates every task family and keeps fixture ids untouched", () => {
+  it("translates every task family and every canonical task", () => {
     for (const family of TASK_FAMILIES) {
       expect(ko.families[family.id].label).toBeTruthy();
       expect(ko.families[family.id].label).not.toBe(family.label);
       expect(en.families[family.id].label).toBe(family.label);
+      for (const task of family.canonicalTasks) {
+        expect(task.translations.ko.title).not.toBe(task.title);
+        expect(task.translations.ko.finalState).not.toBe(task.finalState);
+        expect(task.translations.ko.confirmationBoundary).not.toBe(
+          task.confirmationBoundary,
+        );
+      }
     }
     expect(ko.families["money-banking-investing"].label).toBe("금융·은행·투자");
     expect(ko.families["email-calendar"].label).not.toBe(
@@ -96,6 +103,18 @@ describe("typed dictionary contract", () => {
     expect(ko.families["telecom-subscriptions"].label).toMatch(/통신/);
     expect(ko.families["email-calendar"].label).toMatch(/이메일/);
   });
+
+  it.each(["en", "ko"] as const)(
+    "renders all 100 localized tasks on the %s tasks page as readable lists",
+    async (lang) => {
+      render(await TasksPage({ params: Promise.resolve({ lang }) }));
+      expect(document.querySelectorAll("[data-canonical-task]")).toHaveLength(100);
+      expect(document.querySelector("table")).toBeNull();
+      const sample = TASK_FAMILIES[0].canonicalTasks[0];
+      const expectedTitle = lang === "ko" ? sample.translations.ko.title : sample.title;
+      expect(screen.getByRole("heading", { name: expectedTitle })).toBeInTheDocument();
+    },
+  );
 });
 
 describe("coverage honesty", () => {

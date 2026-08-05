@@ -55,18 +55,29 @@ describe("fixtures", () => {
     expect(TASK_FAMILIES.map((f) => f.id)).toEqual([...TASK_FAMILY_IDS]);
   });
 
-  it("gives every family at least two canonical tasks covering all five markets", () => {
+  it("defines exactly ten bilingual canonical tasks per family", () => {
+    const taskIds = new Set<string>();
+
     for (const family of TASK_FAMILIES) {
-      expect(family.canonicalTasks.length).toBeGreaterThanOrEqual(2);
+      expect(family.canonicalTasks).toHaveLength(10);
       const markets = new Set(
         family.canonicalTasks.flatMap((task) => task.markets),
       );
       expect([...markets].sort()).toEqual([...COUNTRY_CODES].sort());
+
       for (const task of family.canonicalTasks) {
+        expect(taskIds.has(task.id)).toBe(false);
+        taskIds.add(task.id);
+        expect(task.title.length).toBeGreaterThan(0);
         expect(task.finalState.length).toBeGreaterThan(0);
         expect(task.confirmationBoundary.length).toBeGreaterThan(0);
+        expect(task.translations.ko.title.length).toBeGreaterThan(0);
+        expect(task.translations.ko.finalState.length).toBeGreaterThan(0);
+        expect(task.translations.ko.confirmationBoundary.length).toBeGreaterThan(0);
       }
     }
+
+    expect(taskIds.size).toBe(100);
   });
 
   it("publishes no result family at all", () => {

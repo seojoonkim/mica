@@ -330,6 +330,209 @@ html[lang="ko"] :is(.mica-body, .mica-body-sm) {
   margin-top: 0.85em;
 }
 
+/* --- Task catalogue -------------------------------------------------- */
+
+.mica-task-index {
+  margin-top: 72px;
+  border-block: 1px solid var(--color-ink);
+}
+
+.mica-task-index ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mica-task-index li {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.mica-task-index a {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  color: var(--color-ink);
+  font-size: var(--step-micro);
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.mica-task-index a:hover {
+  background: var(--color-editorial-field);
+}
+
+.mica-task-index a > span {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  color: var(--color-ink-faint);
+}
+
+.mica-task-list {
+  list-style: none;
+  margin-inline: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-ink);
+}
+
+.mica-task-list > li {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.mica-task-entry {
+  padding-block: 24px;
+}
+
+.mica-task-heading {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.mica-task-heading > span,
+.mica-task-heading p,
+.mica-task-details dt {
+  font-family: var(--font-mono);
+  font-size: var(--step-micro);
+  line-height: 1.5;
+  color: var(--color-ink-faint);
+}
+
+.mica-task-heading h3 {
+  max-width: 38ch;
+  font-family: var(--font-display);
+  font-size: var(--step-h3);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.mica-task-heading p {
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.mica-task-details {
+  display: grid;
+  gap: 18px;
+  margin: 20px 0 0 64px;
+}
+
+.mica-task-details dt {
+  margin-bottom: 5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mica-task-details dd {
+  max-width: var(--measure);
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: var(--step-body);
+  line-height: 1.68;
+}
+
+.mica-task-boundary {
+  border-left: 2px solid var(--color-vermilion);
+  padding-left: 14px;
+}
+
+.mica-home-family-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-ink);
+}
+
+.mica-home-family-index li {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.mica-home-family-index a {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  padding-block: 20px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.mica-home-family-index a:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.mica-home-family-number,
+.mica-home-family-count {
+  font-family: var(--font-mono);
+  font-size: var(--step-micro);
+  color: var(--color-ink-faint);
+}
+
+.mica-home-family-copy strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-h3);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.mica-home-family-copy > span {
+  display: block;
+  max-width: var(--measure);
+  margin-top: 8px;
+  color: var(--color-ink-soft);
+  font-size: var(--step-body);
+  line-height: 1.68;
+}
+
+.mica-home-family-count {
+  grid-column: 2;
+}
+
+@media (min-width: 48rem) {
+  .mica-task-index ol {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .mica-task-entry {
+    display: grid;
+    grid-template-columns: minmax(240px, 4fr) minmax(0, 8fr);
+    gap: 28px;
+    padding-block: 28px;
+  }
+
+  .mica-task-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin: 0;
+  }
+
+  .mica-home-family-index a {
+    grid-template-columns: 64px minmax(0, 1fr) 160px;
+    gap: 24px;
+    align-items: baseline;
+  }
+
+  .mica-home-family-copy {
+    display: grid;
+    grid-template-columns: minmax(180px, 3fr) minmax(0, 5fr);
+    gap: 28px;
+    align-items: baseline;
+  }
+
+  .mica-home-family-copy > span {
+    margin-top: 0;
+  }
+
+  .mica-home-family-count {
+    grid-column: auto;
+    text-align: right;
+  }
+}
+
 .mica-rule {
   border: 0;
   border-top: 1px solid var(--color-rule);

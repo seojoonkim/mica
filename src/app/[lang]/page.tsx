@@ -239,34 +239,30 @@ export default async function HomePage({
         title={dict.home.familiesTitle}
         intro={dict.home.familiesIntro}
       >
-        <div className="border-t border-[var(--color-rule)]">
+        <ol className="mica-home-family-index">
           {TASK_FAMILIES.map((family, index) => {
             const categoryNumber = String(index + 1).padStart(2, "0");
 
             return (
-            <article
+            <li
               key={family.id}
-              className="mica-family-row mica-grid border-b border-[var(--color-rule)] py-5"
             >
-              <p className="mica-family-index md:col-span-1" aria-hidden="true">
-                {categoryNumber}
-              </p>
-              <h3
-                className="mica-display mica-h3 md:col-span-3"
-                aria-label={`${dict.common.categoryLabel} ${categoryNumber}: ${dict.families[family.id].label}`}
-              >
-                {dict.families[family.id].label}
-              </h3>
-              <p className="mica-body md:col-span-5">
-                {dict.families[family.id].summary}
-              </p>
-              <p className="mica-micro md:col-span-3">
-                {family.canonicalTasks.length} {dict.common.canonicalTasks}
-              </p>
-            </article>
+              <LocaleLink lang={lang} href={`/tasks#${family.id}`}>
+                <span className="mica-home-family-number" aria-hidden="true">
+                  {categoryNumber}
+                </span>
+                <span className="mica-home-family-copy">
+                  <strong>{dict.families[family.id].label}</strong>
+                  <span>{dict.families[family.id].summary}</span>
+                </span>
+                <span className="mica-home-family-count">
+                  {family.canonicalTasks.length} {dict.common.canonicalTasks}
+                </span>
+              </LocaleLink>
+            </li>
             );
           })}
-        </div>
+        </ol>
         <p className="mt-4">
           <LocaleLink lang={lang} href="/tasks" className="mica-link">
             {dict.home.familiesLink}

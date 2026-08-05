@@ -1,26 +1,18 @@
-import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { TASK_FAMILIES, HERO_MISSIONS, familyLabel } from "@/data/demo/tasks";
+import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
 import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
-import { DataTableScroller } from "@/components/data-table-scroller";
 import { hasPublishedResults } from "@/lib/i18n/coverage";
 
 export const metadata: Metadata = {
   title: "Tasks",
   description:
-    "The four MICA task families, their canonical tasks, declared final states and confirmation boundaries.",
+    "The ten MICA task families, their canonical tasks, declared final states and confirmation boundaries.",
   alternates: { canonical: "/tasks" },
 };
-
-function marketNames(codes: readonly string[]) {
-  return codes
-    .map((code) => COUNTRY_BY_CODE.get(code)?.name ?? code)
-    .join(", ");
-}
 
 export default async function TasksPage({
   params,
@@ -67,6 +59,19 @@ export default async function TasksPage({
         </div>
       </Section>
 
+      <nav className="mica-task-index" aria-label={dict.tasks.title}>
+        <ol>
+          {TASK_FAMILIES.map((family, index) => (
+            <li key={family.id}>
+              <a href={`#${family.id}`}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {dict.families[family.id].label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
       {TASK_FAMILIES.map((family, index) => {
         const categoryNumber = String(index + 1).padStart(2, "0");
 
@@ -82,88 +87,48 @@ export default async function TasksPage({
             title={dict.families[family.id].label}
             intro={dict.families[family.id].summary}
           >
-          <p className="mica-notice max-w-[76ch] text-[14px] text-[var(--color-ink-soft)]">
+          <p className="mica-notice mica-body-sm">
             <span className="mica-eyebrow mr-2">{dict.common.whyItIsHard}</span>
             {dict.families[family.id].whyItIsHard}
           </p>
-          <DataTableScroller
-            lang={lang}
-            label={`${dict.families[family.id].label} — ${dict.common.canonicalTasks}`}
-            className="mt-6"
-          >
-            <table className="mica-table">
-              <caption>
-                {dict.families[family.id].label} — {dict.tasks.captionSuffix}
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">{dict.table.task}</th>
-                  <th scope="col">{dict.tasks.declaredFinalState}</th>
-                  <th scope="col">{dict.common.confirmationBoundary}</th>
-                  <th scope="col">{dict.table.markets}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {family.canonicalTasks.map((task) => (
-                  <tr key={task.id}>
-                    <th scope="row" className="max-w-[26ch] font-normal">
-                      {task.title}
-                      <span className="mt-1 block font-[family-name:var(--font-mono)] text-[11px] text-[var(--color-ink-faint)]">
-                        {task.id}
+          <ol className="mica-task-list mt-6">
+            {family.canonicalTasks.map((task, taskIndex) => {
+              const copy = lang === "ko" ? task.translations.ko : task;
+              const markets = task.markets
+                .map((code) => dict.markets[code] ?? COUNTRY_BY_CODE.get(code)?.name ?? code)
+                .join(", ");
+
+              return (
+                <li key={task.id} data-canonical-task>
+                  <article className="mica-task-entry">
+                    <div className="mica-task-heading">
+                      <span aria-hidden="true">
+                        {categoryNumber}.{String(taskIndex + 1).padStart(2, "0")}
                       </span>
-                    </th>
-                    <td className="max-w-[34ch] text-[13.5px] text-[var(--color-ink-soft)]">
-                      {task.finalState}
-                    </td>
-                    <td className="max-w-[34ch] text-[13.5px] text-[var(--color-vermilion)]">
-                      {task.confirmationBoundary}
-                    </td>
-                    <td className="text-[13px] text-[var(--color-ink-faint)]">
-                      {marketNames(task.markets)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </DataTableScroller>
+                      <div>
+                        <h3>{copy.title}</h3>
+                        <p>{task.id} · {markets}</p>
+                      </div>
+                    </div>
+                    <dl className="mica-task-details">
+                      <div>
+                        <dt>{dict.tasks.declaredFinalState}</dt>
+                        <dd>{copy.finalState}</dd>
+                      </div>
+                      <div className="mica-task-boundary">
+                        <dt>{dict.common.confirmationBoundary}</dt>
+                        <dd>{copy.confirmationBoundary}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                </li>
+              );
+            })}
+          </ol>
           </Section>
         );
       })}
 
-      <Section
-        eyebrow={dict.tasks.missionsEyebrow}
-        title={dict.tasks.missionsTitle}
-        intro={dict.tasks.missionsIntro}
-      >
-        <div className="border-t border-[var(--color-rule)]">
-          {HERO_MISSIONS.map((mission) => (
-            <article
-              key={mission.id}
-              className="mica-grid border-b border-[var(--color-rule)] py-5"
-            >
-              <div className="md:col-span-3">
-                <h3 className="mica-display text-[18px]">{mission.title}</h3>
-                <p className="mica-eyebrow mt-1">
-                  <LocaleLink lang={lang}
-                    href={`/countries/${mission.country}`}
-                    className="mica-link"
-                  >
-                    {COUNTRY_BY_CODE.get(mission.country)?.name ??
-                      mission.country}
-                  </LocaleLink>{" "}
-                  · {familyLabel(mission.family)}
-                </p>
-              </div>
-              <blockquote className="m-0 border-l-2 border-[var(--color-atlas)] pl-4 text-[14.5px] italic text-[var(--color-ink)] md:col-span-6">
-                {mission.prompt}
-              </blockquote>
-              <p className="text-[13px] text-[var(--color-ink-faint)] md:col-span-3">
-                {mission.confirmationBoundary}
-              </p>
-            </article>
-          ))}
-        </div>
-      </Section>
     </div>
   );
 }

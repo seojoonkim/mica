@@ -95,14 +95,22 @@ export const taskFamilyRecordSchema = z.object({
   canonicalTasks: z
     .array(
       z.object({
-        id: z.string().min(1),
+        id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/),
         title: z.string().min(1),
         finalState: z.string().min(1),
         confirmationBoundary: z.string().min(1),
         markets: z.array(countryCodeSchema).min(1),
+        /** Korean is a first-class edition, so every task ships translated. */
+        translations: z.object({
+          ko: z.object({
+            title: z.string().min(1),
+            finalState: z.string().min(1),
+            confirmationBoundary: z.string().min(1),
+          }),
+        }),
       }),
     )
-    .min(2),
+    .length(10),
 });
 export type TaskFamilyRecord = z.infer<typeof taskFamilyRecordSchema>;
 
