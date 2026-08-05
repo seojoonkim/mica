@@ -1,0 +1,323 @@
+@import "tailwindcss";
+
+/*
+ * MICA — Global Field Ledger
+ *
+ * An editorial international research field report. Paper, ink, one atlas blue
+ * for structure and one vermilion for signal. Rules, not cards. No gradients,
+ * no glass, no rounded card grids.
+ */
+
+@theme {
+  --color-paper: #f7f5ef;
+  --color-paper-deep: #efece3;
+  --color-ink: #16181c;
+  --color-ink-soft: #3d4249;
+  --color-ink-faint: #6b7078;
+  --color-rule: #cfcabb;
+  --color-rule-strong: #a8a294;
+  --color-atlas: #1f3f7a;
+  --color-vermilion: #c2401c;
+
+  --font-display: var(--font-serif-display), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-sans-ui), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-data), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  color-scheme: light;
+  /* Local-only stacks: MICA ships no webfont, so a build never needs network. */
+  --font-serif-display: "Iowan Old Style", "Palatino Linotype", Palatino;
+  --font-sans-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI";
+  --font-mono-data: ui-monospace, SFMono-Regular, "SF Mono", Menlo;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  /* Faint ledger grain, drawn with rules rather than an image. */
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-paper) 0%,
+    var(--color-paper) 100%
+  );
+}
+
+/* --- Focus ---------------------------------------------------------- */
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-vermilion);
+  outline-offset: 2px;
+}
+
+/* --- Editorial primitives -------------------------------------------- */
+
+.mica-shell {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+@media (min-width: 900px) {
+  .mica-shell {
+    padding-inline: 32px;
+  }
+}
+
+.mica-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .mica-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+}
+
+.mica-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.mica-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+}
+
+.mica-rule {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: 0;
+}
+
+/* Data ticks used along section headers. */
+.mica-ticks {
+  display: block;
+  height: 6px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-rule-strong) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+/* --- Tables ---------------------------------------------------------- */
+
+.mica-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.mica-table caption {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  padding-bottom: 10px;
+}
+
+.mica-table th,
+.mica-table td {
+  border-bottom: 1px solid var(--color-rule);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.mica-table thead th {
+  border-bottom: 1px solid var(--color-rule-strong);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  white-space: nowrap;
+}
+
+.mica-table td.num,
+.mica-table th.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.mica-scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Controls -------------------------------------------------------- */
+
+.mica-control {
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-rule-strong);
+  color: var(--color-ink);
+  padding: 0 14px;
+  border-radius: 2px;
+}
+
+.mica-link {
+  color: var(--color-atlas);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.mica-link:hover {
+  color: var(--color-vermilion);
+}
+
+/* --- Motion ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Skip link ------------------------------------------------------- */
+
+.mica-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+
+.mica-skip:focus {
+  left: 8px;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-ink);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+/* --- Navigation ------------------------------------------------------ */
+
+.mica-nav-toggle {
+  display: flex;
+  background: none;
+  border: 0;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.mica-nav-list {
+  display: none;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+}
+
+.mica-nav-list.is-open {
+  display: flex;
+}
+
+@media (min-width: 760px) {
+  .mica-nav-toggle {
+    display: none;
+  }
+
+  .mica-nav-list,
+  .mica-nav-list.is-open {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 22px;
+    padding-bottom: 0;
+  }
+}
+
+.mica-navlink {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+}
+
+.mica-navlink:hover {
+  color: var(--color-vermilion);
+}
+
+/* --- Notices --------------------------------------------------------- */
+
+.mica-notice {
+  border-left: 3px solid var(--color-vermilion);
+  background: var(--color-paper-deep);
+  padding: 10px 14px;
+}
+
+.mica-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-vermilion);
+  border: 1px solid var(--color-vermilion);
+  padding: 3px 7px;
+}
+
+.mica-stamp-quiet {
+  color: var(--color-ink-faint);
+  border-color: var(--color-rule-strong);
+}
+
+/* --- Prose ----------------------------------------------------------- */
+
+.mica-prose p {
+  max-width: 70ch;
+  margin-block: 0 0.9em;
+}
+
+.mica-prose li {
+  max-width: 70ch;
+}
