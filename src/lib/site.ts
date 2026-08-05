@@ -3,7 +3,9 @@ export const SITE = {
   longName: "Multinational Index of Consumer Agents",
   tagline: "The global benchmark for consumer agent orchestration.",
   secondary: "Models matter. Orchestration wins.",
-  url: "https://micabench.com",
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+    "https://mica-eta.vercel.app",
   edition: "Preview edition 0.1",
   editionStrip: [
     "Preview",

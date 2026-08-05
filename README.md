@@ -61,4 +61,4 @@ Leaving both values empty preserves the local fixture source and a secret-free b
 
 ## Deployment
 
-The application targets Vercel and uses `https://micabench.com` as its canonical metadata base. The initial preview can be deployed before the custom domain is attached.
+The application targets Vercel and currently uses `https://mica-eta.vercel.app` as its canonical metadata base. Set `NEXT_PUBLIC_SITE_URL` when a custom domain is attached.
