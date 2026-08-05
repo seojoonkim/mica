@@ -7,12 +7,6 @@ export const SITE = {
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "https://mica-eta.vercel.app",
   edition: "Preview edition 0.1",
-  editionStrip: [
-    "Preview",
-    "Methodology draft",
-    "6 markets",
-    "10 task families",
-  ] as const,
   definition:
     "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East, reporting accuracy, speed and cost as three separate results.",
   demoNotice:

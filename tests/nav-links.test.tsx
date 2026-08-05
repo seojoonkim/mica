@@ -61,7 +61,7 @@ describe("primary navigation structure", () => {
       "Tasks",
       "Methodology",
       "Evidence",
-      "Submit",
+      "Submission requirements",
     ]);
   });
 });

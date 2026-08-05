@@ -13,16 +13,18 @@
  */
 
 @theme {
-  --color-paper: #f6f3ec;
-  --color-paper-alt: #eae4d4;
-  --color-paper-deep: #ede8dc;
-  --color-surface: #fcfaf5;
-  --color-ink: #141312;
-  --color-ink-soft: #38352f;
-  --color-ink-faint: #6a6459;
-  --color-bone: #f2eee4;
-  --color-rule: #d8d2c4;
-  --color-rule-strong: #141312;
+  --color-paper: #f7f5ef;
+  --color-paper-alt: #f0eee7;
+  --color-paper-deep: #ebe9e2;
+  --color-surface: #fcfbf8;
+  --color-ink: #171a1f;
+  --color-ink-soft: #3f464f;
+  --color-ink-faint: #66707a;
+  --color-bone: #f7f5ef;
+  --color-rule: #d8d5cd;
+  --color-rule-strong: #a7a49c;
+  --color-institutional: #174a72;
+  --color-institutional-soft: #e8eff4;
 
   /*
    * The three outcome axes carry one fixed hue each, site-wide. Each has a
@@ -53,6 +55,7 @@
   --color-mkt-sg: #14705c;
   --color-mkt-tw: #8a5e14;
   --color-mkt-th: #52397e;
+  --color-mkt-ae: #365c63;
 
   /*
    * One pale paper per market, authored explicitly rather than mixed at
@@ -65,15 +68,16 @@
   --color-mkt-sg-tint: #d9ebe5;
   --color-mkt-tw-tint: #f4e8ce;
   --color-mkt-th-tint: #e6e0f2;
+  --color-mkt-ae-tint: #e1e9e8;
 
   /*
    * Editorial ink and acid highlighter, deliberately outside both the axis and
    * market families. The acid is a field under dark ink, never text itself.
    */
   --color-editorial: #141312;
-  --color-editorial-field: #e4e24a;
-  --color-editorial-rule: #a8a62f;
-  --color-editorial-blue: #284d66;
+  --color-editorial-field: var(--color-institutional-soft);
+  --color-editorial-rule: var(--color-institutional);
+  --color-editorial-blue: var(--color-institutional);
   --color-editorial-coral: #9b3d2b;
 
   /*
@@ -109,8 +113,8 @@
    * on an editorial serif rather than on a UI gothic.
    */
   --font-serif-display:
-    "Didot", "Bodoni 72", "Bodoni MT", "Playfair Display", "Iowan Old Style",
-    "Hoefler Text", "Times New Roman", "Nanum Myeongjo", "AppleMyungjo",
+    "Iowan Old Style", "Source Serif 4", "Charter", "Hoefler Text",
+    "Times New Roman", "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo",
     "Batang", "Hiragino Mincho ProN", "Yu Mincho", "Songti SC", "Noto Serif KR",
     serif;
   --font-sans-ui:
@@ -128,7 +132,7 @@
    * between display and prose is wider than before: size contrast is the main
    * editorial device on the page.
    */
-  --step-hero: clamp(2.6rem, 1.5rem + 4.8vw, 5.25rem);
+  --step-hero: clamp(2.5rem, 1.55rem + 4vw, 4.5rem);
   --step-h1: clamp(2.1rem, 1.45rem + 2.9vw, 3.6rem);
   --step-h2: clamp(1.5rem, 1.22rem + 1.25vw, 2.15rem);
   --step-h3: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
@@ -207,7 +211,8 @@ html[lang="ko"] .mica-hero,
 
 html[lang="ko"] .mica-eyebrow,
 html[lang="ko"] .mica-stack {
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 /* --- Focus ---------------------------------------------------------- */
@@ -625,7 +630,7 @@ main {
 }
 
 .mica-section-num::before {
-  content: counter(mica-section, decimal-leading-zero) " —";
+  content: counter(mica-section, decimal-leading-zero) " /";
   padding-inline: 0.16em;
   color: var(--color-ink);
   background: var(--color-editorial-field);
@@ -975,28 +980,12 @@ main {
  * outcome and market colours, so it cannot imply a score or an edition.
  */
 .mica-home-hero {
-  background: var(--color-editorial-field);
-  border-top: 8px solid var(--color-editorial);
+  background: var(--color-surface);
+  border-top: 4px solid var(--color-institutional);
   margin-inline: calc(-1 * var(--shell-pad));
   padding-inline: var(--shell-pad);
 }
 
-/* The edition strip that opens the page, set as a running masthead line. */
-.mica-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
-  list-style: none;
-  margin: 0;
-  padding: 8px 0;
-  border-top: 1px solid var(--color-ink);
-  border-bottom: 1px solid var(--color-ink);
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-ink-soft);
-}
 
 /*
  * The system stack line. This is the differentiation claim made graphic: MICA
@@ -1062,7 +1051,7 @@ main {
   line-height: 1;
 }
 
-/* The market band: five editions, one hard block each. */
+/* The market band: six editions, one ruled register. */
 .mica-band {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
@@ -1113,6 +1102,11 @@ main {
 .mica-band li[data-market="th"] {
   --mkt-hue: var(--color-mkt-th);
   --mkt-tint: var(--color-mkt-th-tint);
+}
+
+.mica-band li[data-market="ae"] {
+  --mkt-hue: var(--color-mkt-ae);
+  --mkt-tint: var(--color-mkt-ae-tint);
 }
 
 .mica-band-code {
@@ -1252,7 +1246,7 @@ main {
 
 @media (max-width: 47.999rem) {
   .mica-home-hero {
-    border-top-width: 10px;
+    border-top-width: 4px;
   }
 
   .mica-family-row {

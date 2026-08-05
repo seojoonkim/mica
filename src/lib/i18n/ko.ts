@@ -1,3 +1,5 @@
+import { COUNTRIES } from "@/data/demo/countries";
+import { TASK_FAMILIES } from "@/data/demo/tasks";
 import type { Dict } from "@/lib/i18n/en";
 
 /**
@@ -23,7 +25,6 @@ export const ko = {
     definition:
       "MICA는 버전을 고정한 완성 상태의 소비자 에이전트 시스템을 아시아와 중동 6개 시장의 일상 과제로 측정합니다. 정확도·속도·비용은 하나로 합치지 않고 세 가지 결과로 따로 보고합니다.",
     edition: "프리뷰 에디션 0.1",
-    editionStrip: ["프리뷰", "방법론 초안", "6개 시장", "10개 과제 계열"],
     demoNotice:
       "예시용 데모 데이터 — 공식 순위가 아닙니다. 이 사이트의 모든 수치는 인터페이스 개발을 위해 생성된 것이며 어떠한 증거력도 없습니다.",
   },
@@ -36,7 +37,7 @@ export const ko = {
     evidence: "근거",
     methodology: "방법론",
     governance: "거버넌스",
-    submit: "제출",
+    submit: "제출 요건 안내",
   },
 
   chrome: {
@@ -53,7 +54,7 @@ export const ko = {
     demoDatasetJson: "데모 데이터셋 (JSON)",
     demoRunCellsCsv: "데모 실행 셀 (CSV)",
     colophonNote:
-      "publicationEligible: false · 합성 페르소나와 통제된 테스트 계정만 사용",
+      "이 사이트의 어떤 수치도 공개 대상이 아님 · 합성 페르소나와 통제된 테스트 계정만 사용",
   },
 
   disclosure: {
@@ -87,10 +88,10 @@ export const ko = {
   table: {
     system: "시스템",
     operator: "운영사",
-    snapshot: "스냅샷",
+    snapshot: "평가용 시스템 버전",
     market: "시장",
     markets: "시장",
-    locale: "로캘",
+    locale: "언어·지역 설정",
     currency: "통화",
     taskFamily: "과제 계열",
     task: "과제",
@@ -103,7 +104,7 @@ export const ko = {
     verification: "검증 상태",
     track: "트랙",
     standing: "공개 상태",
-    runCell: "실행 셀",
+    runCell: "평가 결과 묶음",
     evidence: "근거",
     frontier: "프런티어",
     editionNote: "에디션 노트",
@@ -125,21 +126,21 @@ export const ko = {
     apply: "적용",
     reset: "초기화",
     onThisPage: "이 페이지의 목차",
-    editionSummary: "5개 시장 · 10개 과제 계열 · 3개의 독립된 결과 축.",
+    editionSummary: `${COUNTRIES.length}개 시장 · ${TASK_FAMILIES.length}개 과제 계열 · 3개의 독립된 결과 축.`,
     allSystems: "전체 시스템",
     allMarkets: "전체 시장",
     allTaskFamilies: "전체 과제 계열",
     categoryLabel: "카테고리",
     canonicalTasks: "개 표준 과제",
-    finalState: "최종 상태",
-    confirmationBoundary: "확인 경계",
+    finalState: "완료 조건",
+    confirmationBoundary: "사용자 승인이 필요한 지점",
     whyItIsHard: "어려운 이유",
   },
 
   home: {
-    readTables: "결과표 보기",
+    readTables: "결과 공개 방식 미리 보기",
     howMeasured: "MICA의 측정 방식",
-    submitSnapshot: "시스템 스냅샷 제출",
+    submitSnapshot: "제출 요건 안내 읽기",
     statMarkets: "시장",
     statFamilies: "과제 계열",
     statPublished: "공개된 결과 계열",
@@ -147,7 +148,7 @@ export const ko = {
     statRuns: "측정된 실행",
     countedNote: "빌드할 때 원본 데이터에서 직접 센 값입니다.",
     stackEyebrow: "측정 단위는 모델이 아니라 시스템입니다",
-    bandEyebrow: "다섯 개 시장 에디션",
+    bandEyebrow: `${COUNTRIES.length}개 시장 에디션`,
     disclosureDetail:
       "MICA는 아직 구축 중입니다. 아래 인터페이스는 완성되어 있지만, 그 뒤의 지수는 비어 있습니다. 검증된 시스템 결과가 하나도 공개되지 않았으므로, 이 사이트의 어떤 수치도 특정 제품의 성능을 설명하지 않습니다.",
     noResultsHeadline: "아직 공개된 검증 시스템 결과가 없습니다.",
@@ -653,8 +654,11 @@ export const ko = {
     provenanceIntro:
       "읽는 사람이 파이프라인에 관한 주장을 믿어야만 하는 일이 없도록, 사이트 자체에 적어 둡니다.",
     sourceKindTerm: "소스 종류",
+    sourceKindDetail: "이 프리뷰에 포함된 로컬 예시 기록",
     dataStatusTerm: "데이터 상태",
+    dataStatusDetail: "예시 전용 · 검증된 결과 없음",
     editionTerm: "에디션",
+    editionDetail: "프리뷰 0.1 · 방법론 초안",
     disclosureTerm: "고지",
     remoteTerm: "원격 소스",
     remoteDetail:
@@ -663,13 +667,13 @@ export const ko = {
   },
 
   submit: {
-    metaTitle: "시스템 제출",
+    metaTitle: "제출 요건 안내",
     metaDescription:
-      "MICA가 소비자 에이전트 시스템 스냅샷을 측정하기 위해 필요한 것과, 제출물을 어떻게 다루는가.",
-    eyebrow: "제출",
-    title: "시스템 스냅샷 제출",
+      "MICA가 소비자 에이전트 시스템의 평가용 버전을 측정하기 위해 앞으로 요구할 것과, 접수가 열린 뒤 제출물을 어떻게 다룰지에 대한 안내.",
+    eyebrow: "제출 안내",
+    title: "제출물이 갖춰야 하는 요건",
     standfirst:
-      "MICA는 날짜와 버전이 고정된 시스템을 측정합니다. 오케스트레이터, 모델, 도구, 메모리를 한 묶음으로 봅니다. 제출은 무료이며, 결과에 어떤 영향력도 주지 않고, 스스로 책임질 수 있는 스냅샷에서 시작합니다.",
+      "MICA는 아직 제출을 받지 않습니다. 이 페이지는 접수가 열릴 때 필요한 요건을 미리 밝힙니다. MICA는 날짜와 버전이 고정된 시스템을 측정하며, 오케스트레이터·모델·도구·메모리를 한 묶음으로 봅니다. 제출은 무료이고, 결과에 대한 어떤 영향력도 주지 않습니다.",
     disclosureDetail:
       "MICA는 아직 공식 에디션을 위한 제출을 받지 않습니다. 아래 요건은 실제 요건이며, 현재 이 사이트의 결과는 예시용 데모 데이터이고 공식 순위가 아닙니다.",
     stepOneEyebrow: "1단계",

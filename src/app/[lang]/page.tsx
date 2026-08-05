@@ -54,13 +54,7 @@ export default async function HomePage({
        * market band that names every edition in its own script.
        */}
       <header className="mica-home-hero border-b border-[var(--color-ink)] pb-9">
-        <ul className="mica-strip">
-          {dict.site.editionStrip.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-
-        <div className="mica-grid pt-8 md:pt-10">
+        <div className="mica-grid pt-9 md:pt-12">
           <div className="md:col-span-7">
             <h1 className="mica-display mica-hero">{dict.site.tagline}</h1>
             <p className="mica-display mica-h2 mt-5">

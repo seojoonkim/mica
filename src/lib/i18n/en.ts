@@ -8,6 +8,7 @@
  * site-owned copy only, plus overlays keyed by fixture id.
  */
 
+import { COUNTRIES } from "@/data/demo/countries";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { DIAGNOSTIC_AXES, OUTCOME_AXES } from "@/data/policy/axes";
 import {
@@ -51,7 +52,6 @@ export const en = {
     definition:
       "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East, reporting accuracy, speed and cost as three separate results.",
     edition: "Preview edition 0.1",
-    editionStrip: ["Preview", "Methodology draft", "6 markets", "10 task families"],
     demoNotice:
       "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
   },
@@ -64,7 +64,7 @@ export const en = {
     evidence: "Evidence",
     methodology: "Methodology",
     governance: "Governance",
-    submit: "Submit",
+    submit: "Submission requirements",
   },
 
   chrome: {
@@ -81,7 +81,7 @@ export const en = {
     demoDatasetJson: "Demo dataset (JSON)",
     demoRunCellsCsv: "Demo run cells (CSV)",
     colophonNote:
-      "publicationEligible: false · Synthetic personas and controlled test accounts only",
+      "Nothing on this site is publication eligible · Synthetic personas and controlled test accounts only",
   },
 
   disclosure: {
@@ -115,10 +115,10 @@ export const en = {
   table: {
     system: "System",
     operator: "Operator",
-    snapshot: "Snapshot",
+    snapshot: "Evaluated system version",
     market: "Market",
     markets: "Markets",
-    locale: "Locale",
+    locale: "Language and region",
     currency: "Currency",
     taskFamily: "Task family",
     task: "Task",
@@ -131,7 +131,7 @@ export const en = {
     verification: "Verification",
     track: "Track",
     standing: "Standing",
-    runCell: "Run cell",
+    runCell: "Result set",
     evidence: "Evidence",
     frontier: "Frontier",
     editionNote: "Edition note",
@@ -154,22 +154,21 @@ export const en = {
     apply: "Apply",
     reset: "Reset",
     onThisPage: "On this page",
-    editionSummary:
-      "Five markets · ten task families · three separate outcome axes.",
+    editionSummary: `${COUNTRIES.length} markets · ${TASK_FAMILIES.length} task families · 3 separate outcome axes.`,
     allSystems: "All systems",
     allMarkets: "All markets",
     allTaskFamilies: "All task families",
     categoryLabel: "Category",
     canonicalTasks: "canonical tasks",
-    finalState: "Final state",
-    confirmationBoundary: "Confirmation boundary",
+    finalState: "Completion condition",
+    confirmationBoundary: "Point that needs user approval",
     whyItIsHard: "Why it is hard",
   },
 
   home: {
-    readTables: "Read the result tables",
+    readTables: "Preview how results will be published",
     howMeasured: "How MICA measures",
-    submitSnapshot: "Submit a system snapshot",
+    submitSnapshot: "Read the submission requirements",
     statMarkets: "Markets",
     statFamilies: "Task families",
     statPublished: "Published result families",
@@ -177,7 +176,7 @@ export const en = {
     statRuns: "Measured runs",
     countedNote: "Counted from the canonical records at build time.",
     stackEyebrow: "The unit of measurement is the system",
-    bandEyebrow: "Five market editions",
+    bandEyebrow: `${COUNTRIES.length} market editions`,
     disclosureDetail:
       "MICA is under construction. The interface below is complete; the index behind it is empty. No verified system results have been published, so no figure on this site describes the performance of any product.",
     noResultsHeadline: "No verified system results have been published yet.",
@@ -553,19 +552,19 @@ export const en = {
       "Most disputes about benchmarks are really disputes about denominators, so MICA writes its own down.",
     eligibleRunTerm: "eligible run",
     countingEligible:
-      "is an attempt that passed screening: the environment was reachable, the persona and its accounts were in the declared starting state, and no MICA-side fault interrupted the run. Ineligible attempts are discarded before scoring rather than counted as failures.",
+      " is an attempt that passed screening: the environment was reachable, the persona and its accounts were in the declared starting state, and no MICA-side fault interrupted the run. Ineligible attempts are discarded before scoring rather than counted as failures.",
     accuracyTerm: "Accuracy",
     countingAccuracy:
-      "is successful eligible runs divided by eligible runs, reported with a 95% Wilson score interval. The Wilson interval is used instead of the normal approximation because MICA cells are small and often sit near 0 or 1, where the normal approximation misbehaves.",
+      " is successful eligible runs divided by eligible runs, reported with a 95% Wilson score interval. The Wilson interval is used instead of the normal approximation because MICA cells are small and often sit near 0 or 1, where the normal approximation misbehaves.",
     speedTerm: "Speed",
     countingSpeed:
-      "uses wall-clock seconds from successful eligible runs only, reported as p50 and p95. Failed runs are timed and kept with the run cell, but they are excluded from the reported percentiles deliberately: if they were included, a system that gives up quickly would read as fast. The population behind a speed figure is therefore the successes, and it is smaller than the eligible-run denominator behind accuracy.",
+      " uses wall-clock seconds from successful eligible runs only, reported as p50 and p95. Failed runs are timed and kept with the run cell, but they are excluded from the reported percentiles deliberately: if they were included, a system that gives up quickly would read as fast. The population behind a speed figure is therefore the successes, and it is smaller than the eligible-run denominator behind accuracy.",
     costTerm: "Cost",
     countingCostPrefix:
-      "is the total cost of all eligible attempts divided by the number of successful ones, in the market’s own currency. The cost of failure is charged to the successes it took to get there. With zero successes the value does not exist, and the table says “",
+      " is the total cost of all eligible attempts divided by the number of successful ones, in the market’s own currency. The cost of failure is charged to the successes it took to get there. With zero successes the value does not exist, and the table says “",
     countingCostSuffix: "” rather than showing a zero or an infinity.",
     macroTerm: "country macro-average",
-    countingMacroPrefix: "Cross-market figures use a",
+    countingMacroPrefix: "Cross-market figures use a ",
     countingMacroSuffix:
       ": the mean of per-country values, computed only when every market is present. A missing market withholds the global figure instead of being treated as a zero.",
     missingEyebrow: "Missing values",
@@ -688,8 +687,11 @@ export const en = {
     provenanceIntro:
       "Stated on the site itself so that a reader never has to trust a claim about the pipeline.",
     sourceKindTerm: "Source kind",
+    sourceKindDetail: "Local illustrative records included with this preview",
     dataStatusTerm: "Data status",
+    dataStatusDetail: "Illustrative only · no verified results",
     editionTerm: "Edition",
+    editionDetail: "Preview 0.1 · methodology draft",
     disclosureTerm: "Disclosure",
     remoteTerm: "Remote source",
     remoteDetail:
@@ -698,13 +700,13 @@ export const en = {
   },
 
   submit: {
-    metaTitle: "Submit a system",
+    metaTitle: "Submission requirements",
     metaDescription:
-      "What MICA needs in order to measure a consumer-agent system snapshot, and what it does with the submission.",
+      "What MICA will need in order to measure a consumer-agent system snapshot, and what it will do with a submission once intake opens.",
     eyebrow: "Submissions",
-    title: "Submit a system snapshot",
+    title: "What a submission will have to carry",
     standfirst:
-      "MICA measures a dated, versioned system — orchestrator, models, tools and memory together. Submission is free, gets you no influence over the result, and starts with a snapshot you can stand behind.",
+      "MICA has no submission intake open yet, so this page states the requirements in advance. MICA measures a dated, versioned system: orchestrator, models, tools and memory together. Submission will be free and will buy no influence over the result.",
     disclosureDetail:
       "MICA is not yet accepting submissions for an official edition. The requirements below are real; the results currently on this site are illustrative demo data and not an official ranking.",
     stepOneEyebrow: "Step one",
@@ -718,9 +720,9 @@ export const en = {
     compositionDetail:
       "Orchestrator, every model the system may route to, every tool or API it may call, and how memory is held between steps.",
     scopeTerm: "Scope",
-    scopeMarkets: "The markets",
-    scopeFamilies: "and task families",
-    scopeSuffix: "you are claiming coverage in.",
+    scopeMarkets: "The markets (",
+    scopeFamilies: ") and task families (",
+    scopeSuffix: ") you are claiming coverage in.",
     accessTerm: "Access",
     accessDetail:
       "A way for MICA to run the system itself on MICA-controlled accounts. Without this, the result can never rise above self-reported.",
