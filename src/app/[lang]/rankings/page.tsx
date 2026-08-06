@@ -13,7 +13,7 @@ import {
   type VerificationStatusId,
 } from "@/lib/schema";
 import { VERIFICATION_STATUSES } from "@/data/policy/publication";
-import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
+import { PageHeader, PublicationStatus, Section } from "@/components/editorial";
 import { localeHref } from "@/lib/i18n/config";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -99,7 +99,7 @@ export default async function RankingsPage({
         title={dict.rankings.title}
         standfirst={dict.rankings.standfirst}
       >
-        <DemoDisclosure lang={lang} />
+        <PublicationStatus text={dict.rankings.noResultsNotice} />
       </PageHeader>
 
       <Section
@@ -232,15 +232,11 @@ export default async function RankingsPage({
         eyebrow={`${countryLabel} · ${familyLabelText}`}
         title={dict.rankings.resultsTitle}
       >
-        {country === null ? (
-          <p className="mica-notice max-w-[70ch] text-[14px] text-[var(--color-ink-soft)]">
-            {dict.rankings.selectMarketNotice}
-          </p>
-        ) : (
-          <p className="mica-notice max-w-[70ch] text-[14px] text-[var(--color-ink-soft)]">
-            {dict.rankings.noResultsNotice}
-          </p>
-        )}
+        <p className="mica-notice max-w-[70ch] text-[14px] text-[var(--color-ink-soft)]">
+          {country === null
+            ? dict.rankings.selectMarketNotice
+            : dict.rankings.selectedSliceEmptyNotice}
+        </p>
       </Section>
 
     </div>

@@ -179,6 +179,8 @@ export const en = {
     bandEyebrow: `${COUNTRIES.length} market editions`,
     disclosureDetail:
       "MICA is under construction. The interface below is complete; the index behind it is empty. No verified system results have been published, so no figure on this site describes the performance of any product.",
+    publicationStatus:
+      "The index is not published yet: MICA has verified no system result, so nothing on this page ranks or scores a product.",
     noResultsHeadline: "No verified system results have been published yet.",
     noResultsDetail:
       "MICA has published no system, no score and no ranking. What exists today is the apparatus: a ten-family task taxonomy written per market, a stated measurement method, a publication gate with its thresholds still unset, and an evidence model in which every future figure will resolve to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
@@ -308,6 +310,8 @@ export const en = {
     resultsTitle: "Results",
     selectMarketNotice:
       "Select a market to see results. MICA measures each market on its own terms, and cost only exists inside one currency, so there is no all-markets table to show.",
+    selectedSliceEmptyNotice:
+      "No verified result is published for the selected market and task family. The controls describe the requested slice, but there is no result table or evidence record yet.",
     orderedBy: "ordered by",
     noResultsNotice:
       "No verified results are published for this slice, or for any other. MICA has measured no system yet, so there is no table and no evidence to link to. This page will fill in market by market as submitted snapshots are independently rerun and clear the publication gate.",
@@ -389,6 +393,10 @@ export const en = {
       "Every MICA task declares the state the world must be in for the run to count, and the line past which the system must stop and ask. Nothing is scored on how convincing the agent sounded along the way.",
     disclosureDetail:
       "The task definitions on this page are the real thing; the run figures elsewhere on the site are illustrative demo data and not an official ranking.",
+    publicationStatus:
+      "These task definitions are final and in use, but no verified result has been published against any of them yet.",
+    catalogueNavigationLabel: "Task category index",
+    showTaskContract: "Show completion and approval contract",
     scoringEyebrow: "Scoring contract",
     scoringTitle: "What a completed task earns",
     scoringIntro:
@@ -534,6 +542,8 @@ export const en = {
       "MICA is a measurement instrument before it is a league table. This page states the definitions, the gates and the known limits, so a disagreement can be about the method rather than about the number.",
     disclosureDetail:
       "The method described here is real. The figures used to exercise it across this site are illustrative demo data and not an official ranking.",
+    publicationStatus:
+      "This method is a real draft, but it has not yet produced a measured result: nothing has been published under it.",
     tocAxes: "Outcome axes",
     tocCounting: "Eligibility",
     tocMissing: "Missing values",
@@ -709,6 +719,8 @@ export const en = {
       "MICA has no submission intake open yet, so this page states the requirements in advance. MICA measures a dated, versioned system: orchestrator, models, tools and memory together. Submission will be free and will buy no influence over the result.",
     disclosureDetail:
       "MICA is not yet accepting submissions for an official edition. The requirements below are real; the results currently on this site are illustrative demo data and not an official ranking.",
+    publicationStatus:
+      "Submissions are not open yet; the requirements below are advance guidance, and no verified result has been published.",
     stepOneEyebrow: "Step one",
     stepOneTitle: "Declare the snapshot",
     stepOneIntro:

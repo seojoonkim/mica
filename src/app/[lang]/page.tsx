@@ -11,7 +11,7 @@ import { DIAGNOSTIC_AXES, OUTCOME_AXES } from "@/data/policy/axes";
 import {
   AxisGlyph,
   DataList,
-  DemoDisclosure,
+  PublicationStatus,
   Section,
 } from "@/components/editorial";
 import {
@@ -159,7 +159,7 @@ export default async function HomePage({
       </header>
 
       <div className="mt-9">
-        <DemoDisclosure lang={lang} detail={dict.home.disclosureDetail} />
+        <PublicationStatus text={dict.home.publicationStatus} />
         {/*
          * The empty state, stated twice and deliberately: once as the standing
          * of the index, once as the standing of the taxonomy. Both counts are

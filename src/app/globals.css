@@ -340,12 +340,17 @@ html[lang="ko"] :is(.mica-body, .mica-body-sm) {
 .mica-task-index {
   margin-top: 72px;
   border-block: 1px solid var(--color-ink);
+  background: var(--color-paper);
+  z-index: 10;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .mica-task-index ol {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(10, minmax(136px, 1fr));
   list-style: none;
+  min-width: 1360px;
   margin: 0;
   padding: 0;
 }
@@ -419,10 +424,36 @@ html[lang="ko"] :is(.mica-body, .mica-body-sm) {
   overflow-wrap: anywhere;
 }
 
+.mica-task-contract {
+  min-width: 0;
+}
+
+.mica-task-contract summary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--color-institutional);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--step-micro);
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.mica-task-contract summary::marker {
+  color: var(--color-institutional);
+}
+
+.mica-task-contract[open] summary {
+  margin-bottom: 16px;
+}
+
 .mica-task-details {
   display: grid;
   gap: 18px;
-  margin: 20px 0 0 64px;
+  margin: 0;
 }
 
 .mica-task-details dt {
@@ -498,8 +529,18 @@ html[lang="ko"] :is(.mica-body, .mica-body-sm) {
 }
 
 @media (min-width: 48rem) {
+  .mica-task-index {
+    position: sticky;
+    top: 0;
+  }
+
+  .mica-task-index ~ [id] {
+    scroll-margin-top: 132px;
+  }
+
   .mica-task-index ol {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-width: 0;
   }
 
   .mica-task-entry {
@@ -1596,4 +1637,15 @@ html[lang="ko"] .mica-notice-head {
 
 .mica-prose li {
   max-width: 70ch;
+}
+
+@media print {
+  .mica-task-index {
+    position: static;
+    overflow: visible;
+  }
+
+  .mica-task-contract::details-content {
+    content-visibility: visible;
+  }
 }

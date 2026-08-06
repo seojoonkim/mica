@@ -3,6 +3,10 @@ import { render, screen } from "@testing-library/react";
 import { COUNTRIES } from "@/data/demo/countries";
 import { en } from "@/lib/i18n/en";
 import { ko } from "@/lib/i18n/ko";
+import { getDict } from "@/lib/i18n/dictionary";
+import { DemoDisclosure } from "@/components/editorial";
+import TasksPage from "@/app/[lang]/tasks/page";
+import RankingsPage from "@/app/[lang]/rankings/page";
 import HomePage from "@/app/[lang]/page";
 import { generateMetadata as homeMetadata } from "@/app/[lang]/page";
 import { generateMetadata as countriesMetadata } from "@/app/[lang]/countries/page";
@@ -49,6 +53,122 @@ describe("plain-language public copy", () => {
   it("removes the unlabeled mixed-purpose edition strip from the home hero", async () => {
     render(await HomePage({ params: Promise.resolve({ lang: "ko" }) }));
     expect(document.querySelector(".mica-strip")).toBeNull();
+  });
+});
+
+const LOCALES = ["en", "ko"] as const;
+
+/**
+ * The publication-status slice. Home, tasks, methodology and submit define what
+ * MICA measures; they carry no score figure, so the mandatory demo disclosure
+ * does not belong on them. What they must carry instead is one localized notice
+ * saying the index is unpublished, read from that page's own dictionary section.
+ */
+const DEFINITION_SURFACES = [
+  {
+    name: "home",
+    section: "home",
+    render: (lang: (typeof LOCALES)[number]) =>
+      HomePage({ params: Promise.resolve({ lang }) }),
+  },
+  {
+    name: "tasks",
+    section: "tasks",
+    render: (lang: (typeof LOCALES)[number]) =>
+      TasksPage({ params: Promise.resolve({ lang }) }),
+  },
+  {
+    name: "methodology",
+    section: "methodology",
+    render: (lang: (typeof LOCALES)[number]) =>
+      MethodologyPage({ params: Promise.resolve({ lang }) }),
+  },
+  {
+    name: "submit",
+    section: "submit",
+    render: (lang: (typeof LOCALES)[number]) =>
+      SubmitPage({ params: Promise.resolve({ lang }) }),
+  },
+] as const;
+
+/**
+ * Reads the page's own `publicationStatus` string. Indexed rather than accessed
+ * as a property so this test can name a key the dictionary does not carry yet:
+ * the assertion, not the type checker, is what should report its absence.
+ */
+function publicationStatusCopy(lang: (typeof LOCALES)[number], section: string) {
+  const dict = getDict(lang) as unknown as Record<string, Record<string, string>>;
+  return dict[section]?.publicationStatus;
+}
+
+describe("definition surfaces carry a publication status, not a score disclosure", () => {
+  for (const surface of DEFINITION_SURFACES) {
+    it.each(LOCALES)(
+      `renders the %s ${surface.name} publication status and no demo disclosure`,
+      async (lang) => {
+        render(await surface.render(lang));
+        const notice = screen.getByTestId("publication-status");
+        expect(notice).toBeInTheDocument();
+        expect(screen.queryByTestId("demo-disclosure")).toBeNull();
+      },
+    );
+
+    it.each(LOCALES)(
+      `takes the %s ${surface.name} notice text from the page dictionary`,
+      async (lang) => {
+        const copy = publicationStatusCopy(lang, surface.section);
+        expect(copy, `${surface.section}.publicationStatus missing for ${lang}`).toBeTruthy();
+        render(await surface.render(lang));
+        expect(screen.getByTestId("publication-status")).toHaveTextContent(copy!);
+      },
+    );
+  }
+
+  it("keeps the English and Korean status copy distinct per locale", () => {
+    for (const surface of DEFINITION_SURFACES) {
+      const enCopy = publicationStatusCopy("en", surface.section);
+      const koCopy = publicationStatusCopy("ko", surface.section);
+      expect(enCopy).toBeTruthy();
+      expect(koCopy).toBeTruthy();
+      expect(koCopy).not.toBe(enCopy);
+    }
+  });
+});
+
+describe("rankings leads with its empty-result notice", () => {
+  it.each(LOCALES)(
+    "places the %s empty notice before the filter form in DOM order",
+    async (lang) => {
+      const dict = getDict(lang);
+      const { container } = render(
+        await RankingsPage({
+          params: Promise.resolve({ lang }),
+          searchParams: Promise.resolve({ country: "kr", family: "email-calendar" }),
+        }),
+      );
+
+      const notice = screen.getByTestId("publication-status");
+      expect(notice).toHaveTextContent(dict.rankings.noResultsNotice);
+
+      const form = screen.getByRole("form", { name: dict.rankings.formLabel });
+      expect(
+        notice.compareDocumentPosition(form) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(container).toContainElement(form);
+      expect(screen.queryByRole("table")).toBeNull();
+      expect(screen.getByText(dict.rankings.selectedSliceEmptyNotice)).toBeInTheDocument();
+      expect(screen.queryByText(dict.rankings.selectMarketNotice)).toBeNull();
+    },
+  );
+});
+
+describe("the mandatory disclosure contract survives for score surfaces", () => {
+  it.each(LOCALES)("renders the disclosure block with both English strings in %s", (lang) => {
+    render(<DemoDisclosure lang={lang} />);
+    const disclosure = screen.getByTestId("demo-disclosure");
+    expect(disclosure).toBeInTheDocument();
+    expect(disclosure.textContent).toContain("Illustrative demo data");
+    expect(disclosure.textContent).toContain("Not an official ranking");
   });
 });
 

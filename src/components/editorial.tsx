@@ -62,6 +62,22 @@ export function DemoDisclosure({
   );
 }
 
+/**
+ * The publication status. Definition surfaces — home, tasks, methodology,
+ * submit — carry no score figure, so the mandatory demo disclosure does not
+ * belong on them. What they carry instead is one sentence, read from that
+ * page's own dictionary, stating where the page stands and that no verified
+ * result is published. It deliberately restates none of the mandated
+ * disclosure wording: it is a status note, not a disclaimer.
+ */
+export function PublicationStatus({ text }: { text: string }) {
+  return (
+    <aside className="mica-notice mica-notice-empty" data-testid="publication-status">
+      <p className="mica-body-sm m-0">{text}</p>
+    </aside>
+  );
+}
+
 /** Compact inline restatement, for use directly above a table. */
 export function DemoStamp({
   lang,

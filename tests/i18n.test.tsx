@@ -23,17 +23,90 @@ import { LocaleSwitch } from "@/components/locale-switch";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { SITE } from "@/lib/site";
 
-const DEMO_EN = "Illustrative demo data";
-const RANKING_EN = "Not an official ranking";
 
+/**
+ * Every leaf path in a dictionary, descending *into* arrays rather than
+ * collapsing them at the array node. A collapsed array hides both a length
+ * drift and an untranslated element, which is exactly what parity has to catch.
+ */
 function keyPaths(value: unknown, prefix = ""): string[] {
-  if (Array.isArray(value)) return [prefix];
+  if (Array.isArray(value)) {
+    return value.flatMap((item, i) => keyPaths(item, `${prefix}[${i}]`));
+  }
   if (value && typeof value === "object") {
     return Object.entries(value as Record<string, unknown>).flatMap(([k, v]) =>
       keyPaths(v, prefix ? `${prefix}.${k}` : k),
     );
   }
   return [prefix];
+}
+
+type Leaf = { path: string; en: string; ko: string };
+
+/**
+ * Walk the two dictionaries in lockstep and collect aligned string leaves,
+ * recording any structural divergence (array length, node kind) as it goes.
+ */
+function alignLeaves(
+  enNode: unknown,
+  koNode: unknown,
+  prefix = "",
+  leaves: Leaf[] = [],
+  structural: string[] = [],
+): { leaves: Leaf[]; structural: string[] } {
+  if (typeof enNode === "string" || typeof koNode === "string") {
+    if (typeof enNode === "string" && typeof koNode === "string") {
+      leaves.push({ path: prefix, en: enNode, ko: koNode });
+    } else {
+      structural.push(`${prefix}: string vs ${typeof koNode}`);
+    }
+  } else if (Array.isArray(enNode) || Array.isArray(koNode)) {
+    if (!Array.isArray(enNode) || !Array.isArray(koNode)) {
+      structural.push(`${prefix}: array vs non-array`);
+    } else if (enNode.length !== koNode.length) {
+      structural.push(
+        `${prefix}: array length ${enNode.length} (en) vs ${koNode.length} (ko)`,
+      );
+    } else {
+      enNode.forEach((item, i) =>
+        alignLeaves(item, koNode[i], `${prefix}[${i}]`, leaves, structural),
+      );
+    }
+  } else if (enNode && typeof enNode === "object") {
+    if (!koNode || typeof koNode !== "object") {
+      structural.push(`${prefix}: object vs ${typeof koNode}`);
+    } else {
+      for (const k of Object.keys(enNode as Record<string, unknown>)) {
+        alignLeaves(
+          (enNode as Record<string, unknown>)[k],
+          (koNode as Record<string, unknown>)[k],
+          prefix ? `${prefix}.${k}` : k,
+          leaves,
+          structural,
+        );
+      }
+    }
+  }
+  return { leaves, structural };
+}
+
+const ALIGNED = alignLeaves(en, ko);
+
+/**
+ * Korean copy legitimately drops a grammatical prefix that English needs, so a
+ * blanket "no empty Korean leaf" rule would be wrong. Only these documented
+ * keys may be empty in Korean while non-empty in English.
+ */
+const EMPTY_KO_ALLOWED = new Set(["country.hazardsTitlePrefix"]);
+
+/** `{name}`-style interpolation slots — a dropped slot renders a literal hole. */
+const PLACEHOLDER = /\{[^}\s]+\}/g;
+
+/** Digits and percentages: the figures a locale pair must not silently restate. */
+const NUMERIC_TOKEN = /\d+(?:[.,]\d+)*\s*%?/g;
+
+function tokens(value: string, pattern: RegExp): string[] {
+  return (value.match(pattern) ?? []).map((t) => t.replace(/\s+/g, "")).sort();
 }
 
 describe("locale primitives", () => {
@@ -76,6 +149,64 @@ describe("locale primitives", () => {
 describe("typed dictionary contract", () => {
   it("gives Korean exactly the English key set", () => {
     expect(keyPaths(ko).sort()).toEqual(keyPaths(en).sort());
+  });
+
+  it("keeps the two dictionaries structurally aligned, arrays included", () => {
+    expect(ALIGNED.structural).toEqual([]);
+    expect(ALIGNED.leaves.length).toBeGreaterThan(0);
+  });
+
+  it("leaves no translated string empty", () => {
+    const empty = ALIGNED.leaves.filter(
+      (leaf) =>
+        (leaf.en.trim() === "" ||
+          (leaf.ko.trim() === "" && !EMPTY_KO_ALLOWED.has(leaf.path))) &&
+        !(leaf.ko.trim() === "" && leaf.en.trim() === ""),
+    );
+    expect(empty.map((leaf) => leaf.path)).toEqual([]);
+  });
+
+  it("preserves interpolation placeholders across locales", () => {
+    const drifted = ALIGNED.leaves
+      .filter(
+        (leaf) =>
+          tokens(leaf.en, PLACEHOLDER).join("|") !==
+          tokens(leaf.ko, PLACEHOLDER).join("|"),
+      )
+      .map((leaf) => leaf.path);
+    expect(drifted).toEqual([]);
+  });
+
+  it("restates the same figures where both locales carry numeric tokens", () => {
+    // Scoped to leaves where *both* sides carry figures: a Korean string that
+    // phrases a count in words rather than digits is a translation choice, not
+    // a contract break. A figure present on both sides must be the same figure.
+    const drifted = ALIGNED.leaves
+      .filter((leaf) => {
+        const enTokens = tokens(leaf.en, NUMERIC_TOKEN);
+        const koTokens = tokens(leaf.ko, NUMERIC_TOKEN);
+        return (
+          enTokens.length > 0 &&
+          koTokens.length > 0 &&
+          enTokens.join("|") !== koTokens.join("|")
+        );
+      })
+      .map((leaf) => leaf.path);
+    expect(drifted).toEqual([]);
+  });
+
+  it("never leaves a whole English sentence sitting in the Korean dictionary", () => {
+    // Proper nouns and acronyms ("MICA", "p95", "Not an official ranking") are
+    // legitimate in Korean copy, so this does not reject Latin script per se.
+    // It rejects a *run* of six or more consecutive English words, which no
+    // current Korean string reaches — the longest today is four, in the
+    // deliberately verbatim disclosure string. Six is that ceiling plus margin.
+    const ENGLISH_RUN =
+      /[A-Za-z][A-Za-z'’]*(?:[ ,;:-]+[A-Za-z][A-Za-z'’]*){5,}/;
+    const pasted = ALIGNED.leaves
+      .filter((leaf) => ENGLISH_RUN.test(leaf.ko))
+      .map((leaf) => `${leaf.path}: ${leaf.ko}`);
+    expect(pasted).toEqual([]);
   });
 
   it("resolves a dictionary per locale", () => {
@@ -160,16 +291,14 @@ describe("localized page rendering", () => {
   );
 
   it.each(["en", "ko"] as const)(
-    "keeps the exact English disclosure strings visible in %s",
+    "uses localized publication status instead of a score disclosure on the %s home",
     async (lang) => {
       render(await HomePage({ params: Promise.resolve({ lang }) }));
-      const text = document.body.textContent ?? "";
-      expect(text).toContain(DEMO_EN);
-      expect(text).toContain(RANKING_EN);
-      if (lang === "ko") {
-        expect(text).toContain(ko.disclosure.demoLabelLocal);
-        expect(text).toContain(ko.disclosure.notRankingLocal);
-      }
+      const dict = getDict(lang);
+      expect(screen.getByTestId("publication-status")).toHaveTextContent(
+        dict.home.publicationStatus,
+      );
+      expect(screen.queryByTestId("demo-disclosure")).toBeNull();
     },
   );
 

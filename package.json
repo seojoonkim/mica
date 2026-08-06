@@ -12,7 +12,10 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "smoke:production": "node scripts/smoke-production.mjs",
+    "smoke:preview": "MICA_EXPECT_NOINDEX=1 node scripts/smoke-production.mjs"
   },
   "dependencies": {
     "next": "^15.5.4",
@@ -22,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@playwright/test": "1.55.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",

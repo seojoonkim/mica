@@ -163,6 +163,38 @@ export const runCellSchema = z.object({
   criticalSafetyEvents: z.number().int().min(0),
   dataStatus: dataStatusSchema,
   publicationEligible: z.boolean(),
+}).superRefine((cell, ctx) => {
+  // Cross-field contradictions. Field-level rules cannot see siblings, so the
+  // counts and their latency populations are reconciled here: a cell that
+  // disagrees with itself is a data-entry fault, not a publishable record.
+  if (cell.successfulRuns > cell.eligibleRuns) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["successfulRuns"],
+      message: `successfulRuns (${cell.successfulRuns}) cannot exceed eligibleRuns (${cell.eligibleRuns}).`,
+    });
+  }
+  if (cell.successLatenciesSec.length !== cell.successfulRuns) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["successLatenciesSec"],
+      message: `successLatenciesSec has ${cell.successLatenciesSec.length} entries but successfulRuns is ${cell.successfulRuns}.`,
+    });
+  }
+  if (cell.allEligibleLatenciesSec.length !== cell.eligibleRuns) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["allEligibleLatenciesSec"],
+      message: `allEligibleLatenciesSec has ${cell.allEligibleLatenciesSec.length} entries but eligibleRuns is ${cell.eligibleRuns}.`,
+    });
+  }
+  if (cell.tasksAttempted > cell.tasksDefined) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["tasksAttempted"],
+      message: `tasksAttempted (${cell.tasksAttempted}) cannot exceed tasksDefined (${cell.tasksDefined}).`,
+    });
+  }
 });
 export type RunCell = z.infer<typeof runCellSchema>;
 

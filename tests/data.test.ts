@@ -4,6 +4,7 @@ import {
   DemoEligibilityError,
   COUNTRY_CODES,
   TASK_FAMILY_IDS,
+  runCellSchema,
 } from "@/lib/schema";
 import { COUNTRIES, getCountry } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
@@ -28,6 +29,79 @@ describe("demo eligibility guard", () => {
         () => "test record",
       ),
     ).not.toThrow();
+  });
+});
+
+describe("run cell cross-field invariants", () => {
+  /**
+   * A cell whose fields all agree. Each case below mutates exactly one axis of
+   * this record, so a rejection can only be attributed to that contradiction.
+   */
+  function coherentCell(overrides: Record<string, unknown> = {}) {
+    return {
+      system: "test-system-1",
+      country: "kr",
+      family: "email-calendar",
+      eligibleRuns: 4,
+      successfulRuns: 2,
+      tasksAttempted: 2,
+      tasksDefined: 3,
+      successLatenciesSec: [100, 110],
+      allEligibleLatenciesSec: [90, 100, 110, 120],
+      totalEligibleCost: 1000,
+      criticalSafetyEvents: 0,
+      dataStatus: "demo",
+      publicationEligible: false,
+      ...overrides,
+    };
+  }
+
+  it("accepts a fully coherent cell", () => {
+    expect(runCellSchema.safeParse(coherentCell()).success).toBe(true);
+  });
+
+  it("rejects more successful runs than eligible runs", () => {
+    const result = runCellSchema.safeParse(
+      coherentCell({
+        successfulRuns: 5,
+        successLatenciesSec: [100, 110, 120, 130, 140],
+      }),
+    );
+    expect(result.success).toBe(false);
+    expect(JSON.stringify(result.error?.issues)).toContain("successfulRuns");
+  });
+
+  it("rejects a success latency list that does not match successfulRuns", () => {
+    expect(
+      runCellSchema.safeParse(coherentCell({ successLatenciesSec: [100] }))
+        .success,
+    ).toBe(false);
+    expect(
+      runCellSchema.safeParse(
+        coherentCell({ successLatenciesSec: [100, 110, 120] }),
+      ).success,
+    ).toBe(false);
+  });
+
+  it("rejects an eligible latency list that does not match eligibleRuns", () => {
+    expect(
+      runCellSchema.safeParse(
+        coherentCell({ allEligibleLatenciesSec: [90, 100, 110] }),
+      ).success,
+    ).toBe(false);
+    expect(
+      runCellSchema.safeParse(
+        coherentCell({ allEligibleLatenciesSec: [90, 100, 110, 120, 130] }),
+      ).success,
+    ).toBe(false);
+  });
+
+  it("rejects attempting more canonical tasks than are defined", () => {
+    const result = runCellSchema.safeParse(
+      coherentCell({ tasksAttempted: 4, tasksDefined: 3 }),
+    );
+    expect(result.success).toBe(false);
+    expect(JSON.stringify(result.error?.issues)).toContain("tasksAttempted");
   });
 });
 

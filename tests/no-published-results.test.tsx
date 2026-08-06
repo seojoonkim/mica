@@ -193,11 +193,12 @@ describe("home states an honest empty index", () => {
     expect(text).toContain(dict.home.readinessTitle);
   });
 
-  it("keeps the exact English disclosure strings with no data beneath them", async () => {
+  it("pairs the English publication status with no result table", async () => {
     render(await HomePage({ params: Promise.resolve({ lang: "en" }) }));
-    const text = document.body.textContent ?? "";
-    expect(text).toContain("Illustrative demo data");
-    expect(text).toContain("Not an official ranking");
+    expect(screen.getByTestId("publication-status")).toHaveTextContent(
+      getDict("en").home.publicationStatus,
+    );
+    expect(screen.queryByTestId("demo-disclosure")).toBeNull();
     expect(screen.queryAllByRole("table")).toHaveLength(0);
   });
 

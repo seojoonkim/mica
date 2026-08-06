@@ -11,9 +11,9 @@ import {
 } from "@/data/policy/publication";
 import {
   DataList,
-  DemoDisclosure,
   OnThisPage,
   PageHeader,
+  PublicationStatus,
   Section,
 } from "@/components/editorial";
 
@@ -65,7 +65,7 @@ export default async function MethodologyPage({
         title={dict.methodology.title}
         standfirst={dict.methodology.standfirst}
       >
-        <DemoDisclosure lang={lang} detail={dict.methodology.disclosureDetail} />
+        <PublicationStatus text={dict.methodology.publicationStatus} />
         <OnThisPage lang={lang} items={sections} />
       </PageHeader>
 

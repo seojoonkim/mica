@@ -4,7 +4,7 @@ import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
-import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
+import { PageHeader, PublicationStatus, Section } from "@/components/editorial";
 import { hasPublishedResults } from "@/lib/i18n/coverage";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -32,7 +32,7 @@ export default async function TasksPage({
         title={dict.tasks.title}
         standfirst={dict.tasks.standfirst}
       >
-        <DemoDisclosure lang={lang} detail={dict.tasks.disclosureDetail} />
+        <PublicationStatus text={dict.tasks.publicationStatus} />
         {/*
          * Ten families are defined by the taxonomy; none carries a published
          * result. Both counts are read from the fixtures.
@@ -62,7 +62,7 @@ export default async function TasksPage({
         </div>
       </Section>
 
-      <nav className="mica-task-index" aria-label={dict.tasks.title}>
+      <nav className="mica-task-index" aria-label={dict.tasks.catalogueNavigationLabel}>
         <ol>
           {TASK_FAMILIES.map((family, index) => (
             <li key={family.id}>
@@ -102,7 +102,7 @@ export default async function TasksPage({
                 .join(", ");
 
               return (
-                <li key={task.id} data-canonical-task>
+                <li key={task.id} data-canonical-task data-task-id={task.id}>
                   <article className="mica-task-entry">
                     <div className="mica-task-heading">
                       <span aria-hidden="true">
@@ -113,16 +113,21 @@ export default async function TasksPage({
                         <p>{task.id} · {markets}</p>
                       </div>
                     </div>
-                    <dl className="mica-task-details">
-                      <div>
-                        <dt>{dict.tasks.declaredFinalState}</dt>
-                        <dd>{copy.finalState}</dd>
-                      </div>
-                      <div className="mica-task-boundary">
-                        <dt>{dict.common.confirmationBoundary}</dt>
-                        <dd>{copy.confirmationBoundary}</dd>
-                      </div>
-                    </dl>
+                    <details className="mica-task-contract" data-task-contract>
+                      <summary aria-label={`${dict.tasks.showTaskContract}: ${copy.title}`}>
+                        <span>{dict.tasks.showTaskContract}</span>
+                      </summary>
+                      <dl className="mica-task-details mica-task-contract-content">
+                        <div>
+                          <dt>{dict.tasks.declaredFinalState}</dt>
+                          <dd>{copy.finalState}</dd>
+                        </div>
+                        <div className="mica-task-boundary">
+                          <dt>{dict.common.confirmationBoundary}</dt>
+                          <dd>{copy.confirmationBoundary}</dd>
+                        </div>
+                      </dl>
+                    </details>
                   </article>
                 </li>
               );

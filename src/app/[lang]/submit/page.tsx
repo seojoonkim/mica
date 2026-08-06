@@ -5,7 +5,7 @@ import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { COUNTRIES } from "@/data/demo/countries";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { PUBLICATION_RULES, VERIFICATION_STATUSES } from "@/data/policy/publication";
-import { DataList, DemoDisclosure, PageHeader, Section } from "@/components/editorial";
+import { DataList, PageHeader, PublicationStatus, Section } from "@/components/editorial";
 
 export async function generateMetadata({
   params,
@@ -36,7 +36,7 @@ export default async function SubmitPage({
         title={dict.submit.title}
         standfirst={dict.submit.standfirst}
       >
-        <DemoDisclosure lang={lang} detail={dict.submit.disclosureDetail} />
+        <PublicationStatus text={dict.submit.publicationStatus} />
       </PageHeader>
 
       <Section
