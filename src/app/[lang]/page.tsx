@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/components/locale-link";
+import { TaskFamilyIcon } from "@/components/task-family-icon";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
@@ -261,6 +262,7 @@ export default async function HomePage({
                 <span className="mica-home-family-number" aria-hidden="true">
                   {categoryNumber}
                 </span>
+                <TaskFamilyIcon family={family.id} />
                 <span className="mica-home-family-copy">
                   <strong>{dict.families[family.id].label}</strong>
                   <span>{dict.families[family.id].summary}</span>

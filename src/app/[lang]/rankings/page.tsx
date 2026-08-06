@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/components/locale-link";
+import { TaskFamilyIcon } from "@/components/task-family-icon";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
@@ -173,9 +174,10 @@ export default async function RankingsPage({
       >
         <ol className="mica-leaderboard-register mica-leaderboard-categories">
           {TASK_FAMILIES.map((entry, index) => (
-            <li key={entry.id} data-leaderboard-family={entry.id}>
+            <li key={entry.id} data-leaderboard-family={entry.id} data-icon-surface="ranking-category">
               <LocaleLink lang={lang} href={`/rankings?family=${entry.id}#results`} data-detail-link>
                 <span className="mica-register-index">{String(index + 1).padStart(2, "0")}</span>
+                <TaskFamilyIcon family={entry.id} />
                 <strong>{dict.families[entry.id].label}</strong>
                 <span className="mica-register-meta">{entry.canonicalTasks.length} {dict.common.canonicalTasks}</span>
                 <span className="mica-register-state">{dict.rankings.unpublishedLabel}</span>

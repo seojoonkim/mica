@@ -21,6 +21,7 @@
     "smoke:preview": "MICA_EXPECT_NOINDEX=1 node scripts/smoke-production.mjs"
   },
   "dependencies": {
+    "lucide-react": "1.28.0",
     "next": "^15.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

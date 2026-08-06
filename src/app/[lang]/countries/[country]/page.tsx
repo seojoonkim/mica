@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/components/locale-link";
+import { TaskFamilyIcon } from "@/components/task-family-icon";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
@@ -78,12 +79,13 @@ export default async function CountryPage({
       >
         <ul className="m-0 grid list-none gap-x-8 gap-y-1 border-t border-[var(--color-rule)] p-0 pt-3 text-[14.5px] md:grid-cols-2">
           {TASK_FAMILIES.map((family) => (
-            <li key={family.id}>
+            <li key={family.id} data-icon-surface="country-category">
               <LocaleLink
                 lang={lang}
                 href={`/tasks#${family.id}`}
                 className="mica-link"
               >
+                <TaskFamilyIcon family={family.id} />
                 {dict.families[family.id].label}
               </LocaleLink>
               <span className="ml-2 text-[var(--color-ink-faint)]">

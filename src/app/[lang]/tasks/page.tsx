@@ -6,6 +6,7 @@ import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
 import { PageHeader, PublicationStatus, Section } from "@/components/editorial";
+import { TaskFamilyIcon } from "@/components/task-family-icon";
 import { hasPublishedResults } from "@/lib/i18n/coverage";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -87,9 +88,10 @@ export default async function TasksPage({
       <nav className="mica-task-index" aria-label={dict.tasks.catalogueNavigationLabel}>
         <ol>
           {TASK_FAMILIES.map((family, index) => (
-            <li key={family.id}>
+            <li key={family.id} data-icon-surface="task-jump">
               <a href={`#${family.id}`}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
+                <TaskFamilyIcon family={family.id} />
                 {dict.families[family.id].label}
               </a>
             </li>
@@ -109,7 +111,12 @@ export default async function TasksPage({
                 ? dict.coverage.measuredBadge
                 : dict.coverage.unmeasuredBadge
             }`}
-            title={dict.families[family.id].label}
+            title={
+              <span className="mica-task-family-title" data-icon-surface="task-heading">
+                <TaskFamilyIcon family={family.id} />
+                <span>{dict.families[family.id].label}</span>
+              </span>
+            }
             intro={dict.families[family.id].summary}
           >
           <p className="mica-notice mica-body-sm">
