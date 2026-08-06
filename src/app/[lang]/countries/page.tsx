@@ -2,7 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import { COUNTRIES } from "@/data/demo/countries";
 import { heroMissionsForCountry } from "@/data/demo/tasks";
 import { DemoDisclosure, DetailCue, PageHeader, Section } from "@/components/editorial";
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.countries.metaTitle,
     description: dict.countries.metaDescription,
-    alternates: { canonical: localeHref(lang, "/countries") },
+    alternates: localeAlternates(lang, "/countries"),
   };
 }
 

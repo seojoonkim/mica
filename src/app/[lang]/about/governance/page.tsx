@@ -2,7 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import { EVIDENCE_LABELS } from "@/data/policy/publication";
 import { DataList, DemoDisclosure, PageHeader, Section } from "@/components/editorial";
 
@@ -16,7 +16,7 @@ export async function generateMetadata({
   return {
     title: dict.governance.metaTitle,
     description: dict.governance.metaDescription,
-    alternates: { canonical: localeHref(lang, "/about/governance") },
+    alternates: localeAlternates(lang, "/about/governance"),
   };
 }
 

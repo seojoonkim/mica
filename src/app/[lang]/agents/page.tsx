@@ -2,7 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import {
   RESULT_TRACKS,
   VERIFICATION_STATUSES,
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.agents.metaTitle,
     description: dict.agents.metaDescription,
-    alternates: { canonical: localeHref(lang, "/agents") },
+    alternates: localeAlternates(lang, "/agents"),
   };
 }
 

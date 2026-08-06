@@ -2,7 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import { OUTCOME_AXES, DIAGNOSTIC_AXES } from "@/data/policy/axes";
 import {
   PUBLICATION_RULES,
@@ -28,7 +28,7 @@ export async function generateMetadata({
   return {
     title: dict.methodology.metaTitle,
     description: dict.methodology.metaDescription,
-    alternates: { canonical: localeHref(lang, "/methodology") },
+    alternates: localeAlternates(lang, "/methodology"),
   };
 }
 

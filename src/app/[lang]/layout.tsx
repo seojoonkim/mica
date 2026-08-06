@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { SITE } from "@/lib/site";
 import { Colophon, DemoStatusBar, Masthead, SkipLink } from "@/components/chrome";
-import { HTML_LANG, LOCALES, localeHref } from "@/lib/i18n/config";
+import { HTML_LANG, localeAlternates, localeHref } from "@/lib/i18n/config";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, localeStaticParams, type LangParams } from "@/lib/i18n/route";
 
@@ -30,15 +30,7 @@ export async function generateMetadata({
     title: { default: title, template: `%s — ${SITE.name}` },
     description: dict.site.definition,
     applicationName: SITE.name,
-    alternates: {
-      canonical: localeHref(lang, "/"),
-      languages: {
-        ...Object.fromEntries(
-          LOCALES.map((locale) => [locale, localeHref(locale, "/")]),
-        ),
-        "x-default": localeHref("en", "/"),
-      },
-    },
+    alternates: localeAlternates(lang, "/"),
     openGraph: {
       type: "website",
       siteName: SITE.name,

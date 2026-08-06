@@ -2,7 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import { SITE } from "@/lib/site";
 import { COUNTRIES } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
@@ -31,7 +31,7 @@ export async function generateMetadata({
   return {
     title: `${SITE.name} — ${dict.site.longName}`,
     description: dict.site.definition,
-    alternates: { canonical: localeHref(lang, "/") },
+    alternates: localeAlternates(lang, "/"),
   };
 }
 

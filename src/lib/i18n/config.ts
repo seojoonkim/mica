@@ -24,6 +24,18 @@ export function localeHref(lang: Locale, path: string): string {
   return `${localizedPath}${query ? `?${query}` : ""}`;
 }
 
+/** Complete canonical and hreflang metadata for one logical path. */
+export function localeAlternates(lang: Locale, path: string) {
+  return {
+    canonical: localeHref(lang, path),
+    languages: {
+      en: localeHref("en", path),
+      ko: localeHref("ko", path),
+      "x-default": localeHref("en", path),
+    },
+  };
+}
+
 /**
  * The inverse: split a pathname into its locale segment and logical path.
  * `lang` is null for canonical unprefixed English URLs.

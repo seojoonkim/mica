@@ -14,7 +14,7 @@ import {
 } from "@/lib/schema";
 import { VERIFICATION_STATUSES } from "@/data/policy/publication";
 import { AxisGlyph, DetailCue, PageHeader, PublicationStatus, Section } from "@/components/editorial";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates, localeHref } from "@/lib/i18n/config";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
   const lang = await readLocale(params);
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.rankings.metaTitle,
     description: dict.rankings.metaDescription,
-    alternates: { canonical: localeHref(lang, "/rankings") },
+    alternates: localeAlternates(lang, "/rankings"),
   };
 }
 

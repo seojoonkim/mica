@@ -4,6 +4,7 @@ import {
   DEFAULT_LOCALE,
   LOCALES,
   isLocale,
+  localeAlternates,
   localeHref,
   splitLocale,
   htmlLangForCountry,
@@ -122,6 +123,28 @@ describe("locale primitives", () => {
     expect(localeHref("ko", "/evidence?country=kr")).toBe(
       "/ko/evidence?country=kr",
     );
+  });
+
+  it("publishes complete path-specific canonical and hreflang alternates", () => {
+    expect(localeAlternates("en", "/methodology")).toEqual({
+      canonical: "/methodology",
+      languages: {
+        en: "/methodology",
+        ko: "/ko/methodology",
+        "x-default": "/methodology",
+      },
+    });
+    expect(localeAlternates("ko", "/countries/kr")).toEqual({
+      canonical: "/ko/countries/kr",
+      languages: {
+        en: "/countries/kr",
+        ko: "/ko/countries/kr",
+        "x-default": "/countries/kr",
+      },
+    });
+  });
+
+  it("splits explicit locale prefixes from logical paths", () => {
     expect(splitLocale("/ko/rankings")).toEqual({ lang: "ko", path: "/rankings" });
     expect(splitLocale("/en")).toEqual({ lang: "en", path: "/" });
     expect(splitLocale("/rankings")).toEqual({ lang: null, path: "/rankings" });

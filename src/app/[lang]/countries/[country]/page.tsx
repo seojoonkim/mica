@@ -2,6 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
+import { localeAlternates } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
 import { COUNTRIES, getCountry } from "@/data/demo/countries";
 import { heroMissionsForCountry, familyLabel } from "@/data/demo/tasks";
@@ -26,13 +27,15 @@ export async function generateMetadata({
 }: {
   params: Promise<LangParams & { country: string }>;
 }): Promise<Metadata> {
-  const { country: slug } = await params;
+  const resolved = await params;
+  const lang = await readLocale(Promise.resolve(resolved));
+  const { country: slug } = resolved;
   const country = getCountry(slug);
   if (!country) return { title: "Market not found" };
   return {
     title: `${country.name} edition`,
     description: country.editionNote,
-    alternates: { canonical: `/countries/${country.code}` },
+    alternates: localeAlternates(lang, `/countries/${country.code}`),
   };
 }
 

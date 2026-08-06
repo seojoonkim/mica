@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.tasks.metaTitle,
     description: dict.tasks.metaDescription,
-    alternates: { canonical: localeHref(lang, "/tasks") },
+    alternates: localeAlternates(lang, "/tasks"),
   };
 }
 

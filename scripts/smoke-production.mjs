@@ -116,6 +116,24 @@ function checkHtmlRoute(route, res, html) {
     if (got !== want) fail(route, "canonical", `pathname ${got} !== route ${want}`);
   }
 
+  const logicalPath = route === "/ko" ? "/" : route.startsWith("/ko/") ? route.slice(3) : route;
+  const expectedAlternates = {
+    en: logicalPath,
+    ko: logicalPath === "/" ? "/ko" : `/ko${logicalPath}`,
+    "x-default": logicalPath,
+  };
+  for (const [hreflang, expectedPath] of Object.entries(expectedAlternates)) {
+    const pattern = new RegExp(`<link[^>]+rel=["']alternate["'][^>]+hreflang=["']${hreflang}["'][^>]+href=["']([^"']+)["']`, "i");
+    const alternate = firstMatch(html, pattern);
+    if (!alternate) {
+      fail(route, "hreflang", `missing ${hreflang}`);
+      continue;
+    }
+    const got = new URL(alternate, res.url).pathname.replace(/\/$/, "") || "/";
+    const want = expectedPath.replace(/\/$/, "") || "/";
+    if (got !== want) fail(route, "hreflang", `${hreflang} pathname ${got} !== ${want}`);
+  }
+
   // Preview noindex may arrive via HTML meta or header. Indexable production
   // deployments leave MICA_EXPECT_NOINDEX unset and do not assert this policy.
   const robotsMeta = metaContent(html, "robots") ?? "";

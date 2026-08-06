@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
-import { localeHref } from "@/lib/i18n/config";
+import { localeAlternates } from "@/lib/i18n/config";
 import {
   DataList,
   DemoDisclosure,
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.evidence.metaTitle,
     description: dict.evidence.metaDescription,
-    alternates: { canonical: localeHref(lang, "/evidence") },
+    alternates: localeAlternates(lang, "/evidence"),
   };
 }
 
