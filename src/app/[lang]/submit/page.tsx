@@ -2,6 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
+import { localeHref } from "@/lib/i18n/config";
 import { COUNTRIES } from "@/data/demo/countries";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { PUBLICATION_RULES, VERIFICATION_STATUSES } from "@/data/policy/publication";
@@ -17,7 +18,7 @@ export async function generateMetadata({
   return {
     title: dict.submit.metaTitle,
     description: dict.submit.metaDescription,
-    alternates: { canonical: `/${lang}/submit` },
+    alternates: { canonical: localeHref(lang, "/submit") },
   };
 }
 

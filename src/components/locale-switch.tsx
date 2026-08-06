@@ -5,8 +5,6 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
   LOCALES,
-  LOCALE_COOKIE,
-  LOCALE_COOKIE_MAX_AGE,
   localeHref,
   splitLocale,
   type Locale,
@@ -37,9 +35,6 @@ export function LocaleSwitch({
   const dict = getDict(lang);
   const target = search ? `${path}?${search}` : path;
 
-  const remember = (next: Locale) => {
-    document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; samesite=lax`;
-  };
 
   return (
     <nav aria-label={dict.locale.switchLabel} className="mica-langswitch">
@@ -52,7 +47,6 @@ export function LocaleSwitch({
               lang={locale}
               aria-current={locale === lang ? "true" : undefined}
               className="mica-langlink"
-              onClick={() => remember(locale)}
             >
               {dict.locale[locale]}
             </Link>

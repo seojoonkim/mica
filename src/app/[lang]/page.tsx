@@ -2,6 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
+import { localeHref } from "@/lib/i18n/config";
 import { SITE } from "@/lib/site";
 import { COUNTRIES } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
@@ -11,6 +12,7 @@ import { DIAGNOSTIC_AXES, OUTCOME_AXES } from "@/data/policy/axes";
 import {
   AxisGlyph,
   DataList,
+  DetailCue,
   PublicationStatus,
   Section,
 } from "@/components/editorial";
@@ -29,7 +31,7 @@ export async function generateMetadata({
   return {
     title: `${SITE.name} — ${dict.site.longName}`,
     description: dict.site.definition,
-    alternates: { canonical: `/${lang}` },
+    alternates: { canonical: localeHref(lang, "/") },
   };
 }
 
@@ -140,6 +142,7 @@ export default async function HomePage({
                   lang={lang}
                   href={`/countries/${country.code}`}
                   className="block text-[var(--color-ink)] no-underline"
+                  data-detail-link
                 >
                   <span className="mica-band-code">{country.code}</span>
                   <span
@@ -151,6 +154,7 @@ export default async function HomePage({
                   <span className="mica-band-name">
                     {dict.markets[country.code]}
                   </span>
+                  <DetailCue />
                 </LocaleLink>
               </li>
             ))}
@@ -253,7 +257,7 @@ export default async function HomePage({
             <li
               key={family.id}
             >
-              <LocaleLink lang={lang} href={`/tasks#${family.id}`}>
+              <LocaleLink lang={lang} href={`/tasks#${family.id}`} data-detail-link>
                 <span className="mica-home-family-number" aria-hidden="true">
                   {categoryNumber}
                 </span>
@@ -264,6 +268,7 @@ export default async function HomePage({
                 <span className="mica-home-family-count">
                   {family.canonicalTasks.length} {dict.common.canonicalTasks}
                 </span>
+                <DetailCue />
               </LocaleLink>
             </li>
             );

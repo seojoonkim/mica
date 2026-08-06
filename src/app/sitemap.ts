@@ -27,9 +27,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...COUNTRIES.map((country) => `/countries/${country.code}`),
   ];
 
-  // Every page now lives under a locale segment, so there is no unlocalized
-  // URL to emit; each logical path appears once per locale with the alternates
-  // stated so a crawler is never asked to guess which language it landed in.
+  // English is canonical at the unprefixed path; Korean uses /ko. Each logical
+  // path appears once per locale with explicit alternates so crawlers never
+  // need to infer language from content.
   return LOCALES.flatMap((lang) =>
     paths.map((path) => ({
       url: `${SITE.url}${localeHref(lang, path)}`,

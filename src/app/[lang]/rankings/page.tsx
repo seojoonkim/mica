@@ -13,7 +13,7 @@ import {
   type VerificationStatusId,
 } from "@/lib/schema";
 import { VERIFICATION_STATUSES } from "@/data/policy/publication";
-import { AxisGlyph, PageHeader, PublicationStatus, Section } from "@/components/editorial";
+import { AxisGlyph, DetailCue, PageHeader, PublicationStatus, Section } from "@/components/editorial";
 import { localeHref } from "@/lib/i18n/config";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.rankings.metaTitle,
     description: dict.rankings.metaDescription,
-    alternates: { canonical: `/${lang}/rankings` },
+    alternates: { canonical: localeHref(lang, "/rankings") },
   };
 }
 
@@ -152,12 +152,13 @@ export default async function RankingsPage({
         <ol className="mica-leaderboard-register mica-leaderboard-markets">
           {COUNTRIES.map((entry, index) => (
             <li key={entry.code} data-leaderboard-market={entry.code} data-market={entry.code}>
-              <LocaleLink lang={lang} href={`/rankings?country=${entry.code}#results`}>
+              <LocaleLink lang={lang} href={`/rankings?country=${entry.code}#results`} data-detail-link>
                 <span className="mica-register-index">{String(index + 1).padStart(2, "0")}</span>
                 <strong>{dict.markets[entry.code]}</strong>
                 <span className="mica-register-meta">{entry.currency}</span>
                 <span className="mica-register-state">{dict.rankings.unpublishedLabel}</span>
                 <span className="mica-register-action">{dict.rankings.marketOpen}</span>
+                <DetailCue />
               </LocaleLink>
             </li>
           ))}
@@ -173,12 +174,13 @@ export default async function RankingsPage({
         <ol className="mica-leaderboard-register mica-leaderboard-categories">
           {TASK_FAMILIES.map((entry, index) => (
             <li key={entry.id} data-leaderboard-family={entry.id}>
-              <LocaleLink lang={lang} href={`/rankings?family=${entry.id}#results`}>
+              <LocaleLink lang={lang} href={`/rankings?family=${entry.id}#results`} data-detail-link>
                 <span className="mica-register-index">{String(index + 1).padStart(2, "0")}</span>
                 <strong>{dict.families[entry.id].label}</strong>
                 <span className="mica-register-meta">{entry.canonicalTasks.length} {dict.common.canonicalTasks}</span>
                 <span className="mica-register-state">{dict.rankings.unpublishedLabel}</span>
                 <span className="mica-register-action">{dict.rankings.categoryOpen}</span>
+                <DetailCue />
               </LocaleLink>
             </li>
           ))}

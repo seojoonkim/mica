@@ -28,6 +28,15 @@ export function AxisGlyph({ axis }: { axis: keyof typeof AXIS_GLYPH }) {
   );
 }
 
+/** A visible cue for register rows that open another page or filtered view. */
+export function DetailCue() {
+  return (
+    <span className="mica-detail-cue" data-detail-cue aria-hidden="true">
+      <span>→</span>
+    </span>
+  );
+}
+
 /**
  * The mandatory disclosure. It appears on every surface that shows a score, and
  * always carries both `Illustrative demo data` and `Not an official ranking` as
@@ -158,15 +167,15 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="mica-section">
+    <section id={id} className="mica-section" data-editorial-section>
       {/*
        * The section numeral is a CSS counter on an aria-hidden span, so the
        * editorial rhythm costs the document outline nothing: the h2 below is
        * unchanged and still the only thing announced.
        */}
-      <div className="mica-section-head">
+      <div className="mica-section-head" data-section-header>
         <p className="mica-section-num m-0" aria-hidden="true" />
-        <div className="min-w-0">
+        <div className="mica-section-copy min-w-0">
           {eyebrow ? <p className="mica-eyebrow">{eyebrow}</p> : null}
           <h2 className="mica-display mica-h2 mt-2">{title}</h2>
           {intro ? (
@@ -176,7 +185,7 @@ export function Section({
           ) : null}
         </div>
       </div>
-      <div className="mt-7">{children}</div>
+      <div className="mica-section-body" data-section-body>{children}</div>
     </section>
   );
 }

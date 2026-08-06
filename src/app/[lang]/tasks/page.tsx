@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
+import { localeHref } from "@/lib/i18n/config";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.tasks.metaTitle,
     description: dict.tasks.metaDescription,
-    alternates: { canonical: `/${lang}/tasks` },
+    alternates: { canonical: localeHref(lang, "/tasks") },
   };
 }
 
@@ -59,6 +60,27 @@ export default async function TasksPage({
               </p>
             </article>
           ))}
+        </div>
+      </Section>
+
+      <Section
+        id="completion-policy"
+        eyebrow={dict.tasks.scoringEyebrow}
+        title={dict.taskPolicy.completionTitle}
+        intro={dict.taskPolicy.noPartialCredit}
+      >
+        <div data-completion-policy>
+          <ol className="mica-policy-list" role="list">
+            {dict.taskPolicy.completionLevels.map((level, index) => (
+              <li key={level.label} data-completion-level>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{level.label}</h3>
+                  <p>{level.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </Section>
 

@@ -14,17 +14,18 @@ const TIMEOUT_MS = 20_000;
 const EXPECT_NOINDEX = process.env.MICA_EXPECT_NOINDEX === "1";
 
 const HTML_ROUTES = [
-  "/en",
+  "/",
   "/ko",
-  "/en/rankings",
+  "/rankings",
   "/ko/rankings",
-  "/en/tasks",
+  "/tasks",
   "/ko/tasks",
-  "/en/methodology",
+  "/methodology",
   "/ko/methodology",
 ];
 
 const DATA_ROUTE = "/data/demo/mica-demo.json";
+const NON_PAGE_ROUTES = ["/robots.txt", "/sitemap.xml"];
 const CANONICAL_MARKETS = ["kr", "jp", "sg", "tw", "ae", "th"];
 
 /**
@@ -59,6 +60,15 @@ async function fetchRoute(baseUrl, route) {
   return { res, body: await res.text(), url };
 }
 
+async function fetchRedirect(baseUrl, route) {
+  const url = new URL(route, baseUrl).toString();
+  return fetch(url, {
+    redirect: "manual",
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+    headers: { "user-agent": "mica-smoke/1.0" },
+  });
+}
+
 function firstMatch(html, re) {
   const m = html.match(re);
   return m ? m[1].trim() : null;
@@ -84,6 +94,10 @@ function checkHtmlRoute(route, res, html) {
     fail(route, "status", `expected 200, got ${res.status}`);
     return;
   }
+
+  const lang = firstMatch(html, /<html[^>]+lang=["']([^"']+)["']/i);
+  const expectedLang = route === "/ko" || route.startsWith("/ko/") ? "ko" : "en";
+  if (lang !== expectedLang) fail(route, "document language", `${lang || "missing"} !== ${expectedLang}`);
 
   const title = firstMatch(html, /<title[^>]*>([\s\S]*?)<\/title>/i);
   if (!title) fail(route, "title", "missing or empty <title>");
@@ -194,6 +208,32 @@ async function main() {
     }
   }
 
+  for (const [from, to] of [
+    ["/en", "/"],
+    ["/en/rankings?country=kr", "/rankings?country=kr"],
+  ]) {
+    try {
+      const res = await fetchRedirect(baseUrl, from);
+      const location = res.headers.get("location");
+      const resolved = location ? new URL(location, baseUrl) : null;
+      const got = resolved ? `${resolved.pathname}${resolved.search}` : "missing";
+      if (res.status !== 308) fail(from, "legacy redirect", `expected 308, got ${res.status}`);
+      if (got !== to) fail(from, "legacy redirect", `${got} !== ${to}`);
+    } catch (err) {
+      fail(from, "legacy redirect", err.message);
+    }
+  }
+
+  for (const route of NON_PAGE_ROUTES) {
+    try {
+      const res = await fetchRedirect(baseUrl, route);
+      if (res.status !== 200) fail(route, "non-page route", `expected 200 without redirect, got ${res.status}`);
+      if (res.headers.get("location")) fail(route, "non-page route", `unexpected redirect to ${res.headers.get("location")}`);
+    } catch (err) {
+      fail(route, "non-page route", err.message);
+    }
+  }
+
   try {
     const { res, body } = await fetchRoute(baseUrl, DATA_ROUTE);
     checkDataFixture(DATA_ROUTE, res, body);
@@ -207,7 +247,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`PASS ${baseUrl} — ${HTML_ROUTES.length} HTML routes and 1 data route`);
+  console.log(`PASS ${baseUrl} — ${HTML_ROUTES.length} HTML routes, ${NON_PAGE_ROUTES.length} non-page routes and 1 data route`);
 }
 
 await main();

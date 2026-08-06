@@ -276,14 +276,14 @@ describe("Korean detail routes", () => {
     await expect(homeMetadata({ params: params() })).resolves.toMatchObject({
       title: `MICA — ${en.site.longName}`,
       description: en.site.definition,
-      alternates: { canonical: "/en" },
+      alternates: { canonical: "/" },
     });
     for (const [metadata, copy, path] of [
-      [countriesMetadata, en.countries, "/en/countries"],
-      [rankingsMetadata, en.rankings, "/en/rankings"],
-      [agentsMetadata, en.agents, "/en/agents"],
-      [tasksMetadata, en.tasks, "/en/tasks"],
-      [evidenceMetadata, en.evidence, "/en/evidence"],
+      [countriesMetadata, en.countries, "/countries"],
+      [rankingsMetadata, en.rankings, "/rankings"],
+      [agentsMetadata, en.agents, "/agents"],
+      [tasksMetadata, en.tasks, "/tasks"],
+      [evidenceMetadata, en.evidence, "/evidence"],
     ] as const) {
       await expect(metadata({ params: params() })).resolves.toMatchObject({
         title: copy.metaTitle,

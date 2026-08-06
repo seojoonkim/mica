@@ -2,9 +2,12 @@ import { expect, test } from "@playwright/test";
 
 const locales = ["en", "ko"] as const;
 
+const localePath = (lang: (typeof locales)[number], path = "") =>
+  lang === "en" ? path || "/" : `/ko${path}`;
+
 for (const lang of locales) {
   test(`${lang} home exposes publication status without horizontal page overflow`, async ({ page }) => {
-    await page.goto(`/${lang}`);
+    await page.goto(localePath(lang));
     await expect(page.getByTestId("publication-status")).toBeVisible();
     await expect(page.getByTestId("demo-disclosure")).toHaveCount(0);
     const widths = await page.evaluate(() => ({
@@ -50,7 +53,7 @@ for (const lang of locales) {
   });
 
   test(`${lang} empty rankings status precedes controls`, async ({ page }) => {
-    await page.goto(`/${lang}/rankings?country=kr&family=email-calendar`);
+    await page.goto(`${localePath(lang, "/rankings")}?country=kr&family=email-calendar`);
     const status = page.getByTestId("publication-status");
     const form = page.getByRole("form");
     await expect(status).toBeVisible();
@@ -66,8 +69,34 @@ for (const lang of locales) {
     await expect(page.getByRole("table")).toHaveCount(0);
   });
 
+  test(`${lang} methodology keeps local-platform and value policies readable`, async ({ page }) => {
+    await page.goto(localePath(lang, "/methodology"));
+    const policies = page.locator("[data-platform-policy], [data-locality-policy], [data-value-policy]");
+    await expect(policies).toHaveCount(3);
+    for (const policy of await policies.all()) {
+      await expect(policy).toBeVisible();
+      const geometry = await policy.evaluate((node) => {
+        const rect = node.getBoundingClientRect();
+        return {
+          insideViewport: rect.left >= 0 && rect.right <= document.documentElement.clientWidth + 1,
+          contentContained: [...node.querySelectorAll("li")].every((item) => {
+            const itemRect = item.getBoundingClientRect();
+            return itemRect.left >= rect.left - 1 && itemRect.right <= rect.right + 1;
+          }),
+        };
+      });
+      expect(geometry.insideViewport).toBe(true);
+      expect(geometry.contentContained).toBe(true);
+    }
+    const widths = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+    }));
+    expect(widths.document).toBeLessThanOrEqual(widths.viewport);
+  });
+
   test(`${lang} task index and native contract remain usable`, async ({ page }) => {
-    await page.goto(`/${lang}/tasks`);
+    await page.goto(localePath(lang, "/tasks"));
     const contracts = page.locator("details[data-task-contract]");
     await expect(contracts).toHaveCount(100);
     const widths = await page.evaluate(() => ({

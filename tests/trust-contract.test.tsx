@@ -201,6 +201,6 @@ describe("demo preview metadata", () => {
     expect(rootMetadata.metadataBase?.toString()).toContain(
       new URL(SITE.url).host,
     );
-    expect(rootMetadata.alternates?.canonical).toBe("/en");
+    expect(rootMetadata.alternates?.canonical).toBe("/");
   });
 });

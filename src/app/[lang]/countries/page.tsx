@@ -2,9 +2,10 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
+import { localeHref } from "@/lib/i18n/config";
 import { COUNTRIES } from "@/data/demo/countries";
 import { heroMissionsForCountry } from "@/data/demo/tasks";
-import { DemoDisclosure, PageHeader, Section } from "@/components/editorial";
+import { DemoDisclosure, DetailCue, PageHeader, Section } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<LangParams>
   return {
     title: dict.countries.metaTitle,
     description: dict.countries.metaDescription,
-    alternates: { canonical: `/${lang}/countries` },
+    alternates: { canonical: localeHref(lang, "/countries") },
   };
 }
 
@@ -99,15 +100,18 @@ export default async function CountriesPage({
           {COUNTRIES.map((country) => (
             <article
               key={country.code}
+              data-country-edition
               className="mica-grid border-b border-[var(--color-rule)] py-6"
             >
               <div className="md:col-span-4">
                 <h3 className="mica-display text-[24px]">
                   <LocaleLink lang={lang}
                     href={`/countries/${country.code}`}
-                    className="text-[var(--color-ink)] no-underline hover:text-[var(--color-vermilion)]"
+                    className="mica-country-edition-link"
+                    data-detail-link
                   >
                     {dict.markets[country.code]}
+                    <DetailCue />
                   </LocaleLink>
                 </h3>
                 <p className="mica-eyebrow mt-1">

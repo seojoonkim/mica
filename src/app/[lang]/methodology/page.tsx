@@ -2,6 +2,7 @@ import { LocaleLink } from "@/components/locale-link";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
+import { localeHref } from "@/lib/i18n/config";
 import { OUTCOME_AXES, DIAGNOSTIC_AXES } from "@/data/policy/axes";
 import {
   PUBLICATION_RULES,
@@ -27,7 +28,7 @@ export async function generateMetadata({
   return {
     title: dict.methodology.metaTitle,
     description: dict.methodology.metaDescription,
-    alternates: { canonical: `/${lang}/methodology` },
+    alternates: { canonical: localeHref(lang, "/methodology") },
   };
 }
 
@@ -120,6 +121,69 @@ export default async function MethodologyPage({
             <strong>{dict.methodology.macroTerm}</strong>
             {dict.methodology.countingMacroSuffix}
           </p>
+        </div>
+      </Section>
+
+      <Section
+        id="platform-policy"
+        eyebrow={dict.taskPolicy.platformEyebrow}
+        title={dict.taskPolicy.platformTitle}
+        intro={dict.taskPolicy.platformExclusion}
+      >
+        <div data-platform-policy>
+          <ol className="mica-policy-list" role="list">
+            {dict.taskPolicy.platformRules.map((rule, index) => (
+              <li key={rule.label} data-platform-rule>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{rule.label}</h3>
+                  <p>{rule.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Section>
+
+      <Section
+        id="locality-policy"
+        eyebrow={dict.taskPolicy.localityEyebrow}
+        title={dict.taskPolicy.localityTitle}
+        intro={dict.taskPolicy.localityIntro}
+      >
+        <div data-locality-policy>
+          <ol className="mica-policy-list" role="list">
+            {dict.taskPolicy.localityRules.map((rule, index) => (
+              <li key={rule.label} data-locality-rule>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{rule.label}</h3>
+                  <p>{rule.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Section>
+
+      <Section
+        id="value-policy"
+        eyebrow={dict.taskPolicy.valueEyebrow}
+        title={dict.taskPolicy.valueTitle}
+        intro={dict.taskPolicy.valueIntro}
+      >
+        <div data-value-policy>
+          <ol className="mica-policy-list" role="list">
+            {dict.taskPolicy.valueRules.map((rule, index) => (
+              <li key={rule.label} data-value-rule>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{rule.label}</h3>
+                  <p>{rule.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </Section>
 

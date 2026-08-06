@@ -102,7 +102,7 @@ describe("global demo status bar", () => {
     render(<DemoStatusBar lang="en" />);
     expect(screen.getByRole("link", { name: /method/i })).toHaveAttribute(
       "href",
-      "/en/methodology",
+      "/methodology",
     );
     expect(screen.getByRole("link", { name: /json/i })).toHaveAttribute(
       "href",

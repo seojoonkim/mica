@@ -3,10 +3,8 @@ import { render, screen, within } from "@testing-library/react";
 import {
   DEFAULT_LOCALE,
   LOCALES,
-  LOCALE_COOKIE,
   isLocale,
   localeHref,
-  pickLocale,
   splitLocale,
   htmlLangForCountry,
 } from "@/lib/i18n/config";
@@ -110,25 +108,16 @@ function tokens(value: string, pattern: RegExp): string[] {
 }
 
 describe("locale primitives", () => {
-  it("declares exactly English and Korean with English as the fallback", () => {
+  it("declares exactly English and Korean with canonical English as the default", () => {
     expect([...LOCALES]).toEqual(["en", "ko"]);
     expect(DEFAULT_LOCALE).toBe("en");
-    expect(LOCALE_COOKIE).toBe("mica_lang");
     expect(isLocale("ko")).toBe(true);
     expect(isLocale("fr")).toBe(false);
   });
 
-  it("prefers the cookie, then Accept-Language, then English", () => {
-    expect(pickLocale("ko", "en-GB,en;q=0.9")).toBe("ko");
-    expect(pickLocale("en", "ko-KR,ko;q=0.9")).toBe("en");
-    expect(pickLocale(undefined, "ko-KR,ko;q=0.9,en;q=0.8")).toBe("ko");
-    expect(pickLocale(undefined, "en-US,en;q=0.9,ko;q=0.8")).toBe("en");
-    expect(pickLocale(undefined, undefined)).toBe("en");
-    expect(pickLocale("de", "fr-FR")).toBe("en");
-  });
-
-  it("prefixes and strips the locale segment without losing the logical path", () => {
-    expect(localeHref("en", "/")).toBe("/en");
+  it("keeps English on the root and prefixes Korean without losing the logical path", () => {
+    expect(localeHref("en", "/")).toBe("/");
+    expect(localeHref("en", "/rankings")).toBe("/rankings");
     expect(localeHref("ko", "/rankings")).toBe("/ko/rankings");
     expect(localeHref("ko", "/evidence?country=kr")).toBe(
       "/ko/evidence?country=kr",
@@ -303,7 +292,7 @@ describe("localized page rendering", () => {
   );
 
   it.each(["en", "ko"] as const)(
-    "prefixes every internal href with the %s locale",
+    "writes every internal href in the canonical %s locale shape",
     async (lang) => {
       render(await HomePage({ params: Promise.resolve({ lang }) }));
       const hrefs = [...document.querySelectorAll("a[href^='/']")].map(
@@ -312,10 +301,10 @@ describe("localized page rendering", () => {
       const internal = hrefs.filter((href) => !href.startsWith("/data/"));
       expect(internal.length).toBeGreaterThan(0);
       for (const href of internal) {
-        expect(href.startsWith(`/${lang}`)).toBe(true);
+        expect(lang === "en" ? !href.startsWith("/en") && !href.startsWith("/ko") : href.startsWith("/ko")).toBe(true);
       }
-      expect(internal).toContain(`/${lang}/rankings`);
-      expect(internal).toContain(`/${lang}/methodology`);
+      expect(internal).toContain(lang === "en" ? "/rankings" : "/ko/rankings");
+      expect(internal).toContain(lang === "en" ? "/methodology" : "/ko/methodology");
     },
   );
 
@@ -348,7 +337,7 @@ describe("language switch", () => {
     const koLink = within(nav).getByRole("link", { name: "한국어" });
     expect(enLink).toHaveAttribute("hreflang", "en");
     expect(koLink).toHaveAttribute("hreflang", "ko");
-    expect(enLink).toHaveAttribute("href", "/en/rankings");
+    expect(enLink).toHaveAttribute("href", "/rankings");
     expect(koLink).toHaveAttribute("href", "/ko/rankings");
     expect(koLink).toHaveAttribute("aria-current", "true");
     expect(enLink).not.toHaveAttribute("aria-current");
@@ -377,11 +366,11 @@ describe("localized document metadata", () => {
       const meta = await layoutMetadata({ params: Promise.resolve({ lang }) });
       expect(meta.robots).toMatchObject({ index: false, follow: false });
       expect(meta.metadataBase?.toString()).toContain(new URL(SITE.url).host);
-      expect(meta.alternates?.canonical).toBe(`/${lang}`);
+      expect(meta.alternates?.canonical).toBe(lang === "en" ? "/" : "/ko");
       expect(meta.alternates?.languages).toMatchObject({
-        en: "/en",
+        en: "/",
         ko: "/ko",
-        "x-default": "/en",
+        "x-default": "/",
       });
       expect(meta.description).toBe(getDict(lang).site.definition);
       expect(meta.other).toMatchObject({
@@ -396,17 +385,17 @@ describe("localized document metadata", () => {
 describe("sitemap", () => {
   const urls = sitemap().map((entry) => entry.url);
 
-  it("emits every page in both locales", () => {
+  it("emits root English and /ko Korean for every page", () => {
     for (const path of ["", "/rankings", "/evidence", "/about/governance"]) {
-      expect(urls).toContain(`${SITE.url}/en${path}`);
+      expect(urls).toContain(`${SITE.url}${path || "/"}`);
       expect(urls).toContain(`${SITE.url}/ko${path}`);
     }
   });
 
-  it("keeps no unlocalized page urls", () => {
+  it("never publishes a legacy /en canonical", () => {
     for (const url of urls) {
       const rest = url.slice(SITE.url.length);
-      expect(rest.startsWith("/en") || rest.startsWith("/ko")).toBe(true);
+      expect(rest.startsWith("/en")).toBe(false);
     }
   });
 });

@@ -439,6 +439,55 @@ export const en = {
       "One mission per market and family, written the way a person would actually ask.",
   },
 
+  taskPolicy: {
+    completionTitle: "One completion rule, five auditable outcomes",
+    noPartialCredit:
+      "Only confirmed completion counts as success. Partial progress, an unconfirmed claim, or a state outside the confirmation boundary receives no partial credit.",
+    completionLevels: [
+      { label: "Confirmed success", detail: "The declared final state is reached and verified inside the stated confirmation boundary." },
+      { label: "Unconfirmed completion", detail: "The system claims completion, but the final state cannot be verified." },
+      { label: "Partial progress", detail: "Useful intermediate steps are completed, but the declared final state is not reached." },
+      { label: "Recoverable failure", detail: "The run fails before completion without leaving an irreversible harmful state." },
+      { label: "Critical failure", detail: "The run causes a prohibited, unsafe, or irreversible state and triggers the safety block." },
+    ],
+    platformEyebrow: "Market execution environment",
+    platformTitle: "Representative local platforms are fixed before a run",
+    platformRules: [
+      { label: "Representative set", detail: "For every market and task, MICA pre-registers a candidate set of platforms that ordinary consumers in that market commonly use, with evidence of local reach, current availability and task relevance." },
+      { label: "Functional fit", detail: "The selected platform must support the canonical task without changing its declared final state, constraints or confirmation boundary." },
+      { label: "Access parity", detail: "Every evaluated system receives the same selected platform, account tier, starting state, permissions and confirmation boundary." },
+      { label: "Pre-registration and fallback", detail: "The selected platform, version, snapshot date and ordered fallback list are fixed before systems run. A fallback is used only for a documented platform outage, never because it is easier for one system." },
+      { label: "Evidence lineage", detail: "Every published run cell names the platform actually used, its version and snapshot date, the selection evidence, and whether a pre-registered fallback was invoked." },
+    ],
+    platformExclusion:
+      "MICA does not choose a platform because it favors a particular system, vendor, model, interface or tool integration. A platform outage pauses or invalidates the affected run cell instead of becoming a system failure.",
+    localityEyebrow: "Market-local acceptance",
+    localityTitle: "Success must be valid in the market where it is claimed",
+    localityIntro:
+      "Translation alone is not localization. Each canonical task declares the local conditions that its final state must satisfy; failed local validity is a task failure or a separately reported diagnostic, never cosmetic feedback.",
+    localityRules: [
+      { label: "Language and register", detail: "Language, honorifics, tone and script must fit the recipient, institution and channel used in that market." },
+      { label: "Identity and formats", detail: "Names, addresses, phone numbers, dates, time zones, currencies and units must use locally valid formats." },
+      { label: "Payment and verification", detail: "The flow must respect locally available payment rails, authentication, identity checks and user-consent steps." },
+      { label: "Law and consumer terms", detail: "Taxes, mandatory fees, cancellation, refund, disclosure and consumer-protection conditions are evaluated under the market's applicable rules." },
+      { label: "Operational reality", detail: "Inventory, delivery coverage, business hours, public holidays, service areas and real operating schedules must be valid at the evaluation time." },
+      { label: "Channel and handoff", detail: "The system must use locally normal channels and hand control back to the user or a human at the market-appropriate approval boundary." },
+      { label: "Task-specific validity", detail: "Reservations preserve time and cancellation constraints; transit uses real service and accessibility data; civic and healthcare administration use the correct jurisdiction, forms and non-clinical process." },
+    ],
+    valueEyebrow: "Constrained value quality",
+    valueTitle: "Commerce results report proximity to the lowest valid total",
+    valueIntro:
+      "For commerce, booking and payment tasks, MICA compares the system's choice with the lowest valid total found across the pre-registered representative platform set at the same evaluation time. Price proximity is reported separately and is never folded into accuracy, speed, cost or a composite score.",
+    valueRules: [
+      { label: "Equivalent offer", detail: "Product identity, specification, quantity, destination, delivery deadline, service level and cancellation conditions must be equivalent before prices are compared." },
+      { label: "All-in total", detail: "The comparison uses the estimated payable total, including item price, delivery, taxes, service charges and payment fees." },
+      { label: "Eligible discounts", detail: "Coupons, memberships and personalized offers count only when the test persona is eligible; the requirement and redemption state are recorded." },
+      { label: "Valid baseline", detail: "The reference is the lowest constraint-satisfying total observed across the pre-registered representative platforms, with timestamp, availability and evidence lineage." },
+      { label: "Price proximity", detail: "MICA reports the chosen total, reference total, absolute difference and percentage premium. No result is called the market-wide absolute lowest price." },
+      { label: "Constraints outrank price", detail: "A cheaper option is excluded when it violates quality, safety, seller reliability, delivery, cancellation or another declared user constraint." },
+    ],
+  },
+
   evidence: {
     metaTitle: "Evidence",
     metaDescription:
