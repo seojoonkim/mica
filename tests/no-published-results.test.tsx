@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { SYSTEMS } from "@/data/demo/systems";
 import { RUN_CELLS } from "@/data/demo/runs";
+import { COUNTRIES } from "@/data/demo/countries";
+import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { RUN_CELL_IDS } from "@/lib/evidence";
 import {
   aggregateBySystem,
@@ -299,6 +301,8 @@ describe("sitemap and exports carry no fictional records", () => {
   it("ships public JSON and CSV with empty system and run arrays", () => {
     const dir = join(process.cwd(), "public", "data", "demo");
     const json = JSON.parse(readFileSync(join(dir, "mica-demo.json"), "utf8"));
+    expect(json.countries).toEqual(COUNTRIES);
+    expect(json.taskFamilies).toEqual(TASK_FAMILIES);
     expect(json.systems).toEqual([]);
     expect(json.runCells).toEqual([]);
     const csv = readFileSync(join(dir, "mica-demo.csv"), "utf8");

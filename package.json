@@ -2,12 +2,15 @@
   "name": "mica",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.28.2",
   "description": "MICA — Multinational Index of Consumer Agents",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "dev": "next dev",
+    "export:data": "tsx scripts/export-demo-data.ts",
+    "prebuild": "pnpm export:data",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -39,6 +42,7 @@
     "jsdom": "^25.0.1",
     "playwright-core": "^1.62.1",
     "tailwindcss": "^4.1.13",
+    "tsx": "^4.23.8",
     "typescript": "^5.9.2",
     "vitest": "^2.1.9"
   }

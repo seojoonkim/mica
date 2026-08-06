@@ -25,6 +25,7 @@ const HTML_ROUTES = [
 ];
 
 const DATA_ROUTE = "/data/demo/mica-demo.json";
+const CANONICAL_MARKETS = ["kr", "jp", "sg", "tw", "ae", "th"];
 
 /**
  * Claims that would assert an official/verified result while the public
@@ -143,6 +144,30 @@ function checkDataFixture(route, res, body) {
   if (data.dataStatus !== "demo") fail(route, "dataStatus", `expected "demo", got ${JSON.stringify(data.dataStatus)}`);
   if (data.publicationEligible !== false) {
     fail(route, "publicationEligible", `expected false, got ${JSON.stringify(data.publicationEligible)}`);
+  }
+
+  const marketCodes = Array.isArray(data.countries)
+    ? data.countries.map((country) => country?.code)
+    : null;
+  if (JSON.stringify(marketCodes) !== JSON.stringify(CANONICAL_MARKETS)) {
+    fail(
+      route,
+      "countries",
+      `expected canonical markets ${CANONICAL_MARKETS.join(",")}, got ${JSON.stringify(marketCodes)}`,
+    );
+  }
+
+  if (!Array.isArray(data.taskFamilies) || data.taskFamilies.length !== 10) {
+    fail(
+      route,
+      "taskFamilies",
+      `expected 10 families, got ${Array.isArray(data.taskFamilies) ? data.taskFamilies.length : typeof data.taskFamilies}`,
+    );
+  } else {
+    const taskCounts = data.taskFamilies.map((family) => family?.canonicalTasks?.length);
+    if (taskCounts.some((count) => count !== 10)) {
+      fail(route, "canonicalTasks", `expected 10 tasks per family, got ${JSON.stringify(taskCounts)}`);
+    }
   }
 
   // These two arrays carry the run/system evidence. While the fixture is demo
