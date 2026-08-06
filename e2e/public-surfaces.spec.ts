@@ -12,6 +12,41 @@ for (const lang of locales) {
       document: document.documentElement.scrollWidth,
     }));
     expect(widths.document).toBeLessThanOrEqual(widths.viewport);
+
+    const axisCards = page.locator(".mica-axis");
+    await expect(axisCards).toHaveCount(3);
+    for (const card of await axisCards.all()) {
+      const heading = card.getByRole("heading", { level: 3 });
+      const measure = card.locator(".mica-axis-measure");
+      const rule = card.locator(".mica-axis-rule");
+      await expect(heading).toBeVisible();
+      await expect(measure).toBeVisible();
+      await expect(rule).toBeVisible();
+
+      const geometry = await card.evaluate((node) => {
+        const headingNode = node.querySelector("h3")!;
+        const measureNode = node.querySelector(".mica-axis-measure")!;
+        const ruleNode = node.querySelector(".mica-axis-rule")!;
+        const cardRect = node.getBoundingClientRect();
+        const headingRect = headingNode.getBoundingClientRect();
+        const measureRect = measureNode.getBoundingClientRect();
+        const ruleRect = ruleNode.getBoundingClientRect();
+        return {
+          contained:
+            headingRect.left >= cardRect.left &&
+            headingRect.right <= cardRect.right + 1 &&
+            measureRect.left >= cardRect.left &&
+            measureRect.right <= cardRect.right + 1 &&
+            ruleRect.left >= cardRect.left &&
+            ruleRect.right <= cardRect.right + 1,
+          ordered:
+            headingRect.bottom < measureRect.top &&
+            measureRect.bottom <= ruleRect.top,
+        };
+      });
+      expect(geometry.contained).toBe(true);
+      expect(geometry.ordered).toBe(true);
+    }
   });
 
   test(`${lang} empty rankings status precedes controls`, async ({ page }) => {

@@ -193,22 +193,28 @@ export default async function HomePage({
          * greyscale and colour blindness.
          */}
         <div className="mica-triptych">
-          {OUTCOME_AXES.map((axis) => (
+          {OUTCOME_AXES.map((axis, index) => (
             <article key={axis.id} className="mica-axis" data-axis={axis.id}>
               <p className="mica-axis-bar m-0">
-                <span>{dict.outcomeAxes[axis.id].label}</span>
+                <span aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")} / {String(OUTCOME_AXES.length).padStart(2, "0")}
+                </span>
                 <AxisGlyph axis={axis.id} />
               </p>
               <div className="mica-axis-body">
                 <h3 className="mica-display mica-h3">
                   {dict.outcomeAxes[axis.id].label}
                 </h3>
-                <p className="mica-eyebrow mt-2">
-                  {dict.outcomeAxes[axis.id].unit}
-                </p>
-                <p className="mica-body-sm mt-4">
-                  {dict.outcomeAxes[axis.id].description}
-                </p>
+                <dl className="mica-axis-definition">
+                  <div className="mica-axis-measure">
+                    <dt>{dict.common.measurementLabel}</dt>
+                    <dd>{dict.outcomeAxes[axis.id].unit}</dd>
+                  </div>
+                  <div className="mica-axis-rule">
+                    <dt>{dict.common.ruleLabel}</dt>
+                    <dd>{dict.outcomeAxes[axis.id].description}</dd>
+                  </div>
+                </dl>
               </div>
             </article>
           ))}

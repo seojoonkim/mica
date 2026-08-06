@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { COUNTRIES } from "@/data/demo/countries";
 import { TASK_FAMILIES } from "@/data/demo/tasks";
+import { OUTCOME_AXES } from "@/data/policy/axes";
 import { en } from "@/lib/i18n/en";
 import { ko } from "@/lib/i18n/ko";
 import { getDict } from "@/lib/i18n/dictionary";
@@ -202,6 +203,36 @@ describe("rankings leads with its empty-result notice", () => {
       expect(screen.queryByRole("table")).toBeNull();
     },
   );
+});
+
+describe("home outcome cards have an explicit editorial reading order", () => {
+  it.each(LOCALES)("separates the %s axis title, measure and rule without repeating the title", async (lang) => {
+    const dict = getDict(lang);
+    const common = dict.common as unknown as Record<string, string>;
+    const { container } = render(await HomePage({ params: Promise.resolve({ lang }) }));
+    const cards = [...container.querySelectorAll(".mica-axis")];
+
+    expect(cards).toHaveLength(3);
+    cards.forEach((card, index) => {
+      const axis = OUTCOME_AXES[index].id;
+      const bar = card.querySelector(".mica-axis-bar");
+      const heading = card.querySelector("h3");
+      const measure = card.querySelector(".mica-axis-measure");
+      const rule = card.querySelector(".mica-axis-rule");
+
+      expect(bar).toHaveTextContent(
+        `${String(index + 1).padStart(2, "0")} / ${String(OUTCOME_AXES.length).padStart(2, "0")}`,
+      );
+      expect(bar!.querySelector("span")).toHaveAttribute("aria-hidden", "true");
+      expect(bar).not.toHaveTextContent(dict.outcomeAxes[axis].label);
+      expect(heading).toHaveTextContent(dict.outcomeAxes[axis].label);
+      expect(measure).toHaveTextContent(common.measurementLabel);
+      expect(measure).toHaveTextContent(dict.outcomeAxes[axis].unit);
+      expect(rule).toHaveTextContent(common.ruleLabel);
+      expect(rule).toHaveTextContent(dict.outcomeAxes[axis].description);
+      expect(measure!.compareDocumentPosition(rule!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+  });
 });
 
 describe("the mandatory disclosure contract survives for score surfaces", () => {

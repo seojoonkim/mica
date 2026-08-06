@@ -160,6 +160,8 @@ export const en = {
     allTaskFamilies: "All task families",
     categoryLabel: "Category",
     canonicalTasks: "canonical tasks",
+    measurementLabel: "Measure",
+    ruleLabel: "Decision rule",
     finalState: "Completion condition",
     confirmationBoundary: "Point that needs user approval",
     whyItIsHard: "Why it is hard",

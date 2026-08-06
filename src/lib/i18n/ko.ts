@@ -132,6 +132,8 @@ export const ko = {
     allTaskFamilies: "전체 과제 계열",
     categoryLabel: "카테고리",
     canonicalTasks: "개 표준 과제",
+    measurementLabel: "측정값",
+    ruleLabel: "판정 규칙",
     finalState: "완료 조건",
     confirmationBoundary: "사용자 승인이 필요한 지점",
     whyItIsHard: "어려운 이유",
