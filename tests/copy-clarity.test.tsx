@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { COUNTRIES } from "@/data/demo/countries";
+import { TASK_FAMILIES } from "@/data/demo/tasks";
 import { en } from "@/lib/i18n/en";
 import { ko } from "@/lib/i18n/ko";
 import { getDict } from "@/lib/i18n/dictionary";
@@ -158,6 +159,47 @@ describe("rankings leads with its empty-result notice", () => {
       expect(screen.queryByRole("table")).toBeNull();
       expect(screen.getByText(dict.rankings.selectedSliceEmptyNotice)).toBeInTheDocument();
       expect(screen.queryByText(dict.rankings.selectMarketNotice)).toBeNull();
+    },
+  );
+
+  it.each(LOCALES)(
+    "structures the %s leaderboard as overall, market and category views before detailed controls",
+    async (lang) => {
+      const dict = getDict(lang);
+      const { container } = render(
+        await RankingsPage({
+          params: Promise.resolve({ lang }),
+          searchParams: Promise.resolve({}),
+        }),
+      );
+
+      const viewNav = screen.getByRole("navigation", {
+        name: dict.rankings.viewNavigationLabel,
+      });
+      expect(viewNav).toBeInTheDocument();
+      expect(viewNav.querySelectorAll("a")).toHaveLength(3);
+
+      const overall = container.querySelector("#overall-leaderboard");
+      const markets = container.querySelector("#market-leaderboards");
+      const categories = container.querySelector("#category-leaderboards");
+      const form = screen.getByRole("form", { name: dict.rankings.formLabel });
+      expect(overall).not.toBeNull();
+      expect(markets).not.toBeNull();
+      expect(categories).not.toBeNull();
+      expect(overall!.querySelectorAll("[data-leaderboard-axis]")).toHaveLength(3);
+      expect(markets!.querySelectorAll("[data-leaderboard-market]")).toHaveLength(COUNTRIES.length);
+      expect(categories!.querySelectorAll("[data-leaderboard-family]")).toHaveLength(TASK_FAMILIES.length);
+      const costState = overall!.querySelector(
+        '[data-leaderboard-axis="cost"] .mica-leaderboard-axis-state',
+      );
+      expect(costState).toHaveTextContent(dict.rankings.costGlobalUnavailable);
+      expect(costState).not.toHaveTextContent(dict.rankings.axisAwaiting);
+      expect(markets!.querySelector("a")).toHaveAttribute("href", expect.stringContaining("#results"));
+      expect(categories!.querySelector("a")).toHaveAttribute("href", expect.stringContaining("#results"));
+      expect(
+        categories!.compareDocumentPosition(form) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(screen.queryByRole("table")).toBeNull();
     },
   );
 });

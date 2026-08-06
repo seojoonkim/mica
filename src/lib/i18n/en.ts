@@ -287,14 +287,39 @@ export const en = {
   },
 
   rankings: {
-    metaTitle: "Rankings",
+    metaTitle: "Leaderboards",
     metaDescription:
-      "No verified results are published. Planned controls separate market, task family and outcome axis; accuracy, speed and cost are never combined.",
-    eyebrow: "Result tables",
-    title: "Ordered by one axis at a time",
+      "The MICA leaderboard architecture: overall, by market and by task category, with accuracy, speed and cost kept separate. No verified results are published yet.",
+    eyebrow: "Leaderboard register",
+    title: "Three views. No hidden composite.",
     standfirst:
-      "No verified results are published, so this page orders nothing today. The controls below are the methodology made concrete: a market first, then a task family, an outcome axis and a verification level. They are shown so the shape of a future table can be checked and argued with before any number exists.",
-    filterEyebrow: "Planned controls",
+      "Read the field from wide to specific: the overall register, six market editions, then ten task categories. Accuracy, speed and cost remain separate in every view. The structure is live now; verified names and figures appear only after publication.",
+    viewNavigationLabel: "Leaderboard views",
+    overallView: "Overall",
+    marketView: "By market",
+    categoryView: "By category",
+    viewIndex: "Leaderboard index",
+    overallEyebrow: "Global register",
+    overallTitle: "Overall leaderboard",
+    overallIntro:
+      "A system enters the overall register only with eligible coverage across all six markets. Accuracy uses a market macro-average; speed remains a separate successful-run measure. Cost has no global rank because currencies cannot be combined.",
+    axisAwaiting: "Awaiting verified systems",
+    costGlobalUnavailable: "No global cost rank",
+    axisScopeAccuracy: "Six-market macro-average · higher is better",
+    axisScopeSpeed: "Successful eligible runs · lower is better",
+    axisScopeCost: "Market-only comparison · no global rank",
+    marketEyebrow: "Six local editions",
+    marketTitle: "Leaderboards by market",
+    marketIntro:
+      "Each market has its own ranked field, local currency and evidence lineage. Open an edition to compare systems under the rules that actually exist there.",
+    marketOpen: "Open market view",
+    categoryEyebrow: "Ten capability fields",
+    categoryTitle: "Leaderboards by category",
+    categoryIntro:
+      "Category views reveal specialization that an overall standing can hide. Each view keeps the three outcomes apart and can be narrowed to one market.",
+    categoryOpen: "Open category view",
+    unpublishedLabel: "Not yet published",
+    filterEyebrow: "Detailed slice",
     filterTitle: "How results will be sliced",
     filterIntro:
       "The form submits as a normal link, so any future view can be bookmarked or shared. Selecting a slice today returns no results, because none have been published.",

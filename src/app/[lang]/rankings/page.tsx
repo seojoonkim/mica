@@ -13,7 +13,7 @@ import {
   type VerificationStatusId,
 } from "@/lib/schema";
 import { VERIFICATION_STATUSES } from "@/data/policy/publication";
-import { PageHeader, PublicationStatus, Section } from "@/components/editorial";
+import { AxisGlyph, PageHeader, PublicationStatus, Section } from "@/components/editorial";
 import { localeHref } from "@/lib/i18n/config";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -101,6 +101,89 @@ export default async function RankingsPage({
       >
         <PublicationStatus text={dict.rankings.noResultsNotice} />
       </PageHeader>
+
+      <nav className="mica-leaderboard-nav" aria-label={dict.rankings.viewNavigationLabel}>
+        <span className="mica-eyebrow">{dict.rankings.viewIndex}</span>
+        <ol>
+          <li><a href="#overall-leaderboard"><span>01</span>{dict.rankings.overallView}</a></li>
+          <li><a href="#market-leaderboards"><span>02</span>{dict.rankings.marketView}</a></li>
+          <li><a href="#category-leaderboards"><span>03</span>{dict.rankings.categoryView}</a></li>
+        </ol>
+      </nav>
+
+      <Section
+        id="overall-leaderboard"
+        eyebrow={dict.rankings.overallEyebrow}
+        title={dict.rankings.overallTitle}
+        intro={dict.rankings.overallIntro}
+      >
+        <div className="mica-leaderboard-axes">
+          {OUTCOME_AXES.map((entry) => {
+            const scope = entry.id === "accuracy"
+              ? dict.rankings.axisScopeAccuracy
+              : entry.id === "speed"
+                ? dict.rankings.axisScopeSpeed
+                : dict.rankings.axisScopeCost;
+            return (
+              <article key={entry.id} data-leaderboard-axis={entry.id} className="mica-leaderboard-axis" data-axis={entry.id}>
+                <div className="mica-leaderboard-axis-head">
+                  <AxisGlyph axis={entry.id} />
+                  <h3>{dict.outcomeAxes[entry.id].label}</h3>
+                  <span>{dict.rankings.unpublishedLabel}</span>
+                </div>
+                <p className="mica-leaderboard-axis-state">
+                  {entry.id === "cost"
+                    ? dict.rankings.costGlobalUnavailable
+                    : dict.rankings.axisAwaiting}
+                </p>
+                <p className="mica-micro">{scope}</p>
+              </article>
+            );
+          })}
+        </div>
+      </Section>
+
+      <Section
+        id="market-leaderboards"
+        eyebrow={dict.rankings.marketEyebrow}
+        title={dict.rankings.marketTitle}
+        intro={dict.rankings.marketIntro}
+      >
+        <ol className="mica-leaderboard-register mica-leaderboard-markets">
+          {COUNTRIES.map((entry, index) => (
+            <li key={entry.code} data-leaderboard-market={entry.code} data-market={entry.code}>
+              <LocaleLink lang={lang} href={`/rankings?country=${entry.code}#results`}>
+                <span className="mica-register-index">{String(index + 1).padStart(2, "0")}</span>
+                <strong>{dict.markets[entry.code]}</strong>
+                <span className="mica-register-meta">{entry.currency}</span>
+                <span className="mica-register-state">{dict.rankings.unpublishedLabel}</span>
+                <span className="mica-register-action">{dict.rankings.marketOpen}</span>
+              </LocaleLink>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section
+        id="category-leaderboards"
+        eyebrow={dict.rankings.categoryEyebrow}
+        title={dict.rankings.categoryTitle}
+        intro={dict.rankings.categoryIntro}
+      >
+        <ol className="mica-leaderboard-register mica-leaderboard-categories">
+          {TASK_FAMILIES.map((entry, index) => (
+            <li key={entry.id} data-leaderboard-family={entry.id}>
+              <LocaleLink lang={lang} href={`/rankings?family=${entry.id}#results`}>
+                <span className="mica-register-index">{String(index + 1).padStart(2, "0")}</span>
+                <strong>{dict.families[entry.id].label}</strong>
+                <span className="mica-register-meta">{entry.canonicalTasks.length} {dict.common.canonicalTasks}</span>
+                <span className="mica-register-state">{dict.rankings.unpublishedLabel}</span>
+                <span className="mica-register-action">{dict.rankings.categoryOpen}</span>
+              </LocaleLink>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
       <Section
         eyebrow={dict.rankings.filterEyebrow}
@@ -229,6 +312,7 @@ export default async function RankingsPage({
       </Section>
 
       <Section
+        id="results"
         eyebrow={`${countryLabel} · ${familyLabelText}`}
         title={dict.rankings.resultsTitle}
       >
