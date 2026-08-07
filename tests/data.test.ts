@@ -255,21 +255,43 @@ describe("overall publication eligibility", () => {
       publicationEligible: true,
     };
 
-    // Thresholds are intentionally unset in this edition, so even otherwise
-    // eligible official records remain blocked by the canonical policy gate.
-    expect(areResultsPublicationEligible([system], [runCell])).toBe(false);
+    const allow = () => ({ eligible: true, blockers: [] });
+    const deny = () => ({ eligible: false, blockers: ["blocked"] });
+
+    expect(areResultsPublicationEligible([system], [runCell], allow)).toBe(true);
+    expect(areResultsPublicationEligible([system], [runCell], deny)).toBe(false);
     expect(
       areResultsPublicationEligible(
         [{ ...system, dataStatus: "demo" }],
         [{ ...runCell, dataStatus: "demo" }],
+        allow,
+      ),
+    ).toBe(false);
+    expect(
+      areResultsPublicationEligible(
+        [{ ...system, verification: "provisional" as const }],
+        [runCell],
+        allow,
       ),
     ).toBe(false);
     expect(
       areResultsPublicationEligible(
         [system],
-        [{ ...runCell, criticalSafetyEvents: 1 }],
+        [{ ...runCell, system: "missing" }],
+        allow,
       ),
     ).toBe(false);
+    expect(
+      areResultsPublicationEligible(
+        [system],
+        [{ ...runCell, publicationEligible: false }],
+        allow,
+      ),
+    ).toBe(false);
+
+    // The production default still delegates to the canonical policy, whose
+    // thresholds are intentionally unset for this edition.
+    expect(areResultsPublicationEligible([system], [runCell])).toBe(false);
   });
 });
 
@@ -350,12 +372,15 @@ describe("project catchup state contract", () => {
       0,
     );
 
-    expect(readme).toContain(`Markets: ${COUNTRIES.length}`);
-    expect(readme).toContain(
-      `Task catalogue: ${TASK_FAMILIES.length} task families with ${canonicalTaskCount} canonical tasks total`,
+    const scopeLines = readme.split("\n").filter((line) => line.startsWith("- "));
+    expect(scopeLines).toContain(
+      `- Markets: ${COUNTRIES.length} (${COUNTRIES.map((country) => country.name).join(", ")})`,
     );
-    expect(readme).toContain(
-      `Results: ${SYSTEMS.length} registered systems and ${RUN_CELLS.length} run cells`,
+    expect(scopeLines).toContain(
+      `- Task catalogue: ${TASK_FAMILIES.length} task families with ${canonicalTaskCount} canonical tasks total`,
+    );
+    expect(scopeLines).toContain(
+      `- Results: ${SYSTEMS.length} registered systems and ${RUN_CELLS.length} run cells; no measured performance is published`,
     );
   });
 });

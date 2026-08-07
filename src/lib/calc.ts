@@ -174,6 +174,8 @@ export function areResultsPublicationEligible(
     criticalSafetyEvents: number;
     publicationEligible: boolean;
   }[],
+  evaluate: (input: PublicationInput) => PublicationVerdict =
+    evaluatePublicationEligibility,
 ): boolean {
   if (systems.length === 0 || runCells.length === 0) return false;
 
@@ -192,7 +194,7 @@ export function areResultsPublicationEligible(
   return runCells.every((cell) => {
     const system = systemsBySlug.get(cell.system);
     if (!system || !cell.publicationEligible) return false;
-    return evaluatePublicationEligibility({
+    return evaluate({
       dataStatus: cell.dataStatus,
       verification: system.verification,
       eligibleRuns: cell.eligibleRuns,
