@@ -159,15 +159,48 @@ export interface PublicationVerdict {
 }
 
 export function areResultsPublicationEligible(
-  systems: readonly { publicationEligible: boolean }[],
-  runCells: readonly { publicationEligible: boolean }[],
+  systems: readonly {
+    slug: string;
+    dataStatus: string;
+    verification: VerificationStatusId;
+    publicationEligible: boolean;
+  }[],
+  runCells: readonly {
+    system: string;
+    dataStatus: string;
+    eligibleRuns: number;
+    tasksAttempted: number;
+    tasksDefined: number;
+    criticalSafetyEvents: number;
+    publicationEligible: boolean;
+  }[],
 ): boolean {
-  return (
-    systems.length > 0 &&
-    runCells.length > 0 &&
-    systems.every((system) => system.publicationEligible) &&
-    runCells.every((cell) => cell.publicationEligible)
-  );
+  if (systems.length === 0 || runCells.length === 0) return false;
+
+  const systemsBySlug = new Map(systems.map((system) => [system.slug, system]));
+  if (
+    systems.some(
+      (system) =>
+        !system.publicationEligible ||
+        system.dataStatus !== "official" ||
+        system.verification !== "independent-rerun",
+    )
+  ) {
+    return false;
+  }
+
+  return runCells.every((cell) => {
+    const system = systemsBySlug.get(cell.system);
+    if (!system || !cell.publicationEligible) return false;
+    return evaluatePublicationEligibility({
+      dataStatus: cell.dataStatus,
+      verification: system.verification,
+      eligibleRuns: cell.eligibleRuns,
+      tasksAttempted: cell.tasksAttempted,
+      tasksDefined: cell.tasksDefined,
+      criticalSafetyEvents: cell.criticalSafetyEvents,
+    }).eligible;
+  });
 }
 
 /**

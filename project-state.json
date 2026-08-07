@@ -3,11 +3,7 @@
   "slug": "mica",
   "status": "Phase 0 public preview complete; Phase 1 executable benchmark contract and harness not implemented",
   "summary": "MICA is a deployed bilingual public preview and canonical task catalogue for evaluating complete consumer-agent systems across localized everyday tasks. It has no measured or publishable benchmark results yet.",
-  "paths": [
-    "/Users/gimseojun/sano-workspace/projects/mica",
-    "/Users/gimseojun/raon-workspace/memory/projects/mica-website-plan.md",
-    "/Users/gimseojun/raon-workspace/memory/projects/mica-development-spec-pack-c.md"
-  ],
+  "paths": [],
   "urls": [
     "https://mica-eta.vercel.app",
     "https://github.com/seojoonkim/mica"

@@ -8,8 +8,8 @@ MICA is a public benchmark for complete consumer-agent systems performing everyd
 
 ## Current public-preview scope
 
-- Markets: South Korea, Japan, Singapore, Taiwan, United Arab Emirates, Thailand
-- Task catalogue: 10 task families with 10 canonical tasks each, 100 tasks total
+- Markets: 6 (South Korea, Japan, Singapore, Taiwan, United Arab Emirates, Thailand)
+- Task catalogue: 10 task families with 100 canonical tasks total
 - Results: 0 registered systems and 0 run cells; no measured performance is published
 - Outcome axes: Accuracy, Speed, Cost, always reported separately
 - Verification states: Independent rerun, provisional, self-reported

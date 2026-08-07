@@ -238,13 +238,38 @@ describe("overall publication eligibility", () => {
     expect(areResultsPublicationEligible([], [])).toBe(false);
   });
 
-  it("requires every registered system and run cell to be eligible", () => {
-    const eligible = [{ publicationEligible: true }];
-    const ineligible = [{ publicationEligible: false }];
+  it("uses the real publication gate rather than trusting record booleans", () => {
+    const system = {
+      slug: "candidate",
+      dataStatus: "official",
+      verification: "independent-rerun" as const,
+      publicationEligible: true,
+    };
+    const runCell = {
+      system: "candidate",
+      dataStatus: "official",
+      eligibleRuns: 100,
+      tasksAttempted: 10,
+      tasksDefined: 10,
+      criticalSafetyEvents: 0,
+      publicationEligible: true,
+    };
 
-    expect(areResultsPublicationEligible(eligible, eligible)).toBe(true);
-    expect(areResultsPublicationEligible(ineligible, eligible)).toBe(false);
-    expect(areResultsPublicationEligible(eligible, ineligible)).toBe(false);
+    // Thresholds are intentionally unset in this edition, so even otherwise
+    // eligible official records remain blocked by the canonical policy gate.
+    expect(areResultsPublicationEligible([system], [runCell])).toBe(false);
+    expect(
+      areResultsPublicationEligible(
+        [{ ...system, dataStatus: "demo" }],
+        [{ ...runCell, dataStatus: "demo" }],
+      ),
+    ).toBe(false);
+    expect(
+      areResultsPublicationEligible(
+        [system],
+        [{ ...runCell, criticalSafetyEvents: 1 }],
+      ),
+    ).toBe(false);
   });
 });
 
@@ -313,6 +338,24 @@ describe("project catchup state contract", () => {
     expect(PROJECT_STATE.state).toContain("0 registered systems");
     expect(PROJECT_STATE.state).toContain(
       "Official publication eligibility: false",
+    );
+  });
+
+  it("keeps README scope claims aligned with canonical data", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const readme = await readFile(resolve(__dirname, "../README.md"), "utf8");
+    const canonicalTaskCount = TASK_FAMILIES.reduce(
+      (count, family) => count + family.canonicalTasks.length,
+      0,
+    );
+
+    expect(readme).toContain(`Markets: ${COUNTRIES.length}`);
+    expect(readme).toContain(
+      `Task catalogue: ${TASK_FAMILIES.length} task families with ${canonicalTaskCount} canonical tasks total`,
+    );
+    expect(readme).toContain(
+      `Results: ${SYSTEMS.length} registered systems and ${RUN_CELLS.length} run cells`,
     );
   });
 });
