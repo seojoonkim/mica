@@ -255,43 +255,33 @@ describe("overall publication eligibility", () => {
       publicationEligible: true,
     };
 
-    const allow = () => ({ eligible: true, blockers: [] });
-    const deny = () => ({ eligible: false, blockers: ["blocked"] });
-
-    expect(areResultsPublicationEligible([system], [runCell], allow)).toBe(true);
-    expect(areResultsPublicationEligible([system], [runCell], deny)).toBe(false);
+    // The aggregate delegates to the non-overridable canonical policy, whose
+    // thresholds are intentionally unset for this edition.
+    expect(areResultsPublicationEligible([system], [runCell])).toBe(false);
     expect(
       areResultsPublicationEligible(
         [{ ...system, dataStatus: "demo" }],
         [{ ...runCell, dataStatus: "demo" }],
-        allow,
       ),
     ).toBe(false);
     expect(
       areResultsPublicationEligible(
         [{ ...system, verification: "provisional" as const }],
         [runCell],
-        allow,
       ),
     ).toBe(false);
     expect(
       areResultsPublicationEligible(
         [system],
         [{ ...runCell, system: "missing" }],
-        allow,
       ),
     ).toBe(false);
     expect(
       areResultsPublicationEligible(
         [system],
         [{ ...runCell, publicationEligible: false }],
-        allow,
       ),
     ).toBe(false);
-
-    // The production default still delegates to the canonical policy, whose
-    // thresholds are intentionally unset for this edition.
-    expect(areResultsPublicationEligible([system], [runCell])).toBe(false);
   });
 });
 
@@ -308,8 +298,13 @@ describe("project catchup state contract", () => {
     const exporter = resolve(__dirname, "../scripts/export-demo-data.ts");
     const tsconfig = resolve(__dirname, "../tsconfig.json");
     const tsx = resolve(__dirname, "../node_modules/tsx/dist/cli.mjs");
-    const contractPath = resolve(__dirname, "../project-state.json");
+    const repositoryRoot = resolve(__dirname, "..");
+    const contractPath = resolve(repositoryRoot, "project-state.json");
+    const jsonPath = resolve(repositoryRoot, "public/data/demo/mica-demo.json");
+    const csvPath = resolve(repositoryRoot, "public/data/demo/mica-demo.csv");
     const committedContract = await readFile(contractPath, "utf8");
+    const committedJson = await readFile(jsonPath, "utf8");
+    const committedCsv = await readFile(csvPath, "utf8");
 
     try {
       await execute(process.execPath, [tsx, "--tsconfig", tsconfig, exporter], {
@@ -325,6 +320,24 @@ describe("project catchup state contract", () => {
       await expect(readFile(contractPath, "utf8")).resolves.toBe(
         committedContract,
       );
+
+      // Exercise the production branch with MICA_EXPORT_ROOT absent. Running
+      // from an unrelated cwd must still target the repository and produce
+      // byte-identical tracked artifacts, never files in the caller's cwd.
+      const productionEnv = { ...process.env };
+      delete productionEnv.MICA_EXPORT_ROOT;
+      await execute(process.execPath, [tsx, "--tsconfig", tsconfig, exporter], {
+        cwd: temporaryCwd,
+        env: productionEnv,
+      });
+      await expect(
+        readFile(join(temporaryCwd, "project-state.json"), "utf8"),
+      ).rejects.toMatchObject({ code: "ENOENT" });
+      await expect(readFile(contractPath, "utf8")).resolves.toBe(
+        committedContract,
+      );
+      await expect(readFile(jsonPath, "utf8")).resolves.toBe(committedJson);
+      await expect(readFile(csvPath, "utf8")).resolves.toBe(committedCsv);
     } finally {
       await rm(temporaryCwd, { recursive: true, force: true });
       await rm(exportRoot, { recursive: true, force: true });
