@@ -9,14 +9,20 @@ const taskCount = TASK_FAMILIES.reduce(
   0,
 );
 const publicationEligible = areResultsPublicationEligible(SYSTEMS, RUN_CELLS);
+const hasMeasuredResults = SYSTEMS.length > 0 && RUN_CELLS.length > 0;
+const resultSummary = hasMeasuredResults
+  ? "Measured results exist but remain subject to publication eligibility."
+  : "It has no measured or publishable benchmark results yet.";
+const resultRisk = hasMeasuredResults
+  ? "Measured results must not be presented unless the publication policy marks every published cell eligible"
+  : "No registered systems or run cells exist, so the site must not imply measured performance";
 
 export const PROJECT_STATE = {
   schemaVersion: 1,
   slug: "mica",
   status:
     "Phase 0 public preview complete; Phase 1 executable benchmark contract and harness not implemented",
-  summary:
-    "MICA is a deployed bilingual public preview and canonical task catalogue for evaluating complete consumer-agent systems across localized everyday tasks. It has no measured or publishable benchmark results yet.",
+  summary: `MICA is a deployed bilingual public preview and canonical task catalogue for evaluating complete consumer-agent systems across localized everyday tasks. ${resultSummary}`,
   // Machine-local checkout and private planning paths belong to the external
   // catchup registry, not this public and portable implementation contract.
   paths: [],
@@ -41,7 +47,7 @@ export const PROJECT_STATE = {
   ],
   risks: [
     "The current 100 tasks are catalogue definitions, not executable benchmark scenarios",
-    "No registered systems or run cells exist, so the site must not imply measured performance",
+    resultRisk,
     "Publication thresholds remain unset and official publication must stay fail-closed",
     "Live orders and reservations require sandbox or partner-controlled inventory",
   ],

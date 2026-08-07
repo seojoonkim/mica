@@ -1,23 +1,43 @@
-import { mkdirSync, renameSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import {
+  closeSync,
+  fsyncSync,
+  mkdirSync,
+  openSync,
+  renameSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
+import { join } from "node:path";
 import { COUNTRIES } from "../src/data/demo/countries";
 import { TASK_FAMILIES, HERO_MISSIONS } from "../src/data/demo/tasks";
 import { SYSTEMS } from "../src/data/demo/systems";
 import { RUN_CELLS } from "../src/data/demo/runs";
 import { PROJECT_STATE } from "../src/data/project-state";
+import { resolveExportRoot } from "./export-path";
 
-const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const exportRoot = process.env.MICA_EXPORT_ROOT
-  ? resolve(process.env.MICA_EXPORT_ROOT)
-  : repositoryRoot;
+const exportRoot = resolveExportRoot(import.meta.url, process.env.MICA_EXPORT_ROOT);
 const outputDir = join(exportRoot, "public", "data", "demo");
 mkdirSync(outputDir, { recursive: true });
 
 function writeAtomic(path: string, content: string) {
   const temporaryPath = `${path}.tmp-${process.pid}`;
-  writeFileSync(temporaryPath, content, "utf8");
-  renameSync(temporaryPath, path);
+  let descriptor: number | undefined;
+  try {
+    descriptor = openSync(temporaryPath, "w");
+    writeFileSync(descriptor, content, "utf8");
+    fsyncSync(descriptor);
+    closeSync(descriptor);
+    descriptor = undefined;
+    renameSync(temporaryPath, path);
+  } catch (error) {
+    if (descriptor !== undefined) closeSync(descriptor);
+    try {
+      unlinkSync(temporaryPath);
+    } catch {
+      // Preserve the original write/rename error.
+    }
+    throw error;
+  }
 }
 
 const payload = {

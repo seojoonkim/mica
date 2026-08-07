@@ -291,7 +291,9 @@ describe("project catchup state contract", () => {
     const { mkdtemp, readFile, rm } = await import("node:fs/promises");
     const { promisify } = await import("node:util");
     const { join, resolve } = await import("node:path");
+    const { pathToFileURL } = await import("node:url");
     const { tmpdir } = await import("node:os");
+    const { resolveExportRoot } = await import("../scripts/export-path");
     const execute = promisify(execFile);
     const temporaryCwd = await mkdtemp(join(tmpdir(), "mica-cwd-"));
     const exportRoot = await mkdtemp(join(tmpdir(), "mica-output-"));
@@ -300,11 +302,7 @@ describe("project catchup state contract", () => {
     const tsx = resolve(__dirname, "../node_modules/tsx/dist/cli.mjs");
     const repositoryRoot = resolve(__dirname, "..");
     const contractPath = resolve(repositoryRoot, "project-state.json");
-    const jsonPath = resolve(repositoryRoot, "public/data/demo/mica-demo.json");
-    const csvPath = resolve(repositoryRoot, "public/data/demo/mica-demo.csv");
     const committedContract = await readFile(contractPath, "utf8");
-    const committedJson = await readFile(jsonPath, "utf8");
-    const committedCsv = await readFile(csvPath, "utf8");
 
     try {
       await execute(process.execPath, [tsx, "--tsconfig", tsconfig, exporter], {
@@ -321,23 +319,16 @@ describe("project catchup state contract", () => {
         committedContract,
       );
 
-      // Exercise the production branch with MICA_EXPORT_ROOT absent. Running
-      // from an unrelated cwd must still target the repository and produce
-      // byte-identical tracked artifacts, never files in the caller's cwd.
-      const productionEnv = { ...process.env };
-      delete productionEnv.MICA_EXPORT_ROOT;
-      await execute(process.execPath, [tsx, "--tsconfig", tsconfig, exporter], {
-        cwd: temporaryCwd,
-        env: productionEnv,
-      });
-      await expect(
-        readFile(join(temporaryCwd, "project-state.json"), "utf8"),
-      ).rejects.toMatchObject({ code: "ENOENT" });
-      await expect(readFile(contractPath, "utf8")).resolves.toBe(
-        committedContract,
+      // Exercise the production path-resolution branch without writing to the
+      // tracked checkout. A disposable module URL must resolve one directory
+      // above scripts, independently of process.cwd().
+      const disposableModuleUrl = pathToFileURL(
+        join(exportRoot, "scripts", "export-demo-data.ts"),
+      ).href;
+      expect(resolveExportRoot(disposableModuleUrl, undefined)).toBe(
+        exportRoot,
       );
-      await expect(readFile(jsonPath, "utf8")).resolves.toBe(committedJson);
-      await expect(readFile(csvPath, "utf8")).resolves.toBe(committedCsv);
+      expect(resolveExportRoot(disposableModuleUrl, exportRoot)).toBe(exportRoot);
     } finally {
       await rm(temporaryCwd, { recursive: true, force: true });
       await rm(exportRoot, { recursive: true, force: true });
@@ -374,6 +365,15 @@ describe("project catchup state contract", () => {
     expect(PROJECT_STATE.state).toContain(
       "Official publication eligibility: false",
     );
+    const noMeasuredResults = SYSTEMS.length === 0 && RUN_CELLS.length === 0;
+    expect(PROJECT_STATE.summary.includes("no measured or publishable")).toBe(
+      noMeasuredResults,
+    );
+    expect(
+      PROJECT_STATE.risks.includes(
+        "No registered systems or run cells exist, so the site must not imply measured performance",
+      ),
+    ).toBe(noMeasuredResults);
   });
 
   it("keeps README scope claims aligned with canonical data", async () => {
