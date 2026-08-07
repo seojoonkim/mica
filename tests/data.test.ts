@@ -10,6 +10,8 @@ import { COUNTRIES, getCountry } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
 import { TASK_FAMILIES, HERO_MISSIONS } from "@/data/demo/tasks";
 import { RUN_CELLS } from "@/data/demo/runs";
+import { PROJECT_STATE } from "@/data/project-state";
+import { areResultsPublicationEligible } from "@/lib/calc";
 import { DATA_SOURCE, hasRemoteConfig } from "@/lib/data/source";
 
 describe("demo eligibility guard", () => {
@@ -228,6 +230,90 @@ describe("fixtures", () => {
   it("resolves known country codes and rejects unknown ones", () => {
     expect(getCountry("kr")?.name).toBe("South Korea");
     expect(getCountry("us")).toBeUndefined();
+  });
+});
+
+describe("overall publication eligibility", () => {
+  it("fails closed when no systems or run cells exist", () => {
+    expect(areResultsPublicationEligible([], [])).toBe(false);
+  });
+
+  it("requires every registered system and run cell to be eligible", () => {
+    const eligible = [{ publicationEligible: true }];
+    const ineligible = [{ publicationEligible: false }];
+
+    expect(areResultsPublicationEligible(eligible, eligible)).toBe(true);
+    expect(areResultsPublicationEligible(ineligible, eligible)).toBe(false);
+    expect(areResultsPublicationEligible(eligible, ineligible)).toBe(false);
+  });
+});
+
+describe("project catchup state contract", () => {
+  it("exports independently of cwd without mutating tracked files", async () => {
+    const { execFile } = await import("node:child_process");
+    const { mkdtemp, readFile, rm } = await import("node:fs/promises");
+    const { promisify } = await import("node:util");
+    const { join, resolve } = await import("node:path");
+    const { tmpdir } = await import("node:os");
+    const execute = promisify(execFile);
+    const temporaryCwd = await mkdtemp(join(tmpdir(), "mica-cwd-"));
+    const exportRoot = await mkdtemp(join(tmpdir(), "mica-output-"));
+    const exporter = resolve(__dirname, "../scripts/export-demo-data.ts");
+    const tsconfig = resolve(__dirname, "../tsconfig.json");
+    const tsx = resolve(__dirname, "../node_modules/tsx/dist/cli.mjs");
+    const contractPath = resolve(__dirname, "../project-state.json");
+    const committedContract = await readFile(contractPath, "utf8");
+
+    try {
+      await execute(process.execPath, [tsx, "--tsconfig", tsconfig, exporter], {
+        cwd: temporaryCwd,
+        env: { ...process.env, MICA_EXPORT_ROOT: exportRoot },
+      });
+      await expect(
+        readFile(join(temporaryCwd, "project-state.json"), "utf8"),
+      ).rejects.toMatchObject({ code: "ENOENT" });
+      await expect(
+        readFile(join(exportRoot, "project-state.json"), "utf8"),
+      ).resolves.toBe(`${JSON.stringify(PROJECT_STATE, null, 2)}\n`);
+      await expect(readFile(contractPath, "utf8")).resolves.toBe(
+        committedContract,
+      );
+    } finally {
+      await rm(temporaryCwd, { recursive: true, force: true });
+      await rm(exportRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("matches the canonical implementation state independently of cwd", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const contractPath = resolve(__dirname, "../project-state.json");
+    const contract: unknown = JSON.parse(await readFile(contractPath, "utf8"));
+
+    expect(contract).toEqual(PROJECT_STATE);
+
+    const canonicalTaskCount = TASK_FAMILIES.reduce(
+      (count, family) => count + family.canonicalTasks.length,
+      0,
+    );
+    const publicationEligible = areResultsPublicationEligible(
+      SYSTEMS,
+      RUN_CELLS,
+    );
+
+    expect(PROJECT_STATE.schemaVersion).toBe(1);
+    expect(PROJECT_STATE.slug).toBe("mica");
+    expect(PROJECT_STATE.status).toContain("Phase 0");
+    expect(PROJECT_STATE.state).toContain(`${COUNTRIES.length} benchmark markets`);
+    expect(PROJECT_STATE.state).toContain(`${TASK_FAMILIES.length} task families`);
+    expect(PROJECT_STATE.state).toContain(`${canonicalTaskCount} canonical tasks`);
+    expect(PROJECT_STATE.state).toContain(`${SYSTEMS.length} registered systems`);
+    expect(PROJECT_STATE.state).toContain(`${RUN_CELLS.length} run cells`);
+    expect(publicationEligible).toBe(false);
+    expect(PROJECT_STATE.state).toContain("0 registered systems");
+    expect(PROJECT_STATE.state).toContain(
+      "Official publication eligibility: false",
+    );
   });
 });
 

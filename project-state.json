@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "slug": "mica",
+  "status": "Phase 0 public preview complete; Phase 1 executable benchmark contract and harness not implemented",
+  "summary": "MICA is a deployed bilingual public preview and canonical task catalogue for evaluating complete consumer-agent systems across localized everyday tasks. It has no measured or publishable benchmark results yet.",
+  "paths": [
+    "/Users/gimseojun/sano-workspace/projects/mica",
+    "/Users/gimseojun/raon-workspace/memory/projects/mica-website-plan.md",
+    "/Users/gimseojun/raon-workspace/memory/projects/mica-development-spec-pack-c.md"
+  ],
+  "urls": [
+    "https://mica-eta.vercel.app",
+    "https://github.com/seojoonkim/mica"
+  ],
+  "state": [
+    "6 benchmark markets",
+    "10 task families",
+    "100 canonical tasks",
+    "0 registered systems",
+    "0 run cells",
+    "Official publication eligibility: false",
+    "Accuracy, Speed, and Cost are published separately; MICA has no official composite score"
+  ],
+  "next": [
+    "Write Benchmark Contract v0.1 for an initial country and task-family slice",
+    "Implement a resettable simulator, run recorder, deterministic evaluator, and cost/latency ledger",
+    "Run a controlled pilot before setting publication thresholds",
+    "Connect micabench.com after the benchmark contract and metadata base are ready"
+  ],
+  "risks": [
+    "The current 100 tasks are catalogue definitions, not executable benchmark scenarios",
+    "No registered systems or run cells exist, so the site must not imply measured performance",
+    "Publication thresholds remain unset and official publication must stay fail-closed",
+    "Live orders and reservations require sandbox or partner-controlled inventory"
+  ],
+  "evidence": [
+    "project-state.json generated from canonical TypeScript data by pnpm export:data",
+    "public/data/demo/mica-demo.json generated from the same canonical sources"
+  ]
+}

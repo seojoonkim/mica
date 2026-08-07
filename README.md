@@ -6,13 +6,15 @@ MICA is a public benchmark for complete consumer-agent systems performing everyd
 
 > This repository currently contains illustrative demo data only. It is not an official ranking and does not describe the real performance of any product.
 
-## MVP scope
+## Current public-preview scope
 
-- Markets: South Korea, Japan, Singapore, Taiwan, Thailand
-- Task families: Email & Calendar, Shopping & Delivery, Travel & Accommodation, Restaurants & Local Services
+- Markets: South Korea, Japan, Singapore, Taiwan, United Arab Emirates, Thailand
+- Task catalogue: 10 task families with 10 canonical tasks each, 100 tasks total
+- Results: 0 registered systems and 0 run cells; no measured performance is published
 - Outcome axes: Accuracy, Speed, Cost, always reported separately
 - Verification states: Independent rerun, provisional, self-reported
 - Publication rule: demo records and any result with a critical safety event are never publication eligible
+- Delivery phase: Phase 0 public preview complete; executable benchmark contracts, simulator, evaluator, and official results are not implemented
 
 ## Development
 

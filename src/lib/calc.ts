@@ -158,6 +158,18 @@ export interface PublicationVerdict {
   blockers: string[];
 }
 
+export function areResultsPublicationEligible(
+  systems: readonly { publicationEligible: boolean }[],
+  runCells: readonly { publicationEligible: boolean }[],
+): boolean {
+  return (
+    systems.length > 0 &&
+    runCells.length > 0 &&
+    systems.every((system) => system.publicationEligible) &&
+    runCells.every((cell) => cell.publicationEligible)
+  );
+}
+
 /**
  * The publication gate. Demo data and critical safety events are hard blocks;
  * verification track, sample size and coverage are the remaining conditions.
