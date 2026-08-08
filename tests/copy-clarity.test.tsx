@@ -311,6 +311,12 @@ describe("score-surface disclosures stay factual without the removed demo-rankin
     expect(disclosure).not.toHaveTextContent(/Illustrative demo data/i);
     expect(disclosure).not.toHaveTextContent(/Not an official ranking/i);
   });
+
+  it("keeps the retired demo-ranking slogan out of the Open Graph card", () => {
+    const source = readFileSync(join(process.cwd(), "src/app/opengraph-image.tsx"), "utf8");
+    expect(source).not.toContain("Illustrative demo data");
+    expect(source).not.toContain("Not an official ranking");
+  });
 });
 
 describe("Korean detail routes", () => {

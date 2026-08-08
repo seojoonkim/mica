@@ -1,12 +1,11 @@
 import { ImageResponse } from "next/og";
-import { SITE, DEMO_LABEL, NOT_A_RANKING } from "@/lib/site";
+import { SITE } from "@/lib/site";
 
 /**
- * The share card carries the same two mandated strings as the page chrome. A
- * screenshot of MICA that travels without its data status would be the one
- * place the disclosure could be lost, so it is set in the largest type here.
+ * The share card names its preview status without repeating the retired
+ * demo-ranking slogan from the former page chrome.
  */
-export const alt = `${SITE.name} — ${DEMO_LABEL}, ${NOT_A_RANKING}`;
+export const alt = `${SITE.name} — Consumer-agent benchmark preview`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -83,7 +82,7 @@ export default function OpengraphImage() {
               letterSpacing: "-0.01em",
             }}
           >
-            {DEMO_LABEL} · {NOT_A_RANKING}
+            Consumer-agent benchmark preview
           </div>
           <div style={{ display: "flex", marginTop: 12, fontSize: 24, color: "#5b626c" }}>
             Preview build · publicationEligible: false
