@@ -110,7 +110,39 @@ for (const lang of locales) {
     await summary.focus();
     await page.keyboard.press("Enter");
     await expect(first).toHaveAttribute("open", "");
-    await expect(first.locator(".mica-task-contract-content")).toBeVisible();
+    const contractContent = first.locator(".mica-task-contract-content");
+    await expect(contractContent).toBeVisible();
+    await expect(contractContent.getByText(
+      lang === "en" ? "Measurement contract" : "측정 기준",
+      { exact: true },
+    )).toBeVisible();
+    await expect(contractContent.getByText(
+      lang === "en" ? "Accuracy checks" : "정확도 판정",
+      { exact: true },
+    )).toBeVisible();
+    await expect(contractContent.getByText(
+      lang === "en" ? "Speed window" : "속도 측정 구간",
+      { exact: true },
+    )).toBeVisible();
+    await expect(contractContent.getByText(
+      lang === "en" ? "Cost scope" : "비용 범위",
+      { exact: true },
+    )).toBeVisible();
+    await expect(contractContent.getByText(
+      lang === "en" ? "Calibration pending" : "보정 대기",
+      { exact: true },
+    )).toBeVisible();
+    if (lang === "ko") {
+      await expect(contractContent).not.toContainText(
+        "Evaluator releases the task prompt",
+      );
+      await expect(contractContent).not.toContainText(
+        "Authoritative post-action readback",
+      );
+      await expect(contractContent).not.toContainText(
+        "The complete tool-call lineage",
+      );
+    }
 
     const categoryLink = page.locator(".mica-task-index a").nth(1);
     await categoryLink.click();

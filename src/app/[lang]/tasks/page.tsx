@@ -213,6 +213,87 @@ export default async function TasksPage({
                           <dt>{dict.common.confirmationBoundary}</dt>
                           <dd>{copy.confirmationBoundary}</dd>
                         </div>
+                        <div>
+                          <dt>{dict.tasks.measurementContract}</dt>
+                          <dd>
+                            <p className="m-0">{dict.tasks.allRequiredBinary}</p>
+                            <p className="mt-2 mb-0">{dict.tasks.calibrationPendingDetail}</p>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>{dict.tasks.accuracyChecks}</dt>
+                          <dd>
+                            <ol className="m-0 space-y-3 pl-5">
+                              {task.measurement.accuracy.criteria.map((criterion) => {
+                                const finalStateCriterion = criterion.id === "final-state";
+                                const description = lang === "ko"
+                                  ? `${finalStateCriterion
+                                      ? dict.tasks.finalStateCheck
+                                      : dict.tasks.boundaryCheck} ${finalStateCriterion
+                                      ? copy.finalState
+                                      : copy.confirmationBoundary}`
+                                  : criterion.description;
+                                const familyEvidence = dict.tasks.evidenceByFamily[family.id];
+                                const evidence = lang === "ko"
+                                  ? finalStateCriterion
+                                    ? familyEvidence.finalState
+                                    : familyEvidence.boundary
+                                  : criterion.evidence;
+
+                                return (
+                                  <li key={criterion.id}>
+                                    <p className="m-0">{description}</p>
+                                    <p className="mt-1 mb-0 text-[var(--color-ink-soft)]">
+                                      <strong>{dict.tasks.requiredEvidence}:</strong>{" "}
+                                      {evidence}
+                                    </p>
+                                  </li>
+                                );
+                              })}
+                            </ol>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>{dict.tasks.speedWindow}</dt>
+                          <dd>
+                            <p className="m-0">
+                              <strong>{dict.tasks.measurementStart}:</strong>{" "}
+                              {lang === "ko"
+                                ? dict.tasks.startEvent
+                                : task.measurement.speed.startEvent}
+                            </p>
+                            <p className="mt-2 mb-0">
+                              <strong>{dict.tasks.measurementStop}:</strong>{" "}
+                              {lang === "ko"
+                                ? dict.tasks.stopEvent
+                                : task.measurement.speed.stopEvent}
+                            </p>
+                            <p className="mt-2 mb-0">
+                              <strong>{dict.tasks.timeout}:</strong>{" "}
+                              {task.measurement.speed.timeoutSec} {dict.tasks.seconds}
+                            </p>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>{dict.tasks.costScope}</dt>
+                          <dd>
+                            <p className="m-0">
+                              <strong>{dict.tasks.includedCost}:</strong>{" "}
+                              {dict.tasks.modelAndToolCost}
+                            </p>
+                            <p className="mt-2 mb-0">
+                              <strong>{dict.tasks.excludedCost}:</strong>{" "}
+                              {dict.tasks.transactionValueExcluded}
+                            </p>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>{dict.tasks.referenceStatus}</dt>
+                          <dd>
+                            <p className="m-0"><strong>{dict.tasks.calibrationPending}</strong></p>
+                            <p className="mt-2 mb-0">{dict.tasks.rawMetricsAvailable}</p>
+                          </dd>
+                        </div>
                       </dl>
                     </details>
                   </article>

@@ -48,11 +48,11 @@ export const en = {
   site: {
     longName: "Multinational Index of Consumer Agents",
     tagline:
-      "The world’s first public benchmark initiative for outcome-verified, end-to-end consumer-agent execution across six country-localized real-life markets and multiple everyday consumer domains.",
+      "The world’s first public benchmark initiative for end-to-end consumer-agent execution across six localized markets.",
     secondary:
-      "Benchmarks have measured models and agents in knowledge work, in code, in benchmark-controlled web environments and in isolated app simulations. MICA measures whether an assembled system can finish an ordinary errand in the market where the consumer actually lives.",
+      "Six localized markets, everyday consumer errands, outcome-verified end to end.",
     definition:
-      "MICA evaluates complete, versioned consumer-agent systems on everyday errands across six markets in Asia and the Middle East, where execution runs through local channels, identity and consent checks, payment rails and app-only flows rather than a controlled sandbox. Each validated task earns one final score from its normalized accuracy, speed and cost components, and all three raw axes stay published beside it.",
+      "MICA measures whether a versioned consumer-agent system can finish an ordinary errand in the market where the consumer lives: local channels, identity checks, payment rails and app-only flows. Each validated task earns one final score, and raw accuracy, speed and cost stay published beside it.",
     edition: "Preview edition 0.1",
     demoNotice:
       "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
@@ -187,11 +187,11 @@ export const en = {
       "The index is not published yet: MICA has verified no system result, so nothing on this page ranks or scores a product.",
     noResultsHeadline: "No verified system results have been published yet.",
     noResultsDetail:
-      "MICA has published no system, no score and no ranking. What exists today is the apparatus: a ten-family task taxonomy whose definitions are still provisional candidates, a stated measurement method, a publication gate with its thresholds still unset, and an evidence model in which every future figure will resolve to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
+      "What exists today is the apparatus: a ten-family task taxonomy still in draft, a stated measurement method, a publication gate with its thresholds unset, and an evidence model in which every future figure resolves to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
     positionEyebrow: "Why MICA exists",
-    positionTitle: "Consumers still have no benchmark for whether an errand actually gets finished",
+    positionTitle: "No benchmark asks whether the errand actually got finished",
     positionIntro:
-      "Benchmark attention has concentrated on enterprise knowledge work, software development, benchmark-controlled web environments and isolated mobile or transaction simulations. Those precedents are real and MICA builds on them. What none of them settles is whether an assembled consumer-agent system can carry an ordinary errand to completion in a live, localized market. That is the gap MICA is being built to measure, and it has measured nothing yet.",
+      "Earlier benchmarks measured knowledge work, code, controlled web environments and isolated app simulations. MICA asks the question they leave open: can an assembled consumer-agent system carry an ordinary errand to completion in a live, localized market? MICA has measured nothing yet.",
     positionItems: [
       {
         term: "The missing unit",
@@ -211,13 +211,13 @@ export const en = {
     ],
     positionLink: "Read why MICA exists →",
     axesEyebrow: "One score per task, three axes still published",
-    axesTitle: "MICA multiplies accuracy, speed and cost into one task score",
+    axesTitle: "Accuracy, speed and cost multiply into one task score",
     axesIntro:
-      "A validated task earns one final score: 100 × accuracy × speed × cost, where each factor is a normalized component between 0 and 1, not a raw second or a raw dollar. The axes below stay published in their own units, because the score summarizes the record and does not replace it. No task has been scored yet.",
+      "100 × accuracy × speed × cost, each factor normalized between 0 and 1. The three axes stay published in their own units: the score summarizes the record, it does not replace it. No task has been scored yet.",
     readinessEyebrow: "What is built, and what is not",
     readinessTitle: "Where the index stands",
     readinessIntro:
-      "MICA is being built in the open, so the state of each part is stated plainly rather than implied by an empty table. Nothing below is a measurement.",
+      "The state of each part is stated plainly rather than implied by an empty table. Nothing below is a measurement.",
     readinessItems: [
       {
         term: "Task taxonomy",
@@ -260,11 +260,11 @@ export const en = {
     eyebrow: "Market index",
     title: "Six execution environments, not six translations",
     standfirst:
-      "A country edition is not one benchmark rendered in another language. Each edition is written against the channels, payment rails, identity checks, address formats and service conventions that actually govern execution in that market, so the same errand carries different conditions in each of the six.",
+      "Each edition is written against the channels, payment rails, identity checks, address formats and service conventions that govern execution in that market, so the same errand carries different conditions in each of the six.",
     conditionsEyebrow: "What makes an edition",
     conditionsTitle: "Three conditions that differ market by market",
     conditionsIntro:
-      "These are design conditions written into each edition, held equal across systems rather than scored as difficulty. No market has yet been exercised against a system, so nothing below reports how any market behaved in practice.",
+      "Design conditions written into each edition, held equal across systems rather than scored as difficulty. No market has been exercised against a system, so nothing below reports how any market behaved in practice.",
     conditionsItems: [
       {
         term: "Platform-controlled execution",
@@ -530,11 +530,11 @@ export const en = {
     eyebrow: "System index",
     title: "MICA measures systems, not models",
     standfirst:
-      "An entry is a dated snapshot of a whole system: orchestrator, models, tools and memory together. MICA measures that system, not a model, and does not require it to run on one global model: a system may route each task to whichever model it judges best and may call several inside one attempt, as long as every invocation is disclosed. Two entries can share a base model and still land far apart, which is the point.",
+      "An entry is a dated snapshot of a whole system: orchestrator, models, tools and memory together. No global model is required: a system may route each task to whichever model it judges best and call several inside one attempt, as long as every invocation is disclosed. Two entries can share a base model and still land far apart, which is the point.",
     emptyEyebrow: "System registry",
     emptyTitle: "The registry is empty",
     emptyNotice:
-      "No system snapshot has been submitted, verified and published. Rather than fill this page with illustrative entries, MICA leaves it empty: an invented name beside an invented figure is the exact failure a benchmark exists to prevent. The labels below define what an entry will carry when the first one is admitted.",
+      "No system snapshot has been submitted, verified and published. MICA leaves the page empty rather than fill it with illustrative entries: an invented name beside an invented figure is the exact failure a benchmark exists to prevent. The labels below define what an entry will carry when the first one is admitted.",
     labelsEyebrow: "Reading the labels",
     verificationTitle: "Verification status",
     verificationIntro:
@@ -594,21 +594,21 @@ export const en = {
     metaDescription:
       "The ten MICA task families, their canonical tasks, completion conditions and points that require user approval.",
     eyebrow: "Task definitions",
-    title: "A task is a change in the consumer’s world, not a transcript",
+    title: "Tasks measure real-world change",
     standfirst:
-      "Every MICA task declares the state the world must be in for the run to count, and the line past which the system must stop and ask. What is measured is the end-to-end change, including a correct stop or handoff. Persuasive text, a successful tool call, or a green state inside one interface is not the result.",
+      "Each task defines the required final state and the point where the system must stop for approval. A response or successful tool call alone does not count.",
     crossingEyebrow: "What one task can cross",
-    crossingTitle: "One errand, several execution surfaces",
+    crossingTitle: "One errand crosses several services",
     crossingIntro:
-      "A single consumer errand rarely stays in one place. It can begin in open search, continue in an app-only flow, pause at local identity or consent verification, pass through a payment or messaging handoff, and end only when the resulting state can be read back from the service that holds it. Each crossing is a place a run can fail while still looking successful in a log, which is why completion is defined by the declared final state rather than by the last response the system received. The definitions below are provisional candidates: none has been validated, and none has been run against any system.",
+      "A task may cross search, apps, identity checks, payments and messaging. It ends only when the service that holds the result confirms the required state. These definitions are candidates: none has been validated or run against a system.",
     disclosureDetail:
       "The task definitions on this page are the real thing; the run figures elsewhere on the site are illustrative demo data and not an official ranking.",
     publicationStatus:
       "These task definitions are provisional candidates for the public task set. None has been validated or run against any system, and no verified result has been published against any of them.",
     lifecycleEyebrow: "Catalogue status",
-    lifecycleTitle: "Provisional candidates, not a settled task set",
+    lifecycleTitle: "A public draft, not a settled task set",
     lifecycleIntro:
-      "The definitions below are drafts published early so they can be challenged before they harden. They are readable and usable as definitions; they are not a finished benchmark set, and nothing here has been measured.",
+      "Drafts published early so they can be challenged before they harden. They are usable as definitions; they are not a finished benchmark set, and nothing here has been measured.",
     lifecycleStatusTerm: "Lifecycle",
     lifecycleStatusDetail:
       "Every task is a candidate. A candidate is a drafted definition; a validated task is one that has passed the promotion contract below. No task has been promoted yet.",
@@ -622,7 +622,7 @@ export const en = {
     lifecycleMarketsDetail:
       "Candidates are listed against MICA's markets as drafted scope. Per-market applicability has not been decided task by task, so the listing states intended reach, not a validated per-market assignment.",
     promotionEyebrow: "Promotion contract",
-    promotionTitle: "What a task must carry before it counts as validated",
+    promotionTitle: "What validation requires",
     promotionIntro:
       "These fields are checked by machine before a candidate can be promoted. They are orthogonal on purpose: none of them is a difficulty rating, and none is combined into one.",
     promotionRequirements: [
@@ -655,9 +655,51 @@ export const en = {
     promotionGate:
       "A record that calls itself validated without all of these fails validation and cannot be published.",
     catalogueNavigationLabel: "Task category index",
-    showTaskContract: "Show completion and approval contract",
+    showTaskContract: "Show task contract",
+    measurementContract: "Measurement contract",
+    accuracyChecks: "Accuracy checks",
+    speedWindow: "Speed window",
+    costScope: "Cost scope",
+    timeout: "Timeout",
+    seconds: "sec",
+    measurementStart: "Start",
+    measurementStop: "Stop",
+    referenceStatus: "Reference status",
+    calibrationPending: "Calibration pending",
+    calibrationPendingDetail:
+      "Raw time and cost can be recorded, but normalized scores remain unavailable until pilot-median references are registered.",
+    requiredEvidence: "Required evidence",
+    allRequiredBinary:
+      "Accuracy is 1 only when every final-state and approval-boundary check passes; otherwise it is 0.",
+    includedCost: "Included",
+    excludedCost: "Excluded",
+    modelAndToolCost: "Model inference and metered tool/API fees in USD. A genuine zero is recorded as zero.",
+    transactionValueExcluded: "Transaction value is excluded.",
+    rawMetricsAvailable: "Raw metrics may be recorded before calibration.",
+    finalStateCheck: "The complete declared final state must be confirmed.",
+    boundaryCheck: "The attempt must stay within the declared approval boundary.",
+    finalStateEvidence:
+      "Authoritative post-action service readback or a traceable final artifact.",
+    boundaryEvidence:
+      "Complete tool and action lineage, including the approval record where required.",
+    evidenceByFamily: {
+      "email-calendar": { finalState: "Authoritative post-action readback from the calendar and mail providers.", boundary: "Complete calendar-change and message-send tool lineage, including required approvals." },
+      "shopping-delivery": { finalState: "Authoritative readback of the merchant’s cart or order record, including itemized fees.", boundary: "Complete checkout and order-submission lineage, including required approvals." },
+      "travel-accommodation": { finalState: "Authoritative carrier and property records for every itinerary, availability, and price claim.", boundary: "Complete booking, seat-hold, and payment-surface lineage, including required approvals." },
+      "restaurants-local": { finalState: "Authoritative venue or booking-service record for the reservation or exact blocking step.", boundary: "Complete booking-channel, card-hold, verification, and message lineage, including required approvals." },
+      "money-banking-investing": { finalState: "Authoritative institution record for balances, instructions, orders, and reference numbers.", boundary: "Complete lineage for every account-touching call, including required approvals." },
+      "mobility-transit": { finalState: "Authoritative operator or platform record for rides, tickets, passes, schedules, and fares.", boundary: "Complete dispatch, ticketing, and payment-surface lineage, including required approvals." },
+      "healthcare-administration": { finalState: "Authoritative provider or insurer record for appointments, referrals, prescriptions, and claims.", boundary: "Complete provider and insurer lineage, including submissions, approvals, and permitted data destinations." },
+      "government-civic": { finalState: "Authoritative government-portal record for applications, filings, receipts, and issued documents.", boundary: "Complete filing, submission, fee, and identity-verification lineage, including required approvals." },
+      "home-utilities": { finalState: "Authoritative provider record for service orders, appointments, meters, and billing.", boundary: "Complete account, scheduling, contract, and tariff-change lineage, including required approvals." },
+      "telecom-subscriptions": { finalState: "Authoritative carrier or subscription record for plans, cancellations, ports, and billing.", boundary: "Complete plan, cancellation, port, and recurring-charge lineage, including required approvals." },
+    },
+    startEvent:
+      "The evaluator releases the task, fixture state and required credentials.",
+    stopEvent:
+      "The evaluator records the terminal outcome and captures the required evidence.",
     scoringEyebrow: "Scoring contract",
-    scoringTitle: "What a validated task earns",
+    scoringTitle: "How a validated task is scored",
     scoringIntro:
       "A validated, executable task attempt earns one final score, and the raw axes behind it stay published. The definitions on this page are provisional candidates: none is executable or validated, none carries a pre-registered speed or cost reference, and none has been scored.",
     scoringFormulaLabel: "Per-task final score",
@@ -694,7 +736,7 @@ export const en = {
     scoringStatusDetail:
       "No task on this page has a speed or cost reference, a result, or a score. The contract is published early so it can be challenged before it produces a number.",
     taxonomyEyebrow: "Taxonomy and coverage",
-    taxonomyTitle: "Ten families defined, none carrying published results",
+    taxonomyTitle: "Ten task families, no published results",
     captionSuffix:
       "canonical tasks, declared final states and confirmation boundaries.",
     declaredFinalState: "Declared final state",
@@ -886,7 +928,7 @@ export const en = {
     eyebrow: "Methodology draft",
     title: "What we measure, and what we refuse to measure",
     standfirst:
-      "MICA is a measurement instrument before it is a league table. This page states the definitions, the gates and the known limits, so a disagreement can be about the method rather than about the number.",
+      "MICA is a measurement instrument before it is a league table. This page states the definitions, the gates and the known limits, so a disagreement can be about the method rather than the number.",
     disclosureDetail:
       "The method described here is real. The figures used to exercise it across this site are illustrative demo data and not an official ranking.",
     publicationStatus:

@@ -470,6 +470,164 @@ export const marketApplicabilityEntrySchema = z.object({
   note: z.string().min(1),
 });
 
+/**
+ * The measurement contract a canonical task is measured under.
+ *
+ * It states, before any run, how accuracy, speed and cost are captured for this
+ * task. It is a declared protocol, not evidence: nothing here asserts that a
+ * run happened, and no target may be invented for a task that has not been
+ * calibrated.
+ */
+
+/** One thing that must be true for the attempt to count as accurate. */
+export const accuracyCriterionSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/),
+  description: z.string().min(1),
+  /** What the evaluator must be able to point at to mark this criterion met. */
+  evidence: z.string().min(1),
+  /**
+   * Accuracy is binary: every criterion is required, so the literal is fixed.
+   * There is no partial-credit weight to record.
+   */
+  required: z.literal(true),
+});
+export type AccuracyCriterion = z.infer<typeof accuracyCriterionSchema>;
+
+/**
+ * Costs the evaluation spend includes. The tuple is exact and ordered so a new
+ * category cannot silently enter the definition of execution spend.
+ */
+export const COST_INCLUDED_CATEGORIES = [
+  "model-inference",
+  "tool-api-fees",
+] as const;
+
+/** Costs deliberately outside the score. Transaction value is always excluded. */
+export const COST_EXCLUDED_CATEGORIES = [
+  "transaction-value",
+  "human-labour",
+  "device-or-infrastructure",
+  "subscription-overhead",
+] as const;
+
+export const taskMeasurementSchema = z.object({
+  /** Contract version, so a later revision is visible rather than silent. */
+  version: z.string().regex(/^\d+\.\d+\.\d+$/),
+  accuracy: z.object({
+    /**
+     * Every required criterion and the confirmation boundary must pass. There
+     * is no partial credit, so the scoring mode is a single literal.
+     */
+    scoring: z.literal("all-required-binary"),
+    criteria: z.array(accuracyCriterionSchema).min(2).max(8),
+  }),
+  speed: z.object({
+    clock: z.literal("wall-clock"),
+    /** Explicit evaluator release: when the clock starts. */
+    startEvent: z.string().min(1),
+    /** Explicit terminal evidence capture: when the clock stops. */
+    stopEvent: z.string().min(1),
+    timeoutSec: z.number().int().finite().positive(),
+    /**
+     * The population raw timings are captured over. Published p50/p95 may still
+     * be taken from successful attempts only; this field states the capture
+     * population, not the reporting one.
+     */
+    population: z.literal("all-eligible-attempts"),
+  }),
+  cost: z.object({
+    /** Execution spend only, always USD — no market currency conversion. */
+    currency: z.literal("USD"),
+    included: z.tuple([
+      z.literal(COST_INCLUDED_CATEGORIES[0]),
+      z.literal(COST_INCLUDED_CATEGORIES[1]),
+    ]),
+    excluded: z.array(z.enum(COST_EXCLUDED_CATEGORIES)).min(1),
+    /** A genuinely free run records 0, never a missing or imputed figure. */
+    zeroCostPolicy: z.literal("record-zero"),
+  }),
+  references: z.object({
+    status: z.enum(["calibration-pending", "registered"]),
+    speedTargetSec: z.number().finite().positive().nullable(),
+    costTargetUsd: z.number().finite().positive().nullable(),
+    method: z.literal("pilot-median"),
+    sampleSize: z.number().int().nonnegative(),
+  }),
+}).superRefine((measurement, ctx) => {
+  const ids = measurement.accuracy.criteria.map((criterion) => criterion.id);
+  if (new Set(ids).size !== ids.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["accuracy", "criteria"],
+      message: "accuracy criteria repeat a criterion id.",
+    });
+  }
+
+  // A clock needs two distinguishable events, or the interval is undefined.
+  if (measurement.speed.startEvent === measurement.speed.stopEvent) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["speed", "stopEvent"],
+      message: "speed stopEvent must differ from startEvent.",
+    });
+  }
+
+  if (!measurement.cost.excluded.includes("transaction-value")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["cost", "excluded"],
+      message: "cost excluded must list transaction-value.",
+    });
+  }
+  const excluded = measurement.cost.excluded;
+  if (new Set(excluded).size !== excluded.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["cost", "excluded"],
+      message: "cost excluded repeats a category.",
+    });
+  }
+
+  // References fail closed in both directions: pending means no numbers at all,
+  // registered means real numbers backed by a real pilot sample.
+  const { status, speedTargetSec, costTargetUsd, sampleSize } =
+    measurement.references;
+  if (status === "calibration-pending") {
+    if (speedTargetSec !== null || costTargetUsd !== null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["references"],
+        message:
+          "calibration-pending references must carry no speed or cost target.",
+      });
+    }
+    if (sampleSize !== 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["references", "sampleSize"],
+        message: "calibration-pending references must have sampleSize 0.",
+      });
+    }
+  } else {
+    if (speedTargetSec === null || costTargetUsd === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["references"],
+        message:
+          "registered references must carry both a speed and a cost target.",
+      });
+    }
+    if (sampleSize < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["references", "sampleSize"],
+        message: "registered references must be backed by a pilot sample.",
+      });
+    }
+  }
+});
+export type TaskMeasurement = z.infer<typeof taskMeasurementSchema>;
+
 /** Fields a candidate may omit but a validated task must carry. */
 export const TASK_PROMOTION_FIELDS = [
   "surface",
@@ -493,6 +651,13 @@ const baseCanonicalTaskSchema = z.object({
    */
   lifecycle: taskLifecycleSchema.default("candidate"),
   taskSet: taskSetSchema.default("public"),
+  /**
+   * How this task is measured. Required for every record, including candidates:
+   * a task that cannot say how it would be scored is not a task definition.
+   * A candidate may hold calibration-pending references; a validated task
+   * cannot.
+   */
+  measurement: taskMeasurementSchema,
   /** Orthogonal authoring metadata. Optional while a task is a candidate. */
   surface: taskSurfaceSchema.optional(),
   terminationClass: terminationClassSchema.optional(),
@@ -525,6 +690,13 @@ export function taskPromotionGaps(task: CanonicalTask): readonly string[] {
 
   for (const field of TASK_PROMOTION_FIELDS) {
     if (task[field] === undefined) gaps.push(`missing ${field}`);
+  }
+
+  // The contract itself is required everywhere, so promotion adds exactly one
+  // demand: the references must have been calibrated. This asks for a pilot to
+  // have happened, never for a number to be invented for a candidate.
+  if (task.measurement.references.status === "calibration-pending") {
+    gaps.push("measurement references are still calibration-pending");
   }
 
   const applicability = task.marketApplicability;

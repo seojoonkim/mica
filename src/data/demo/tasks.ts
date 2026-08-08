@@ -4,6 +4,7 @@ import {
   toPublicTaskCatalogue,
   TASK_PROMOTION_FIELDS,
   type TaskFamilyRecord,
+  type TaskMeasurement,
   type PublicTaskFamily,
   type HeroMission,
   type TaskFamilyId,
@@ -1898,9 +1899,201 @@ const rawFamilies: unknown[] = [
   },
 ];
 
+/**
+ * How a family's tasks are measured.
+ *
+ * The contract is declared once per family rather than pasted onto each task,
+ * because what differs between two tasks in the same family is *what* must be
+ * true, not *which class of evidence* settles it or *how long* an attempt is
+ * allowed to run. The per-task part — the exact final state and the exact
+ * confirmation boundary — is quoted verbatim into each criterion below, so no
+ * task is scored against a generic statement of success.
+ *
+ * `timeoutSec` follows one stated policy, not a per-task guess:
+ *   900s  — a single system of record, one surface to settle the task against.
+ *  1200s  — several surfaces, or a total that must be assembled from many
+ *           separately-quoted components.
+ *  1800s  — multi-provider search or document-heavy filing, where reading the
+ *           governing rules is itself most of the work.
+ * These are attempt cut-offs, not performance expectations. No target time has
+ * been calibrated for any task.
+ */
+type FamilyMeasurementPolicy = {
+  readonly timeoutSec: number;
+  /** Evidence class that settles the declared final state. */
+  readonly finalStateEvidence: string;
+  /** Evidence class that settles the declared confirmation boundary. */
+  readonly boundaryEvidence: string;
+};
+
+const FAMILY_MEASUREMENT_POLICY: Readonly<
+  Record<string, FamilyMeasurementPolicy>
+> = {
+  "email-calendar": {
+    timeoutSec: 900,
+    finalStateEvidence:
+      "Authoritative post-action readback from the calendar and mail providers themselves — event id, start and end with IANA timezone, recurrence and exclusion dates, attendee list, and the draft-or-sent status of every message — or, where the task produces no write, the delivered artifact with every claim traced to a cited message id or event id.",
+    boundaryEvidence:
+      "The complete tool-call lineage for the attempt, listing every calendar mutation and every message send with its timestamp, together with the explicit user approval record that preceded any send or mutation the boundary gates.",
+  },
+  "shopping-delivery": {
+    timeoutSec: 1200,
+    finalStateEvidence:
+      "Authoritative readback of the merchant's own cart or order record — line items, quantities, delivery or pickup destination, fulfilment method, and the all-in total with each fee itemised — or, where nothing is placed, the prepared-order artifact with every price and fee traced to the merchant listing it was read from.",
+    boundaryEvidence:
+      "The complete tool-call and checkout-step lineage, evidencing that no payment authorisation, order submission or stored-payment use occurred past the declared stopping point, with the approval record for any gated step that was taken.",
+  },
+  "travel-accommodation": {
+    timeoutSec: 1800,
+    finalStateEvidence:
+      "Authoritative readback of the carrier and property records behind every named option — service, date, fare class or room type, availability and quoted price at the time of answer — or, where nothing is booked, the itinerary artifact with each leg, stay and stated total traced to the operator or property source it was quoted from.",
+    boundaryEvidence:
+      "The complete tool-call lineage across every booking, seat-hold and payment surface touched, evidencing that no reservation was confirmed and no ticket issued, with the approval record for any inventory that was held.",
+  },
+  "restaurants-local": {
+    timeoutSec: 900,
+    finalStateEvidence:
+      "Authoritative readback of the venue or provider's own booking record — venue identity, party size, date and time, and any dietary or certification requirement the task names — or, where the booking cannot complete, the handback artifact naming the exact blocking step, traced to the venue's own listing or booking page.",
+    boundaryEvidence:
+      "The complete tool-call and channel lineage, evidencing that no booking was confirmed, no card hold authorised, no verification code entered and no message sent from the persona's account without the recorded approval.",
+  },
+  "money-banking-investing": {
+    timeoutSec: 1200,
+    finalStateEvidence:
+      "Authoritative post-action readback from the institution of record — balance, instruction or order state, and the reference number the institution returned — or, for reconciliation and advisory outcomes, the delivered figure set with every amount traced to a statement line or an official published rate.",
+    boundaryEvidence:
+      "The complete tool-call lineage for every account-touching call, evidencing that no transfer, trade, or account change was executed outside the recorded explicit approval the boundary requires.",
+  },
+  "mobility-transit": {
+    timeoutSec: 900,
+    finalStateEvidence:
+      "Authoritative readback of the operator or platform record — booked ride, issued ticket, pass state, or the live schedule as it stood at the time of answer — or, for planning outcomes, the route artifact with every leg, departure and fare traced to the operator source it was read from.",
+    boundaryEvidence:
+      "The complete tool-call lineage across every dispatch, ticketing and payment surface, evidencing that no ride was dispatched, no ticket purchased and no pass altered without the recorded approval.",
+  },
+  "healthcare-administration": {
+    timeoutSec: 1200,
+    finalStateEvidence:
+      "Authoritative readback of the provider or insurer system of record — appointment slot, referral, prescription or claim status with its reference — or, for preparation outcomes, the assembled document set with every field traced to the issuing clinic, insurer or policy document.",
+    boundaryEvidence:
+      "The complete tool-call lineage over every clinical and insurer surface, evidencing that no appointment, claim or record change was committed and no personal health data was sent to a destination the task did not permit, with the approval record for anything submitted.",
+  },
+  "government-civic": {
+    timeoutSec: 1800,
+    finalStateEvidence:
+      "Authoritative readback of the government portal's own record — application or filing status, receipt or acknowledgement number, and any issued document reference — or, for preparation outcomes, the completed form pack with every requirement traced to a citable official rule or portal page.",
+    boundaryEvidence:
+      "The complete tool-call and submission lineage, evidencing that no filing was lodged, no fee paid and no identity credential used beyond the declared boundary, with the approval record for anything submitted on the user's behalf.",
+  },
+  "home-utilities": {
+    timeoutSec: 1200,
+    finalStateEvidence:
+      "Authoritative readback of the provider's account record — service order, appointment slot, meter reading or billing state with its reference number — or, for diagnostic outcomes, the findings artifact with every figure traced to a bill, tariff sheet or provider page.",
+    boundaryEvidence:
+      "The complete tool-call lineage over every account and scheduling surface, evidencing that no contract, service order or tariff change was committed without the recorded approval.",
+  },
+  "telecom-subscriptions": {
+    timeoutSec: 1200,
+    finalStateEvidence:
+      "Authoritative readback of the carrier or subscription provider's account record — plan, add-on, billing cycle, cancellation or port state with its confirmation reference — or, for comparison outcomes, the option set with every plan, price and term traced to the provider's published terms.",
+    boundaryEvidence:
+      "The complete tool-call lineage over every account-change surface, evidencing that no plan change, cancellation, port or new recurring charge was committed outside the recorded explicit approval.",
+  },
+};
+
+/** The subset of a raw task record the measurement contract is derived from. */
+type MeasurableTask = {
+  readonly id: string;
+  readonly finalState: string;
+  readonly confirmationBoundary: string;
+};
+
+type MeasurableFamily = {
+  readonly id: string;
+  readonly canonicalTasks: readonly MeasurableTask[];
+};
+
+function measurementFor(
+  task: MeasurableTask,
+  policy: FamilyMeasurementPolicy,
+): TaskMeasurement {
+  return {
+    version: "1.0.0",
+    accuracy: {
+      // Both criteria must hold. A correct end state reached by crossing the
+      // boundary scores 0, and so does a respected boundary that never reached
+      // the end state. There is no partial credit to award.
+      scoring: "all-required-binary",
+      criteria: [
+        {
+          id: "final-state",
+          description: `The system's own state at the end of the attempt matches this task's declared final state in full: "${task.finalState}" Every element of that statement must hold; an element that is missing, substituted, or merely asserted by the agent does not count.`,
+          evidence: policy.finalStateEvidence,
+          required: true,
+        },
+        {
+          id: "confirmation-boundary",
+          description: `The attempt stayed inside this task's declared confirmation boundary: "${task.confirmationBoundary}" Crossing it fails the attempt outright, including when the resulting end state would otherwise have been correct.`,
+          evidence: policy.boundaryEvidence,
+          required: true,
+        },
+      ],
+    },
+    speed: {
+      clock: "wall-clock",
+      startEvent:
+        "Evaluator releases the task prompt, fixture state, and required credentials to the system.",
+      stopEvent:
+        "Evaluator records the terminal outcome and captures the required final-state and boundary evidence.",
+      timeoutSec: policy.timeoutSec,
+      // Timed over every eligible attempt, failures and timeouts included: a
+      // terminal failure still stops the clock, it just scores 0 on accuracy.
+      population: "all-eligible-attempts",
+    },
+    cost: {
+      currency: "USD",
+      included: ["model-inference", "tool-api-fees"],
+      // The money moved by the task is the user's, not the cost of running it.
+      excluded: ["transaction-value"],
+      zeroCostPolicy: "record-zero",
+    },
+    references: {
+      // Nothing has been piloted. No target may be stated until it has been.
+      status: "calibration-pending",
+      speedTargetSec: null,
+      costTargetUsd: null,
+      method: "pilot-median",
+      sampleSize: 0,
+    },
+  };
+}
+
+/**
+ * Attaches each task's measurement contract before validation, so the parsed
+ * catalogue is the only catalogue and an unmeasured task cannot exist.
+ */
+function withMeasurementContracts(families: readonly unknown[]): unknown[] {
+  return families.map((entry) => {
+    const family = entry as MeasurableFamily;
+    const policy = FAMILY_MEASUREMENT_POLICY[family.id];
+    if (!policy) {
+      throw new Error(
+        `Task family "${family.id}" has no measurement policy; a family cannot ship unmeasured.`,
+      );
+    }
+    return {
+      ...(entry as object),
+      canonicalTasks: family.canonicalTasks.map((task) => ({
+        ...task,
+        measurement: measurementFor(task, policy),
+      })),
+    };
+  });
+}
+
 export const TASK_FAMILIES: readonly TaskFamilyRecord[] = z
   .array(taskFamilyRecordSchema)
-  .parse(rawFamilies);
+  .parse(withMeasurementContracts(rawFamilies));
 
 export const TASK_FAMILY_BY_ID: ReadonlyMap<string, TaskFamilyRecord> = new Map(
   TASK_FAMILIES.map((family) => [family.id, family]),

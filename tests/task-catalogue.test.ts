@@ -12,6 +12,47 @@ import {
 import { PUBLIC_TASK_FAMILIES, TASK_CATALOGUE_STATUS, TASK_FAMILIES } from "@/data/demo/tasks";
 
 /** The minimum a task record must carry, with no orthogonal metadata. */
+const BASE_MEASUREMENT = {
+  version: "1.0.0",
+  accuracy: {
+    scoring: "all-required-binary",
+    criteria: [
+      {
+        id: "final-state",
+        description: "The declared final state is confirmed.",
+        evidence: "Authoritative post-action readback.",
+        required: true,
+      },
+      {
+        id: "boundary",
+        description: "The confirmation boundary is respected.",
+        evidence: "Action log contains no prohibited state change.",
+        required: true,
+      },
+    ],
+  },
+  speed: {
+    clock: "wall-clock",
+    startEvent: "Evaluator releases the task prompt and credentials.",
+    stopEvent: "The evaluator records a terminal outcome and final evidence.",
+    timeoutSec: 900,
+    population: "all-eligible-attempts",
+  },
+  cost: {
+    currency: "USD",
+    included: ["model-inference", "tool-api-fees"],
+    excluded: ["transaction-value"],
+    zeroCostPolicy: "record-zero",
+  },
+  references: {
+    status: "calibration-pending",
+    speedTargetSec: null,
+    costTargetUsd: null,
+    method: "pilot-median",
+    sampleSize: 0,
+  },
+};
+
 function bareTask(overrides: Record<string, unknown> = {}) {
   return {
     id: "test-task-1",
@@ -19,6 +60,7 @@ function bareTask(overrides: Record<string, unknown> = {}) {
     finalState: "A synthetic final state.",
     confirmationBoundary: "Stops before any irreversible action.",
     markets: [...COUNTRY_CODES],
+    measurement: BASE_MEASUREMENT,
     translations: {
       ko: {
         title: "테스트 작업",
@@ -58,6 +100,56 @@ describe("task lifecycle defaults", () => {
   });
 });
 
+describe("measurement contract schema", () => {
+  it("accepts an auditable calibration-pending contract", () => {
+    expect(
+      canonicalTaskSchema.safeParse(bareTask({ measurement: BASE_MEASUREMENT })).success,
+    ).toBe(true);
+  });
+
+  it("rejects duplicate accuracy criteria", () => {
+    const duplicate = {
+      ...BASE_MEASUREMENT,
+      accuracy: {
+        ...BASE_MEASUREMENT.accuracy,
+        criteria: [
+          BASE_MEASUREMENT.accuracy.criteria[0],
+          BASE_MEASUREMENT.accuracy.criteria[0],
+        ],
+      },
+    };
+    expect(canonicalTaskSchema.safeParse(bareTask({ measurement: duplicate })).success).toBe(
+      false,
+    );
+  });
+
+  it("rejects identical speed start and stop events", () => {
+    const invalid = {
+      ...BASE_MEASUREMENT,
+      speed: {
+        ...BASE_MEASUREMENT.speed,
+        stopEvent: BASE_MEASUREMENT.speed.startEvent,
+      },
+    };
+    expect(canonicalTaskSchema.safeParse(bareTask({ measurement: invalid })).success).toBe(
+      false,
+    );
+  });
+
+  it("rejects target numbers before references are registered", () => {
+    const invalid = {
+      ...BASE_MEASUREMENT,
+      references: {
+        ...BASE_MEASUREMENT.references,
+        speedTargetSec: 60,
+      },
+    };
+    expect(canonicalTaskSchema.safeParse(bareTask({ measurement: invalid })).success).toBe(
+      false,
+    );
+  });
+});
+
 describe("promotion contract", () => {
   it("refuses a validated record that is missing promotion metadata", () => {
     const result = canonicalTaskSchema.safeParse(
@@ -70,8 +162,22 @@ describe("promotion contract", () => {
     }
   });
 
-  it("accepts a validated record that carries all of it", () => {
-    const input = bareTask({ lifecycle: "validated", ...FULL_METADATA });
+  it("accepts a validated record with calibrated references and full metadata", () => {
+    const measurement = {
+      ...BASE_MEASUREMENT,
+      references: {
+        status: "registered",
+        speedTargetSec: 300,
+        costTargetUsd: 0.25,
+        method: "pilot-median",
+        sampleSize: 30,
+      },
+    };
+    const input = bareTask({
+      lifecycle: "validated",
+      ...FULL_METADATA,
+      measurement,
+    });
     expect(canonicalTaskSchema.safeParse(input).success).toBe(true);
     expect(isTaskPromotable(canonicalTaskSchema.parse(input))).toBe(true);
   });
@@ -175,11 +281,56 @@ describe("shipped catalogue readiness", () => {
     expect(TASK_CATALOGUE_STATUS.validatedTasks).toBe(0);
   });
 
+  it("gives every candidate an auditable accuracy, speed, and cost contract", () => {
+    for (const family of PUBLIC_TASK_FAMILIES) {
+      for (const task of family.canonicalTasks) {
+        const contract = task.measurement;
+
+        expect(contract.version).toMatch(/^\d+\.\d+\.\d+$/);
+        expect(contract.accuracy.scoring).toBe("all-required-binary");
+        expect(contract.accuracy.criteria.length).toBeGreaterThanOrEqual(2);
+        expect(contract.accuracy.criteria.length).toBeLessThanOrEqual(8);
+        expect(new Set(contract.accuracy.criteria.map((criterion) => criterion.id)).size).toBe(
+          contract.accuracy.criteria.length,
+        );
+        expect(
+          contract.accuracy.criteria.every(
+            (criterion) =>
+              criterion.required &&
+              criterion.description.length > 0 &&
+              criterion.evidence.length > 0,
+          ),
+        ).toBe(true);
+
+        expect(contract.speed.clock).toBe("wall-clock");
+        expect(contract.speed.startEvent.length).toBeGreaterThan(0);
+        expect(contract.speed.stopEvent.length).toBeGreaterThan(0);
+        expect(contract.speed.startEvent).not.toBe(contract.speed.stopEvent);
+        expect(contract.speed.timeoutSec).toBeGreaterThan(0);
+        expect(contract.speed.population).toBe("all-eligible-attempts");
+
+        expect(contract.cost.currency).toBe("USD");
+        expect(contract.cost.included).toEqual(["model-inference", "tool-api-fees"]);
+        expect(contract.cost.excluded).toContain("transaction-value");
+        expect(contract.cost.zeroCostPolicy).toBe("record-zero");
+
+        expect(contract.references.status).toBe("calibration-pending");
+        expect(contract.references.speedTargetSec).toBeNull();
+        expect(contract.references.costTargetUsd).toBeNull();
+      }
+    }
+  });
+
   it("registers no scoring reference against a provisional candidate", () => {
     for (const family of PUBLIC_TASK_FAMILIES) {
       for (const task of family.canonicalTasks) {
-        expect(task).not.toHaveProperty("speedTargetSec");
-        expect(task).not.toHaveProperty("costTargetUsd");
+        expect(task.measurement.references).toEqual({
+          status: "calibration-pending",
+          speedTargetSec: null,
+          costTargetUsd: null,
+          method: "pilot-median",
+          sampleSize: 0,
+        });
       }
     }
   });
