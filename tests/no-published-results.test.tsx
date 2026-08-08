@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import { SYSTEMS } from "@/data/demo/systems";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { COUNTRIES } from "@/data/demo/countries";
-import { TASK_FAMILIES } from "@/data/demo/tasks";
+import { PUBLIC_TASK_FAMILIES, TASK_FAMILIES } from "@/data/demo/tasks";
 import { RUN_CELL_IDS } from "@/lib/evidence";
 import {
   aggregateBySystem,
@@ -13,7 +13,7 @@ import {
   countrySnapshot,
 } from "@/lib/derive";
 import { getDict } from "@/lib/i18n/dictionary";
-import { COUNTRY_CODES } from "@/lib/schema";
+import { assertNoHoldoutTasks, COUNTRY_CODES } from "@/lib/schema";
 import {
   publishedResultFamilyIds,
   evaluationFamilyCount,
@@ -301,8 +301,28 @@ describe("sitemap and exports carry no fictional records", () => {
   it("ships public JSON and CSV with empty system and run arrays", () => {
     const dir = join(process.cwd(), "public", "data", "demo");
     const json = JSON.parse(readFileSync(join(dir, "mica-demo.json"), "utf8"));
-    expect(json.countries).toEqual(COUNTRIES);
-    expect(json.taskFamilies).toEqual(TASK_FAMILIES);
+    // The export publishes the *public projection*, not the internal
+    // catalogue: holdout membership and the internal defaults behind it never
+    // leave the repository. Comparing to TASK_FAMILIES would assert the
+    // opposite of the guarantee, so the comparison is to the projection, made
+    // through a JSON round trip because the file has been serialized.
+    const asJson = <T,>(value: T): unknown => JSON.parse(JSON.stringify(value));
+    expect(json.countries).toEqual(asJson(COUNTRIES));
+    expect(json.taskFamilies).toEqual(asJson(PUBLIC_TASK_FAMILIES));
+    expect(() =>
+      assertNoHoldoutTasks(json.taskFamilies, "shipped demo export"),
+    ).not.toThrow();
+    const exportedIds = new Set(
+      (json.taskFamilies as { canonicalTasks: { id: string }[] }[]).flatMap(
+        (family) => family.canonicalTasks.map((task) => task.id),
+      ),
+    );
+    const holdoutIds = TASK_FAMILIES.flatMap((family) =>
+      family.canonicalTasks
+        .filter((task) => task.taskSet === "holdout")
+        .map((task) => task.id),
+    );
+    for (const id of holdoutIds) expect(exportedIds.has(id)).toBe(false);
     expect(json.systems).toEqual([]);
     expect(json.runCells).toEqual([]);
     const csv = readFileSync(join(dir, "mica-demo.csv"), "utf8");

@@ -62,7 +62,8 @@ export default function OpengraphImage() {
               maxWidth: 900,
             }}
           >
-            Accuracy, speed and cost reported separately. No composite score.
+            One score per task: accuracy × speed × cost. All three raw axes
+            still reported separately.
           </div>
         </div>
         <div

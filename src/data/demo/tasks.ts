@@ -1,7 +1,10 @@
 import {
   taskFamilyRecordSchema,
   heroMissionSchema,
+  toPublicTaskCatalogue,
+  TASK_PROMOTION_FIELDS,
   type TaskFamilyRecord,
+  type PublicTaskFamily,
   type HeroMission,
   type TaskFamilyId,
 } from "@/lib/schema";
@@ -1902,6 +1905,35 @@ export const TASK_FAMILIES: readonly TaskFamilyRecord[] = z
 export const TASK_FAMILY_BY_ID: ReadonlyMap<string, TaskFamilyRecord> = new Map(
   TASK_FAMILIES.map((family) => [family.id, family]),
 );
+
+/**
+ * The only catalogue a public page or export may read. Holdout records are
+ * removed here rather than at each call site, so forgetting the filter is not
+ * a way to leak one.
+ */
+export const PUBLIC_TASK_FAMILIES: readonly PublicTaskFamily[] =
+  toPublicTaskCatalogue(TASK_FAMILIES);
+
+const publicTasks = PUBLIC_TASK_FAMILIES.flatMap(
+  (family) => family.canonicalTasks,
+);
+
+/**
+ * Machine-derived readiness of the catalogue, counted from the records rather
+ * than asserted in prose. Every current task is a provisional public-set
+ * candidate: drafted, not validated, and not yet exercised against any system.
+ */
+export const TASK_CATALOGUE_STATUS = {
+  publicTasks: publicTasks.length,
+  candidateTasks: publicTasks.filter((task) => task.lifecycle === "candidate")
+    .length,
+  validatedTasks: publicTasks.filter((task) => task.lifecycle === "validated")
+    .length,
+  /** Promotion requirements a record must satisfy to become validated. */
+  promotionFields: TASK_PROMOTION_FIELDS,
+  /** The languages canonical task text actually exists in. Nothing else. */
+  taskTextLanguages: ["en", "ko"] as const,
+} as const;
 
 
 

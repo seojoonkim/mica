@@ -83,6 +83,38 @@ export default async function GovernancePage({
       </Section>
 
       <Section
+        id="independence"
+        eyebrow={dict.governance.independenceEyebrow}
+        title={dict.governance.independenceTitle}
+        intro={dict.governance.independenceIntro}
+      >
+        <DataList
+          items={[
+            {
+              term: dict.governance.independenceInitiatorTerm,
+              detail: dict.governance.independenceInitiatorDetail,
+            },
+            {
+              term: dict.governance.independenceControlTerm,
+              detail: dict.governance.independenceControlDetail,
+            },
+            {
+              term: dict.governance.independenceFundingTerm,
+              detail: dict.governance.independenceFundingDetail,
+            },
+            {
+              term: dict.governance.independenceSetsTerm,
+              detail: dict.governance.independenceSetsDetail,
+            },
+            {
+              term: dict.governance.independenceStatusTerm,
+              detail: dict.governance.independenceStatusDetail,
+            },
+          ]}
+        />
+      </Section>
+
+      <Section
         eyebrow={dict.governance.correctionsEyebrow}
         title={dict.governance.correctionsTitle}
         intro={dict.governance.correctionsIntro}

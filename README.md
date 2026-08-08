@@ -59,7 +59,11 @@ Leaving both values empty preserves the local fixture source and a secret-free b
 - Cost per success charges all eligible attempt cost to successful runs.
 - A zero-success cell renders `No successful task`, not zero or infinity.
 - Global comparisons require complete country coverage and use country macro-averages.
-- MICA publishes no official composite score.
+- Each validated executable task earns one final score: `100 × accuracy × speed × cost`, where each factor is a normalized component in `[0, 1]`.
+- Family and country scores are the arithmetic mean of the eligible individual task scores; an unscored task is excluded with a reason, never entered as a zero.
+- Raw accuracy, raw latency and raw evaluation cost stay separately disclosed alongside every score.
+- `cost` in the formula is evaluation execution cost in USD, not a transaction or purchase amount.
+- A system may route each task to a different model and call several models per attempt; every invocation is disclosed as evidence.
 
 ## Deployment
 

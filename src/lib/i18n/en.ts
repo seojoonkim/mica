@@ -50,7 +50,7 @@ export const en = {
     tagline: "The global benchmark for consumer agent orchestration.",
     secondary: "Models matter. Orchestration wins.",
     definition:
-      "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East, reporting accuracy, speed and cost as three separate results.",
+      "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East. Each validated task earns one final score from its normalized accuracy, speed and cost components, and all three raw axes stay published beside it.",
     edition: "Preview edition 0.1",
     demoNotice:
       "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
@@ -144,8 +144,8 @@ export const en = {
     scrollCue: "Scroll horizontally for all columns →",
     captionSuffix:
       "Illustrative demo data, not an official ranking.",
-    captionSuffixNoComposite:
-      "Illustrative demo data, not an official ranking. Columns are read separately; MICA publishes no composite score.",
+    captionSuffixScoring:
+      "Illustrative demo data, not an official ranking. Raw accuracy, speed and cost are read separately; a per-task final score is published beside them, never instead of them.",
     footnote:
       "Accuracy is the share of eligible runs reaching the confirmed final state. Speed p50 and p95 describe successful eligible runs only, so they say how long success took, not how long an attempt took; failed attempts are timed and kept with the run cell but are not in this population. Cost divides the cost of all eligible attempts by the successful ones. “Frontier” marks rows not dominated on all three axes at once; it is not a rank.",
   },
@@ -185,11 +185,11 @@ export const en = {
       "The index is not published yet: MICA has verified no system result, so nothing on this page ranks or scores a product.",
     noResultsHeadline: "No verified system results have been published yet.",
     noResultsDetail:
-      "MICA has published no system, no score and no ranking. What exists today is the apparatus: a ten-family task taxonomy written per market, a stated measurement method, a publication gate with its thresholds still unset, and an evidence model in which every future figure will resolve to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
-    axesEyebrow: "Three results, never one",
-    axesTitle: "MICA reports accuracy, speed and cost separately",
+      "MICA has published no system, no score and no ranking. What exists today is the apparatus: a ten-family task taxonomy whose definitions are still provisional candidates, a stated measurement method, a publication gate with its thresholds still unset, and an evidence model in which every future figure will resolve to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
+    axesEyebrow: "One score per task, three axes still published",
+    axesTitle: "MICA multiplies accuracy, speed and cost into one task score",
     axesIntro:
-      "A single number would hide the trade a buyer actually has to make. MICA publishes no composite score and never will; the axes below are read side by side.",
+      "A validated task earns one final score: 100 × accuracy × speed × cost, where each factor is a normalized component between 0 and 1, not a raw second or a raw dollar. The axes below stay published in their own units, because the score summarizes the record and does not replace it. No task has been scored yet.",
     readinessEyebrow: "What is built, and what is not",
     readinessTitle: "Where the index stands",
     readinessIntro:
@@ -198,12 +198,12 @@ export const en = {
       {
         term: "Task taxonomy",
         detail:
-          "Ten families of everyday task, each written separately for the six market editions, with a declared final state and a confirmation boundary per canonical task. Complete and published.",
+          "Ten families of everyday task, with a declared final state and a confirmation boundary per canonical task. Published as provisional candidates for the public task set: drafted, not validated, and not yet differentiated market by market.",
       },
       {
         term: "Measurement method",
         detail:
-          "Accuracy, speed and cost defined as three separate results, with eligibility screening, successful-runs-only percentiles and per-currency cost. Published as a draft and open to challenge.",
+          "Accuracy, speed and cost defined as three separately disclosed results, plus the normalized components multiplied into one final score per validated task. Family and country figures are arithmetic means of the eligible task scores. Published as a draft and open to challenge.",
       },
       {
         term: "Evidence infrastructure",
@@ -288,14 +288,112 @@ export const en = {
     otherMarkets: "Other markets",
   },
 
+  /**
+   * The market integration profile: taxonomy labels plus the copy that frames
+   * it on the country and methodology pages. Every string here describes a
+   * declared plan; none of it reports a run.
+   */
+  integration: {
+    eyebrow: "Market integration profile",
+    title: "Representative local execution conditions",
+    intro:
+      "How everyday journeys in this market are actually reached, authorised, completed and evidenced. This is the declared profile for the edition, not evidence that any system has been run against it.",
+    statusNote:
+      "Declared, not exercised. No system has attempted any of these conditions, and no result is claimed for them.",
+    parityNote:
+      "These are fixed execution conditions held equal across systems. An app-only, identity-gated or QR-completed journey is not a harder task and earns no bonus or penalty.",
+    surfaceLabel: "Surface",
+    authorizationLabel: "Authorisation",
+    completionLabel: "Completion",
+    recoveryLabel: "Recovery",
+    evidenceLabel: "Evidence",
+    capabilityLabel: "Capability area",
+    surfaces: {
+      "open-web": "Open web",
+      "official-api": "Official API or tool",
+      "signed-in-app": "Signed-in app",
+      "super-app-channel": "Super-app or messaging channel",
+      "qr-device-handoff": "QR or device handoff",
+      "human-handoff": "Phone, in person or human handoff",
+    },
+    authorizations: {
+      "session-only": "None or session",
+      otp: "One-time code",
+      "carrier-identity": "Carrier identity",
+      "government-identity": "Government identity",
+      "payment-approval": "Payment approval",
+      "account-holder-confirmation": "Account-holder confirmation",
+    },
+    completions: {
+      "synchronous-confirmed": "Confirmed synchronously",
+      "asynchronous-pending": "Pending, resolves later",
+      "out-of-band-completion": "Completed off the agent's surface",
+      "human-confirmed": "Confirmed by the user",
+    },
+    recoveries: {
+      "partial-success": "Partial success",
+      "stale-inventory-or-late-fee": "Stale inventory or late fee",
+      "duplicate-or-retry-risk": "Duplicate or retry risk",
+      "whole-form-invalidation": "Whole-form invalidation",
+      "channel-unavailable": "Channel unavailable",
+      "identity-handoff-timeout": "Identity handoff timeout",
+    },
+    evidence: {
+      "tool-call-lineage": "Request and tool-call lineage",
+      "authoritative-response": "Authoritative response or receipt",
+      "post-action-readback": "Post-action state readback",
+      "handoff-checkpoint": "Handoff checkpoint",
+      "retry-idempotency-record": "Retry and idempotency record",
+      "locale-formatted-artifact": "Locale-formatted artifact",
+    },
+    methodologyEyebrow: "Market integration",
+    methodologyTitle: "The integration coverage contract",
+    methodologyIntro:
+      "Every market edition declares the representative local conditions its validated tasks must span, and every future run states which of them it exercised. The contract is published before any task is executable, so it can be argued with while it still costs nothing to change.",
+    methodologyItems: [
+      {
+        term: "Access parity",
+        detail:
+          "Surface and authorisation are fixed conditions held equal across systems. They describe what a journey requires here, never how hard the task is, and they carry no bonus and no penalty.",
+      },
+      {
+        term: "Handoff correctness",
+        detail:
+          "Where the task contract says so, stopping at a one-time code, an identity approval, a QR payment or a card approval is a correct completion. The run must preserve enough state for the user to continue.",
+      },
+      {
+        term: "Completion is not a tool response",
+        detail:
+          "When completion is asynchronous or happens off the agent's surface, a successful call is not proof of the final state. A receipt, an authoritative response or a state readback is required.",
+      },
+      {
+        term: "Retry and idempotency",
+        detail:
+          "Retrying an action that is not idempotent must be guarded and recorded, so a duplicate order, booking or payment can be detected rather than inferred.",
+      },
+      {
+        term: "Evidence linkage",
+        detail:
+          "A validated localized attempt names the market situation it exercised. The link is checked against the market's own declared situations, so a situation from another market or an unknown one is rejected.",
+      },
+      {
+        term: "What this is not",
+        detail:
+          "It is a coverage plan, not a result. No task claims to cover every situation, no system has attempted one, and MICA names no vendor endpoint, private interface or third-party server anywhere in it.",
+      },
+    ],
+    methodologyStatus:
+      "Six markets carry a declared profile. Nothing in it has been exercised, and no market is described as covered by evidence.",
+  },
+
   rankings: {
     metaTitle: "Leaderboards",
     metaDescription:
-      "The MICA leaderboard architecture: overall, by market and by task category, with accuracy, speed and cost kept separate. No verified results are published yet.",
+      "The MICA leaderboard architecture: overall, by market and by task category. Category and country figures are arithmetic means of individual task scores, with raw accuracy, speed and cost still shown separately. No verified results are published yet.",
     eyebrow: "Leaderboard register",
-    title: "Three views. No hidden composite.",
+    title: "Three views, one score per task",
     standfirst:
-      "Read the field from wide to specific: the overall register, six market editions, then ten task categories. Accuracy, speed and cost remain separate in every view. The structure is live now; verified names and figures appear only after publication.",
+      "Read the field from wide to specific: the overall register, six market editions, then ten task categories. A category or market figure is the arithmetic mean of the eligible individual task scores behind it, and raw accuracy, speed and cost stay published beside it. The structure is live now; verified names and figures appear only after publication.",
     viewNavigationLabel: "Leaderboard views",
     overallView: "Overall",
     marketView: "By market",
@@ -304,7 +402,7 @@ export const en = {
     overallEyebrow: "Global register",
     overallTitle: "Overall leaderboard",
     overallIntro:
-      "A system enters the overall register only with eligible coverage across all six markets. Accuracy uses a market macro-average; speed remains a separate successful-run measure. Cost has no global rank because currencies cannot be combined.",
+      "A system enters the overall register only with eligible coverage across all six markets. Market and category figures are arithmetic means of the individual task scores inside them; a single cross-market, cross-category overall score is not defined yet, and MICA will not invent a weighting to produce one. Raw accuracy uses a market macro-average, raw speed remains a separate successful-run measure, and raw cost per success has no global rank because currencies cannot be combined.",
     axisAwaiting: "Awaiting verified systems",
     costGlobalUnavailable: "No global cost rank",
     axisScopeAccuracy: "Six-market macro-average · higher is better",
@@ -321,6 +419,42 @@ export const en = {
       "Category views reveal specialization that an overall standing can hide. Each view keeps the three outcomes apart and can be narrowed to one market.",
     categoryOpen: "Open category view",
     unpublishedLabel: "Not yet published",
+    scoreEyebrow: "Score architecture",
+    scoreTitle: "What a published ranking column will hold",
+    scoreIntro:
+      "Stated in advance so the structure can be argued with before any figure exists. Nothing below has been computed: no system has been measured and no task carries a final score today.",
+    scoreItems: [
+      {
+        term: "Per-task final score",
+        detail:
+          "One validated, executable task attempt earns 100 × accuracy × speed × cost. Each factor is a normalized component between 0 and 1, so the score is bounded by 0 and 100.",
+      },
+      {
+        term: "Category score",
+        detail:
+          "The arithmetic mean of the eligible individual task scores in that category. There is no weighting and no geometric mean at the aggregate level.",
+      },
+      {
+        term: "Country score",
+        detail:
+          "The arithmetic mean of the eligible individual task scores in that market, on exactly the same rule as the category score.",
+      },
+      {
+        term: "Overall register",
+        detail:
+          "A single cross-market, cross-category overall score is not defined by the methodology yet. Until it is, the overall register reports coverage and the separate axis measures, and no overall number is implied.",
+      },
+      {
+        term: "Excluded tasks",
+        detail:
+          "A task that was not attempted, was not eligible, or has no pre-registered reference is excluded from the mean with a stated reason. It never enters as a zero, and the shrinking denominator stays visible.",
+      },
+      {
+        term: "Raw axes",
+        detail:
+          "Raw accuracy, raw wall-clock latency and raw evaluation cost stay published in their own units beside every score.",
+      },
+    ],
     filterEyebrow: "Detailed slice",
     filterTitle: "How results will be sliced",
     filterIntro:
@@ -351,7 +485,7 @@ export const en = {
     eyebrow: "System index",
     title: "MICA measures systems, not models",
     standfirst:
-      "An entry is a dated snapshot of a whole system: orchestrator, models, tools and memory together. Two entries can share a base model and still land far apart, which is the point.",
+      "An entry is a dated snapshot of a whole system: orchestrator, models, tools and memory together. MICA measures that system, not a model, and does not require it to run on one global model: a system may route each task to whichever model it judges best and may call several inside one attempt, as long as every invocation is disclosed. Two entries can share a base model and still land far apart, which is the point.",
     emptyEyebrow: "System registry",
     emptyTitle: "The registry is empty",
     emptyNotice:
@@ -421,13 +555,95 @@ export const en = {
     disclosureDetail:
       "The task definitions on this page are the real thing; the run figures elsewhere on the site are illustrative demo data and not an official ranking.",
     publicationStatus:
-      "These task definitions are final and in use, but no verified result has been published against any of them yet.",
+      "These task definitions are provisional candidates for the public task set. None has been validated or run against any system, and no verified result has been published against any of them.",
+    lifecycleEyebrow: "Catalogue status",
+    lifecycleTitle: "Provisional candidates, not a settled task set",
+    lifecycleIntro:
+      "The definitions below are drafts published early so they can be challenged before they harden. They are readable and usable as definitions; they are not a finished benchmark set, and nothing here has been measured.",
+    lifecycleStatusTerm: "Lifecycle",
+    lifecycleStatusDetail:
+      "Every task is a candidate. A candidate is a drafted definition; a validated task is one that has passed the promotion contract below. No task has been promoted yet.",
+    lifecycleSetTerm: "Public and holdout",
+    lifecycleSetDetail:
+      "Everything on this page belongs to the public set. A separate holdout set is kept apart by construction and is never published, exported, or shown here; no task listed here will be reused as holdout.",
+    lifecycleTranslationTerm: "Languages",
+    lifecycleTranslationDetail:
+      "Task text exists in English and Korean only. The site is published in these two languages, and no task translation exists for any other market's language.",
+    lifecycleMarketsTerm: "Market applicability",
+    lifecycleMarketsDetail:
+      "Candidates are listed against MICA's markets as drafted scope. Per-market applicability has not been decided task by task, so the listing states intended reach, not a validated per-market assignment.",
+    promotionEyebrow: "Promotion contract",
+    promotionTitle: "What a task must carry before it counts as validated",
+    promotionIntro:
+      "These fields are checked by machine before a candidate can be promoted. They are orthogonal on purpose: none of them is a difficulty rating, and none is combined into one.",
+    promotionRequirements: [
+      {
+        label: "Surface",
+        detail:
+          "The execution surface the task runs on, including app-only or identity-gated access. This is a fixed condition held equal across systems under access parity, never a difficulty penalty.",
+      },
+      {
+        label: "Termination class",
+        detail:
+          "How a correct run is expected to end: reaching the final state, handing off for approval, refusing, or escalating. Stopping correctly is a correct outcome, not a harder task.",
+      },
+      {
+        label: "Declared complexity",
+        detail:
+          "How much work the task spans, declared independently of surface and termination so the three cannot be collapsed into a single ladder.",
+      },
+      {
+        label: "Diagnostic axes",
+        detail:
+          "Which capabilities the task is meant to expose, so a failure can be read as a diagnosis rather than a score.",
+      },
+      {
+        label: "Differentiated market applicability",
+        detail:
+          "An explicit decision for every market — applicable, variant required, or not applicable — with a stated reason, matching the markets the task declares.",
+      },
+    ],
+    promotionGate:
+      "A record that calls itself validated without all of these fails validation and cannot be published.",
     catalogueNavigationLabel: "Task category index",
     showTaskContract: "Show completion and approval contract",
     scoringEyebrow: "Scoring contract",
-    scoringTitle: "What a completed task earns",
+    scoringTitle: "What a validated task earns",
     scoringIntro:
-      "A run contributes to three separate results. It never contributes to a combined one.",
+      "A validated, executable task attempt earns one final score, and the raw axes behind it stay published. The definitions on this page are provisional candidates: none is executable or validated, none carries a pre-registered speed or cost reference, and none has been scored.",
+    scoringFormulaLabel: "Per-task final score",
+    scoringFormula: "100 × accuracy × speed × cost",
+    scoringFormulaNote:
+      "Each factor is a normalized component between 0 and 1, not a raw second and not a raw dollar.",
+    scoringComponents: [
+      {
+        term: "Accuracy component",
+        detail:
+          "1 for a confirmed success, 0 for every other outcome. There is no partial credit, so a faster or cheaper failure still scores zero: the product runs through that zero.",
+      },
+      {
+        term: "Speed component",
+        detail:
+          "min(1, speed reference ÷ observed seconds), against the reference pre-registered for that task version. Beating the reference is capped at 1, so speed cannot buy back accuracy.",
+      },
+      {
+        term: "Cost component",
+        detail:
+          "min(1, cost reference ÷ observed evaluation cost in USD), or 1 when that cost is zero. This is the model, tool and API spend of running the evaluation, not the price of anything the agent bought.",
+      },
+    ],
+    scoringAggregationTerm: "Family and country figures",
+    scoringAggregationDetail:
+      "The arithmetic mean of the eligible individual task scores. A task that was not attempted, was not eligible, or has no pre-registered reference is excluded with a stated reason and never enters the mean as a zero.",
+    scoringRawTerm: "Raw disclosure",
+    scoringRawDetail:
+      "The raw success outcome, the raw wall-clock latency and the raw evaluation cost stay on the record and are disclosed separately. The score is derived from them on request; it does not replace them.",
+    scoringRoutingTerm: "Model routing",
+    scoringRoutingDetail:
+      "A system may route different tasks to different models and may call several models inside one attempt. Every invocation is disclosed as evidence with its provider, model, version, purpose, tokens, cost, latency and order.",
+    scoringStatusTerm: "Current status",
+    scoringStatusDetail:
+      "No task on this page has a speed or cost reference, a result, or a score. The contract is published early so it can be challenged before it produces a number.",
     taxonomyEyebrow: "Taxonomy and coverage",
     taxonomyTitle: "Ten families defined, none carrying published results",
     captionSuffix:
@@ -477,7 +693,7 @@ export const en = {
     valueEyebrow: "Constrained value quality",
     valueTitle: "Commerce results report proximity to the lowest valid total",
     valueIntro:
-      "For commerce, booking and payment tasks, MICA compares the system's choice with the lowest valid total found across the pre-registered representative platform set at the same evaluation time. Price proximity is reported separately and is never folded into accuracy, speed, cost or a composite score.",
+      "For commerce, booking and payment tasks, MICA compares the system's choice with the lowest valid total found across the pre-registered representative platform set at the same evaluation time. Price proximity is reported separately and is never folded into the accuracy, speed or cost components, and never into the per-task final score.",
     valueRules: [
       { label: "Equivalent offer", detail: "Product identity, specification, quantity, destination, delivery deadline, service level and cancellation conditions must be equivalent before prices are compared." },
       { label: "All-in total", detail: "The comparison uses the estimated payable total, including item price, delivery, taxes, service charges and payment fees." },
@@ -517,7 +733,13 @@ export const en = {
       "No individual attempts, timestamps, transcripts, screenshots, tool logs or provider identities. No user data of any kind: the demo fixture is generated, and a real edition would use synthetic personas and controlled test accounts only.",
     derivedTerm: "How figures are derived",
     derivedDetail:
-      "Accuracy, its 95% interval, speed percentiles and cost per success are computed from the cell on request. Nothing is stored twice, and no axis is folded into another — MICA publishes no composite score.",
+      "Accuracy, its 95% interval, speed percentiles and cost per success are computed from the cell on request. Nothing is stored twice: the raw axes are the record, and any score is derived from them rather than stored in their place.",
+    futureTerm: "What a scored record will have to carry",
+    futureDetail:
+      "Once tasks are executable, a scored record must name every model invocation behind the attempt — provider, model, version, purpose, tokens, cost, latency and order — alongside the raw accuracy outcome, raw latency and raw evaluation cost, and the pre-registered speed and cost references the components were computed against.",
+    futureGapTerm: "What today's fixtures carry",
+    futureGapDetail:
+      "None of that. The demo fixtures are aggregate run cells only: no per-task route lineage, no score components and no final score. The shipped registry holds no cell at all.",
     standingTerm: "Standing",
     standingDetail:
       "No cell has been recorded. The publication guard is in force regardless: nothing can be marked publication eligible while the index is in preview.",
@@ -601,7 +823,7 @@ export const en = {
       "No individual attempt records. The canonical fixture stores aggregates only, so there is no run to open.",
       "No timestamps, transcripts, screenshots, tool logs, provider identities or external evidence links. None of these exist in the demo edition, and inventing a handle for them would be a false provenance claim.",
       "No user data. Demo figures are generated; a real edition would run synthetic personas and controlled test accounts only.",
-      "No composite score. Accuracy, speed and cost stay separate here as everywhere else on the site.",
+      "No per-task final score, and no route lineage or score components. This is an aggregate over a task family, so it carries none of them; raw accuracy, speed and cost stay separately disclosed here as everywhere else on the site.",
     ],
     relatedLabel: "Related run cells",
     otherCellsFor: "Other cells for",
@@ -621,9 +843,12 @@ export const en = {
     publicationStatus:
       "This method is a real draft, but it has not yet produced a measured result: nothing has been published under it.",
     tocAxes: "Outcome axes",
+    tocScoring: "Scoring",
+    tocRouting: "Model routing",
     tocCounting: "Eligibility",
     tocMissing: "Missing values",
     tocDiagnostics: "Diagnostics",
+    tocIntegration: "Market integration",
     tocEvidence: "Evidence",
     tocPublication: "Publication rules",
     tocClaims: "Claims",
@@ -631,7 +856,76 @@ export const en = {
     axesEyebrow: "Definitions",
     axesTitle: "The three outcome axes",
     axesIntro:
-      "These are reported side by side, always. MICA publishes no composite score, and will not accept one from a submitter either — a weighting is a buyer's judgement, not a measurement.",
+      "These three are reported side by side, always, in their own units. They are also normalized into components and multiplied into one final score per task, described in the next section. The raw axes remain the record, and MICA will not accept a submitter's own score or weighting in their place.",
+    scoringEyebrow: "Scoring",
+    scoringTitle: "One final score per task, three axes still disclosed",
+    scoringIntro:
+      "The score is derived from the raw record on request, so it cannot drift away from the evidence it summarizes. Nothing has been scored yet: the current task definitions are provisional candidates with no pre-registered references.",
+    scoringFormulaLabel: "Per-task final score",
+    scoringFormula: "100 × accuracy × speed × cost",
+    scoringFormulaNote:
+      "Each factor is a normalized component between 0 and 1, not a raw second and not a raw dollar. The product is therefore bounded by 0 and 100.",
+    scoringComponents: [
+      {
+        term: "Accuracy component",
+        detail:
+          "1 for a confirmed success, 0 for every other outcome. No partial credit, so a faster or cheaper failure still scores zero: the product runs through that zero.",
+      },
+      {
+        term: "Speed component",
+        detail:
+          "min(1, speed reference ÷ observed seconds). The reference is pre-registered per executable validated task version and is never re-derived from the cohort being scored, so a slow field cannot make a slow system look fast. Beating it is capped at 1.",
+      },
+      {
+        term: "Cost component",
+        detail:
+          "min(1, cost reference ÷ observed evaluation cost in USD), or 1 when the observed cost is zero. Nothing can score above 1.",
+      },
+    ],
+    scoringAggregationTerm: "Family and country scores",
+    scoringAggregationDetail:
+      "The arithmetic mean of the eligible individual task scores in that family or market. There is no geometric mean, and no weighting is applied at the aggregate level.",
+    scoringOverallTerm: "Cross-market, cross-category overall",
+    scoringOverallDetail:
+      "Not defined. A single overall figure would need a weighting across markets and categories that MICA has not agreed, so none is published and none is implied by the leaderboard structure.",
+    scoringExclusionTerm: "Unscored tasks",
+    scoringExclusionDetail:
+      "A task that was not attempted, was not eligible, or has no pre-registered reference has no score at all. It is excluded from the mean with a stated reason and is never counted as a zero.",
+    scoringRawTerm: "Raw disclosure",
+    scoringRawDetail:
+      "The raw success outcome, raw wall-clock latency and raw evaluation cost stay published in their own units beside every score, and remain auditable independently of it.",
+    scoringCostTerm: "What cost means in the formula",
+    scoringCostDetail:
+      "Evaluation execution cost: the model, tool and API spend of running the task, in USD. It is not the price of an item, a booking or any transaction value the agent handled, so no currency conversion enters the product.",
+    scoringStatusTerm: "Current status",
+    scoringStatusDetail:
+      "No system has been measured and no task carries a score. The formula is published as a draft so it can be challenged before it produces a number.",
+    routingEyebrow: "System composition",
+    routingTitle: "One system, many models",
+    routingIntro:
+      "MICA measures the whole agent system rather than a model, and does not require a system to run on one global model.",
+    routingItems: [
+      {
+        term: "Per-task routing",
+        detail:
+          "A system may send different tasks to different models and select whichever model it judges best for a given task.",
+      },
+      {
+        term: "Multiple invocations",
+        detail:
+          "One task attempt may call several models. That is a legitimate design choice and carries no penalty of its own.",
+      },
+      {
+        term: "Invocation lineage",
+        detail:
+          "Every invocation is disclosed as evidence: provider, model, version, purpose, tokens, cost, latency and order within the attempt.",
+      },
+      {
+        term: "What is scored",
+        detail:
+          "The attempt, not the route. Routing shows up in the score only through the accuracy, speed and evaluation cost the whole system actually delivered.",
+      },
+    ],
     countingEyebrow: "Counting rules",
     countingTitle: "Eligibility and denominators",
     countingIntro:
@@ -732,7 +1026,8 @@ export const en = {
     rulesIntro:
       "These are commitments, not preferences. Breaking one is a governance failure, not a product decision.",
     rules: [
-      "MICA will not publish a composite score. Accuracy, speed and cost stay separate, and any weighting belongs to the reader.",
+      "MICA will not publish a score it cannot re-derive from the raw record. A task score is the product of its accuracy, speed and cost components, and all three raw axes stay published beside it.",
+      "MICA will not accept a score, a weighting or a self-declared component from a submitter in place of a measurement.",
       "MICA will not accept payment for placement, for inclusion, or for the timing of a result.",
       "MICA will not publish a figure it cannot trace to a run record it holds.",
       "MICA will not treat missing coverage as a zero, or a fast failure as a fast success.",
@@ -742,7 +1037,26 @@ export const en = {
     decisionsEyebrow: "Decisions",
     decisionsTitle: "Who decides what",
     decisionsIntro:
-      "Editorial authority is separated from operator relationships on purpose.",
+      "Separating editorial authority from operator relationships is a requirement MICA holds itself to, and the separation below is stated so it can be checked rather than assumed.",
+    independenceEyebrow: "Independence",
+    independenceTitle: "What is not settled yet",
+    independenceIntro:
+      "MICA is intended to be neutral, and it is not yet structurally independent. Stating the gap is more useful than claiming it is closed, so the open requirements are listed here and will be updated only when they are actually met.",
+    independenceInitiatorTerm: "Initiator and challenger",
+    independenceInitiatorDetail:
+      "MICA was initiated by vooy, which also expects to be measured as a consumer-agent system. An initiator that may become a subject of the benchmark cannot also be its scoring authority; separating those roles is an open requirement, not a completed one.",
+    independenceControlTerm: "Decision control",
+    independenceControlDetail:
+      "Method changes, verification outcomes and publication decisions must rest with a body that no evaluated party controls. That body has not been constituted, so no claim of independent decision control should be read into this site today.",
+    independenceFundingTerm: "Funding and relationships",
+    independenceFundingDetail:
+      "Who funds MICA, on what terms, and what commercial relationships exist with any evaluated party must be disclosed publicly before results are published. No funding or operator relationship has been documented here yet.",
+    independenceSetsTerm: "Public and holdout sets",
+    independenceSetsDetail:
+      "Ownership of the public task set and the holdout set must be separable, so that access to one confers no advantage on the other. The catalogue records this distinction per task; the holdout set is never published.",
+    independenceStatusTerm: "Status",
+    independenceStatusDetail:
+      "Unresolved. These requirements gate the first official edition: MICA should not publish verified results until they are met and documented.",
     methodChangesTerm: "Method changes",
     methodChangesDetail:
       "Changes to definitions, gates or axes are versioned with the edition and published before the results computed under them. A method is never changed after seeing which system it would favour.",
@@ -806,7 +1120,7 @@ export const en = {
       "System name, operator, snapshot version string and snapshot date.",
     compositionTerm: "Composition",
     compositionDetail:
-      "Orchestrator, every model the system may route to, every tool or API it may call, and how memory is held between steps.",
+      "Orchestrator, every model the system may route to, every tool or API it may call, and how memory is held between steps. Routing each task to a different model, or calling several inside one attempt, is allowed; every model the system may reach has to be declared here.",
     scopeTerm: "Scope",
     scopeMarkets: "The markets (",
     scopeFamilies: ") and task families (",
@@ -816,7 +1130,7 @@ export const en = {
       "A way for MICA to run the system itself on MICA-controlled accounts. Without this, the result can never rise above self-reported.",
     traceTerm: "Evidence trace",
     traceDetail:
-      "Per-run records: eligibility, wall-clock duration, cost, the final state reached, and every point where the system stopped for confirmation.",
+      "Per-run records: eligibility, wall-clock duration, evaluation cost in USD, the final state reached, every point where the system stopped for confirmation, and every model invocation with its provider, model, version, purpose, tokens, cost, latency and order.",
     stepTwoEyebrow: "Step two",
     stepTwoTitle: "What MICA does with it",
     stepTwoIntro:

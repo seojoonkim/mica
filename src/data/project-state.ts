@@ -1,7 +1,7 @@
 import { COUNTRIES } from "@/data/demo/countries";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { SYSTEMS } from "@/data/demo/systems";
-import { TASK_FAMILIES } from "@/data/demo/tasks";
+import { TASK_CATALOGUE_STATUS, TASK_FAMILIES } from "@/data/demo/tasks";
 import { areResultsPublicationEligible } from "@/lib/calc";
 
 const taskCount = TASK_FAMILIES.reduce(
@@ -34,10 +34,13 @@ export const PROJECT_STATE = {
     `${COUNTRIES.length} benchmark markets`,
     `${TASK_FAMILIES.length} task families`,
     `${taskCount} canonical tasks`,
+    `Task lifecycle: ${TASK_CATALOGUE_STATUS.candidateTasks} provisional public-set candidates, ${TASK_CATALOGUE_STATUS.validatedTasks} validated`,
+    `Canonical task text languages: ${TASK_CATALOGUE_STATUS.taskTextLanguages.join(", ")} only`,
     `${SYSTEMS.length} registered systems`,
     `${RUN_CELLS.length} run cells`,
     `Official publication eligibility: ${publicationEligible}`,
-    "Accuracy, Speed, and Cost are published separately; MICA has no official composite score",
+    "Per-task final score is 100 x normalized Accuracy x Speed x Cost; family and country scores are arithmetic means of eligible task scores, and raw Accuracy, Speed, and Cost stay separately disclosed",
+    "No task carries a pre-registered speed/cost reference or a score yet, so no score has ever been computed or published",
   ],
   next: [
     "Write Benchmark Contract v0.1 for an initial country and task-family slice",
@@ -46,7 +49,9 @@ export const PROJECT_STATE = {
     "Connect micabench.com after the benchmark contract and metadata base are ready",
   ],
   risks: [
-    "The current 100 tasks are catalogue definitions, not executable benchmark scenarios",
+    `The current ${taskCount} tasks are provisional public-set candidate definitions, not validated or executable benchmark scenarios`,
+    "Promotion from candidate to validated requires orthogonal metadata (surface, terminationClass, declaredComplexity, diagnosticAxes, differentiated market applicability) that is not yet authored",
+    "Governance independence, decision control, and funding disclosure remain unresolved open requirements",
     resultRisk,
     "Publication thresholds remain unset and official publication must stay fail-closed",
     "Live orders and reservations require sandbox or partner-controlled inventory",

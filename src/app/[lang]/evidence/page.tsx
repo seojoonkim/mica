@@ -74,6 +74,14 @@ export default async function EvidenceIndexPage({
               detail: dict.evidence.derivedDetail,
             },
             {
+              term: dict.evidence.futureTerm,
+              detail: dict.evidence.futureDetail,
+            },
+            {
+              term: dict.evidence.futureGapTerm,
+              detail: dict.evidence.futureGapDetail,
+            },
+            {
               term: dict.evidence.standingTerm,
               detail: dict.evidence.standingDetail,
             },

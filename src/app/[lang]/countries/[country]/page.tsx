@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/components/locale-link";
 import { TaskFamilyIcon } from "@/components/task-family-icon";
+import { CountryIntegrationIllustration } from "@/components/country-integration-illustration";
 import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
@@ -119,6 +120,109 @@ export default async function CountryPage({
             ),
           }))}
         />
+      </Section>
+
+      {/*
+       * The declared market integration profile. It is editorial, not a table:
+       * each situation is a term with a short detail and five fixed metadata
+       * labels, so it wraps into one column at 390px and sits in the same
+       * measure as the hazard list at 1280px.
+       */}
+      <Section
+        id="integration"
+        eyebrow={dict.integration.eyebrow}
+        title={dict.integration.title}
+        intro={dict.integration.intro}
+      >
+        {/*
+         * The same plate as the editions list, drawn larger. It restates the
+         * declared situations below it as geometry only; it is decorative and
+         * carries no claim of a measured result.
+         */}
+        <div className="mica-country-plate">
+          <CountryIntegrationIllustration code={code} size="detail" />
+        </div>
+        <p className="mica-micro mt-0 max-w-[76ch]">
+          {lang === "ko"
+            ? country.integrationProfile.translations.ko.summary
+            : country.integrationProfile.summary}
+        </p>
+        <p className="mica-micro mt-2 max-w-[76ch]">
+          {dict.integration.parityNote}
+        </p>
+        <ul
+          className="m-0 list-none border-t border-[var(--color-rule)] p-0"
+          data-integration-profile
+        >
+          {country.integrationProfile.situations.map((situation) => {
+            const title =
+              lang === "ko" ? situation.translations.ko.title : situation.title;
+            const detail =
+              lang === "ko"
+                ? situation.translations.ko.detail
+                : situation.detail;
+            const capability =
+              lang === "ko"
+                ? situation.translations.ko.capabilityArea
+                : situation.capabilityArea;
+            const meta: [string, string][] = [
+              [
+                dict.integration.surfaceLabel,
+                situation.surfaces
+                  .map((surface) => dict.integration.surfaces[surface])
+                  .join(" · "),
+              ],
+              [
+                dict.integration.authorizationLabel,
+                dict.integration.authorizations[situation.authorization],
+              ],
+              [
+                dict.integration.completionLabel,
+                dict.integration.completions[situation.completion],
+              ],
+              [
+                dict.integration.recoveryLabel,
+                situation.recovery
+                  .map((item) => dict.integration.recoveries[item])
+                  .join(" · "),
+              ],
+              [
+                dict.integration.evidenceLabel,
+                situation.evidence
+                  .map((item) => dict.integration.evidence[item])
+                  .join(" · "),
+              ],
+            ];
+            return (
+              <li
+                key={situation.id}
+                data-integration-situation={situation.id}
+                className="border-b border-[var(--color-rule)] py-4"
+              >
+                <p className="mica-eyebrow m-0 text-[var(--color-atlas)]">
+                  {capability}
+                </p>
+                <h3 className="mica-display mt-1 mb-0 text-[18px]">{title}</h3>
+                <p className="mt-2 mb-0 max-w-[76ch] text-[14.5px] text-[var(--color-ink-soft)]">
+                  {detail}
+                </p>
+                <dl className="m-0 mt-3 grid gap-x-8 gap-y-1 p-0 text-[13px] md:grid-cols-2">
+                  {meta.map(([label, value]) => (
+                    <div key={label} className="flex flex-wrap gap-x-2">
+                      <dt className="mica-eyebrow m-0">{label}</dt>
+                      <dd className="m-0 text-[var(--color-ink-soft)]">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="mica-micro mt-3 max-w-[76ch]" data-integration-status>
+          {dict.integration.statusNote}
+        </p>
       </Section>
 
       <Section

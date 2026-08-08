@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { localeAlternates } from "@/lib/i18n/config";
-import { TASK_FAMILIES } from "@/data/demo/tasks";
+import { PUBLIC_TASK_FAMILIES } from "@/data/demo/tasks";
 import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { OUTCOME_AXES } from "@/data/policy/axes";
-import { PageHeader, PublicationStatus, Section } from "@/components/editorial";
+import {
+  DataList,
+  PageHeader,
+  PublicationStatus,
+  Section,
+} from "@/components/editorial";
 import { TaskFamilyIcon } from "@/components/task-family-icon";
 import { hasPublishedResults } from "@/lib/i18n/coverage";
 
@@ -45,12 +50,57 @@ export default async function TasksPage({
         </p>
       </PageHeader>
 
+      {/*
+       * A validated task earns one multiplicative final score; the raw axes
+       * below it stay disclosed in their own units. Nothing on this page has
+       * either, which the copy says outright rather than leaving to inference.
+       */}
       <Section
+        id="scoring"
         eyebrow={dict.tasks.scoringEyebrow}
         title={dict.tasks.scoringTitle}
         intro={dict.tasks.scoringIntro}
       >
-        <div className="grid gap-px border border-[var(--color-rule)] bg-[var(--color-rule)] md:grid-cols-3">
+        <div
+          data-score-formula
+          className="border border-[var(--color-rule)] p-4 sm:p-5"
+        >
+          <p className="mica-eyebrow m-0 text-[var(--color-atlas)]">
+            {dict.tasks.scoringFormulaLabel}
+          </p>
+          <p className="mica-display mt-2 mb-0 text-[19px] leading-snug break-words sm:text-[24px]">
+            {dict.tasks.scoringFormula}
+          </p>
+          <p className="mica-micro mt-2 mb-0 max-w-[70ch]">
+            {dict.tasks.scoringFormulaNote}
+          </p>
+        </div>
+        <div data-score-components className="mt-6">
+          <DataList items={dict.tasks.scoringComponents} />
+        </div>
+        <div data-score-semantics className="mt-6">
+          <DataList
+            items={[
+              {
+                term: dict.tasks.scoringAggregationTerm,
+                detail: dict.tasks.scoringAggregationDetail,
+              },
+              {
+                term: dict.tasks.scoringRawTerm,
+                detail: dict.tasks.scoringRawDetail,
+              },
+              {
+                term: dict.tasks.scoringRoutingTerm,
+                detail: dict.tasks.scoringRoutingDetail,
+              },
+              {
+                term: dict.tasks.scoringStatusTerm,
+                detail: dict.tasks.scoringStatusDetail,
+              },
+            ]}
+          />
+        </div>
+        <div data-raw-axes className="mt-6 grid gap-px border border-[var(--color-rule)] bg-[var(--color-rule)] md:grid-cols-3">
           {OUTCOME_AXES.map((axis) => (
             <article key={axis.id} className="bg-[var(--color-paper)] p-5">
               <h3 className="mica-display text-[20px]">
@@ -87,7 +137,7 @@ export default async function TasksPage({
 
       <nav className="mica-task-index" aria-label={dict.tasks.catalogueNavigationLabel}>
         <ol>
-          {TASK_FAMILIES.map((family, index) => (
+          {PUBLIC_TASK_FAMILIES.map((family, index) => (
             <li key={family.id} data-icon-surface="task-jump">
               <a href={`#${family.id}`}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
@@ -99,7 +149,7 @@ export default async function TasksPage({
         </ol>
       </nav>
 
-      {TASK_FAMILIES.map((family, index) => {
+      {PUBLIC_TASK_FAMILIES.map((family, index) => {
         const categoryNumber = String(index + 1).padStart(2, "0");
 
         return (

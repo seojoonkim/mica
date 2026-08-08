@@ -14,7 +14,7 @@ import {
   type VerificationStatusId,
 } from "@/lib/schema";
 import { VERIFICATION_STATUSES } from "@/data/policy/publication";
-import { AxisGlyph, DetailCue, PageHeader, PublicationStatus, Section } from "@/components/editorial";
+import { AxisGlyph, DataList, DetailCue, PageHeader, PublicationStatus, Section } from "@/components/editorial";
 import { localeAlternates, localeHref } from "@/lib/i18n/config";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
@@ -56,9 +56,11 @@ function first(value: string | string[] | undefined): string | undefined {
 
 /**
  * Rankings stays a real route with real, bookmarkable controls, and publishes
- * nothing. The filter is a plain GET form; the ordering it would apply changes
- * with the selected axis, but no axis is ever folded into another, because MICA
- * publishes no composite score. Until a verified result exists there is no
+ * nothing. The filter is a plain GET form ordering by one raw axis at a time.
+ * The score architecture the page describes is the published contract: a
+ * per-task final score, with category and country figures as arithmetic means
+ * of the eligible task scores under them, and no cross-market overall figure
+ * until the methodology defines one. Until a verified result exists there is no
  * table to order and no evidence to link to, and the page says so.
  */
 export default async function RankingsPage({
@@ -187,6 +189,17 @@ export default async function RankingsPage({
             </li>
           ))}
         </ol>
+      </Section>
+
+      <Section
+        id="score-architecture"
+        eyebrow={dict.rankings.scoreEyebrow}
+        title={dict.rankings.scoreTitle}
+        intro={dict.rankings.scoreIntro}
+      >
+        <div data-score-architecture>
+          <DataList items={dict.rankings.scoreItems} />
+        </div>
       </Section>
 
       <Section

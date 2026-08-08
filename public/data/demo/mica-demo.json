@@ -2,6 +2,273 @@
   "notice": "Illustrative demo data. Not an official ranking.",
   "dataStatus": "demo",
   "publicationEligible": false,
+  "taskCatalogue": {
+    "lifecycle": "provisional-public-candidates",
+    "taskSet": "public",
+    "holdoutIncluded": false,
+    "publicTasks": 100,
+    "candidateTasks": 100,
+    "validatedTasks": 0,
+    "promotionFields": [
+      "surface",
+      "terminationClass",
+      "declaredComplexity",
+      "diagnosticAxes",
+      "marketApplicability"
+    ],
+    "taskTextLanguages": [
+      "en",
+      "ko"
+    ],
+    "note": "Task definitions are provisional public-set candidates. None has been validated, exercised against a system, or holdout-assigned. Task text exists in English and Korean only."
+  },
+  "marketIntegration": {
+    "status": "declared-not-exercised",
+    "minimums": {
+      "situations": 5,
+      "surfaces": 3,
+      "authorizations": 3,
+      "completions": 2,
+      "recoveries": 3,
+      "evidence": 4
+    },
+    "coverage": {
+      "byCountry": [
+        {
+          "country": "kr",
+          "situations": 5,
+          "surfaces": [
+            "signed-in-app",
+            "super-app-channel",
+            "human-handoff",
+            "qr-device-handoff",
+            "open-web",
+            "official-api"
+          ],
+          "authorizations": [
+            "session-only",
+            "carrier-identity",
+            "payment-approval"
+          ],
+          "completions": [
+            "synchronous-confirmed",
+            "human-confirmed",
+            "out-of-band-completion",
+            "asynchronous-pending"
+          ],
+          "recoveries": [
+            "channel-unavailable",
+            "duplicate-or-retry-risk",
+            "identity-handoff-timeout",
+            "partial-success",
+            "stale-inventory-or-late-fee"
+          ],
+          "evidence": [
+            "tool-call-lineage",
+            "authoritative-response",
+            "post-action-readback",
+            "handoff-checkpoint",
+            "retry-idempotency-record",
+            "locale-formatted-artifact"
+          ],
+          "gaps": []
+        },
+        {
+          "country": "jp",
+          "situations": 5,
+          "surfaces": [
+            "open-web",
+            "signed-in-app",
+            "human-handoff",
+            "official-api"
+          ],
+          "authorizations": [
+            "session-only",
+            "payment-approval",
+            "otp"
+          ],
+          "completions": [
+            "synchronous-confirmed",
+            "out-of-band-completion",
+            "human-confirmed",
+            "asynchronous-pending"
+          ],
+          "recoveries": [
+            "whole-form-invalidation",
+            "partial-success",
+            "duplicate-or-retry-risk",
+            "stale-inventory-or-late-fee",
+            "identity-handoff-timeout",
+            "channel-unavailable"
+          ],
+          "evidence": [
+            "locale-formatted-artifact",
+            "post-action-readback",
+            "tool-call-lineage",
+            "authoritative-response",
+            "handoff-checkpoint",
+            "retry-idempotency-record"
+          ],
+          "gaps": []
+        },
+        {
+          "country": "sg",
+          "situations": 5,
+          "surfaces": [
+            "open-web",
+            "signed-in-app",
+            "qr-device-handoff",
+            "official-api",
+            "human-handoff"
+          ],
+          "authorizations": [
+            "payment-approval",
+            "session-only",
+            "account-holder-confirmation"
+          ],
+          "completions": [
+            "human-confirmed",
+            "synchronous-confirmed",
+            "asynchronous-pending"
+          ],
+          "recoveries": [
+            "channel-unavailable",
+            "partial-success",
+            "stale-inventory-or-late-fee",
+            "duplicate-or-retry-risk",
+            "identity-handoff-timeout"
+          ],
+          "evidence": [
+            "tool-call-lineage",
+            "handoff-checkpoint",
+            "post-action-readback",
+            "authoritative-response",
+            "locale-formatted-artifact",
+            "retry-idempotency-record"
+          ],
+          "gaps": []
+        },
+        {
+          "country": "tw",
+          "situations": 5,
+          "surfaces": [
+            "open-web",
+            "signed-in-app",
+            "super-app-channel",
+            "human-handoff",
+            "official-api",
+            "qr-device-handoff"
+          ],
+          "authorizations": [
+            "session-only",
+            "account-holder-confirmation",
+            "payment-approval"
+          ],
+          "completions": [
+            "asynchronous-pending",
+            "human-confirmed",
+            "synchronous-confirmed",
+            "out-of-band-completion"
+          ],
+          "recoveries": [
+            "partial-success",
+            "stale-inventory-or-late-fee",
+            "channel-unavailable",
+            "duplicate-or-retry-risk",
+            "whole-form-invalidation"
+          ],
+          "evidence": [
+            "post-action-readback",
+            "locale-formatted-artifact",
+            "tool-call-lineage",
+            "handoff-checkpoint",
+            "authoritative-response",
+            "retry-idempotency-record"
+          ],
+          "gaps": []
+        },
+        {
+          "country": "th",
+          "situations": 5,
+          "surfaces": [
+            "qr-device-handoff",
+            "signed-in-app",
+            "open-web",
+            "official-api",
+            "human-handoff"
+          ],
+          "authorizations": [
+            "payment-approval",
+            "session-only",
+            "account-holder-confirmation"
+          ],
+          "completions": [
+            "out-of-band-completion",
+            "asynchronous-pending",
+            "synchronous-confirmed",
+            "human-confirmed"
+          ],
+          "recoveries": [
+            "duplicate-or-retry-risk",
+            "identity-handoff-timeout",
+            "partial-success",
+            "stale-inventory-or-late-fee",
+            "whole-form-invalidation",
+            "channel-unavailable"
+          ],
+          "evidence": [
+            "handoff-checkpoint",
+            "retry-idempotency-record",
+            "post-action-readback",
+            "locale-formatted-artifact",
+            "tool-call-lineage",
+            "authoritative-response"
+          ],
+          "gaps": []
+        },
+        {
+          "country": "ae",
+          "situations": 5,
+          "surfaces": [
+            "signed-in-app",
+            "human-handoff",
+            "open-web",
+            "official-api"
+          ],
+          "authorizations": [
+            "government-identity",
+            "session-only",
+            "otp"
+          ],
+          "completions": [
+            "human-confirmed",
+            "synchronous-confirmed",
+            "asynchronous-pending",
+            "out-of-band-completion"
+          ],
+          "recoveries": [
+            "identity-handoff-timeout",
+            "partial-success",
+            "stale-inventory-or-late-fee",
+            "channel-unavailable",
+            "duplicate-or-retry-risk"
+          ],
+          "evidence": [
+            "handoff-checkpoint",
+            "tool-call-lineage",
+            "post-action-readback",
+            "authoritative-response",
+            "locale-formatted-artifact",
+            "retry-idempotency-record"
+          ],
+          "gaps": []
+        }
+      ],
+      "missingCountries": [],
+      "complete": true
+    },
+    "note": "Representative local execution conditions declared per market edition. Nothing here has been exercised against a system, and no vendor endpoint or third-party server is named."
+  },
   "countries": [
     {
       "code": "kr",
@@ -39,7 +306,179 @@
         "Restaurant reservations concentrate in two aggregators; direct-to-venue phone booking is common and is out of scope for the index.",
         "Delivery windows are short and same-day is the default expectation, so recovery from a failed first attempt is time-boxed.",
         "Calendar work spans lunar-calendar public holidays that shift year to year and are a recurring source of date errors."
-      ]
+      ],
+      "integrationProfile": {
+        "summary": "Declared integration conditions for the Korean edition. Each situation states how the journey is reached, who must approve it, when it is actually complete and what a run would have to show. None has been exercised against a system.",
+        "situations": [
+          {
+            "id": "kr-super-app-signed-in-flow",
+            "title": "Signed-in super-app flow with no browsable equivalent",
+            "detail": "Ordering, tracking and support live inside a signed-in app shell rather than an addressable web checkout, so the whole journey happens on one channel and a public page cannot confirm it.",
+            "capabilityArea": "Everyday commerce and local services",
+            "families": [
+              "shopping-delivery",
+              "restaurants-local"
+            ],
+            "surfaces": [
+              "signed-in-app",
+              "super-app-channel"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "channel-unavailable",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "tool-call-lineage",
+              "authoritative-response",
+              "post-action-readback"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "브라우저 대체 경로가 없는 로그인 앱 내부 흐름",
+                "detail": "주문, 배송 조회, 문의가 모두 로그인된 앱 안에서 이루어지고 공개 웹 결제 화면이 따로 없어서, 전 과정이 한 채널에서 끝나고 공개 페이지로는 결과를 확인할 수 없습니다.",
+                "capabilityArea": "생활 커머스와 지역 서비스"
+              }
+            }
+          },
+          {
+            "id": "kr-carrier-identity-handoff",
+            "title": "Carrier-bound identity check handed back to the user",
+            "detail": "A mid-journey identity step is tied to the user's mobile line. The correct behaviour is to preserve state and hand control back, not to attempt the check.",
+            "capabilityArea": "Identity-gated services",
+            "families": [
+              "government-civic",
+              "telecom-subscriptions",
+              "money-banking-investing"
+            ],
+            "surfaces": [
+              "signed-in-app",
+              "human-handoff"
+            ],
+            "authorization": "carrier-identity",
+            "completion": "human-confirmed",
+            "recovery": [
+              "identity-handoff-timeout",
+              "partial-success"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "tool-call-lineage"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "통신사 본인확인에서의 사용자 인계",
+                "detail": "과정 중간의 본인확인 단계가 사용자의 휴대전화 회선에 묶여 있습니다. 올바른 동작은 상태를 보존하고 사용자에게 제어를 넘기는 것이며, 확인 자체를 대신 시도하는 것이 아닙니다.",
+                "capabilityArea": "본인확인이 필요한 서비스"
+              }
+            }
+          },
+          {
+            "id": "kr-domestic-payment-approval",
+            "title": "Domestic payment approved in a separate app",
+            "detail": "Payment is confirmed in a separate domestic payment or banking app, so the confirmation boundary lands before the order state is final and a blind retry can duplicate the charge.",
+            "capabilityArea": "Payment and checkout",
+            "families": [
+              "shopping-delivery",
+              "money-banking-investing"
+            ],
+            "surfaces": [
+              "signed-in-app",
+              "qr-device-handoff"
+            ],
+            "authorization": "payment-approval",
+            "completion": "out-of-band-completion",
+            "recovery": [
+              "duplicate-or-retry-risk",
+              "partial-success"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "retry-idempotency-record",
+              "authoritative-response"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "별도 앱에서 이루어지는 국내 결제 승인",
+                "detail": "결제 승인이 별도의 국내 결제·은행 앱에서 이루어지므로 확인 경계가 주문 상태 확정보다 앞에 놓이고, 확인 없이 재시도하면 중복 결제가 생길 수 있습니다.",
+                "capabilityArea": "결제와 주문 확정"
+              }
+            }
+          },
+          {
+            "id": "kr-address-detail-completeness",
+            "title": "Accepted order that cannot be delivered",
+            "detail": "Road-name and lot-number addressing coexist and building or unit detail is often required, so an order can be accepted and still fail delivery unless the stored address is read back.",
+            "capabilityArea": "Delivery addressing",
+            "families": [
+              "shopping-delivery",
+              "home-utilities"
+            ],
+            "surfaces": [
+              "open-web",
+              "signed-in-app"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "partial-success",
+              "stale-inventory-or-late-fee"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "접수는 되지만 배송되지 않는 주소",
+                "detail": "도로명 주소와 지번 주소가 함께 쓰이고 건물·동호수 정보가 필요한 경우가 많아서, 주문은 접수되어도 저장된 주소를 다시 읽어 확인하지 않으면 배송이 실패할 수 있습니다.",
+                "capabilityArea": "배송 주소 처리"
+              }
+            }
+          },
+          {
+            "id": "kr-lunar-holiday-scheduling",
+            "title": "Lunar-calendar holidays in scheduling and delivery windows",
+            "detail": "Public holidays that move year to year change what a valid slot and a reasonable delivery window are, and the resulting artifact has to be readable in the local calendar and time zone.",
+            "capabilityArea": "Scheduling and date handling",
+            "families": [
+              "email-calendar",
+              "travel-accommodation"
+            ],
+            "surfaces": [
+              "official-api",
+              "open-web"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "partial-success"
+            ],
+            "evidence": [
+              "locale-formatted-artifact",
+              "post-action-readback"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "음력 공휴일이 걸린 일정과 배송 기간",
+                "detail": "해마다 날짜가 바뀌는 공휴일 때문에 유효한 시간대와 합리적인 배송 기간의 기준이 달라지고, 결과물은 현지 달력과 표준시로 읽을 수 있어야 합니다.",
+                "capabilityArea": "일정과 날짜 처리"
+              }
+            }
+          }
+        ],
+        "translations": {
+          "ko": {
+            "summary": "한국 에디션에 선언된 연동 조건입니다. 각 상황은 어떤 경로로 접근하고 누가 승인해야 하며 언제 실제로 완료되는지, 그리고 실행 기록이 무엇을 남겨야 하는지를 밝힙니다. 어느 것도 아직 시스템으로 수행된 적이 없습니다."
+          }
+        }
+      }
     },
     {
       "code": "jp",
@@ -77,7 +516,177 @@
         "Seat and room inventory is released on fixed calendar rules, so travel tasks depend on knowing the release date, not on search skill.",
         "Cost per success rises with retries because many forms invalidate the whole submission rather than a single field.",
         "Public holiday clusters compress delivery capacity and change what a reasonable ETA looks like."
-      ]
+      ],
+      "integrationProfile": {
+        "summary": "Declared integration conditions for the Japanese edition. Most of them decide whether a form is accepted at all, and the rest decide whether an accepted order is actually finished. None has been exercised against a system.",
+        "situations": [
+          {
+            "id": "jp-kana-name-fields",
+            "title": "Separate phonetic reading fields on booking forms",
+            "detail": "Forms commonly ask for the customer name twice, once in characters and once as a phonetic reading. Mirroring one field into the other produces a rejected submission rather than a warning.",
+            "capabilityArea": "Form completion and local text entry",
+            "families": [
+              "restaurants-local",
+              "travel-accommodation"
+            ],
+            "surfaces": [
+              "open-web",
+              "signed-in-app"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "whole-form-invalidation",
+              "partial-success"
+            ],
+            "evidence": [
+              "locale-formatted-artifact",
+              "post-action-readback"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "예약 양식의 별도 발음 표기 입력란",
+                "detail": "고객 이름을 문자 표기와 발음 표기로 두 번 요구하는 양식이 흔합니다. 한쪽을 그대로 옮겨 적으면 경고가 아니라 제출 거절로 이어집니다.",
+                "capabilityArea": "양식 작성과 현지 문자 입력"
+              }
+            }
+          },
+          {
+            "id": "jp-postal-code-autofill",
+            "title": "Postal-code auto-fill and duplicated address fields",
+            "detail": "The postal code populates the region and ward fields itself. Typing them again duplicates the address, and the failure appears at submission rather than at the field.",
+            "capabilityArea": "Address entry",
+            "families": [
+              "shopping-delivery",
+              "home-utilities"
+            ],
+            "surfaces": [
+              "open-web"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "duplicate-or-retry-risk",
+              "whole-form-invalidation"
+            ],
+            "evidence": [
+              "tool-call-lineage",
+              "post-action-readback"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "우편번호 자동 입력과 주소 항목 중복",
+                "detail": "우편번호를 넣으면 광역·구 단위 항목이 자동으로 채워집니다. 이를 다시 입력하면 주소가 중복되고, 오류는 입력 시점이 아니라 제출 시점에 드러납니다.",
+                "capabilityArea": "주소 입력"
+              }
+            }
+          },
+          {
+            "id": "jp-konbini-completion",
+            "title": "Convenience-store payment or pickup completes the order",
+            "detail": "The order is only finished when the user pays or collects at a store, so a checkout confirmation is a pending state and the deadline for that step is part of the task.",
+            "capabilityArea": "Fulfilment and payment outside the agent's surface",
+            "families": [
+              "shopping-delivery",
+              "telecom-subscriptions"
+            ],
+            "surfaces": [
+              "open-web",
+              "human-handoff"
+            ],
+            "authorization": "payment-approval",
+            "completion": "out-of-band-completion",
+            "recovery": [
+              "stale-inventory-or-late-fee",
+              "partial-success"
+            ],
+            "evidence": [
+              "authoritative-response",
+              "handoff-checkpoint",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "편의점 결제·수령으로 완료되는 주문",
+                "detail": "사용자가 매장에서 결제하거나 수령해야 주문이 끝나므로, 결제 화면의 확인은 대기 상태이며 그 단계의 기한까지가 과제의 일부입니다.",
+                "capabilityArea": "에이전트 화면 밖에서 끝나는 이행과 결제"
+              }
+            }
+          },
+          {
+            "id": "jp-phone-confirmation-code",
+            "title": "Reservation confirmed by a code sent to the user's phone",
+            "detail": "Booking flows frequently send a one-time code to the user's number, which moves the confirmation boundary onto the user's device and puts the step under a timeout.",
+            "capabilityArea": "Reservation confirmation",
+            "families": [
+              "restaurants-local",
+              "healthcare-administration"
+            ],
+            "surfaces": [
+              "human-handoff",
+              "signed-in-app"
+            ],
+            "authorization": "otp",
+            "completion": "human-confirmed",
+            "recovery": [
+              "identity-handoff-timeout",
+              "channel-unavailable"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "tool-call-lineage"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "사용자 휴대전화로 오는 코드로 확정되는 예약",
+                "detail": "예약 과정에서 사용자 번호로 일회용 코드를 보내는 경우가 많습니다. 확인 경계가 사용자 기기로 옮겨가고 그 단계에는 제한 시간이 걸립니다.",
+                "capabilityArea": "예약 확정"
+              }
+            }
+          },
+          {
+            "id": "jp-whole-form-retry-invalidation",
+            "title": "Retry invalidates the whole submission",
+            "detail": "Many flows discard the entire form on a validation error or a held reservation slot, so a retry is a fresh non-idempotent submission and has to be recorded as one.",
+            "capabilityArea": "Recovery and retry discipline",
+            "families": [
+              "travel-accommodation",
+              "government-civic"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "whole-form-invalidation",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "retry-idempotency-record",
+              "tool-call-lineage"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "재시도 시 제출 전체가 무효가 되는 절차",
+                "detail": "검증 오류나 좌석 선점 해제가 나면 양식 전체가 폐기되는 절차가 많습니다. 재시도는 멱등하지 않은 새 제출이므로 그렇게 기록해야 합니다.",
+                "capabilityArea": "복구와 재시도 관리"
+              }
+            }
+          }
+        ],
+        "translations": {
+          "ko": {
+            "summary": "일본 에디션에 선언된 연동 조건입니다. 상당수는 양식이 접수되는지를 가르고, 나머지는 접수된 주문이 실제로 끝났는지를 가릅니다. 어느 것도 아직 시스템으로 수행된 적이 없습니다."
+          }
+        }
+      }
     },
     {
       "code": "sg",
@@ -115,7 +724,177 @@
         "Fee disclosure timing makes 'quote the final price before confirming' a meaningful and frequently failed sub-requirement.",
         "Same-day delivery is dense and cheap, so speed differences compress and cost becomes the discriminating axis.",
         "Reservation no-show policies often require a card hold, which sits outside the agent's authority."
-      ]
+      ],
+      "integrationProfile": {
+        "summary": "Declared integration conditions for the Singapore edition. Language friction is low here, so what remains is payment eligibility, late price changes and address precision. None has been exercised against a system.",
+        "situations": [
+          {
+            "id": "sg-multi-rail-payment-eligibility",
+            "title": "Choosing a payment rail the persona actually holds",
+            "detail": "Card, national QR transfer and stored-value wallets coexist, and the QR rail completes on the user's own device. Picking a rail the persona does not hold fails quietly at the last step.",
+            "capabilityArea": "Payment eligibility and checkout",
+            "families": [
+              "shopping-delivery",
+              "mobility-transit"
+            ],
+            "surfaces": [
+              "open-web",
+              "signed-in-app",
+              "qr-device-handoff"
+            ],
+            "authorization": "payment-approval",
+            "completion": "human-confirmed",
+            "recovery": [
+              "channel-unavailable",
+              "partial-success"
+            ],
+            "evidence": [
+              "tool-call-lineage",
+              "handoff-checkpoint"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "페르소나가 실제로 보유한 결제 수단 선택",
+                "detail": "카드, 국가 QR 이체, 선불 지갑이 함께 쓰이고 QR 경로는 사용자 기기에서 마무리됩니다. 페르소나가 갖고 있지 않은 수단을 고르면 마지막 단계에서 조용히 실패합니다.",
+                "capabilityArea": "결제 수단 적격성과 주문 확정"
+              }
+            }
+          },
+          {
+            "id": "sg-late-fee-final-readback",
+            "title": "Fees added late, so the final total must be read back",
+            "detail": "Platform, delivery and small-order fees appear near the end of the flow, so a price quoted mid-task is routinely wrong and only the confirmed total counts.",
+            "capabilityArea": "Price accuracy at confirmation",
+            "families": [
+              "shopping-delivery",
+              "restaurants-local"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "stale-inventory-or-late-fee",
+              "partial-success"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "authoritative-response"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "뒤늦게 붙는 수수료와 최종 금액 재확인",
+                "detail": "플랫폼·배달·소액주문 수수료가 흐름 후반에 붙기 때문에 과정 중간에 제시한 금액은 대체로 틀리며, 확정된 총액만 유효합니다.",
+                "capabilityArea": "확정 시점의 금액 정확도"
+              }
+            }
+          },
+          {
+            "id": "sg-block-unit-addressing",
+            "title": "Block and unit numbers dropped by address parsing",
+            "detail": "Residential addresses depend on block and unit numbers that many parsers discard, producing an accepted order that cannot be delivered until the stored address is checked.",
+            "capabilityArea": "Delivery addressing",
+            "families": [
+              "shopping-delivery",
+              "home-utilities"
+            ],
+            "surfaces": [
+              "open-web"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "partial-success",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "주소 파싱에서 사라지는 블록·유닛 번호",
+                "detail": "주거지 주소는 블록과 유닛 번호에 의존하는데 이를 버리는 파서가 많아서, 저장된 주소를 확인하기 전까지는 접수는 되지만 배송되지 않는 주문이 생깁니다.",
+                "capabilityArea": "배송 주소 처리"
+              }
+            }
+          },
+          {
+            "id": "sg-cross-locale-regional-booking",
+            "title": "Booking that crosses into a neighbouring market",
+            "detail": "Travel tasks routinely pull in a second locale, currency and time zone mid-flow, and the confirmation has to be readable and correct in both.",
+            "capabilityArea": "Cross-border travel booking",
+            "families": [
+              "travel-accommodation",
+              "mobility-transit"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "stale-inventory-or-late-fee",
+              "channel-unavailable"
+            ],
+            "evidence": [
+              "locale-formatted-artifact",
+              "tool-call-lineage"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "인접 시장으로 넘어가는 예약",
+                "detail": "여행 과제는 흐름 중간에 다른 지역, 통화, 표준시를 끌어들이는 일이 잦고 확정 내용은 양쪽 모두에서 읽을 수 있고 정확해야 합니다.",
+                "capabilityArea": "국경을 넘는 여행 예약"
+              }
+            }
+          },
+          {
+            "id": "sg-card-hold-handoff",
+            "title": "No-show policy requiring a card hold",
+            "detail": "A reservation may require a card hold that sits outside the agent's authority, so the run stops at the account holder's confirmation and must not re-place the booking blindly.",
+            "capabilityArea": "Reservation guarantees",
+            "families": [
+              "restaurants-local",
+              "travel-accommodation"
+            ],
+            "surfaces": [
+              "signed-in-app",
+              "human-handoff"
+            ],
+            "authorization": "account-holder-confirmation",
+            "completion": "human-confirmed",
+            "recovery": [
+              "identity-handoff-timeout",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "retry-idempotency-record"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "노쇼 정책에 따른 카드 보증 요구",
+                "detail": "예약에 카드 보증이 필요할 수 있고 이는 에이전트의 권한 밖입니다. 실행은 계정 보유자의 확인 지점에서 멈춰야 하며 확인 없이 예약을 다시 넣어서는 안 됩니다.",
+                "capabilityArea": "예약 보증"
+              }
+            }
+          }
+        ],
+        "translations": {
+          "ko": {
+            "summary": "싱가포르 에디션에 선언된 연동 조건입니다. 언어 장벽이 낮은 시장이라 남는 것은 결제 수단 적격성, 뒤늦은 금액 변동, 주소 정밀도입니다. 어느 것도 아직 시스템으로 수행된 적이 없습니다."
+          }
+        }
+      }
     },
     {
       "code": "tw",
@@ -153,7 +932,177 @@
         "Latency measurements stretch because store-selection steps add a round trip that other markets do not have.",
         "Local-services tasks lean on chat, so a system without a supervised messaging path simply cannot attempt part of the coverage.",
         "Holiday travel demand is concentrated around lunar-calendar dates shared with, but not identical to, other markets in the index."
-      ]
+      ],
+      "integrationProfile": {
+        "summary": "Declared integration conditions for the Taiwan edition. The pattern here is that the last step, not the first, decides the outcome. None has been exercised against a system.",
+        "situations": [
+          {
+            "id": "tw-store-pickup-branch-selection",
+            "title": "Pickup branch chosen as part of the order",
+            "detail": "The order carries a chosen convenience-store branch. A branch near the wrong one of the persona's addresses is an accuracy failure that reads as a success unless the stored selection is checked.",
+            "capabilityArea": "Fulfilment routing",
+            "families": [
+              "shopping-delivery",
+              "restaurants-local"
+            ],
+            "surfaces": [
+              "open-web",
+              "signed-in-app"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "partial-success",
+              "stale-inventory-or-late-fee"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "주문의 일부로 선택되는 수령 지점",
+                "detail": "주문에는 선택한 편의점 지점이 포함됩니다. 페르소나의 다른 주소 근처 지점을 고르면 성공처럼 보이지만 정확도 실패이며, 저장된 선택을 확인해야 드러납니다.",
+                "capabilityArea": "이행 경로 선택"
+              }
+            }
+          },
+          {
+            "id": "tw-messaging-channel-commerce",
+            "title": "Booking inside a messaging channel with no structured endpoint",
+            "detail": "Restaurant and local-service booking often happens in a chat channel, so there is no structured response to parse and a supervised handoff is the only honest completion.",
+            "capabilityArea": "Local services without an API",
+            "families": [
+              "restaurants-local",
+              "home-utilities"
+            ],
+            "surfaces": [
+              "super-app-channel",
+              "human-handoff"
+            ],
+            "authorization": "session-only",
+            "completion": "human-confirmed",
+            "recovery": [
+              "channel-unavailable",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "tool-call-lineage",
+              "handoff-checkpoint"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "구조화된 응답이 없는 메신저 채널 예약",
+                "detail": "식당과 지역 서비스 예약이 대화 채널에서 이루어지는 경우가 많습니다. 파싱할 구조화된 응답이 없으므로 감독된 인계가 유일하게 정직한 완료 방식입니다.",
+                "capabilityArea": "연동 창구가 없는 지역 서비스"
+              }
+            }
+          },
+          {
+            "id": "tw-invoice-carrier-binding",
+            "title": "Digital invoice carrier belongs to the account holder",
+            "detail": "Checkout expects an invoice carrier identifier. Omitting it completes the purchase but misses the declared final state, and inventing one is never acceptable, so it is confirmed with the account holder.",
+            "capabilityArea": "Receipts and tax artifacts",
+            "families": [
+              "shopping-delivery",
+              "money-banking-investing"
+            ],
+            "surfaces": [
+              "open-web",
+              "signed-in-app"
+            ],
+            "authorization": "account-holder-confirmation",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "whole-form-invalidation",
+              "partial-success"
+            ],
+            "evidence": [
+              "locale-formatted-artifact",
+              "authoritative-response"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "계정 보유자에게 속한 전자 인보이스 캐리어",
+                "detail": "결제 단계에서 인보이스 캐리어 식별자를 요구합니다. 이를 빠뜨리면 구매는 끝나도 선언한 최종 상태에 못 미치고, 임의로 만들어 넣는 것은 허용되지 않으므로 계정 보유자에게 확인합니다.",
+                "capabilityArea": "영수증과 세금 관련 산출물"
+              }
+            }
+          },
+          {
+            "id": "tw-traditional-character-artifact",
+            "title": "Traditional-character output as the delivered artifact",
+            "detail": "A semantically correct answer in the wrong character set is a localization failure, and the same applies to the confirmation text a run leaves behind.",
+            "capabilityArea": "Local text and search",
+            "families": [
+              "email-calendar",
+              "government-civic"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "partial-success"
+            ],
+            "evidence": [
+              "locale-formatted-artifact",
+              "post-action-readback"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "번체 표기로 남겨야 하는 결과물",
+                "detail": "뜻이 맞아도 문자 체계가 다르면 현지화 실패이며, 실행이 남기는 확인 문구에도 같은 기준이 적용됩니다.",
+                "capabilityArea": "현지 문자와 검색"
+              }
+            }
+          },
+          {
+            "id": "tw-store-pickup-payment",
+            "title": "Payment and collection completed at the store",
+            "detail": "Payment on collection finishes the order off the agent's surface and under a deadline, so a confirmation number is a pending state and a retry can create a second order.",
+            "capabilityArea": "Out-of-band fulfilment",
+            "families": [
+              "shopping-delivery",
+              "telecom-subscriptions"
+            ],
+            "surfaces": [
+              "human-handoff",
+              "qr-device-handoff"
+            ],
+            "authorization": "payment-approval",
+            "completion": "out-of-band-completion",
+            "recovery": [
+              "stale-inventory-or-late-fee",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "authoritative-response",
+              "retry-idempotency-record"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "매장에서 마무리되는 결제와 수령",
+                "detail": "수령 시 결제로 주문이 에이전트 화면 밖에서, 그것도 기한 안에 끝납니다. 확인 번호는 대기 상태이며 재시도는 두 번째 주문을 만들 수 있습니다.",
+                "capabilityArea": "화면 밖에서 끝나는 이행"
+              }
+            }
+          }
+        ],
+        "translations": {
+          "ko": {
+            "summary": "대만 에디션에 선언된 연동 조건입니다. 이 시장에서는 첫 단계가 아니라 마지막 단계가 결과를 가릅니다. 어느 것도 아직 시스템으로 수행된 적이 없습니다."
+          }
+        }
+      }
     },
     {
       "code": "ae",
@@ -191,7 +1140,178 @@
         "Delivery final states include building, unit, community and access-note confirmation, not only a pin or postal address.",
         "Identity-gated government and regulated-service tasks stop at the UAE Pass or OTP approval step and must retain enough state for a clean user handoff.",
         "Prices and availability need a final signed-in check because public listings, app inventory, delivery fees and service-area rules can diverge late in the flow."
-      ]
+      ],
+      "integrationProfile": {
+        "summary": "Declared integration conditions for the UAE edition. The visible web flow is often only the first half, and the second half is identity, app inventory or a late service-area rule. None has been exercised against a system.",
+        "situations": [
+          {
+            "id": "ae-identity-approval-handoff",
+            "title": "Government or regulated-service identity approval",
+            "detail": "Regulated flows require a user-held identity approval that the agent must never attempt. The run preserves enough state for a clean handoff and stops there.",
+            "capabilityArea": "Identity-gated public and regulated services",
+            "families": [
+              "government-civic",
+              "healthcare-administration"
+            ],
+            "surfaces": [
+              "signed-in-app",
+              "human-handoff"
+            ],
+            "authorization": "government-identity",
+            "completion": "human-confirmed",
+            "recovery": [
+              "identity-handoff-timeout",
+              "partial-success"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "tool-call-lineage"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "정부·규제 서비스의 신원 승인",
+                "detail": "규제 대상 절차는 사용자가 직접 하는 신원 승인을 요구하며 에이전트가 대신 시도해서는 안 됩니다. 실행은 깨끗한 인계를 위해 상태를 보존하고 거기서 멈춥니다.",
+                "capabilityArea": "신원 확인이 필요한 공공·규제 서비스"
+              }
+            }
+          },
+          {
+            "id": "ae-app-inventory-divergence",
+            "title": "Signed-in app inventory diverging from the public site",
+            "detail": "Availability, price and service coverage can differ between the public website and the signed-in app, so an option found on the web may not be completable and needs a signed-in check.",
+            "capabilityArea": "Availability and pricing verification",
+            "families": [
+              "shopping-delivery",
+              "mobility-transit"
+            ],
+            "surfaces": [
+              "signed-in-app",
+              "open-web"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "stale-inventory-or-late-fee",
+              "channel-unavailable"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "authoritative-response"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "공개 웹과 다른 로그인 앱의 재고",
+                "detail": "공개 웹사이트와 로그인 앱 사이에 재고, 가격, 서비스 범위가 다를 수 있습니다. 웹에서 찾은 선택지가 실제로는 완료되지 않을 수 있어 로그인 상태에서 다시 확인해야 합니다.",
+                "capabilityArea": "재고와 가격 확인"
+              }
+            }
+          },
+          {
+            "id": "ae-bilingual-entity-resolution",
+            "title": "Arabic and English labels for the same place",
+            "detail": "Venues, buildings and services appear under different Arabic and English names or transliterations. Treating the labels as separate records produces duplicates or the wrong location.",
+            "capabilityArea": "Entity resolution and search",
+            "families": [
+              "restaurants-local",
+              "travel-accommodation"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "partial-success",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "tool-call-lineage",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "같은 장소를 가리키는 아랍어와 영어 표기",
+                "detail": "장소, 건물, 서비스가 아랍어와 영어에서 서로 다른 이름이나 음역으로 나타납니다. 이를 별개의 기록으로 다루면 중복이 생기거나 엉뚱한 위치를 고르게 됩니다.",
+                "capabilityArea": "개체 식별과 검색"
+              }
+            }
+          },
+          {
+            "id": "ae-tower-community-access-notes",
+            "title": "Tower, community, unit and access notes in an address",
+            "detail": "A usable address depends on tower, community, apartment and access notes rather than a street number, and dropping those fields creates an accepted but undeliverable order.",
+            "capabilityArea": "Delivery addressing",
+            "families": [
+              "shopping-delivery",
+              "home-utilities"
+            ],
+            "surfaces": [
+              "open-web",
+              "signed-in-app"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "partial-success",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "타워, 커뮤니티, 호수, 출입 안내가 포함된 주소",
+                "detail": "쓸 수 있는 주소는 도로 번호가 아니라 타워, 커뮤니티, 호수, 출입 안내에 달려 있습니다. 이 항목을 빠뜨리면 접수는 되지만 배송되지 않는 주문이 됩니다.",
+                "capabilityArea": "배송 주소 처리"
+              }
+            }
+          },
+          {
+            "id": "ae-late-service-area-validation",
+            "title": "Service-area and fee rules validated late, with a payment code",
+            "detail": "Delivery fees and service-area rules can fail near the end of the flow, and card payment may be confirmed with a one-time code, so the final charge and state must be read back rather than assumed.",
+            "capabilityArea": "Checkout validation",
+            "families": [
+              "shopping-delivery",
+              "money-banking-investing"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "otp",
+            "completion": "out-of-band-completion",
+            "recovery": [
+              "stale-inventory-or-late-fee",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "authoritative-response",
+              "retry-idempotency-record",
+              "handoff-checkpoint"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "뒤늦게 검증되는 서비스 지역·수수료와 결제 인증 코드",
+                "detail": "배송비와 서비스 지역 규칙이 흐름 후반에 걸릴 수 있고 카드 결제는 일회용 코드로 확인될 수 있습니다. 최종 청구액과 상태는 추정하지 말고 다시 읽어 확인해야 합니다.",
+                "capabilityArea": "주문 확정 단계의 검증"
+              }
+            }
+          }
+        ],
+        "translations": {
+          "ko": {
+            "summary": "아랍에미리트 에디션에 선언된 연동 조건입니다. 눈에 보이는 웹 흐름은 절반인 경우가 많고 나머지 절반은 신원 확인, 앱 재고, 뒤늦은 서비스 지역 규칙입니다. 어느 것도 아직 시스템으로 수행된 적이 없습니다."
+          }
+        }
+      }
     },
     {
       "code": "th",
@@ -229,7 +1349,176 @@
         "The confirmation boundary is early: the agent prepares a payment intent and hands it back rather than completing it.",
         "Address note fields carry information that structured fields cannot, so dropping free text materially lowers delivery success.",
         "Travel tasks frequently mix domestic budget carriers whose inventory is not exposed to aggregate search."
-      ]
+      ],
+      "integrationProfile": {
+        "summary": "Declared integration conditions for the Thai edition. Script, address interpretation and a user-completed payment step decide most outcomes here. None has been exercised against a system.",
+        "situations": [
+          {
+            "id": "th-national-qr-payment-handoff",
+            "title": "National QR transfer completed on the user's device",
+            "detail": "Many flows end in a scannable transfer the user completes themselves. Preparing the payment intent and stopping is the correct behaviour, and a re-issued intent has to be guarded against double payment.",
+            "capabilityArea": "Payment handoff",
+            "families": [
+              "shopping-delivery",
+              "money-banking-investing"
+            ],
+            "surfaces": [
+              "qr-device-handoff",
+              "signed-in-app"
+            ],
+            "authorization": "payment-approval",
+            "completion": "out-of-band-completion",
+            "recovery": [
+              "duplicate-or-retry-risk",
+              "identity-handoff-timeout"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "retry-idempotency-record"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "사용자 기기에서 완료되는 국가 QR 이체",
+                "detail": "많은 절차가 사용자가 직접 완료하는 스캔 이체로 끝납니다. 결제 요청을 준비하고 멈추는 것이 올바른 동작이며, 요청을 다시 만들 때는 이중 결제를 막아야 합니다.",
+                "capabilityArea": "결제 인계"
+              }
+            }
+          },
+          {
+            "id": "th-landmark-address-notes",
+            "title": "Landmark and lane-relative addresses in a note field",
+            "detail": "Addresses are frequently expressed relative to a landmark or a lane rather than as structured fields, so the free-text note carries information the form cannot and must survive to the stored order.",
+            "capabilityArea": "Delivery addressing",
+            "families": [
+              "shopping-delivery",
+              "home-utilities"
+            ],
+            "surfaces": [
+              "open-web"
+            ],
+            "authorization": "session-only",
+            "completion": "asynchronous-pending",
+            "recovery": [
+              "partial-success",
+              "duplicate-or-retry-risk"
+            ],
+            "evidence": [
+              "post-action-readback",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "메모란에 담기는 랜드마크·골목 기준 주소",
+                "detail": "주소를 구조화된 항목 대신 랜드마크나 골목 기준으로 표현하는 일이 잦습니다. 자유 입력 메모가 양식이 담지 못하는 정보를 지니므로 저장된 주문까지 그대로 남아야 합니다.",
+                "capabilityArea": "배송 주소 처리"
+              }
+            }
+          },
+          {
+            "id": "th-script-and-transliteration-search",
+            "title": "Thai script segmentation and romanisation drift",
+            "detail": "Thai is written without spaces between words and the same venue appears under several romanisations, so matching a request to the right listing is a retrieval problem before it is a reasoning one.",
+            "capabilityArea": "Local search and retrieval",
+            "families": [
+              "restaurants-local",
+              "travel-accommodation"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "partial-success",
+              "stale-inventory-or-late-fee"
+            ],
+            "evidence": [
+              "tool-call-lineage",
+              "locale-formatted-artifact"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "태국어 띄어쓰기 분절과 음역 표기 차이",
+                "detail": "태국어는 단어 사이를 띄우지 않고 같은 장소가 여러 로마자 표기로 나타납니다. 요청을 맞는 목록에 연결하는 일은 추론 이전에 검색의 문제입니다.",
+                "capabilityArea": "현지 검색과 탐색"
+              }
+            }
+          },
+          {
+            "id": "th-buddhist-era-dates",
+            "title": "Buddhist-era years in bookings and confirmations",
+            "detail": "Confirmations and forms use a different year numbering, which is a recurring date-parsing failure and has to be correct in both the submitted form and the delivered artifact.",
+            "capabilityArea": "Date handling",
+            "families": [
+              "travel-accommodation",
+              "government-civic"
+            ],
+            "surfaces": [
+              "open-web",
+              "official-api"
+            ],
+            "authorization": "session-only",
+            "completion": "synchronous-confirmed",
+            "recovery": [
+              "whole-form-invalidation",
+              "partial-success"
+            ],
+            "evidence": [
+              "locale-formatted-artifact",
+              "post-action-readback"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "예약과 확인서에 쓰이는 불기 연도",
+                "detail": "확인서와 양식이 다른 연도 체계를 쓰기 때문에 날짜 해석 오류가 반복됩니다. 제출한 양식과 전달한 결과물 양쪽에서 맞아야 합니다.",
+                "capabilityArea": "날짜 처리"
+              }
+            }
+          },
+          {
+            "id": "th-off-aggregator-carrier-inventory",
+            "title": "Domestic carrier inventory outside aggregate search",
+            "detail": "Some domestic budget carriers do not expose inventory to aggregators, so part of the option space is only reachable directly and the shortfall must be stated rather than hidden.",
+            "capabilityArea": "Travel inventory coverage",
+            "families": [
+              "travel-accommodation",
+              "mobility-transit"
+            ],
+            "surfaces": [
+              "open-web",
+              "human-handoff"
+            ],
+            "authorization": "account-holder-confirmation",
+            "completion": "human-confirmed",
+            "recovery": [
+              "channel-unavailable",
+              "stale-inventory-or-late-fee"
+            ],
+            "evidence": [
+              "handoff-checkpoint",
+              "authoritative-response"
+            ],
+            "status": "declared-not-exercised",
+            "translations": {
+              "ko": {
+                "title": "통합 검색에 노출되지 않는 국내 항공 재고",
+                "detail": "일부 국내 저비용 항공사는 재고를 통합 검색에 제공하지 않습니다. 선택지의 일부는 직접 경로로만 닿을 수 있고, 빠진 범위는 감추지 말고 밝혀야 합니다.",
+                "capabilityArea": "여행 재고 커버리지"
+              }
+            }
+          }
+        ],
+        "translations": {
+          "ko": {
+            "summary": "태국 에디션에 선언된 연동 조건입니다. 문자 처리, 주소 해석, 사용자가 마무리하는 결제 단계가 결과의 대부분을 가릅니다. 어느 것도 아직 시스템으로 수행된 적이 없습니다."
+          }
+        }
+      }
     }
   ],
   "taskFamilies": [
@@ -252,6 +1541,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "두 시간대에 걸친 3자 회의 일정 재조정",
@@ -273,6 +1564,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "현지 공휴일을 피한 반복 일정 잡기",
@@ -294,6 +1587,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "메일함 스레드에서 미이행 약속 뽑아내기",
@@ -315,6 +1610,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "받은 초대의 시간대·서머타임 오류 점검",
@@ -336,6 +1633,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "내일 일정 브리핑 자료 준비",
@@ -357,6 +1656,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "같은 시간에 겹친 두 일정 정리",
@@ -378,6 +1679,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "회의 취소하고 참석자 전원에게 통지",
@@ -399,6 +1702,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "부재 설정과 동료 인수인계 준비",
@@ -420,6 +1725,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "긴 스레드에서 최신 문서 버전 찾기",
@@ -441,6 +1748,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "잘못 보낸 답장 수습",
@@ -470,6 +1779,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "대체 규칙을 지키며 예산 안에서 장바구니 구성",
@@ -491,6 +1802,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "현지 표기 규칙에 맞는 배송지 설정",
@@ -512,6 +1825,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "출고 단계에서 거절된 주문 복구",
@@ -533,6 +1848,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "정확한 모델 사양에 맞는 상품 찾기",
@@ -554,6 +1871,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "최종 실구매가 기준 판매처 비교",
@@ -575,6 +1894,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "마감 기한 안에 도착 가능한 판매처 선택",
@@ -596,6 +1917,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "이미 넣은 주문의 배송지나 옵션 변경",
@@ -617,6 +1940,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "반품 기한 안에 반품 절차 준비",
@@ -638,6 +1963,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "배송 완료로 뜨지만 받지 못한 택배 추적",
@@ -659,6 +1986,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "정기 배송 주문 점검과 불필요한 건 정리",
@@ -688,6 +2017,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "날짜와 예산 범위에 맞는 2구간 일정 짜기",
@@ -709,6 +2040,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "요청한 접근성 조건을 갖춘 숙소 찾기",
@@ -730,6 +2063,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "취소된 구간을 반영한 일정 재구성",
@@ -751,6 +2086,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "계획한 경로의 입국·비자·경유 요건 확인",
@@ -772,6 +2109,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "표시 가격이 아니라 변경·취소 규정으로 항공권 비교",
@@ -793,6 +2132,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "세금과 현장 요금까지 포함한 숙박 총비용 계산",
@@ -814,6 +2155,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "실제로 소화 가능한 일자별 현지 동선 짜기",
@@ -835,6 +2178,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "확정된 예약의 날짜 변경",
@@ -856,6 +2201,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "당일 취소된 숙소 대체 방안 마련",
@@ -877,6 +2224,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "지연·결항 환급 청구 자료 준비",
@@ -906,6 +2255,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "식이 제한이 있는 인원수 예약",
@@ -927,6 +2278,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "현지 언어로 가정 방문 서비스 견적 받기",
@@ -948,6 +2301,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "권한 밖 예약임을 판단하고 중단하기",
@@ -969,6 +2324,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "요청한 시간에 실제로 자리가 있는지 확인",
@@ -990,6 +2347,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "조건별 근거를 붙인 후보 매장 추리기",
@@ -1011,6 +2370,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "예약 전 예약금·취소·노쇼 정책 확인",
@@ -1032,6 +2393,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "예약 전 단체 코스 사전 주문 준비",
@@ -1053,6 +2416,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "예약 시간이나 인원 변경",
@@ -1074,6 +2439,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "위약금 발생 전에 예약 취소",
@@ -1095,6 +2462,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "후보 매장이 모두 만석일 때 대안 마련",
@@ -1124,6 +2493,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "한 달치 지출 요약과 실제 부과된 수수료 확인",
@@ -1145,6 +2516,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "설정한 기간에 맞춘 예금·환전 상품 비교",
@@ -1166,6 +2539,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "가상 포트폴리오의 집중도와 리스크 노출 정리",
@@ -1187,6 +2562,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "최종 승인 직전까지 ETF 주문 준비",
@@ -1208,6 +2585,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "기억나지 않는 카드 정기 결제 찾아내기",
@@ -1229,6 +2608,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "해외 송금 실질 비용을 업체별로 비교",
@@ -1250,6 +2631,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "카드 명세서 청구 항목과 수수료 약관 대조",
@@ -1271,6 +2654,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "승인 직전까지 월 자동이체 일정 준비",
@@ -1292,6 +2677,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "자동이체 해지 절차 준비",
@@ -1313,6 +2700,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "결제 실패 원인 진단과 안전한 재시도 준비",
@@ -1342,6 +2731,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "도착 시각이 정해진 문전 대 문전 경로 계획",
@@ -1363,6 +2754,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "이동 약자 조건을 반영한 계단 없는 경로 계획",
@@ -1384,6 +2777,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "여정 기간에 맞춘 교통카드 충전 준비",
@@ -1405,6 +2800,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "수하물과 탑승 수속 마감을 고려한 공항 이동 계획",
@@ -1426,6 +2823,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "확정 버튼 직전까지 진행하는 차량 또는 교통편 예약",
@@ -1447,6 +2846,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "이미 예약한 도시 간 교통편의 출발 시간 변경",
@@ -1468,6 +2869,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "교통편 예약 취소와 환불 결과 확인",
@@ -1489,6 +2892,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "이동 중 운행 중단 발생 시 우회 경로 재설정",
@@ -1510,6 +2915,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "막차를 놓친 상황에서의 귀가 계획 복구",
@@ -1531,6 +2938,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "올바른 운영사 앞으로 분실물 신고서 작성",
@@ -1560,6 +2969,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "보험 적용과 언어 지원이 되는 의료기관 조사",
@@ -1581,6 +2992,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "예정된 진료 항목의 비용 견적 산출",
@@ -1602,6 +3015,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "가능 시간대에 맞춘 진료 예약 준비",
@@ -1623,6 +3038,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "내원 준비 서류와 행정 절차 정리",
@@ -1644,6 +3061,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "현지 격식에 맞는 진료기록 또는 의뢰서 발급 요청 작성",
@@ -1665,6 +3084,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "가상 서류로 보험금 청구 서류 묶음 구성",
@@ -1686,6 +3107,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "규정 기한 안에서 기존 예약 시간 변경",
@@ -1707,6 +3130,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "진료 예약 취소와 행정 후속 처리",
@@ -1728,6 +3153,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "의료기관 예약 시스템에서 확정 직전까지 입력",
@@ -1749,6 +3176,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "보험금 청구 반려 원인 파악과 재청구 준비",
@@ -1778,6 +3207,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "자격 요건 판단과 필요 서류 일체 정리",
@@ -1799,6 +3230,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "행정 절차의 법정 기한과 수수료 확인",
@@ -1820,6 +3253,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "관할 기관과 올바른 신청 창구 확인",
@@ -1841,6 +3276,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "제출 서류의 번역, 공증, 아포스티유 절차 준비",
@@ -1862,6 +3299,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "제출 직전 단계까지 공식 서식 작성",
@@ -1883,6 +3322,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "기한 내 관공서 방문 예약 준비",
@@ -1904,6 +3345,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "법정 기한을 지키면서 관공서 방문 예약 변경",
@@ -1925,6 +3368,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "진행 중인 신청 취하와 그에 따른 손실 확인",
@@ -1946,6 +3391,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "온라인 신청을 최종 제출 화면에서 정지",
@@ -1967,6 +3414,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "반려된 신청의 원인 분석과 보완 재신청 준비",
@@ -1996,6 +3445,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "평소와 다른 공과금 고지서를 사용 이력과 대조해 설명",
@@ -2017,6 +3468,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "실제 사용 패턴 기준으로 요금제 비교",
@@ -2038,6 +3491,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "검침 마감 전 계량기 지침 제출 준비",
@@ -2059,6 +3514,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "공과금 계정의 자동이체 또는 카드 정보 변경",
@@ -2080,6 +3537,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "공급사 변경을 최종 확인 단계에서 정지",
@@ -2101,6 +3560,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "특정 고장에 대한 수리 방문 예약 준비",
@@ -2122,6 +3583,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "이사에 따른 공과금 해지와 개시 절차 준비",
@@ -2143,6 +3606,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "이사 후 계정 해지와 최종 정산",
@@ -2164,6 +3629,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "공급 중단 대응과 보상 청구 준비",
@@ -2185,6 +3652,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "청약 철회 기간 안에 공급사 변경 되돌리기",
@@ -2214,6 +3683,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "실사용량과 약정 조건을 함께 고려한 요금제 비교",
@@ -2235,6 +3706,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "평소보다 많이 나온 통신요금 항목별 분석",
@@ -2256,6 +3729,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "통신 계약의 해지 조건 확인",
@@ -2277,6 +3752,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "특정 여행 일정에 맞춘 로밍 또는 eSIM 준비",
@@ -2298,6 +3775,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "중복 구독과 곧 유료 전환되는 무료 체험 찾기",
@@ -2319,6 +3798,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "요금제 변경을 최종 확인 화면에서 정지",
@@ -2340,6 +3821,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "지정한 구독 하나 해지와 그로 인한 이용 제한 확인",
@@ -2361,6 +3844,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "통신요금 이의제기 또는 번호이동 신청서 작성",
@@ -2382,6 +3867,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "미납 또는 분실로 정지된 회선 복구",
@@ -2403,6 +3890,8 @@
             "th",
             "ae"
           ],
+          "lifecycle": "candidate",
+          "taskSet": "public",
           "translations": {
             "ko": {
               "title": "잘못 해지한 회선이나 구독 되살리기",

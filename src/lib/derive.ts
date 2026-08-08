@@ -146,8 +146,9 @@ export function aggregateBySystem(query: AggregateQuery = {}): AggregateView[] {
 export type MetricKey = "accuracy" | "speed" | "cost";
 
 /**
- * Sorts rows by a single outcome axis. The metric switch changes the ordering
- * only — no axis is ever folded into another and no composite is produced.
+ * Sorts rows by a single raw outcome axis. The metric switch changes the
+ * ordering only: these are the separately disclosed raw figures, not the
+ * normalized components that `src/lib/score.ts` multiplies into a task score.
  * Rows with no value for the active metric sink to the bottom in a stable order.
  */
 export function sortByMetric(

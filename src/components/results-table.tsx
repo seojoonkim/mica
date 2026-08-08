@@ -70,7 +70,7 @@ export function ResultsTable({
       <DataTableScroller label={caption} lang={lang}>
         <table className="mica-table">
           <caption>
-            {caption} — {dict.table.captionSuffixNoComposite}
+            {caption} — {dict.table.captionSuffixScoring}
           </caption>
           <thead>
             <tr>

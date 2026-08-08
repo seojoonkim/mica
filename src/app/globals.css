@@ -2016,3 +2016,101 @@ html[lang="ko"] .mica-notice-head {
     content-visibility: visible;
   }
 }
+
+/* Market integration illustrations -------------------------------------- */
+
+.mica-country-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 160 / 100;
+  color: var(--color-ink-soft);
+  --illus-accent: var(--color-institutional);
+  --illus-mark: var(--color-vermilion);
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+}
+
+.mica-country-illustration--card {
+  max-width: 320px;
+}
+
+.mica-country-illustration--detail {
+  max-width: 520px;
+}
+
+[data-country-illustration="kr"] {
+  --illus-accent: var(--color-mkt-kr);
+}
+
+[data-country-illustration="jp"] {
+  --illus-accent: var(--color-mkt-jp);
+}
+
+[data-country-illustration="sg"] {
+  --illus-accent: var(--color-mkt-sg);
+}
+
+[data-country-illustration="tw"] {
+  --illus-accent: var(--color-mkt-tw);
+}
+
+[data-country-illustration="th"] {
+  --illus-accent: var(--color-mkt-th);
+}
+
+[data-country-illustration="ae"] {
+  --illus-accent: var(--color-mkt-ae);
+}
+
+.mica-country-edition-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  border-top: 1px solid var(--color-rule);
+  padding-top: 24px;
+}
+
+@media (min-width: 48rem) {
+  .mica-country-edition-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 32px;
+  }
+}
+
+.mica-country-edition-card {
+  display: grid;
+  gap: 14px;
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: 24px;
+}
+
+@media (min-width: 30rem) {
+  .mica-country-edition-card {
+    grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .mica-country-edition-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 75rem) {
+  .mica-country-edition-card {
+    grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
+    gap: 24px;
+  }
+}
+
+.mica-country-edition-card .mica-country-illustration {
+  max-width: 100%;
+}
+
+.mica-country-plate {
+  margin-block: 0 28px;
+}

@@ -1,9 +1,16 @@
 /**
  * MICA axis policy.
  *
- * Outcome axes are reported separately and are NEVER combined into an official
- * composite score. Diagnostic axes explain *why* an outcome looks the way it
- * does; they are qualitative-to-ordinal and are not summed either.
+ * Outcome axes remain separately disclosed: raw accuracy, raw latency and raw
+ * cost are always published in their own units and are never replaced by a
+ * summary number. Alongside that disclosure, each axis has a normalized [0, 1]
+ * component, and those three components are multiplied into the official
+ * per-task score — once, per individual task (see `src/lib/score.ts`). Family
+ * and country figures are the arithmetic mean of those individual task scores;
+ * the axes themselves are still never summed or weighted against each other.
+ *
+ * Diagnostic axes explain *why* an outcome looks the way it does; they are
+ * qualitative-to-ordinal, enter no score, and are not summed.
  */
 
 export const OUTCOME_AXES = [
@@ -27,6 +34,26 @@ export const OUTCOME_AXES = [
     unit: "currency per successful eligible run",
     description:
       "Total eligible attempt cost divided by successful eligible runs. Cost of failure is charged to the successes it took to get there.",
+  },
+] as const;
+
+/**
+ * How each outcome axis is normalized before the per-task multiplication. The
+ * references are pre-registered per executable task version, not derived from
+ * the cohort being scored.
+ */
+export const PER_TASK_SCORE_COMPONENTS = [
+  {
+    axis: "accuracy",
+    rule: "1 for a confirmed success, 0 for every other completion outcome. No partial credit.",
+  },
+  {
+    axis: "speed",
+    rule: "min(1, speedTargetSec / observedLatencySec), against the task version's pre-registered speed reference.",
+  },
+  {
+    axis: "cost",
+    rule: "min(1, costTargetUsd / observedCostUsd) on evaluation execution cost in USD, or 1 when that cost is zero.",
   },
 ] as const;
 

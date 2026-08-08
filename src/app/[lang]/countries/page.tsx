@@ -7,6 +7,7 @@ import { COUNTRIES } from "@/data/demo/countries";
 import { heroMissionsForCountry } from "@/data/demo/tasks";
 import { DemoDisclosure, DetailCue, PageHeader, Section } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
+import { CountryIntegrationIllustration } from "@/components/country-integration-illustration";
 
 export async function generateMetadata({ params }: { params: Promise<LangParams> }): Promise<Metadata> {
   const lang = await readLocale(params);
@@ -96,15 +97,22 @@ export default async function CountriesPage({
         title={dict.countries.editionsTitle}
         intro={dict.countries.editionsIntro}
       >
-        <div className="border-t border-[var(--color-rule)]">
+        {/*
+         * Each edition carries its own integration plate: the same 160x100
+         * atlas grammar, drawn for the conditions declared on that market's
+         * page. The plate is decorative and repeats nothing the row does not
+         * already say in text.
+         */}
+        <div className="mica-country-edition-grid">
           {COUNTRIES.map((country) => (
             <article
               key={country.code}
               data-country-edition
-              className="mica-grid border-b border-[var(--color-rule)] py-6"
+              className="mica-country-edition-card"
             >
-              <div className="md:col-span-4">
-                <h3 className="mica-display text-[24px]">
+              <CountryIntegrationIllustration code={country.code} size="card" />
+              <div>
+                <h3 className="mica-display m-0 text-[22px]">
                   <LocaleLink lang={lang}
                     href={`/countries/${country.code}`}
                     className="mica-country-edition-link"
@@ -117,10 +125,10 @@ export default async function CountriesPage({
                 <p className="mica-eyebrow mt-1">
                   {country.nativeName} · {country.timezone}
                 </p>
+                <p className="mt-2 mb-0 max-w-[56ch] text-[14.5px] text-[var(--color-ink-soft)]">
+                  {country.editionNote}
+                </p>
               </div>
-              <p className="max-w-[64ch] text-[14.5px] text-[var(--color-ink-soft)] md:col-span-8">
-                {country.editionNote}
-              </p>
             </article>
           ))}
         </div>
