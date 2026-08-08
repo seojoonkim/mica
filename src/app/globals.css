@@ -36,7 +36,13 @@
    */
   --color-ink: #d8e2ec;
   --color-ink-soft: #aab8c5;
-  --color-ink-faint: #8293a3;
+  /*
+   * The faint stop is the smallest type on the page — folios, stamps, captions
+   * — so it is held at ~7.3:1 on paper rather than at the 4.5:1 floor. It stays
+   * a clear step below `--color-ink-soft` (~9.4:1), so the three-stop ink ramp
+   * still reads as a hierarchy and not as one grey.
+   */
+  --color-ink-faint: #93a3b3;
   --color-bone: #edf4fa;
   --color-rule: #263442;
   --color-rule-strong: #425466;
@@ -153,8 +159,8 @@
    */
   --step-hero: clamp(2.5rem, 1.55rem + 4vw, 4.5rem);
   --step-h1: clamp(2.1rem, 1.45rem + 2.9vw, 3.6rem);
-  --step-h2: clamp(1.5rem, 1.22rem + 1.25vw, 2.15rem);
-  --step-h3: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
+  --step-h2: clamp(1.625rem, 1.28rem + 1.35vw, 2.25rem);
+  --step-h3: clamp(1.2rem, 1.08rem + 0.5vw, 1.45rem);
   --step-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
 
   /*
@@ -196,6 +202,21 @@
   --measure-wide: 100%;
 
   --shell-pad: 18px;
+
+  /*
+   * The sticky masthead's reserved band. Every other sticky element on the site
+   * and every anchor's scroll margin is expressed against this one value, so a
+   * change to the plate cannot leave a sub-navigation parked underneath it. It
+   * is a deliberate slight overestimate of the rendered plate: erring high
+   * leaves a hairline of paper, erring low hides content.
+   */
+  --masthead-h: 108px;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --masthead-h: 124px;
+  }
 }
 
 /*
@@ -658,11 +679,11 @@ html[lang="ko"] .mica-lead {
 @media (min-width: 48rem) {
   .mica-task-index {
     position: sticky;
-    top: 0;
+    top: var(--masthead-h);
   }
 
   .mica-task-index ~ [id] {
-    scroll-margin-top: 132px;
+    scroll-margin-top: calc(var(--masthead-h) + 12px);
   }
 
   .mica-task-index ol {
@@ -867,7 +888,7 @@ html[lang="ko"] .mica-section-copy {
   margin-inline-start: 0.45em;
   color: var(--color-vermilion);
   font-family: var(--font-mono);
-  font-size: 0.72em;
+  font-size: max(0.72em, 10px);
   line-height: 1;
   transition: transform 160ms ease;
 }
@@ -922,6 +943,10 @@ html[lang="ko"] .mica-section-copy {
  * section folio — and the plate closes on a hard ink rule.
  */
 .mica-masthead {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  isolation: isolate;
   background: var(--color-paper);
   border-top: 3px solid var(--color-signal);
   border-bottom: 1px solid var(--color-ink);
@@ -932,14 +957,14 @@ html[lang="ko"] .mica-section-copy {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  min-height: 76px;
-  padding-block: 12px;
+  min-height: 56px;
+  padding-block: 4px;
 }
 
 @media (min-width: 48rem) {
   .mica-masthead-top {
-    min-height: 100px;
-    padding-block: 18px;
+    min-height: 76px;
+    padding-block: 10px;
   }
 }
 
@@ -1055,7 +1080,7 @@ html[lang="ko"] .mica-section-copy {
 }
 
 .mica-axis-glyph {
-  font-size: 0.9em;
+  font-size: max(0.9em, 10px);
   line-height: 1;
   margin-inline-end: 6px;
 }
@@ -1155,7 +1180,7 @@ html[lang="ko"] .mica-section-copy {
 
 .mica-leaderboard-nav {
   position: sticky;
-  top: 0;
+  top: var(--masthead-h);
   z-index: 8;
   display: grid;
   grid-template-columns: minmax(9rem, 1fr) 3fr;
@@ -1211,7 +1236,7 @@ html[lang="ko"] .mica-section-copy {
 #market-leaderboards,
 #category-leaderboards,
 #results {
-  scroll-margin-top: 54px;
+  scroll-margin-top: calc(var(--masthead-h) + 54px);
 }
 
 .mica-leaderboard-axes {
@@ -1935,7 +1960,7 @@ html[lang="ko"] .mica-notice-head {
   border: 0;
   align-items: center;
   justify-content: space-between;
-  min-height: 48px;
+  min-height: 44px;
   cursor: pointer;
   font-family: var(--font-mono);
   font-size: 12px;
@@ -2057,7 +2082,7 @@ html[lang="ko"] .mica-notice-head {
 /* --- Anchor navigation ----------------------------------------------- */
 
 [id] {
-  scroll-margin-top: 24px;
+  scroll-margin-top: calc(var(--masthead-h) + 24px);
 }
 
 .mica-toc {
@@ -2101,7 +2126,7 @@ html[lang="ko"] .mica-notice-head {
   margin-inline-end: 0.5em;
   color: var(--color-ink-soft);
   font-family: var(--font-mono);
-  font-size: 0.62em;
+  font-size: max(0.625em, 10px);
   font-weight: 400;
   letter-spacing: 0.04em;
   vertical-align: 0.22em;
@@ -2289,7 +2314,7 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
   margin-bottom: 8px;
   color: var(--color-signal);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: 0.1em;
@@ -2401,6 +2426,10 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
   body {
     background-image: none;
     print-color-adjust: economy;
+  }
+
+  .mica-masthead {
+    position: static;
   }
 
   .mica-invert,

@@ -40,10 +40,10 @@ describe("plain-language public copy", () => {
       expect(container.querySelector("h1")).toHaveTextContent(dict.site.tagline);
       expect(dict.site.secondary).toMatch(lang === "en" ? /world.s first/i : /세계 최초/);
       expect(dict.site.secondary).toContain(String(COUNTRIES.length));
-      expect(dict.site.secondary).toMatch(lang === "en" ? /public benchmark initiative/i : /공개 벤치마크 이니셔티브/);
-      expect(dict.site.secondary).toMatch(lang === "en" ? /multiple everyday consumer domains/i : /여러 일상 소비 영역/);
-      expect(dict.site.secondary).toMatch(lang === "en" ? /outcome-based end-to-end execution/i : /결과 기반 엔드투엔드 실행/);
-      expect(dict.site.secondary).not.toMatch(/initiative in preview|no system has been measured|no result has been published/i);
+      expect(dict.site.secondary).toMatch(lang === "en" ? /public benchmark/i : /공개 벤치마크/);
+      expect(dict.site.secondary).toMatch(lang === "en" ? /everyday consumer domains/i : /일상 소비 영역/);
+      expect(dict.site.secondary).toMatch(lang === "en" ? /end-to-end consumer-agent execution/i : /엔드투엔드 실행/);
+      expect(dict.site.secondary).not.toMatch(/initiative|이니셔티브|initiative in preview|no system has been measured|no result has been published/i);
       unmount();
     }
   });

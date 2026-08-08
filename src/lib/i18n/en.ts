@@ -49,12 +49,12 @@ export const en = {
     longName: "Multinational Index of Consumer Agents",
     tagline: "The consumer-agent benchmark",
     secondary:
-      "The world’s first public benchmark initiative for outcome-based end-to-end execution across 6 localized markets and multiple everyday consumer domains.",
+      "The world’s first public benchmark for end-to-end consumer-agent execution across 6 localized markets and everyday consumer domains.",
     definition:
       "MICA measures whether a versioned consumer-agent system can finish an ordinary errand in the market where the consumer lives: local channels, identity checks, payment rails and app-only flows. Each validated task earns one final score, and raw accuracy, speed and cost stay published beside it.",
-    edition: "Preview edition 0.1",
+    edition: "Preview 0.1",
     demoNotice:
-      "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
+      "Preview data for interface development. No verified results are published.",
   },
 
   nav: {
@@ -89,13 +89,13 @@ export const en = {
     previewLabel: "Preview data",
     detailLabel: "Data status detail",
     defaultDetail:
-      "Every figure below is generated for interface development. It carries no evidentiary weight and no system on this page has been ranked by MICA.",
+      "The figures below preview the interface. MICA has not ranked any system.",
   },
 
   coverage: {
     headline: "10 evaluation families · 0 published result families",
     detail:
-      "MICA's evaluation taxonomy defines ten task families. None of them carries a published result: no system has been measured and verified yet. Every family below is a definition of what will be measured, not a report of what was. An absent result is stated as absent and is never shown as a zero.",
+      "MICA defines ten task families. Verified results exist for none of them. The entries below define what MICA measures; missing results remain absent rather than appearing as zero.",
     evaluationFamiliesTerm: "Evaluation families",
     publishedFamiliesTerm: "Published result families",
     measuredBadge: "Published results",
@@ -178,12 +178,12 @@ export const en = {
     stackEyebrow: "The unit of measurement is the system",
     bandEyebrow: `${COUNTRIES.length} market editions`,
     disclosureDetail:
-      "MICA is under construction. The interface below is complete; the index behind it is empty. No verified system results have been published, so no figure on this site describes the performance of any product.",
+      "The interface is ready; the index is empty. MICA has published no verified system results.",
     publicationStatus:
-      "The index is not published yet: MICA has verified no system result, so nothing on this page ranks or scores a product.",
+      "MICA has published no system scores or rankings.",
     noResultsHeadline: "No verified system results have been published yet.",
     noResultsDetail:
-      "What exists today is the apparatus: a ten-family task taxonomy still in draft, a stated measurement method, a publication gate with its thresholds unset, and an evidence model in which every future figure resolves to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
+      "MICA now provides the task taxonomy, measurement method, publication gate and evidence model. A result appears only after an independent rerun clears the gate.",
     lifecycleLabel: "Catalogue and publication status",
     lifecycleCandidates: "Provisional candidate tasks",
     lifecycleCalibrationPending: "Of which calibration-pending contracts",
@@ -192,7 +192,7 @@ export const en = {
     positionEyebrow: "Why MICA exists",
     positionTitle: "What existing benchmarks do not combine",
     positionIntro:
-      "WebArena, WebVoyager, WebShop, AndroidWorld, AppWorld and τ-bench already measure end-state task completion, and MICA builds on that work rather than disputing it. What none of them combines is the narrower conjunction MICA scopes: an assembled consumer-agent system, an ordinary consumer errand, and a live, localized market with its own channels, identity checks and payment rails. MICA has measured nothing yet.",
+      "WebArena, WebVoyager, WebShop, AndroidWorld, AppWorld and τ-bench measure end-state task completion. MICA extends that work to assembled consumer-agent systems completing ordinary errands in localized markets with their own channels, identity checks and payment rails.",
     positionItems: [
       {
         term: "The missing unit",
@@ -218,7 +218,7 @@ export const en = {
     readinessEyebrow: "What is built, and what is not",
     readinessTitle: "Where the index stands",
     readinessIntro:
-      "The state of each part is stated plainly rather than implied by an empty table. Nothing below is a measurement.",
+      "Each part reports its current publication state. These are build states, not measurements.",
     readinessItems: [
       {
         term: "Task taxonomy",
