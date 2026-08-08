@@ -17,6 +17,7 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
+    "qa:methodology": "playwright test e2e/methodology-hierarchy.spec.ts --forbid-only --project=desktop-chromium --project=tablet-chromium --project=mobile-chromium",
     "smoke:production": "node scripts/smoke-production.mjs",
     "smoke:preview": "MICA_EXPECT_NOINDEX=1 node scripts/smoke-production.mjs"
   },
