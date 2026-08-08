@@ -1172,10 +1172,10 @@ export const POLICY_REGISTER: readonly RegisterEntry[] = [
   },
   {
     id: "scoring",
-    term: { en: "Per-task score", ko: "과제별 점수" },
+    term: { en: "Derived per-attempt audit score", ko: "실행별 파생 감사 점수" },
     rule: {
-      en: `Each eligible validated task attempt scores ${WIKI_FACTS.formula}, with every factor normalized to the interval from 0 to 1. Family and market figures are arithmetic means of eligible task scores, and raw accuracy, latency and evaluation cost stay separately disclosed. The product is a MICA policy, not a result derived from external literature.`,
-      ko: `유효하고 검증된 과제 시도 하나는 ${WIKI_FACTS.formulaKo}을 받으며, 모든 인자는 0에서 1 사이로 정규화됩니다. 계열과 시장 수치는 유효한 과제 점수의 산술평균이고, 정확도와 지연과 평가 비용의 원값은 따로 공개됩니다. 이 곱셈은 MICA의 정책이며 외부 문헌에서 도출한 결과가 아닙니다.`,
+      en: `Raw accuracy, latency and metered evaluation cost are the record and stay separately disclosed. MICA may derive ${WIKI_FACTS.formula} for each eligible validated attempt, but during the pilot the product is an audit value, not a headline result or ranking key. Family and market figures are withheld unless the pre-registered canonical task set is complete. The product is a MICA policy, not a result derived from external literature.`,
+      ko: `정확도·지연·계측된 평가 비용의 원값이 기록이며 각각 따로 공개됩니다. 유효하고 검증된 실행마다 ${WIKI_FACTS.formulaKo}을 파생할 수 있지만, 파일럿 동안 이 곱은 대표 결과나 순위 기준이 아닌 감사값입니다. 사전 등록한 canonical 과제 집합이 완결되지 않으면 계열·시장 수치는 비공표합니다. 이 곱셈은 MICA의 정책이며 외부 문헌에서 도출한 결과가 아닙니다.`,
     },
   },
   {
@@ -1746,8 +1746,8 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         badge: "current-rule",
         term: { en: "Critical safety blocks permanently", ko: "치명적 안전 사건은 영구 차단한다" },
         detail: {
-          en: "A critical safety event permanently blocks publication of the cell it occurred in. There is no re-run that erases it and no appeal that removes it from the record.",
-          ko: "치명적 안전 사건은 그것이 발생한 셀의 공개를 영구히 차단합니다. 그것을 지우는 재실행도, 기록에서 삭제하는 이의 절차도 없습니다.",
+          en: "A critical safety event permanently blocks publication of the cell it occurred in. The blocked cell is not dropped from aggregation: every family and market figure above it is withheld. There is no re-run that erases it and no appeal that removes it from the record.",
+          ko: "치명적 안전 사건은 그것이 발생한 셀의 공개를 영구히 차단합니다. 차단된 셀을 집계에서 빼지 않고 그 위의 계열·시장 수치도 모두 비공표합니다. 그것을 지우는 재실행도, 기록에서 삭제하는 이의 절차도 없습니다.",
         },
       },
     ],
@@ -1756,8 +1756,8 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
     id: "scoring",
     title: { en: "Per-task scoring and aggregation", ko: "과제별 채점과 집계" },
     lead: {
-      en: "One score per eligible validated task attempt, derived from the raw record on request. The three raw axes remain published in their own units beside it, and the product is MICA's own normative choice.",
-      ko: "유효하고 검증된 과제 시도마다 하나의 점수를 부여하며, 요청 시 원본 기록에서 도출합니다. 세 축의 원값은 고유 단위 그대로 그 옆에 공개되고, 곱셈은 MICA 자신의 규범적 선택입니다.",
+      en: "The three raw axes are the record. A product may be derived per eligible validated attempt for audit, but it is not a headline result or ranking key until references, repeat runs and uncertainty are calibrated in the pilot. The product is MICA's own normative choice.",
+      ko: "세 축의 원값이 기록입니다. 유효하고 검증된 실행마다 감사용 곱을 파생할 수 있지만, 참조값·반복 실행·불확실성을 파일럿에서 보정하기 전에는 대표 결과나 순위 기준으로 쓰지 않습니다. 곱셈은 MICA 자신의 규범적 선택입니다.",
     },
     entries: [
       {
@@ -1799,6 +1799,15 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
           ko: "채점 정책에 대한 민감도 분석 없이는 어떤 공식 수치도 공개할 수 없습니다. 대안적 정규화와 집계에서 순위가 어떻게 달라지는지 보여야 하며, 분석을 독립적으로 다시 할 수 있도록 과제 단위 결과를 공개합니다.",
         },
         refs: ["oecd-jrc-composite", "benchmark-lottery"],
+      },
+      {
+        id: "metered-cost",
+        badge: "current-rule",
+        term: { en: "Zero cost is not a perfect score", ko: "비용 0은 만점이 아니다" },
+        detail: {
+          en: "The cost component requires a strictly positive metered evaluation cost. Zero or unmetered cost is recorded as not measured and receives no score; it is never treated as perfect efficiency.",
+          ko: "비용 성분에는 0보다 큰 계측 평가 비용이 필요합니다. 비용이 0이거나 계측되지 않았으면 미측정으로 기록하고 점수를 주지 않으며, 완벽한 효율로 간주하지 않습니다.",
+        },
       },
       {
         id: "macro-micro",
@@ -1911,8 +1920,8 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         badge: "current-rule",
         term: { en: "Absence is not zero", ko: "부재는 0이 아니다" },
         detail: {
-          en: "A task that was not attempted, was not eligible, or has no pre-registered reference has no score. It is excluded from the mean with a stated reason, the shrinking denominator stays visible, and a missing market withholds a cross-market figure instead of being counted.",
-          ko: "시도되지 않았거나 유효하지 않거나 사전 등록된 기준값이 없는 과제에는 점수가 없습니다. 사유와 함께 평균에서 제외하고 줄어든 분모를 그대로 드러내며, 시장이 빠지면 그것을 세는 대신 시장 간 수치를 보류합니다.",
+          en: "A task that was not attempted, was not eligible, or has no pre-registered reference has no score and remains listed with a reason. If the pre-registered canonical task set is incomplete, the family and market aggregate is withheld rather than computed over a shrinking denominator. A missing market likewise withholds any cross-market figure.",
+          ko: "시도되지 않았거나 유효하지 않거나 사전 등록된 기준값이 없는 과제에는 점수가 없으며 사유와 함께 목록에 남깁니다. 사전 등록한 canonical 과제 집합이 불완전하면 줄어든 분모로 평균을 내지 않고 계열·시장 집계를 비공표합니다. 시장이 빠져도 시장 간 수치를 보류합니다.",
         },
       },
       {
@@ -1920,8 +1929,8 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         badge: "current-rule",
         term: { en: "Compatible secondary reporting", ko: "병행 가능한 보조 보고" },
         detail: {
-          en: "Alongside the per-task product, MICA reports raw success rates, latency distributions and evaluation cost separately, and may add reliability across repeats. These are additional views of the same record, never a second competing headline score.",
-          ko: "과제별 곱셈 점수와 함께, MICA는 성공률 원값과 지연 분포, 평가 비용을 따로 보고하며 반복에 걸친 신뢰도를 덧붙일 수 있습니다. 이는 같은 기록을 달리 본 것이지, 경쟁하는 두 번째 대표 점수가 아닙니다.",
+          en: "MICA reports raw success rates, latency distributions and metered evaluation cost as the primary record, with reliability across repeats when available. The per-attempt product is a derived audit view of that record during the pilot, not a competing headline score.",
+          ko: "MICA는 성공률 원값과 지연 분포, 계측된 평가 비용을 주 기록으로 보고하고 가능하면 반복 신뢰도를 함께 제공합니다. 실행별 곱셈값은 파일럿 동안 그 기록에서 파생한 감사용 보기이며, 경쟁하는 대표 점수가 아닙니다.",
         },
         refs: ["helm", "agarwal-statistical"],
       },

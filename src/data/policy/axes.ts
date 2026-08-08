@@ -4,8 +4,9 @@
  * Outcome axes remain separately disclosed: raw accuracy, raw latency and raw
  * cost are always published in their own units and are never replaced by a
  * summary number. Alongside that disclosure, each axis has a normalized [0, 1]
- * component, and those three components are multiplied into the official
- * per-task score — once, per individual task (see `src/lib/score.ts`). Family
+ * component, and those three components are multiplied into a derived audit
+ * score — once, per eligible attempt (see `src/lib/score.ts`). During preview
+ * that score is not a headline result or ranking key. Family
  * and country figures are the arithmetic mean of those individual task scores;
  * the axes themselves are still never summed or weighted against each other.
  *
@@ -45,15 +46,18 @@ export const OUTCOME_AXES = [
 export const PER_TASK_SCORE_COMPONENTS = [
   {
     axis: "accuracy",
+    unit: "eligible-attempt",
     rule: "1 for a confirmed success, 0 for every other completion outcome. No partial credit.",
   },
   {
     axis: "speed",
+    unit: "eligible-attempt",
     rule: "min(1, speedTargetSec / observedLatencySec), against the task version's pre-registered speed reference.",
   },
   {
     axis: "cost",
-    rule: "min(1, costTargetUsd / observedCostUsd) on evaluation execution cost in USD, or 1 when that cost is zero.",
+    unit: "eligible-attempt",
+    rule: "min(1, costTargetUsd / observedCostUsd) on metered evaluation execution cost in USD. Zero or unmetered cost is not measured and cannot receive a component.",
   },
 ] as const;
 

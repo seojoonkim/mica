@@ -102,16 +102,17 @@ The hardest definitional problem in the method: deciding when an errand is actua
 - **[Current rule] A successful call is not proof.** For asynchronous or divergent-state journeys, an accepted API or tool response does not establish the final state. The run must produce an authoritative receipt, a post-action readback, or a handoff record. (see: api-bank, gaia, tau-bench)
 - **[Current rule] Non-idempotent retries are guarded.** Where a repeat could create a second order, a second booking or a second charge, the task contract requires an idempotency record. A duplicate created by a retry is a failure of the attempt, not a second chance at it.
 - **[Current rule] Five diagnostic outcomes, one binary factor.** Every attempt is classified as confirmed success, unverified completion, partial progress, recoverable failure or critical failure. The classification explains the outcome; the accuracy factor still admits no partial credit.
-- **[Current rule] Critical safety blocks permanently.** A critical safety event permanently blocks publication of the cell it occurred in. There is no re-run that erases it and no appeal that removes it from the record.
+- **[Current rule] Critical safety blocks permanently.** A critical safety event permanently blocks publication of the cell it occurred in. The blocked cell is not dropped from aggregation: every family and market figure above it is withheld. There is no re-run that erases it and no appeal that removes it from the record.
 
 ## Per-task scoring and aggregation
 
-One score per eligible validated task attempt, derived from the raw record on request. The three raw axes remain published in their own units beside it, and the product is MICA's own normative choice.
+The three raw axes are the record. A product may be derived per eligible validated attempt for audit, but it is not a headline result or ranking key until references, repeat runs and uncertainty are calibrated in the pilot. The product is MICA's own normative choice.
 
 - **[MICA policy] Zero veto.** Because accuracy is binary and the form is multiplicative, any outcome other than a confirmed success sends the whole product to zero. Speed and cost cannot compensate for not finishing, and that non-compensatory behaviour is deliberate. (see: oecd-jrc-composite)
 - **[MICA policy] Scaling assumptions.** Multiplying normalized components assumes the ratio scales are commensurable and that a proportional loss on one factor is worth the same as the equivalent loss on another. MICA has not established that this holds and does not present the product as a formal utility. (see: keeney-raiffa, fleming-wallace)
 - **[MICA policy] No external endorsement.** No cited work derives or endorses this multiplication. The composite-indicator and multi-objective literature is cited here to state the conditions MICA has not met, not to lend the formula authority. (see: oecd-jrc-composite, keeney-raiffa, fleming-wallace)
 - **[Current rule] Sensitivity and audit requirement.** No official figure may be published without a sensitivity analysis over the scoring policy, showing how a ranking moves under alternative normalizations and aggregations, and task-level results are published so the analysis can be redone independently. (see: oecd-jrc-composite, benchmark-lottery)
+- **[Current rule] Zero cost is not a perfect score.** The cost component requires a strictly positive metered evaluation cost. Zero or unmetered cost is recorded as not measured and receives no score; it is never treated as perfect efficiency.
 - **[External evidence] Macro and micro weighting.** Averaging over tasks and averaging over markets are different weightings with different meanings. MICA applies the distinction explicitly at the family, market and cross-market level rather than letting a denominator decide it silently. (see: sokolova-lapalme)
 
 ## Model routing, memory and tool evidence
@@ -131,8 +132,8 @@ How a result would be produced, how confident anyone could be in it, and what MI
 - **[Current rule] No live integration exists.** There is no vendor integration, no live account and no measured run on any track. The track vocabulary describes what a future run would be, not what has happened.
 - **[External evidence] Repetition before comparison.** Single-run point estimates mislead, especially on small cells near 0 or 1. Repeated attempts, interval estimates and reliability across repeats are required before any comparison between systems is published. (see: agarwal-statistical, tau-bench)
 - **[Open question] Uncertainty for binary hierarchical outcomes.** MICA's outcomes are binary and nested inside task, family and market. Which interval and resampling procedure is correct for a product score over that structure is not settled, and the choice will be published with its justification before any interval appears. (see: agarwal-statistical)
-- **[Current rule] Absence is not zero.** A task that was not attempted, was not eligible, or has no pre-registered reference has no score. It is excluded from the mean with a stated reason, the shrinking denominator stays visible, and a missing market withholds a cross-market figure instead of being counted.
-- **[Current rule] Compatible secondary reporting.** Alongside the per-task product, MICA reports raw success rates, latency distributions and evaluation cost separately, and may add reliability across repeats. These are additional views of the same record, never a second competing headline score. (see: helm, agarwal-statistical)
+- **[Current rule] Absence is not zero.** A task that was not attempted, was not eligible, or has no pre-registered reference has no score and remains listed with a reason. If the pre-registered canonical task set is incomplete, the family and market aggregate is withheld rather than computed over a shrinking denominator. A missing market likewise withholds any cross-market figure.
+- **[Current rule] Compatible secondary reporting.** MICA reports raw success rates, latency distributions and metered evaluation cost as the primary record, with reliability across repeats when available. The per-attempt product is a derived audit view of that record during the pilot, not a competing headline score. (see: helm, agarwal-statistical)
 
 ## Evidence lineage, reproducibility and privacy
 
@@ -193,7 +194,7 @@ The current statements MICA is prepared to be held to. Every line is present ten
 - **Project definition.** MICA, the Multinational Index of Consumer Agents, is a benchmark for complete versioned consumer-agent systems. Its canonical public domain is micabench.com.
 - **Market scope.** The index covers 6 markets: KR, JP, SG, TW, AE, TH. This is the scope of the index, and no other market is in it.
 - **Task catalogue.** 10 task families hold 100 canonical definitions. They are provisional public-set candidates: not executable validated scenarios, not measured results, and not a holdout.
-- **Per-task score.** Each eligible validated task attempt scores 100 × accuracy × speed × cost, with every factor normalized to the interval from 0 to 1. Family and market figures are arithmetic means of eligible task scores, and raw accuracy, latency and evaluation cost stay separately disclosed. The product is a MICA policy, not a result derived from external literature.
+- **Derived per-attempt audit score.** Raw accuracy, latency and metered evaluation cost are the record and stay separately disclosed. MICA may derive 100 × accuracy × speed × cost for each eligible validated attempt, but during the pilot the product is an audit value, not a headline result or ranking key. Family and market figures are withheld unless the pre-registered canonical task set is complete. The product is a MICA policy, not a result derived from external literature.
 - **Public candidates and holdout.** The public candidate set and the private holdout set are separate, and separation is enforced at export. Creation, exposure, version and provenance are recorded per item.
 - **Market integration profiles.** Each of the 6 market editions declares representative surfaces, authorization boundaries, completion semantics, recovery conditions and evidence requirements. These declare planned coverage, never measured coverage.
 - **Neutral governance intent.** MICA must be neutral. vooy may act as originator and as a challenger system, and holds no privileged position as benchmark owner in the normative public design. Operator, decision rights, funding, paid task-author relationships, vendor relationships and conflicts are disclosed. Structural independence is an open requirement, not a solved claim.
@@ -397,8 +398,8 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 
 - **Minimum eligible runs.** Not set. MICA has not agreed a minimum sample size, so no cell can be judged against one. The gate refuses rather than guessing a number.
 - **Minimum coverage.** Not set. Until MICA agrees what share of a market's canonical tasks must be attempted, coverage cannot be a pass condition.
-- **Thresholds.** Publication thresholds are not set for this edition: MICA has not yet agreed a minimum sample size or task coverage, so no result can be marked publication eligible.
-- **Critical safety events.** Any critical safety event permanently blocks publication of the cell. There is no appeal and no re-run to erase it.
+- **Thresholds.** Publication thresholds are not set for this edition: MICA has not yet agreed runs per task, a minimum cell sample size, task coverage, or a maximum ineligible discard rate, so no result can be marked publication eligible.
+- **Critical safety events.** Any critical safety event permanently blocks publication of the cell. The blocked cell is not removed from its aggregate: family and country figures above it are withheld. There is no re-run to erase the event.
 - **Verification.** Independent rerun only. Provisional and self-reported results are displayed for transparency and never published as official.
 - **Data status.** Demo and preview data can never be publication eligible. This is enforced in the schema layer, which throws at build time if a demo record claims otherwise.
 
@@ -408,13 +409,13 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 - **Speed · wall-clock seconds, successful eligible runs only.** How long a successful run took end to end. Failed runs are excluded so that fast failure never reads as fast success.
 - **Cost · currency per successful eligible run.** Total eligible attempt cost divided by successful eligible runs. Cost of failure is charged to the successes it took to get there.
 
-### One final score per task, three axes still disclosed
+### Three raw axes first, one derived audit value
 
 - **Per-task final score.** 100 × accuracy × speed × cost Each factor is a normalized component between 0 and 1, not a raw second and not a raw dollar. The product is therefore bounded by 0 and 100.
 - **Accuracy component.** 1 for a confirmed success, 0 for every other outcome. No partial credit, so a faster or cheaper failure still scores zero: the product runs through that zero.
 - **Speed component.** min(1, speed reference ÷ observed seconds). The reference is pre-registered per executable validated task version and is never re-derived from the cohort being scored, so a slow field cannot make a slow system look fast. Beating it is capped at 1.
-- **Cost component.** min(1, cost reference ÷ observed evaluation cost in USD), or 1 when the observed cost is zero. Nothing can score above 1.
-- **Family and country scores.** The arithmetic mean of the eligible individual task scores in that family or market. There is no geometric mean, and no weighting is applied at the aggregate level.
+- **Cost component.** min(1, cost reference ÷ metered evaluation cost in USD). Zero or unmetered cost is recorded as not measured rather than awarded a perfect component.
+- **Family and country scores.** The arithmetic mean of eligible attempt-derived task scores in that family or market. It is withheld unless the pre-registered canonical task set is complete. Exclusions remain listed rather than silently shrinking the denominator.
 - **Cross-market, cross-category overall.** Not defined. A single overall figure would need a weighting across markets and categories that MICA has not agreed, so none is published and none is implied by the leaderboard structure.
 - **Unscored tasks.** A task that was not attempted, was not eligible, or has no pre-registered reference has no score at all. It is excluded from the mean with a stated reason and is never counted as a zero.
 - **Raw disclosure.** The raw success outcome, raw wall-clock latency and raw evaluation cost stay published in their own units beside every score, and remain auditable independently of it.
@@ -511,7 +512,9 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 - **3.** Cells are small. A difference inside the 95% interval is not a difference.
 - **4.** Cost depends on the operator's pricing on the snapshot date and moves independently of the system's behaviour.
 - **5.** Coverage is uneven across markets, and an uncovered market is reported as missing rather than estimated.
-- **6.** None of the ten evaluation families carries a published result yet, so nothing on this site describes how any system behaves.
+- **6.** Speed and cost references are market-specific, so country scores compare distance to a local reference rather than absolute performance across countries.
+- **7.** The derived task score has no uncertainty interval yet and is not used for a headline ranking during the pilot.
+- **8.** None of the ten evaluation families carries a published result yet, so nothing on this site describes how any system behaves.
 
 ## 현재 운영 계약
 
@@ -519,8 +522,8 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 
 - **최소 유효 실행 수.** 미정. MICA는 최소 표본 크기를 합의하지 않았으므로 어떤 셀도 그 기준으로 판단할 수 없습니다. 관문은 숫자를 짐작하는 대신 거부합니다.
 - **최소 커버리지.** 미정. 한 시장의 표준 과제 중 몇 퍼센트를 시도해야 하는지 MICA가 합의하기 전까지, 커버리지는 통과 조건이 될 수 없습니다.
-- **임계값.** 이 에디션에는 공개 기준값이 설정되어 있지 않습니다. MICA가 최소 표본 크기나 과제 커버리지를 아직 합의하지 않았으므로, 어떤 결과도 공개 대상으로 표시될 수 없습니다.
-- **중대 안전 사건.** 중대 안전 사건이 하나라도 있으면 해당 셀의 공개를 영구히 차단합니다. 이의 제기도, 이를 지우기 위한 재실행도 없습니다.
+- **임계값.** 이 에디션에는 공개 기준값이 설정되어 있지 않습니다. MICA가 과제별 실행 횟수, 최소 셀 표본 크기, 과제 커버리지, 최대 부적격 제외율을 아직 합의하지 않았으므로, 어떤 결과도 공개 대상으로 표시될 수 없습니다.
+- **중대 안전 사건.** 중대 안전 사건이 하나라도 있으면 해당 셀의 공개를 영구히 차단합니다. 차단된 셀을 상위 집계에서 제외하지 않고 그 위의 계열·국가 수치 자체를 비공표합니다. 재실행으로 사건을 지우지 않습니다.
 - **검증.** 독립 재실행만 인정합니다. 잠정 결과와 자체 보고 결과는 투명성을 위해 표시되며 공식으로 공개되지 않습니다.
 - **데이터 상태.** 데모와 프리뷰 데이터는 어떤 경우에도 공개 대상이 될 수 없습니다. 이는 스키마 계층에서 강제되며, 데모 레코드가 그렇지 않다고 주장하면 빌드 시점에 오류를 냅니다.
 
@@ -530,13 +533,13 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 - **속도 · 실제 경과 초, 성공한 유효 실행만.** 성공한 실행이 처음부터 끝까지 걸린 시간. 빠른 실패가 빠른 성공으로 읽히지 않도록 실패한 실행은 제외합니다.
 - **비용 · 성공한 유효 실행당 통화 금액.** 전체 유효 시도 비용을 성공한 유효 실행 수로 나눈 값. 실패의 비용은 그 실패를 거쳐 도달한 성공에 부과됩니다.
 
-### 과제마다 최종 점수 하나, 세 축은 그대로 공개
+### 원값 세 축을 먼저, 파생 감사값 하나를 다음에
 
 - **과제별 최종 점수.** 100 × 정확도 × 속도 × 비용 각 인자는 원래의 초나 달러가 아니라 0과 1 사이로 정규화된 성분이므로, 곱한 값은 0에서 100 사이에 놓입니다.
 - **정확도 성분.** 확인된 성공이면 1, 그 밖의 모든 결과는 0입니다. 부분 점수가 없으므로 더 빠르거나 더 싼 실패도 영점입니다. 곱셈이 그 영을 지나가기 때문입니다.
 - **속도 성분.** min(1, 속도 기준값 ÷ 관측 초)입니다. 기준값은 실행 가능한 검증 과제 버전마다 사전에 등록하며 채점 대상 집단에서 다시 도출하지 않습니다. 그래서 느린 집단이 느린 시스템을 빨라 보이게 만들 수 없습니다. 기준값을 앞질러도 1에서 멈춥니다.
-- **비용 성분.** min(1, 비용 기준값 ÷ 관측 평가 실행 비용(USD))이며, 관측 비용이 영이면 1입니다. 어떤 경우에도 1을 넘지 않습니다.
-- **계열 점수와 국가 점수.** 해당 계열 또는 시장에서 유효한 개별 과제 점수들의 산술평균입니다. 기하평균을 쓰지 않고, 집계 단계에서 가중치도 적용하지 않습니다.
+- **비용 성분.** min(1, 비용 기준값 ÷ 계측된 평가 실행 비용(USD))입니다. 비용이 영이거나 계측되지 않았으면 만점을 주지 않고 미측정으로 기록합니다.
+- **계열 점수와 국가 점수.** 해당 계열 또는 시장의 적격 실행에서 파생한 과제 점수의 산술평균입니다. 사전 등록한 canonical 과제 집합이 완결되지 않으면 비공표합니다. 제외 항목은 분모에서 조용히 사라지지 않고 사유와 함께 남깁니다.
 - **시장과 항목을 가로지르는 종합.** 정의되어 있지 않습니다. 단일 종합 수치를 내려면 시장과 항목에 걸친 가중치가 필요한데 MICA는 그것을 합의하지 않았습니다. 그래서 공개하지 않으며, 리더보드 구조가 그런 수치를 암시하지도 않습니다.
 - **점수가 없는 과제.** 시도되지 않았거나 유효하지 않거나 사전 등록된 기준값이 없는 과제에는 점수 자체가 없습니다. 사유와 함께 평균에서 제외하며 0으로 세지 않습니다.
 - **원값 공개.** 성공 여부 원값, 실제 경과 시간 원값, 평가 실행 비용 원값은 모든 점수 옆에 고유 단위 그대로 공개되며, 점수와 무관하게 검증할 수 있습니다.
@@ -633,7 +636,9 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 - **3.** 셀이 작습니다. 95% 신뢰구간 안쪽의 차이는 차이가 아닙니다.
 - **4.** 비용은 스냅샷 날짜의 운영 주체 가격 정책에 좌우되며, 시스템의 행동과 무관하게 움직입니다.
 - **5.** 커버리지는 시장마다 고르지 않으며, 커버되지 않은 시장은 추정하지 않고 없음으로 보고합니다.
-- **6.** 10개 평가 계열 중 어디에도 아직 게시된 결과가 없으므로, 이 사이트의 어떤 내용도 시스템의 실제 동작을 설명하지 않습니다.
+- **6.** 속도·비용 참조값은 시장마다 다르므로 국가 점수는 국가 간 절대 성능이 아니라 현지 기준과의 거리를 비교합니다.
+- **7.** 파생 과제 점수에는 아직 불확실성 구간이 없으며, 파일럿 동안 대표 순위에 사용하지 않습니다.
+- **8.** 10개 평가 계열 중 어디에도 아직 게시된 결과가 없으므로, 이 사이트의 어떤 내용도 시스템의 실제 동작을 설명하지 않습니다.
 
 ## 현재 정책 등록부 (Korean policy register)
 
@@ -642,7 +647,7 @@ MICA가 책임지겠다고 밝히는 현재의 진술입니다. 모든 줄이 �
 - **프로젝트 정의.** MICA, 곧 다국적 소비자 에이전트 지수는 버전이 고정된 완성 상태의 소비자 에이전트 시스템을 평가하는 벤치마크입니다. 표준 공개 도메인은 micabench.com입니다.
 - **시장 범위.** 지수가 다루는 시장은 6개입니다. KR, JP, SG, TW, AE, TH이며, 이것이 지수의 범위이고 그 밖의 시장은 포함되지 않습니다.
 - **과제 목록.** 10개 과제 계열에 100개의 표준 정의가 있습니다. 모두 공개 세트의 잠정 후보이며, 실행 가능한 검증 시나리오도, 측정된 결과도, 홀드아웃도 아닙니다.
-- **과제별 점수.** 유효하고 검증된 과제 시도 하나는 100 × 정확도 × 속도 × 비용을 받으며, 모든 인자는 0에서 1 사이로 정규화됩니다. 계열과 시장 수치는 유효한 과제 점수의 산술평균이고, 정확도와 지연과 평가 비용의 원값은 따로 공개됩니다. 이 곱셈은 MICA의 정책이며 외부 문헌에서 도출한 결과가 아닙니다.
+- **실행별 파생 감사 점수.** 정확도·지연·계측된 평가 비용의 원값이 기록이며 각각 따로 공개됩니다. 유효하고 검증된 실행마다 100 × 정확도 × 속도 × 비용을 파생할 수 있지만, 파일럿 동안 이 곱은 대표 결과나 순위 기준이 아닌 감사값입니다. 사전 등록한 canonical 과제 집합이 완결되지 않으면 계열·시장 수치는 비공표합니다. 이 곱셈은 MICA의 정책이며 외부 문헌에서 도출한 결과가 아닙니다.
 - **공개 후보와 홀드아웃.** 공개 후보 세트와 비공개 홀드아웃 세트는 분리되어 있으며, 분리는 내보내기 단계에서 강제됩니다. 항목마다 생성, 노출, 버전, 출처를 기록합니다.
 - **시장 연동 프로필.** 6개 시장 에디션은 각각 대표 표면, 승인 경계, 완료 의미, 복구 조건, 근거 요건을 선언합니다. 이는 계획된 커버리지를 선언할 뿐 측정된 커버리지를 뜻하지 않습니다.
 - **중립 거버넌스 의도.** MICA는 중립이어야 합니다. vooy는 발의자이자 도전 시스템일 수 있으나, 규범적 공개 설계에서 벤치마크 소유자로서의 특권적 지위를 갖지 않습니다. 운영 주체, 결정 권한, 자금, 유상 과제 저작 관계, 공급자 관계, 이해충돌을 공개합니다. 구조적 독립성은 해결된 주장이 아니라 미해결 요건입니다.

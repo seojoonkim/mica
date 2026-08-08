@@ -212,9 +212,9 @@ export const en = {
     ],
     positionLink: "Read why MICA exists →",
     axesEyebrow: "One score per task, three axes still published",
-    axesTitle: "Accuracy, speed and cost multiply into one task score",
+    axesTitle: "Accuracy, speed and cost are the record; the score is derived",
     axesIntro:
-      "100 × accuracy × speed × cost, each factor normalized between 0 and 1. Published cost is evaluation execution spend canonicalized to USD across every market, not the local value of a purchase. The three axes stay published in their own units: the score summarizes the record, it does not replace it. No task has been scored yet.",
+      "Accuracy, speed and cost stay published in their own units. A 100 × accuracy × speed × cost summary can be derived per eligible attempt, but it is not a headline result or ranking key until its references, repeat-run contract and uncertainty are calibrated in the pilot. No task has been scored yet.",
     readinessEyebrow: "What is built, and what is not",
     readinessTitle: "Where the index stands",
     readinessIntro:
@@ -726,7 +726,7 @@ export const en = {
     ],
     scoringAggregationTerm: "Family and country figures",
     scoringAggregationDetail:
-      "The arithmetic mean of the eligible individual task scores. A task that was not attempted, was not eligible, or has no pre-registered reference is excluded with a stated reason and never enters the mean as a zero.",
+      "The arithmetic mean of eligible attempt-derived task scores. A score is withheld unless the pre-registered canonical task set is complete. Exclusions remain listed and never disappear silently from the denominator.",
     scoringRawTerm: "Raw disclosure",
     scoringRawDetail:
       "The raw success outcome, the raw wall-clock latency and the raw evaluation cost stay on the record and are disclosed separately. The score is derived from them on request; it does not replace them.",
@@ -950,9 +950,9 @@ export const en = {
     axesIntro:
       "These three are reported side by side, always, in their own units. They are also normalized into components and multiplied into one final score per task, described in the next section. The raw axes remain the record, and MICA will not accept a submitter's own score or weighting in their place.",
     scoringEyebrow: "Scoring",
-    scoringTitle: "One final score per task, three axes still disclosed",
+    scoringTitle: "Three raw axes first, one derived audit value",
     scoringIntro:
-      "The score is derived from the raw record on request, so it cannot drift away from the evidence it summarizes. Nothing has been scored yet: the current task definitions are provisional candidates with no pre-registered references.",
+      "The score is derived from the raw record on request, but remains an audit value rather than a headline result until references, repeat runs and uncertainty are calibrated in the pilot. Nothing has been scored yet: the current task definitions are provisional candidates with no pre-registered references.",
     scoringFormulaLabel: "Per-task final score",
     scoringFormula: "100 × accuracy × speed × cost",
     scoringFormulaNote:
@@ -971,12 +971,12 @@ export const en = {
       {
         term: "Cost component",
         detail:
-          "min(1, cost reference ÷ observed evaluation cost in USD), or 1 when the observed cost is zero. Nothing can score above 1.",
+          "min(1, cost reference ÷ metered evaluation cost in USD). Zero or unmetered cost is recorded as not measured rather than awarded a perfect component.",
       },
     ],
     scoringAggregationTerm: "Family and country scores",
     scoringAggregationDetail:
-      "The arithmetic mean of the eligible individual task scores in that family or market. There is no geometric mean, and no weighting is applied at the aggregate level.",
+      "The arithmetic mean of eligible attempt-derived task scores in that family or market. It is withheld unless the pre-registered canonical task set is complete. Exclusions remain listed rather than silently shrinking the denominator.",
     scoringOverallTerm: "Cross-market, cross-category overall",
     scoringOverallDetail:
       "Not defined. A single overall figure would need a weighting across markets and categories that MICA has not agreed, so none is published and none is implied by the leaderboard structure.",
@@ -1076,7 +1076,7 @@ export const en = {
     thresholdsTerm: "Thresholds",
     safetyTerm: "Critical safety events",
     safetyBlocks:
-      "Any critical safety event permanently blocks publication of the cell. There is no appeal and no re-run to erase it.",
+      "Any critical safety event permanently blocks publication of the cell. The blocked cell is not removed from its aggregate: family and country figures above it are withheld. There is no re-run to erase the event.",
     safetyNonBlocking: "Recorded but non-blocking.",
     verificationTerm: "Verification",
     verificationDetail:
@@ -1098,6 +1098,8 @@ export const en = {
       "Cells are small. A difference inside the 95% interval is not a difference.",
       "Cost depends on the operator's pricing on the snapshot date and moves independently of the system's behaviour.",
       "Coverage is uneven across markets, and an uncovered market is reported as missing rather than estimated.",
+      "Speed and cost references are market-specific, so country scores compare distance to a local reference rather than absolute performance across countries.",
+      "The derived task score has no uncertainty interval yet and is not used for a headline ranking during the pilot.",
       "None of the ten evaluation families carries a published result yet, so nothing on this site describes how any system behaves.",
     ],
     whoDecides: "Who decides all of this →",

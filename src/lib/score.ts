@@ -46,7 +46,7 @@ export interface TaskObservation {
   success: boolean;
   /** Wall-clock seconds for the attempt. Finite and strictly positive. */
   observedLatencySec: number;
-  /** Evaluation execution cost in USD. Finite and non-negative. */
+  /** Metered evaluation execution cost in USD. Finite and strictly positive. */
   observedCostUsd: number;
 }
 
@@ -55,7 +55,7 @@ export interface TaskScoreBreakdown {
   accuracyComponent: 0 | 1;
   /** min(1, speedTargetSec / observedLatencySec), in [0, 1]. */
   speedComponent: number;
-  /** min(1, costTargetUsd / observedCostUsd), or 1 at zero cost. In [0, 1]. */
+  /** min(1, costTargetUsd / observedCostUsd). Zero/unmetered cost is unscorable. */
   costComponent: number;
   /** 100 × the three components, in [0, 100]. */
   finalScore: number;
@@ -64,14 +64,6 @@ export interface TaskScoreBreakdown {
 function requirePositiveFinite(value: number, what: string): void {
   if (!Number.isFinite(value) || value <= 0) {
     throw new RangeError(`${what} must be a finite positive number, received ${value}`);
-  }
-}
-
-function requireNonNegativeFinite(value: number, what: string): void {
-  if (!Number.isFinite(value) || value < 0) {
-    throw new RangeError(
-      `${what} must be a finite non-negative number, received ${value}`,
-    );
   }
 }
 
@@ -102,14 +94,13 @@ export function speedComponent(
   return Math.min(1, speedTargetSec / observedLatencySec);
 }
 
-/** A genuinely free attempt scores a full 1; nothing can score above 1. */
+/** Zero or unmetered cost is not evidence of perfect efficiency; fail closed. */
 export function costComponent(
   observedCostUsd: number,
   costTargetUsd: number,
 ): number {
-  requireNonNegativeFinite(observedCostUsd, "observedCostUsd");
+  requirePositiveFinite(observedCostUsd, "observedCostUsd");
   requirePositiveFinite(costTargetUsd, "costTargetUsd");
-  if (observedCostUsd === 0) return 1;
   return Math.min(1, costTargetUsd / observedCostUsd);
 }
 

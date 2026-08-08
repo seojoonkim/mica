@@ -1252,13 +1252,14 @@ export function assertIntegrationLinkage(
 }
 
 /**
- * The official score of an attempt, computed from its raw evidence. Deriving it
- * here — rather than reading a stored field — is what stops a score and the
- * numbers it claims to summarise from drifting apart.
+ * The derived audit score of an attempt, computed from its raw evidence.
+ * Deriving it here rather than reading a stored field stops the audit value and
+ * the numbers it summarises from drifting apart.
  */
 export function taskAttemptScore(
   attempt: TaskAttemptResult,
-): TaskScoreBreakdown {
+): TaskScoreBreakdown | null {
+  if (attempt.observedCostUsd <= 0) return null;
   return scoreTaskAttempt(
     {
       success: attempt.outcome === SUCCESS_OUTCOME,
@@ -1286,11 +1287,21 @@ export function taskAttemptScoreEntry(
       exclusionReason: "attempt did not pass eligibility screening",
     };
   }
+  const score = taskAttemptScore(attempt);
+  if (score === null) {
+    return {
+      taskId: attempt.taskId,
+      family: attempt.family,
+      country: attempt.market,
+      finalScore: null,
+      exclusionReason: "evaluation execution cost was not measured",
+    };
+  }
   return {
     taskId: attempt.taskId,
     family: attempt.family,
     country: attempt.market,
-    finalScore: taskAttemptScore(attempt).finalScore,
+    finalScore: score.finalScore,
   };
 }
 

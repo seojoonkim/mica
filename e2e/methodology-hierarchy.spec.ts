@@ -46,7 +46,26 @@ for (const lang of locales) {
         };
       });
 
+      const axes = [...document.querySelectorAll<HTMLElement>("#axes dl > div")].map((row) => {
+        const term = row.querySelector<HTMLElement>("dt");
+        const unit = row.querySelector<HTMLElement>("[data-axis-unit]");
+        const detail = row.querySelector<HTMLElement>("[data-axis-detail]");
+        if (!term || !unit || !detail) return null;
+        const termBox = term.getBoundingClientRect();
+        const unitBox = unit.getBoundingClientRect();
+        const detailBox = detail.getBoundingClientRect();
+        return {
+          termBottom: termBox.bottom,
+          unitTop: unitBox.top,
+          unitBottom: unitBox.bottom,
+          detailTop: detailBox.top,
+          unitDisplay: getComputedStyle(unit).display,
+        };
+      });
+
       return {
+        viewportWidth: window.innerWidth,
+        colorScheme: getComputedStyle(document.documentElement).colorScheme,
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         chapters: toc.children.length,
         subsections: toc.querySelectorAll(".mica-method-toc-sub li").length,
@@ -56,12 +75,14 @@ for (const lang of locales) {
         subsectionWeight: Number(subsectionStyle.fontWeight),
         entryCount: entries.length,
         entryStyles,
+        axes,
       };
     });
 
     expect(errors).toEqual([]);
     expect(hierarchy, "expected methodology contents and wiki entries").not.toBeNull();
     if (!hierarchy) return;
+    expect(hierarchy.colorScheme).toContain("dark");
     expect(hierarchy.overflow).toBeLessThanOrEqual(0);
     expect(hierarchy.chapters).toBe(20);
     expect(hierarchy.subsections).toBe(13);
@@ -78,5 +99,30 @@ for (const lang of locales) {
       expect(entry.badgeColor).not.toBe(entry.termColor);
       expect(entry.termColor).not.toBe(entry.detailColor);
     }
+    expect(hierarchy.axes).toHaveLength(3);
+    expect(hierarchy.axes).not.toContain(null);
+    for (const axis of hierarchy.axes) {
+      expect(axis, "expected every outcome axis to separate label, unit and detail").not.toBeNull();
+      if (!axis) continue;
+      expect(axis.unitDisplay).toBe("block");
+      if (hierarchy.viewportWidth < 768) {
+        expect(axis.unitTop).toBeGreaterThanOrEqual(axis.termBottom);
+      }
+      expect(axis.detailTop).toBeGreaterThanOrEqual(axis.unitBottom);
+    }
+
+    await page.emulateMedia({ media: "print" });
+    const printColors = await page.evaluate(() => {
+      const sample = document.querySelector<HTMLElement>(
+        '.mica-langlink[aria-current="true"]',
+      );
+      if (!sample) return null;
+      const style = getComputedStyle(sample);
+      return { color: style.color, backgroundColor: style.backgroundColor };
+    });
+    expect(printColors).toEqual({
+      color: "rgb(17, 24, 32)",
+      backgroundColor: "rgb(244, 245, 246)",
+    });
   });
 }

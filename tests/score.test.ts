@@ -41,8 +41,8 @@ describe("speedComponent", () => {
 });
 
 describe("costComponent", () => {
-  it("scores a free attempt 1", () => {
-    expect(costComponent(0, 0.5)).toBe(1);
+  it("refuses zero or unmetered execution cost instead of awarding a perfect component", () => {
+    expect(() => costComponent(0, 0.5)).toThrow(RangeError);
   });
 
   it("is the target over the observation, capped at 1", () => {
@@ -69,9 +69,9 @@ describe("scoreTaskAttempt", () => {
     expect(score.finalScore).toBeCloseTo(25, 12);
   });
 
-  it("awards the maximum only for a fast, free, successful attempt", () => {
+  it("awards the maximum only for a fast, metered, successful attempt", () => {
     const score = scoreTaskAttempt(
-      { success: true, observedLatencySec: 30, observedCostUsd: 0 },
+      { success: true, observedLatencySec: 30, observedCostUsd: 0.25 },
       REFERENCES,
     );
     expect(score.finalScore).toBe(MAX_TASK_SCORE);
@@ -79,7 +79,7 @@ describe("scoreTaskAttempt", () => {
 
   it("scores a fast, cheap failure exactly zero", () => {
     const score = scoreTaskAttempt(
-      { success: false, observedLatencySec: 1, observedCostUsd: 0 },
+      { success: false, observedLatencySec: 1, observedCostUsd: 0.25 },
       REFERENCES,
     );
     expect(score.accuracyComponent).toBe(0);
@@ -91,7 +91,7 @@ describe("scoreTaskAttempt", () => {
   it("stays within [0, 100] across a wide sweep of observations", () => {
     for (const success of [true, false]) {
       for (const latency of [0.001, 1, 60, 1e6]) {
-        for (const cost of [0, 1e-9, 0.5, 1e6]) {
+        for (const cost of [1e-9, 0.5, 1e6]) {
           const { finalScore } = scoreTaskAttempt(
             { success, observedLatencySec: latency, observedCostUsd: cost },
             REFERENCES,

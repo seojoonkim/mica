@@ -462,10 +462,12 @@ function OutcomeAxes({ lang, number }: { lang: Locale; number: string }) {
           term: dict.outcomeAxes[axis.id].label,
           detail: (
             <>
-              <span className="mica-eyebrow mr-2">
+              <span className="mica-axis-unit" data-axis-unit>
                 {dict.outcomeAxes[axis.id].unit}
               </span>
-              {dict.outcomeAxes[axis.id].description}
+              <span className="mica-axis-detail" data-axis-detail>
+                {dict.outcomeAxes[axis.id].description}
+              </span>
             </>
           ),
         }))}

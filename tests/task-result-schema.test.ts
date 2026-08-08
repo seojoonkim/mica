@@ -157,6 +157,23 @@ describe("task attempt routing evidence", () => {
 });
 
 describe("task attempt cost and outcome invariants", () => {
+  it("keeps a zero-cost raw record but marks its derived audit score unmeasured", () => {
+    const parsed = parse(
+      attempt({
+        modelCostUsd: 0,
+        toolApiCostUsd: 0,
+        observedCostUsd: 0,
+        modelInvocations: [invocation({ costUsd: 0 })],
+      }),
+    );
+    expect(parsed.success).toBe(true);
+    expect(taskAttemptScore(parsed.data!)).toBeNull();
+    expect(taskAttemptScoreEntry(parsed.data!)).toMatchObject({
+      finalScore: null,
+      exclusionReason: "evaluation execution cost was not measured",
+    });
+  });
+
   it("requires invocation costs to sum exactly to the recorded model cost", () => {
     expect(parse(attempt({ modelCostUsd: 0.04 })).success).toBe(false);
     expect(parse(attempt({ modelCostUsd: 0.09 })).success).toBe(false);
@@ -285,8 +302,9 @@ describe("derived attempt score", () => {
   it("derives the score from the raw evidence on the record", () => {
     const parsed = parse(attempt()).data!;
     const score = taskAttemptScore(parsed);
+    expect(score).not.toBeNull();
     // speed 60/120 = 0.5; cost 0.03/0.06 = 0.5; accuracy 1.
-    expect(score.finalScore).toBeCloseTo(25, 12);
+    expect(score!.finalScore).toBeCloseTo(25, 12);
     // The raw numbers stay visible alongside the score.
     expect(parsed.observedLatencySec).toBe(120);
     expect(parsed.observedCostUsd).toBeCloseTo(0.06, 12);
@@ -306,13 +324,13 @@ describe("derived attempt score", () => {
         attempt({
           outcome,
           observedLatencySec: 1,
-          modelCostUsd: 0,
+          modelCostUsd: 0.000001,
           toolApiCostUsd: 0,
-          observedCostUsd: 0,
-          modelInvocations: [invocation({ costUsd: 0, latencySec: 0.5 })],
+          observedCostUsd: 0.000001,
+          modelInvocations: [invocation({ costUsd: 0.000001, latencySec: 0.5 })],
         }),
       ).data!;
-      expect(taskAttemptScore(parsed).finalScore).toBe(0);
+      expect(taskAttemptScore(parsed)?.finalScore).toBe(0);
     }
   });
 

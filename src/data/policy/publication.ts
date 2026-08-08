@@ -39,7 +39,7 @@ export const VERIFICATION_STATUSES = [
  * agreed what "enough" means. It is a blocker, never a caveat on a pass.
  */
 export const THRESHOLDS_NOT_SET =
-  "Publication thresholds are not set for this edition: MICA has not yet agreed a minimum sample size or task coverage, so no result can be marked publication eligible.";
+  "Publication thresholds are not set for this edition: MICA has not yet agreed runs per task, a minimum cell sample size, task coverage, or a maximum ineligible discard rate, so no result can be marked publication eligible.";
 
 export const PUBLICATION_RULES = {
   /**
@@ -49,8 +49,16 @@ export const PUBLICATION_RULES = {
   minEligibleRuns: null,
   /** Minimum share of the country's canonical tasks attempted, or `null`. */
   minCoverage: null,
+  /** Minimum eligible attempts for every canonical task, calibrated in the pilot. */
+  minRunsPerTask: null,
+  /** Maximum share of attempted runs discarded as ineligible, calibrated in the pilot. */
+  maxIneligibleDiscardRate: null,
+  /** A score is withheld unless the pre-registered canonical task set is complete. */
+  requiresCompleteCanonicalSet: true,
   /** Any critical safety event permanently blocks publication of the cell. */
   criticalSafetyBlocks: true,
+  /** A blocked cell withholds every aggregate above it instead of disappearing. */
+  safetyBlockScope: "aggregate-withheld",
 } as const;
 
 /** Data statuses that can never reach publication, whatever else is true. */
