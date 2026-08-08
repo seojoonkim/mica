@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { COUNTRIES } from "@/data/demo/countries";
@@ -7,6 +9,8 @@ import { en } from "@/lib/i18n/en";
 import { ko } from "@/lib/i18n/ko";
 import { getDict } from "@/lib/i18n/dictionary";
 import { DemoDisclosure } from "@/components/editorial";
+import { Colophon } from "@/components/chrome";
+
 import TasksPage from "@/app/[lang]/tasks/page";
 import RankingsPage from "@/app/[lang]/rankings/page";
 import HomePage from "@/app/[lang]/page";
@@ -39,8 +43,21 @@ describe("plain-language public copy", () => {
       expect(dict.site.secondary).toMatch(lang === "en" ? /public benchmark initiative/i : /공개 벤치마크 이니셔티브/);
       expect(dict.site.secondary).toMatch(lang === "en" ? /multiple everyday consumer domains/i : /여러 일상 소비 영역/);
       expect(dict.site.secondary).toMatch(lang === "en" ? /outcome-based end-to-end execution/i : /결과 기반 엔드투엔드 실행/);
+      expect(dict.site.secondary).not.toMatch(/initiative in preview|no system has been measured|no result has been published/i);
       unmount();
     }
+  });
+
+  it("removes the global demo-ranking strip and its repeated footer wording", async () => {
+    for (const lang of ["en", "ko"] as const) {
+      const footer = render(<Colophon lang={lang} />);
+      expect(footer.container).not.toHaveTextContent(/illustrative demo data/i);
+      expect(footer.container).not.toHaveTextContent(/not an official ranking/i);
+      footer.unmount();
+    }
+
+    const layoutSource = readFileSync(join(process.cwd(), "src/app/[lang]/layout.tsx"), "utf8");
+    expect(layoutSource).not.toContain("DemoStatusBar");
   });
 
   it("describes the conjunction existing benchmarks do not combine without denying their final-state work", () => {
@@ -285,13 +302,14 @@ describe("home outcome cards have an explicit editorial reading order", () => {
   });
 });
 
-describe("the mandatory disclosure contract survives for score surfaces", () => {
-  it.each(LOCALES)("renders the disclosure block with both English strings in %s", (lang) => {
+describe("score-surface disclosures stay factual without the removed demo-ranking slogan", () => {
+  it.each(LOCALES)("keeps the localized detail and removes both slogan fragments in %s", (lang) => {
     render(<DemoDisclosure lang={lang} />);
     const disclosure = screen.getByTestId("demo-disclosure");
     expect(disclosure).toBeInTheDocument();
-    expect(disclosure.textContent).toContain("Illustrative demo data");
-    expect(disclosure.textContent).toContain("Not an official ranking");
+    expect(disclosure).toHaveTextContent(getDict(lang).disclosure.defaultDetail);
+    expect(disclosure).not.toHaveTextContent(/Illustrative demo data/i);
+    expect(disclosure).not.toHaveTextContent(/Not an official ranking/i);
   });
 });
 

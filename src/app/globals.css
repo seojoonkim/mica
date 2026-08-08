@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "@fontsource-variable/instrument-sans";
+@import "@fontsource-variable/newsreader";
+@import "@fontsource-variable/noto-sans-kr";
+@import "@fontsource-variable/noto-serif-kr";
 
 /*
  * MICA — Public Evidence Interface
@@ -126,23 +130,16 @@
 
 :root {
   color-scheme: light;
-  /*
-   * Local-only stacks: MICA ships no webfont, so a build never needs network.
-   * The Latin faces come first; the CJK fallbacks below them cover Korean,
-   * Japanese and Chinese copy that appears in market and system names.
-   *
-   * The display stack is deliberately a high-contrast didone-to-oldstyle
-   * cascade, with Myeongjo/Mincho/Songti below it so a Korean headline lands
-   * on an editorial serif rather than on a UI gothic.
-   */
+  /* Self-hosted editorial families keep the publication identical across OSes. */
   --font-serif-display:
-    "Iowan Old Style", "Source Serif 4", "Charter", "Hoefler Text",
-    "Times New Roman", "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo",
+    "Newsreader Variable", "Noto Serif KR Variable", "Iowan Old Style",
+    "Source Serif 4", "Charter", "Hoefler Text", "Times New Roman",
+    "Nanum Myeongjo", "AppleMyungjo",
     "Batang", "Hiragino Mincho ProN", "Yu Mincho", "Songti SC", "Noto Serif KR",
     serif;
   --font-sans-ui:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text",
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple SD Gothic Neo",
+    "Instrument Sans Variable", "Noto Sans KR Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple SD Gothic Neo",
     "Pretendard", "Noto Sans KR", "Malgun Gothic", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "PingFang SC",
     "Microsoft YaHei", "Noto Sans CJK KR", sans-serif;
@@ -1900,44 +1897,6 @@ html[lang="ko"] .mica-notice-head {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 3px 8px;
-}
-
-/* --- Status and notices ---------------------------------------------- */
-
-/* The one global status bar. It is quiet, but it is never absent. */
-.mica-statusbar {
-  border-bottom: 1px solid var(--color-ink);
-  background: var(--color-paper-deep);
-}
-
-.mica-statusbar-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 14px;
-  padding-block: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--color-ink-soft);
-}
-
-.mica-stamp {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-ink);
-  border: 1px solid var(--color-ink);
-  padding: 3px 8px;
-}
-
-.mica-stamp-quiet {
-  color: var(--color-ink-faint);
-  border-color: var(--color-rule-strong);
 }
 
 /* --- Motion ---------------------------------------------------------- */

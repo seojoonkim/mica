@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import { SITE } from "@/lib/site";
-import { Colophon, DemoStatusBar, Masthead, SkipLink } from "@/components/chrome";
+import { Colophon, Masthead, SkipLink } from "@/components/chrome";
 import { HTML_LANG, localeAlternates, localeHref } from "@/lib/i18n/config";
 import { getDict } from "@/lib/i18n/dictionary";
 import { readLocale, localeStaticParams, type LangParams } from "@/lib/i18n/route";
@@ -49,7 +49,6 @@ export async function generateMetadata({
     robots: { index: false, follow: false },
     other: {
       "mica:data-status": "demo",
-      "mica:disclosure": "Illustrative demo data — not an official ranking",
       "mica:indexing": "noindex, nofollow — demo preview",
     },
   };
@@ -65,7 +64,6 @@ export default async function RootLayout({
       <body>
         <SkipLink lang={lang} />
         <Masthead lang={lang} />
-        <DemoStatusBar lang={lang} />
         <main id="main" tabIndex={-1} className="mica-shell">
           {children}
         </main>

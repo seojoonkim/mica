@@ -1,13 +1,9 @@
 import type { ReactNode } from "react";
-import { DemoWords } from "@/components/chrome";
+
 import type { Locale } from "@/lib/i18n/config";
 import { getDict } from "@/lib/i18n/dictionary";
 
-/**
- * Shared editorial primitives. The demo disclosure lives here so that every
- * score surface carries the same two English strings, spelled identically, with
- * the Korean restatement beside them rather than instead of them.
- */
+/** Shared editorial primitives. */
 
 /**
  * The three outcome axes each carry one fixed glyph as well as one fixed hue,
@@ -37,14 +33,7 @@ export function DetailCue() {
   );
 }
 
-/**
- * The mandatory disclosure. It appears on every surface that shows a score, and
- * always carries both `Illustrative demo data` and `Not an official ranking` as
- * visible text, in every locale.
- *
- * It is the hardest block on the page: full inverted ink, with the mandated
- * English phrasing set in a bone chip so it cannot read as a footnote.
- */
+/** Factual data-status detail for surfaces that can show scores. */
 export function DemoDisclosure({
   lang,
   detail,
@@ -59,12 +48,10 @@ export function DemoDisclosure({
       aria-label={dict.disclosure.detailLabel}
       data-testid="demo-disclosure"
     >
-      <p className="m-0">
-        <span className="mica-chip">
-          <DemoWords lang={lang} />
-        </span>
+      <p className="mica-eyebrow mb-2 text-[var(--color-bone)]">
+        {dict.disclosure.previewLabel}
       </p>
-      <p className="mica-body-sm mt-3 mb-0 text-[var(--color-bone)]">
+      <p className="mica-body-sm m-0 text-[var(--color-bone)]">
         {detail ?? dict.disclosure.defaultDetail}
       </p>
     </aside>
@@ -86,38 +73,6 @@ export function PublicationStatus({ text }: { text: string }) {
     </aside>
   );
 }
-
-/** Compact inline restatement, for use directly above a table. */
-export function DemoStamp({
-  lang,
-  className = "",
-}: {
-  lang: Locale;
-  className?: string;
-}) {
-  const dict = getDict(lang);
-  return (
-    <p className={`flex flex-wrap gap-2 ${className}`}>
-      <span className="mica-stamp" lang="en">
-        {dict.disclosure.demoLabel}
-      </span>
-      <span className="mica-stamp mica-stamp-quiet" lang="en">
-        {dict.disclosure.notRanking}
-      </span>
-      {lang === "en" ? null : (
-        <>
-          <span className="mica-stamp mica-stamp-quiet" lang={lang}>
-            {dict.disclosure.demoLabelLocal}
-          </span>
-          <span className="mica-stamp mica-stamp-quiet" lang={lang}>
-            {dict.disclosure.notRankingLocal}
-          </span>
-        </>
-      )}
-    </p>
-  );
-}
-
 export function PageHeader({
   lang,
   eyebrow,

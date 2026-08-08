@@ -410,9 +410,9 @@ describe("localized document metadata", () => {
       expect(meta.description).toBe(getDict(lang).site.definition);
       expect(meta.other).toMatchObject({
         "mica:data-status": "demo",
-        "mica:disclosure": "Illustrative demo data — not an official ranking",
         "mica:indexing": "noindex, nofollow — demo preview",
       });
+      expect(meta.other).not.toHaveProperty("mica:disclosure");
     },
   );
 });

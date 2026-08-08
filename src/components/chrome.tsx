@@ -4,7 +4,7 @@ import { NAV, DOWNLOADS } from "@/components/nav-items";
 import { NavLinks } from "@/components/nav-links";
 import { LocaleLink } from "@/components/locale-link";
 import { LocaleSwitchLive } from "@/components/locale-switch";
-import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 import { getDict } from "@/lib/i18n/dictionary";
 
 export function SkipLink({ lang }: { lang: Locale }) {
@@ -14,34 +14,6 @@ export function SkipLink({ lang }: { lang: Locale }) {
     </a>
   );
 }
-
-/**
- * Both mandated English strings, plus their Korean equivalents when the reader
- * is in Korean. The English wording is never replaced — it is the contract —
- * so a Korean reader sees the Korean sentence and the exact English phrase.
- */
-export function DemoWords({
-  lang,
-  separator = " · ",
-}: {
-  lang: Locale;
-  separator?: string;
-}) {
-  const dict = getDict(lang);
-  const english = `${dict.disclosure.demoLabel}${separator}${dict.disclosure.notRanking}`;
-  if (lang === DEFAULT_LOCALE) return <>{english}</>;
-  return (
-    <>
-      <span lang={lang}>
-        {dict.disclosure.demoLabelLocal}
-        {separator}
-        {dict.disclosure.notRankingLocal}
-      </span>
-      <span lang="en"> ({english})</span>
-    </>
-  );
-}
-
 export function Masthead({ lang }: { lang: Locale }) {
   const dict = getDict(lang);
   return (
@@ -83,43 +55,6 @@ export function Masthead({ lang }: { lang: Locale }) {
     </header>
   );
 }
-
-/**
- * The single global status bar. Every page carries both mandated strings above
- * the fold whether or not it renders a score surface, plus the two shortest
- * routes to check the claim: the method, and the raw fixture.
- */
-export function DemoStatusBar({ lang }: { lang: Locale }) {
-  const dict = getDict(lang);
-  return (
-    <aside className="mica-statusbar" aria-label={dict.chrome.dataStatusLabel}>
-      <div className="mica-shell">
-        <p className="mica-statusbar-inner">
-          <span lang="en" className="mica-chip">
-            {dict.disclosure.demoLabel}
-          </span>
-          <span lang="en" className="uppercase tracking-[0.1em]">
-            {dict.disclosure.notRanking}
-          </span>
-          {lang === DEFAULT_LOCALE ? null : (
-            <span lang={lang} className="text-[var(--color-ink-soft)]">
-              {dict.disclosure.demoLabelLocal} / {dict.disclosure.notRankingLocal}
-            </span>
-          )}
-          <span className="ml-auto flex gap-4">
-            <LocaleLink lang={lang} href="/methodology" className="mica-link">
-              {dict.chrome.method}
-            </LocaleLink>
-            <a href="/data/demo/mica-demo.json" className="mica-link" download>
-              {dict.chrome.jsonData}
-            </a>
-          </span>
-        </p>
-      </div>
-    </aside>
-  );
-}
-
 export function Colophon({ lang }: { lang: Locale }) {
   const dict = getDict(lang);
   return (
@@ -164,7 +99,7 @@ export function Colophon({ lang }: { lang: Locale }) {
         </div>
         <hr className="mica-rule my-6" />
         <p className="max-w-[80ch] font-[family-name:var(--font-mono)] text-[11px] uppercase leading-relaxed tracking-[0.1em] text-[var(--color-ink-faint)]">
-          <DemoWords lang={lang} /> · {dict.chrome.colophonNote}
+          {dict.chrome.colophonNote}
         </p>
       </div>
     </footer>

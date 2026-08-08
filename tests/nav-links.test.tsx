@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { NavLinks } from "@/components/nav-links";
-import { DemoStatusBar } from "@/components/chrome";
 
 const pathname = vi.hoisted(() => ({ current: "/" }));
 
@@ -87,26 +86,5 @@ describe("mobile nav disclosure", () => {
     fireEvent.keyDown(document, { key: "Escape" });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(toggle).toHaveFocus();
-  });
-});
-
-describe("global demo status bar", () => {
-  it("always states both required strings visibly", () => {
-    render(<DemoStatusBar lang="en" />);
-    const bar = screen.getByRole("complementary", { name: /data status/i });
-    expect(bar).toHaveTextContent("Illustrative demo data");
-    expect(bar).toHaveTextContent("Not an official ranking");
-  });
-
-  it("links to the methodology and to the JSON dataset", () => {
-    render(<DemoStatusBar lang="en" />);
-    expect(screen.getByRole("link", { name: /method/i })).toHaveAttribute(
-      "href",
-      "/methodology",
-    );
-    expect(screen.getByRole("link", { name: /json/i })).toHaveAttribute(
-      "href",
-      "/data/demo/mica-demo.json",
-    );
   });
 });

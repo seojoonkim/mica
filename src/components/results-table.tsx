@@ -8,7 +8,7 @@ import {
   formatSeconds,
   missingLabels,
 } from "@/lib/format";
-import { AxisGlyph, DemoStamp } from "@/components/editorial";
+import { AxisGlyph } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
 import { LocaleLink } from "@/components/locale-link";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
@@ -66,7 +66,6 @@ export function ResultsTable({
 
   return (
     <div>
-      <DemoStamp lang={lang} className="mb-4" />
       <DataTableScroller label={caption} lang={lang}>
         <table className="mica-table">
           <caption>

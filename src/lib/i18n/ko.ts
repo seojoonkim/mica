@@ -22,7 +22,7 @@ export const ko = {
     longName: "소비자 에이전트 다국가 지수",
     tagline: "소비자 에이전트 벤치마크",
     secondary:
-      "6개 현지 시장과 여러 일상 소비 영역에서 결과 기반 엔드투엔드 실행을 다루는 세계 최초의 공개 벤치마크 이니셔티브입니다. 아직 준비 단계라 평가한 시스템도, 공개한 결과도 없습니다.",
+      "6개 현지 시장과 여러 일상 소비 영역에서 결과 기반 엔드투엔드 실행을 다루는 세계 최초의 공개 벤치마크 이니셔티브입니다.",
     definition:
       "MICA는 버전을 고정한 소비자 에이전트 시스템을 아시아와 중동 6개 시장의 일상 볼일로 평가합니다. 실행은 격리된 모의 환경이 아니라 현지 채널과 본인확인, 동의 절차, 결제 수단, 앱 전용 흐름을 지나갑니다. 기준을 통과한 과제는 정확도·속도·비용을 곱해 점수 하나를 받고, 세 축의 원래 값은 그 옆에 따로 싣습니다.",
     edition: "프리뷰 에디션 0.1",
@@ -59,10 +59,7 @@ export const ko = {
   },
 
   disclosure: {
-    demoLabel: "Illustrative demo data",
-    notRanking: "Not an official ranking",
-    demoLabelLocal: "예시용 데모 데이터",
-    notRankingLocal: "공식 순위가 아님",
+    previewLabel: "프리뷰 데이터",
     detailLabel: "데이터 상태 상세",
     defaultDetail:
       "아래의 모든 수치는 인터페이스 개발을 위해 생성된 것입니다. 어떠한 증거력도 없으며, 이 페이지의 어떤 시스템도 MICA가 순위를 매긴 적이 없습니다.",

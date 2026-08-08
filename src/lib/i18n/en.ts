@@ -49,7 +49,7 @@ export const en = {
     longName: "Multinational Index of Consumer Agents",
     tagline: "The consumer-agent benchmark",
     secondary:
-      "The world’s first public benchmark initiative for outcome-based end-to-end execution across 6 localized markets and multiple everyday consumer domains. It is an initiative in preview: no system has been measured and no result has been published.",
+      "The world’s first public benchmark initiative for outcome-based end-to-end execution across 6 localized markets and multiple everyday consumer domains.",
     definition:
       "MICA measures whether a versioned consumer-agent system can finish an ordinary errand in the market where the consumer lives: local channels, identity checks, payment rails and app-only flows. Each validated task earns one final score, and raw accuracy, speed and cost stay published beside it.",
     edition: "Preview edition 0.1",
@@ -86,10 +86,7 @@ export const en = {
   },
 
   disclosure: {
-    demoLabel: "Illustrative demo data",
-    notRanking: "Not an official ranking",
-    demoLabelLocal: "Illustrative demo data",
-    notRankingLocal: "Not an official ranking",
+    previewLabel: "Preview data",
     detailLabel: "Data status detail",
     defaultDetail:
       "Every figure below is generated for interface development. It carries no evidentiary weight and no system on this page has been ranked by MICA.",

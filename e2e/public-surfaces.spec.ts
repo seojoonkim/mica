@@ -8,8 +8,42 @@ const localePath = (lang: (typeof locales)[number], path = "") =>
 for (const lang of locales) {
   test(`${lang} home exposes publication status without horizontal page overflow`, async ({ page }) => {
     await page.goto(localePath(lang));
+    await page.evaluate(() => document.fonts.ready);
     await expect(page.getByTestId("publication-status")).toBeVisible();
     await expect(page.getByTestId("demo-disclosure")).toHaveCount(0);
+    await expect(page.locator("body")).not.toContainText("It is an initiative in preview");
+    await expect(page.locator("body")).not.toContainText("Illustrative demo data");
+    await expect(page.locator("body")).not.toContainText("Not an official ranking");
+    await expect(page.locator("body")).not.toContainText("공식 순위가 아님");
+    const typography = await page.evaluate((locale) => {
+      const heading = document.querySelector("h1")!;
+      const bodyFamily = getComputedStyle(document.body).fontFamily;
+      const headingFamily = getComputedStyle(heading).fontFamily;
+      return {
+        bodyFamily,
+        headingFamily,
+        bodyLoaded:
+          [...document.fonts].some(
+            (face) => face.family === "Instrument Sans Variable" && face.status === "loaded",
+          ) &&
+          (locale === "en" ||
+            [...document.fonts].some(
+              (face) => face.family === "Noto Sans KR Variable" && face.status === "loaded",
+            )),
+        headingLoaded: [...document.fonts].some(
+          (face) =>
+            face.family ===
+              (locale === "ko" ? "Noto Serif KR Variable" : "Newsreader Variable") &&
+            face.status === "loaded",
+        ),
+      };
+    }, lang);
+    expect(typography.bodyFamily).toContain("Instrument Sans Variable");
+    expect(typography.bodyFamily).toContain("Noto Sans KR Variable");
+    expect(typography.headingFamily).toContain("Newsreader Variable");
+    expect(typography.headingFamily).toContain("Noto Serif KR Variable");
+    expect(typography.bodyLoaded).toBe(true);
+    expect(typography.headingLoaded).toBe(true);
     const widths = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       document: document.documentElement.scrollWidth,
