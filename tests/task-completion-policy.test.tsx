@@ -6,6 +6,10 @@ import { getDict } from "@/lib/i18n/dictionary";
 
 const LOCALES = ["en", "ko"] as const;
 
+function headingEndingWith(title: string) {
+  return new RegExp(`${title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
+}
+
 describe("task completion and platform neutrality contract", () => {
   it.each(LOCALES)("publishes a no-partial-credit completion ladder in %s", async (lang) => {
     const dict = getDict(lang) as ReturnType<typeof getDict> & {
@@ -42,7 +46,9 @@ describe("task completion and platform neutrality contract", () => {
     const policy = container.querySelector("[data-platform-policy]");
 
     expect(policy).not.toBeNull();
-    const heading = screen.getByRole("heading", { name: dict.taskPolicy.platformTitle });
+    const heading = screen.getByRole("heading", {
+      name: headingEndingWith(dict.taskPolicy.platformTitle),
+    });
     expect(heading).toBeInTheDocument();
     expect(policy!.querySelector('ol[role="list"]')).not.toBeNull();
     expect(policy!.querySelectorAll("[data-platform-rule]")).toHaveLength(5);
@@ -63,7 +69,9 @@ describe("task completion and platform neutrality contract", () => {
     const policy = container.querySelector("[data-locality-policy]");
 
     expect(policy).not.toBeNull();
-    const heading = screen.getByRole("heading", { name: dict.taskPolicy.localityTitle });
+    const heading = screen.getByRole("heading", {
+      name: headingEndingWith(dict.taskPolicy.localityTitle),
+    });
     expect(heading.closest("section")).toHaveTextContent(dict.taskPolicy.localityIntro);
     expect(policy!.querySelectorAll("[data-locality-rule]")).toHaveLength(7);
   });
@@ -80,7 +88,9 @@ describe("task completion and platform neutrality contract", () => {
     const policy = container.querySelector("[data-value-policy]");
 
     expect(policy).not.toBeNull();
-    const heading = screen.getByRole("heading", { name: dict.taskPolicy.valueTitle });
+    const heading = screen.getByRole("heading", {
+      name: headingEndingWith(dict.taskPolicy.valueTitle),
+    });
     expect(heading.closest("section")).toHaveTextContent(dict.taskPolicy.valueIntro);
     expect(policy!.querySelectorAll("[data-value-rule]")).toHaveLength(6);
     expect(heading.closest("section")).toHaveTextContent(/total|총액/);

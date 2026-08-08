@@ -60,6 +60,10 @@ describe("plain-language public copy", () => {
 
 const LOCALES = ["en", "ko"] as const;
 
+function headingEndingWith(title: string) {
+  return new RegExp(`${title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
+}
+
 /**
  * The publication-status slice. Home, tasks, methodology and submit define what
  * MICA measures; they carry no score figure, so the mandatory demo disclosure
@@ -298,8 +302,8 @@ describe("Korean detail routes", () => {
 
   it("renders the methodology sections from the Korean dictionary", async () => {
     render(await MethodologyPage({ params: Promise.resolve({ lang: "ko" }) }));
-    expect(screen.getByRole("heading", { name: ko.methodology.axesTitle })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: ko.methodology.publicationTitle })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: headingEndingWith(ko.methodology.axesTitle) })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: headingEndingWith(ko.methodology.publicationTitle) })).toBeInTheDocument();
     expect(document.body.textContent).not.toContain("The three outcome axes");
   });
 

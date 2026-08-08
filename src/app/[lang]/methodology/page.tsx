@@ -70,6 +70,47 @@ const DICT_SECTIONS: Record<string, readonly string[]> = {
   limitations: ["limits"],
 };
 
+/* ----------------------------------------------------------- numbering model */
+
+/**
+ * The one place methodology numbering is decided.
+ *
+ * Every `WIKI_CHAPTERS` entry, in its published order, is chapter `N`. The
+ * dictionary-owned sections listed for that chapter in `DICT_SECTIONS` are its
+ * subsections `N.1`, `N.2`, … in the order they are read. The closing colophon
+ * takes the next free chapter number, so it is the last numbered chapter rather
+ * than an unnumbered appendix.
+ *
+ * The table of contents and the section headings are both rendered from this
+ * one array, so the two can never drift: there is no second count anywhere.
+ */
+type NumberedSubsection = { id: string; number: string };
+type NumberedChapter = {
+  id: string;
+  number: string;
+  subsections: readonly NumberedSubsection[];
+};
+
+function numberedChapters(): readonly NumberedChapter[] {
+  return WIKI_CHAPTERS.map((chapter, index) => {
+    const number = String(index + 1);
+    return {
+      id: chapter.id,
+      number,
+      subsections: (
+        DICT_SECTIONS[chapter.id as keyof typeof DICT_SECTIONS] ?? []
+      ).map((id, subIndex) => ({ id, number: `${number}.${subIndex + 1}` })),
+    };
+  });
+}
+
+/** The colophon is chapter `WIKI_CHAPTERS.length + 1`. */
+const COLOPHON_NUMBER = String(WIKI_CHAPTERS.length + 1);
+
+/** One title string for the colophon, so contents and heading cannot differ. */
+const colophonTitle = (lang: Locale) =>
+  lang === "ko" ? "위키 정보" : "About this wiki";
+
 /* --------------------------------------------------------------- primitives */
 
 /**
@@ -111,14 +152,21 @@ function EntryList({
 function WikiSection({
   chapter,
   lang,
+  number,
   children,
 }: {
   chapter: WikiChapter;
   lang: Locale;
+  number: string;
   children?: ReactNode;
 }) {
   return (
-    <Section id={chapter.id} title={chapter.title[lang]} intro={chapter.lead[lang]}>
+    <Section
+      id={chapter.id}
+      number={number}
+      title={chapter.title[lang]}
+      intro={chapter.lead[lang]}
+    >
       <div
         data-methodology-chapter={chapter.id}
         data-model-routing={chapter.id === "model-routing" ? "" : undefined}
@@ -279,11 +327,12 @@ function Glossary({ lang }: { lang: Locale }) {
  * dictionary: the formula block, the three normalized components, and the
  * aggregation, exclusion, raw-disclosure, cost and status semantics beside it.
  */
-function ScoringContract({ lang }: { lang: Locale }) {
+function ScoringContract({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="scoring-contract"
+      number={number}
       eyebrow={dict.methodology.scoringEyebrow}
       title={dict.methodology.scoringTitle}
       intro={dict.methodology.scoringIntro}
@@ -341,6 +390,7 @@ function ScoringContract({ lang }: { lang: Locale }) {
 
 function PolicyRules({
   id,
+  number,
   eyebrow,
   title,
   intro,
@@ -349,6 +399,7 @@ function PolicyRules({
   ruleAttr,
 }: {
   id: string;
+  number: string;
   eyebrow: string;
   title: string;
   intro: string;
@@ -357,7 +408,7 @@ function PolicyRules({
   ruleAttr: string;
 }) {
   return (
-    <Section id={id} eyebrow={eyebrow} title={title} intro={intro}>
+    <Section id={id} number={number} eyebrow={eyebrow} title={title} intro={intro}>
       <div {...{ [wrapperAttr]: "" }}>
         <ol className="mica-policy-list" role="list">
           {rules.map((rule, index) => (
@@ -375,11 +426,12 @@ function PolicyRules({
   );
 }
 
-function IntegrationContract({ lang }: { lang: Locale }) {
+function IntegrationContract({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="integration"
+      number={number}
       eyebrow={dict.integration.methodologyEyebrow}
       title={dict.integration.methodologyTitle}
       intro={dict.integration.methodologyIntro}
@@ -395,11 +447,12 @@ function IntegrationContract({ lang }: { lang: Locale }) {
 }
 
 /** The three outcome axes, still reported side by side in their own units. */
-function OutcomeAxes({ lang }: { lang: Locale }) {
+function OutcomeAxes({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="axes"
+      number={number}
       eyebrow={dict.methodology.axesEyebrow}
       title={dict.methodology.axesTitle}
       intro={dict.methodology.axesIntro}
@@ -422,11 +475,12 @@ function OutcomeAxes({ lang }: { lang: Locale }) {
 }
 
 /** Eligibility and denominators, written down so they can be argued with. */
-function CountingRules({ lang }: { lang: Locale }) {
+function CountingRules({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="counting"
+      number={number}
       eyebrow={dict.methodology.countingEyebrow}
       title={dict.methodology.countingTitle}
       intro={dict.methodology.countingIntro}
@@ -460,11 +514,12 @@ function CountingRules({ lang }: { lang: Locale }) {
   );
 }
 
-function ModelRouting({ lang }: { lang: Locale }) {
+function ModelRouting({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="model-routing"
+      number={number}
       eyebrow={dict.methodology.routingEyebrow}
       title={dict.methodology.routingTitle}
       intro={dict.methodology.routingIntro}
@@ -476,11 +531,12 @@ function ModelRouting({ lang }: { lang: Locale }) {
   );
 }
 
-function MissingValues({ lang }: { lang: Locale }) {
+function MissingValues({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="missing-values"
+      number={number}
       eyebrow={dict.methodology.missingEyebrow}
       title={dict.methodology.missingTitle}
       intro={dict.methodology.missingIntro}
@@ -499,11 +555,12 @@ function MissingValues({ lang }: { lang: Locale }) {
   );
 }
 
-function DiagnosticAxes({ lang }: { lang: Locale }) {
+function DiagnosticAxes({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="diagnostics"
+      number={number}
       eyebrow={dict.methodology.diagnosticsEyebrow}
       title={dict.methodology.diagnosticsTitle}
       intro={dict.methodology.diagnosticsIntro}
@@ -518,11 +575,12 @@ function DiagnosticAxes({ lang }: { lang: Locale }) {
   );
 }
 
-function VerificationAndTracks({ lang }: { lang: Locale }) {
+function VerificationAndTracks({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="evidence"
+      number={number}
       eyebrow={dict.methodology.evidenceEyebrow}
       title={dict.methodology.evidenceTitle}
       intro={dict.methodology.evidenceIntro}
@@ -548,11 +606,12 @@ function VerificationAndTracks({ lang }: { lang: Locale }) {
 }
 
 /** The gate itself, read from the live rules rather than restated in prose. */
-function PublicationGate({ lang }: { lang: Locale }) {
+function PublicationGate({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="publication"
+      number={number}
       eyebrow={dict.methodology.publicationEyebrow}
       title={dict.methodology.publicationTitle}
       intro={dict.methodology.publicationIntro}
@@ -594,11 +653,12 @@ function PublicationGate({ lang }: { lang: Locale }) {
   );
 }
 
-function ClaimLabels({ lang }: { lang: Locale }) {
+function ClaimLabels({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="claims"
+      number={number}
       eyebrow={dict.methodology.claimsEyebrow}
       title={dict.methodology.claimsTitle}
       intro={dict.methodology.claimsIntro}
@@ -613,11 +673,12 @@ function ClaimLabels({ lang }: { lang: Locale }) {
   );
 }
 
-function MethodLimits({ lang }: { lang: Locale }) {
+function MethodLimits({ lang, number }: { lang: Locale; number: string }) {
   const dict = getDict(lang);
   return (
     <Section
       id="limits"
+      number={number}
       eyebrow={dict.methodology.limitsEyebrow}
       title={dict.methodology.limitsTitle}
       intro={dict.methodology.limitsIntro}
@@ -636,34 +697,35 @@ function MethodLimits({ lang }: { lang: Locale }) {
   );
 }
 
-function dictSection(id: string, lang: Locale): ReactNode {
+function dictSection(id: string, lang: Locale, number: string): ReactNode {
   const dict = getDict(lang);
   switch (id) {
     case "axes":
-      return <OutcomeAxes key={id} lang={lang} />;
+      return <OutcomeAxes key={id} lang={lang} number={number} />;
     case "counting":
-      return <CountingRules key={id} lang={lang} />;
+      return <CountingRules key={id} lang={lang} number={number} />;
     case "model-routing":
-      return <ModelRouting key={id} lang={lang} />;
+      return <ModelRouting key={id} lang={lang} number={number} />;
     case "missing-values":
-      return <MissingValues key={id} lang={lang} />;
+      return <MissingValues key={id} lang={lang} number={number} />;
     case "diagnostics":
-      return <DiagnosticAxes key={id} lang={lang} />;
+      return <DiagnosticAxes key={id} lang={lang} number={number} />;
     case "evidence":
-      return <VerificationAndTracks key={id} lang={lang} />;
+      return <VerificationAndTracks key={id} lang={lang} number={number} />;
     case "publication":
-      return <PublicationGate key={id} lang={lang} />;
+      return <PublicationGate key={id} lang={lang} number={number} />;
     case "claims":
-      return <ClaimLabels key={id} lang={lang} />;
+      return <ClaimLabels key={id} lang={lang} number={number} />;
     case "limits":
-      return <MethodLimits key={id} lang={lang} />;
+      return <MethodLimits key={id} lang={lang} number={number} />;
     case "scoring-contract":
-      return <ScoringContract key={id} lang={lang} />;
+      return <ScoringContract key={id} lang={lang} number={number} />;
     case "platform-policy":
       return (
         <PolicyRules
           key={id}
           id="platform-policy"
+          number={number}
           eyebrow={dict.taskPolicy.platformEyebrow}
           title={dict.taskPolicy.platformTitle}
           intro={dict.taskPolicy.platformExclusion}
@@ -677,6 +739,7 @@ function dictSection(id: string, lang: Locale): ReactNode {
         <PolicyRules
           key={id}
           id="locality-policy"
+          number={number}
           eyebrow={dict.taskPolicy.localityEyebrow}
           title={dict.taskPolicy.localityTitle}
           intro={dict.taskPolicy.localityIntro}
@@ -690,6 +753,7 @@ function dictSection(id: string, lang: Locale): ReactNode {
         <PolicyRules
           key={id}
           id="value-policy"
+          number={number}
           eyebrow={dict.taskPolicy.valueEyebrow}
           title={dict.taskPolicy.valueTitle}
           intro={dict.taskPolicy.valueIntro}
@@ -699,7 +763,7 @@ function dictSection(id: string, lang: Locale): ReactNode {
         />
       );
     case "integration":
-      return <IntegrationContract key={id} lang={lang} />;
+      return <IntegrationContract key={id} lang={lang} number={number} />;
     default:
       return null;
   }
@@ -770,17 +834,34 @@ export default async function MethodologyPage({
   const lang = await readLocale(params);
   const dict = getDict(lang);
 
-  // The on-page navigation is the wiki's own table of contents: every chapter,
-  // plus the dictionary-owned sections in the position they are read.
-  const tocItems = WIKI_CHAPTERS.flatMap((chapter) => [
-    { id: chapter.id, label: chapter.title[lang] },
-    ...(
-      DICT_SECTIONS[chapter.id as keyof typeof DICT_SECTIONS] ?? []
-    ).map((id) => ({ id, label: dictSectionLabel(id, lang) })),
-  ]);
+  // The on-page navigation is the wiki's own table of contents, built from the
+  // single numbering model: every chapter, with its dictionary-owned sections
+  // nested beneath it as subsections, carrying the same numbers the headings do.
+  const chapters = numberedChapters();
+  const chapterTitle = (id: string) =>
+    WIKI_CHAPTERS.find((chapter) => chapter.id === id)!.title[lang];
+
+  const tocItems = [
+    ...chapters.map((chapter) => ({
+      id: chapter.id,
+      number: chapter.number,
+      label: chapterTitle(chapter.id),
+      children: chapter.subsections.map((sub) => ({
+        id: sub.id,
+        number: sub.number,
+        label: dictSectionLabel(sub.id, lang),
+      })),
+    })),
+    {
+      id: "wiki-colophon",
+      number: COLOPHON_NUMBER,
+      label: colophonTitle(lang),
+      children: [],
+    },
+  ];
 
   return (
-    <div data-methodology-wiki>
+    <div className="mica-methodology" data-methodology-wiki>
       <PageHeader
         lang={lang}
         eyebrow={dict.methodology.eyebrow}
@@ -830,20 +911,25 @@ export default async function MethodologyPage({
         <OnThisPage lang={lang} items={tocItems} />
       </PageHeader>
 
-      {WIKI_CHAPTERS.map((chapter) => (
+      {WIKI_CHAPTERS.map((chapter, index) => (
         <div key={chapter.id}>
-          <WikiSection chapter={chapter} lang={lang}>
+          <WikiSection
+            chapter={chapter}
+            lang={lang}
+            number={chapters[index].number}
+          >
             {chapterBody(chapter.id, lang)}
           </WikiSection>
-          {(DICT_SECTIONS[chapter.id as keyof typeof DICT_SECTIONS] ?? []).map(
-            (id) => dictSection(id, lang),
+          {chapters[index].subsections.map((sub) =>
+            dictSection(sub.id, lang, sub.number),
           )}
         </div>
       ))}
 
       <Section
         id="wiki-colophon"
-        title={lang === "ko" ? "위키 정보" : "About this wiki"}
+        number={COLOPHON_NUMBER}
+        title={colophonTitle(lang)}
         intro={
           lang === "ko"
             ? "방법론 페이지와 다운로드 문서는 하나의 타입 지정 정본에서 생성됩니다."
