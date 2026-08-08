@@ -47,10 +47,9 @@ export const en = {
 
   site: {
     longName: "Multinational Index of Consumer Agents",
-    tagline:
-      "The world’s first public benchmark initiative for end-to-end consumer-agent execution across six localized markets.",
+    tagline: "The consumer-agent benchmark",
     secondary:
-      "Six localized markets, everyday consumer errands, outcome-verified end to end.",
+      "The world’s first public benchmark initiative for outcome-based end-to-end execution across 6 localized markets and multiple everyday consumer domains. It is an initiative in preview: no system has been measured and no result has been published.",
     definition:
       "MICA measures whether a versioned consumer-agent system can finish an ordinary errand in the market where the consumer lives: local channels, identity checks, payment rails and app-only flows. Each validated task earns one final score, and raw accuracy, speed and cost stay published beside it.",
     edition: "Preview edition 0.1",
@@ -188,10 +187,15 @@ export const en = {
     noResultsHeadline: "No verified system results have been published yet.",
     noResultsDetail:
       "What exists today is the apparatus: a ten-family task taxonomy still in draft, a stated measurement method, a publication gate with its thresholds unset, and an evidence model in which every future figure resolves to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
+    lifecycleLabel: "Catalogue and publication status",
+    lifecycleCandidates: "Provisional candidate tasks",
+    lifecycleCalibrationPending: "Of which calibration-pending contracts",
+    lifecycleValidated: "Validated tasks",
+    lifecyclePublishedResults: "Published results",
     positionEyebrow: "Why MICA exists",
-    positionTitle: "No benchmark asks whether the errand actually got finished",
+    positionTitle: "What existing benchmarks do not combine",
     positionIntro:
-      "Earlier benchmarks measured knowledge work, code, controlled web environments and isolated app simulations. MICA asks the question they leave open: can an assembled consumer-agent system carry an ordinary errand to completion in a live, localized market? MICA has measured nothing yet.",
+      "WebArena, WebVoyager, WebShop, AndroidWorld, AppWorld and τ-bench already measure end-state task completion, and MICA builds on that work rather than disputing it. What none of them combines is the narrower conjunction MICA scopes: an assembled consumer-agent system, an ordinary consumer errand, and a live, localized market with its own channels, identity checks and payment rails. MICA has measured nothing yet.",
     positionItems: [
       {
         term: "The missing unit",
@@ -213,7 +217,7 @@ export const en = {
     axesEyebrow: "One score per task, three axes still published",
     axesTitle: "Accuracy, speed and cost multiply into one task score",
     axesIntro:
-      "100 × accuracy × speed × cost, each factor normalized between 0 and 1. The three axes stay published in their own units: the score summarizes the record, it does not replace it. No task has been scored yet.",
+      "100 × accuracy × speed × cost, each factor normalized between 0 and 1. Published cost is evaluation execution spend canonicalized to USD across every market, not the local value of a purchase. The three axes stay published in their own units: the score summarizes the record, it does not replace it. No task has been scored yet.",
     readinessEyebrow: "What is built, and what is not",
     readinessTitle: "Where the index stands",
     readinessIntro:

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { COUNTRIES } from "@/data/demo/countries";
-import { TASK_FAMILIES } from "@/data/demo/tasks";
+import { TASK_CATALOGUE_STATUS, TASK_FAMILIES } from "@/data/demo/tasks";
 import { OUTCOME_AXES } from "@/data/policy/axes";
 import { en } from "@/lib/i18n/en";
 import { ko } from "@/lib/i18n/ko";
@@ -27,6 +27,52 @@ import SubmitPage, {
 } from "@/app/[lang]/submit/page";
 
 describe("plain-language public copy", () => {
+  it("uses a concise bilingual H1 and keeps the scoped world-first claim in the subtitle", async () => {
+    expect(en.site.tagline).toBe("The consumer-agent benchmark");
+    expect(ko.site.tagline).toBe("소비자 에이전트 벤치마크");
+
+    for (const [lang, dict] of [["en", en], ["ko", ko]] as const) {
+      const { container, unmount } = render(await HomePage({ params: Promise.resolve({ lang }) }));
+      expect(container.querySelector("h1")).toHaveTextContent(dict.site.tagline);
+      expect(dict.site.secondary).toMatch(lang === "en" ? /world.s first/i : /세계 최초/);
+      expect(dict.site.secondary).toContain(String(COUNTRIES.length));
+      expect(dict.site.secondary).toMatch(lang === "en" ? /public benchmark initiative/i : /공개 벤치마크 이니셔티브/);
+      expect(dict.site.secondary).toMatch(lang === "en" ? /multiple everyday consumer domains/i : /여러 일상 소비 영역/);
+      expect(dict.site.secondary).toMatch(lang === "en" ? /outcome-based end-to-end execution/i : /결과 기반 엔드투엔드 실행/);
+      unmount();
+    }
+  });
+
+  it("describes the conjunction existing benchmarks do not combine without denying their final-state work", () => {
+    expect(en.home.positionTitle).toMatch(/do not combine/i);
+    expect(ko.home.positionTitle).toMatch(/함께 다루지 않는/);
+    expect(en.home.positionTitle).not.toMatch(/^No benchmark/i);
+    expect(ko.home.positionTitle).not.toMatch(/벤치마크가 없습니다/);
+    expect(en.home.positionIntro).toMatch(/WebArena|WebVoyager|WebShop|AndroidWorld|AppWorld|τ-bench/);
+    expect(ko.home.positionIntro).toMatch(/WebArena|WebVoyager|WebShop|AndroidWorld|AppWorld|τ-bench/);
+  });
+
+  it("renders machine-derived catalogue and publication lifecycle counts", async () => {
+    const calibrationPending = TASK_FAMILIES.flatMap((family) => family.canonicalTasks)
+      .filter((task) => task.measurement.references.status === "calibration-pending").length;
+
+    for (const lang of ["en", "ko"] as const) {
+      const dict = getDict(lang);
+      const { container, unmount } = render(await HomePage({ params: Promise.resolve({ lang }) }));
+      const status = container.querySelector('[data-testid="catalogue-lifecycle-status"]');
+      expect(status).not.toBeNull();
+      expect(status).toHaveTextContent(String(TASK_CATALOGUE_STATUS.candidateTasks));
+      expect(status).toHaveTextContent(String(calibrationPending));
+      expect(status).toHaveTextContent(String(TASK_CATALOGUE_STATUS.validatedTasks));
+      expect(status).toHaveTextContent("0");
+      expect(status).toHaveTextContent(dict.home.lifecycleCandidates);
+      expect(status).toHaveTextContent(dict.home.lifecycleCalibrationPending);
+      expect(status).toHaveTextContent(dict.home.lifecycleValidated);
+      expect(status).toHaveTextContent(dict.home.lifecyclePublishedResults);
+      unmount();
+    }
+  });
+
   it("states the canonical market count everywhere it summarizes coverage", () => {
     expect(en.common.editionSummary).toContain(`${COUNTRIES.length} markets`);
     expect(ko.common.editionSummary).toContain(`${COUNTRIES.length}개 시장`);

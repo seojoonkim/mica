@@ -842,6 +842,43 @@ export const systemSchema = z.object({
 export type SystemRecord = z.infer<typeof systemSchema>;
 
 /**
+ * The immutable evidence handle for one eligible attempt inside a run cell.
+ *
+ * It carries identifiers, never payloads: a redacted trace, a final-state
+ * evidence record, the invocation records behind the routing trail, and a
+ * content hash over the canonical JSON serialization of this manifest with
+ * `artifactSha256` omitted. Object keys are sorted lexicographically and array
+ * order is preserved. This is what lets an aggregate figure
+ * be traced back to the exact attempts it was computed over without publishing
+ * a raw transcript.
+ */
+const opaqueEvidenceIdSchema = z.string().regex(/^[A-Za-z0-9._-]{1,64}$/);
+
+export const attemptArtifactManifestSchema = z.object({
+  attemptId: opaqueEvidenceIdSchema,
+  taskId: opaqueEvidenceIdSchema,
+  /** The executable task version the attempt ran under. */
+  taskVersion: opaqueEvidenceIdSchema,
+  redactedTraceId: opaqueEvidenceIdSchema,
+  finalStateEvidenceId: opaqueEvidenceIdSchema,
+  invocationRecordIds: z.array(opaqueEvidenceIdSchema).min(1).max(64),
+  /** Lowercase SHA-256 over the canonical manifest JSON defined above. */
+  artifactSha256: z.string().regex(/^[0-9a-f]{64}$/),
+}).superRefine((manifest, ctx) => {
+  const ids = manifest.invocationRecordIds;
+  if (new Set(ids).size !== ids.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["invocationRecordIds"],
+      message: "invocationRecordIds repeat an invocation record.",
+    });
+  }
+});
+export type AttemptArtifactManifest = z.infer<
+  typeof attemptArtifactManifestSchema
+>;
+
+/**
  * Canonical run aggregate: one system × country × family cell.
  * All derived views are computed from these; nothing is stored twice.
  */
@@ -864,8 +901,18 @@ export const runCellSchema = z.object({
    * success.
    */
   allEligibleLatenciesSec: z.array(z.number().min(0)),
-  /** Total cost of ALL eligible attempts, in the country's currency. */
-  totalEligibleCost: z.number().min(0),
+  /**
+   * Total evaluation execution spend over ALL eligible attempts, always USD.
+   * Execution spend is not a market purchase amount, so it is never converted
+   * into a local currency and never labelled with one.
+   */
+  totalEligibleCostUsd: z.number().finite().nonnegative(),
+  /**
+   * One immutable artifact manifest per eligible attempt. Membership in the
+   * aggregate is substantiated rather than asserted: the cell can name exactly
+   * which attempts it was computed over.
+   */
+  attemptArtifacts: z.array(attemptArtifactManifestSchema),
   criticalSafetyEvents: z.number().int().min(0),
   dataStatus: dataStatusSchema,
   publicationEligible: z.boolean(),
@@ -899,6 +946,25 @@ export const runCellSchema = z.object({
       code: z.ZodIssueCode.custom,
       path: ["tasksAttempted"],
       message: `tasksAttempted (${cell.tasksAttempted}) cannot exceed tasksDefined (${cell.tasksDefined}).`,
+    });
+  }
+
+  // Aggregation membership: exactly one manifest per eligible attempt, each
+  // naming a distinct attempt. Anything else means
+  // the cell cannot account for the population it reports over.
+  if (cell.attemptArtifacts.length !== cell.eligibleRuns) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["attemptArtifacts"],
+      message: `attemptArtifacts has ${cell.attemptArtifacts.length} entries but eligibleRuns is ${cell.eligibleRuns}.`,
+    });
+  }
+  const attemptIds = cell.attemptArtifacts.map((artifact) => artifact.attemptId);
+  if (new Set(attemptIds).size !== attemptIds.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["attemptArtifacts"],
+      message: "attemptArtifacts repeat an attemptId.",
     });
   }
 });

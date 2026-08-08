@@ -91,6 +91,18 @@ function alignLeaves(
 
 const ALIGNED = alignLeaves(en, ko);
 
+describe("localized metadata", () => {
+  it("keeps descriptive metadata independent from the concise home H1", async () => {
+    for (const [lang, dict] of [["en", en], ["ko", ko]] as const) {
+      const metadata = await layoutMetadata({ params: Promise.resolve({ lang }) });
+      expect(metadata.description).toBe(dict.site.definition);
+      expect(metadata.description).not.toBe(dict.site.tagline);
+      expect(metadata.openGraph?.description).toBe(dict.site.definition);
+      expect(metadata.twitter?.description).toBe(dict.site.definition);
+    }
+  });
+});
+
 /**
  * Korean copy legitimately drops a grammatical prefix that English needs, so a
  * blanket "no empty Korean leaf" rule would be wrong. Only these documented

@@ -1,5 +1,4 @@
 import { RUN_CELLS } from "@/data/demo/runs";
-import { COUNTRY_BY_CODE } from "@/data/demo/countries";
 import { aggregateBySystem } from "@/lib/derive";
 import { percentile } from "@/lib/calc";
 import type { Interval } from "@/lib/calc";
@@ -15,10 +14,13 @@ import {
  * Run-cell lineage.
  *
  * MICA's canonical unit of evidence is the aggregate run cell — one system ×
- * market × task family. There are no individual attempt records, so nothing
- * here invents one: an evidence page is a handle on a cell, not on a
- * transcript. The lineage layer stores no second copy of any number; it names
- * a cell and re-reads the same derivation the tables use.
+ * market × task family. Each cell resolves to immutable attempt artifact
+ * manifests: one entry per eligible attempt, identifying the redacted trace,
+ * final-state and invocation records it was computed over. A manifest is an
+ * identifier, not a raw transcript, so an evidence page hands back the
+ * provenance of a cell without republishing attempt content. The lineage layer
+ * stores no second copy of any number; it names a cell and re-reads the same
+ * derivation the tables use.
  */
 
 /** Separator is a double dash so single-dash slugs stay unambiguous. */
@@ -80,9 +82,12 @@ export interface RunCellEvidence extends RunCellCoordinates {
   latencyP95: number | null;
   /** Size of the recorded all-eligible latency population, for auditing. */
   allEligibleLatencyCount: number;
-  totalEligibleCost: number;
+  totalEligibleCostUsd: number;
   costPerSuccess: number | null;
-  currency: string | null;
+  /** Costs are canonicalised to USD, not the market's local currency. */
+  currency: "USD";
+  /** One immutable manifest per eligible attempt, in cell order. */
+  attemptArtifacts: RunCell["attemptArtifacts"];
   tasksAttempted: number;
   tasksDefined: number;
   coverage: number | null;
@@ -120,9 +125,10 @@ export function runCellEvidence(id: string): RunCellEvidence | null {
     latencyP50: row.latencyP50,
     latencyP95: row.latencyP95,
     allEligibleLatencyCount: cell.allEligibleLatenciesSec.length,
-    totalEligibleCost: cell.totalEligibleCost,
+    totalEligibleCostUsd: cell.totalEligibleCostUsd,
     costPerSuccess: row.costPerSuccess,
-    currency: COUNTRY_BY_CODE.get(cell.country)?.currency ?? null,
+    currency: "USD",
+    attemptArtifacts: cell.attemptArtifacts,
     tasksAttempted: row.tasksAttempted,
     tasksDefined: row.tasksDefined,
     coverage: row.coverage,

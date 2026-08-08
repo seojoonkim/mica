@@ -1,2 +1,2 @@
 # Illustrative demo data. Not an official ranking.
-system,country,family,eligibleRuns,successfulRuns,tasksAttempted,tasksDefined,totalEligibleCost,criticalSafetyEvents,dataStatus,publicationEligible
+system,country,family,eligibleRuns,successfulRuns,tasksAttempted,tasksDefined,totalEligibleCostUsd,criticalSafetyEvents,dataStatus,publicationEligible

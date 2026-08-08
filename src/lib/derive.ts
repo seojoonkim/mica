@@ -9,7 +9,6 @@ import {
 } from "@/lib/calc";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { SYSTEMS, SYSTEM_BY_SLUG } from "@/data/demo/systems";
-import { COUNTRIES } from "@/data/demo/countries";
 import {
   COUNTRY_CODES,
   type CountryCode,
@@ -36,7 +35,9 @@ export interface AggregateView {
   latencyP50: number | null;
   /** Both percentiles are over successful eligible runs only. */
   latencyP95: number | null;
+  /** Evaluation execution spend per success, in USD. */
   costPerSuccess: number | null;
+  /** Always `"USD"` when a cost exists — execution spend has no local currency. */
   currency: string | null;
   coverage: number | null;
   tasksAttempted: number;
@@ -45,10 +46,6 @@ export interface AggregateView {
   publicationEligible: boolean;
   blockers: string[];
 }
-
-const CURRENCY_BY_COUNTRY = new Map(
-  COUNTRIES.map((country) => [country.code, country.currency]),
-);
 
 function combine(
   cells: readonly RunCell[],
@@ -75,11 +72,14 @@ function combine(
     0,
   );
 
-  // Cost is only meaningful inside a single currency, so it is reported per
-  // country and withheld when cells span markets.
-  const singleCurrency =
-    country === "all" ? null : (CURRENCY_BY_COUNTRY.get(country) ?? null);
-  const totalCost = cells.reduce((sum, cell) => sum + cell.totalEligibleCost, 0);
+  // Evaluation execution spend is canonically USD in every market, so cells can
+  // be summed across markets without a conversion and the figure stays valid
+  // for the `all` slice. The market's own currency is never applied to it.
+  const totalCostUsd = cells.reduce(
+    (sum, cell) => sum + cell.totalEligibleCostUsd,
+    0,
+  );
+  const costPerSuccessUsd = costPerSuccess(totalCostUsd, successfulRuns);
 
   const verdict = evaluatePublicationEligibility({
     dataStatus: "demo",
@@ -102,10 +102,8 @@ function combine(
     accuracyInterval: wilsonInterval(successfulRuns, eligibleRuns),
     latencyP50: percentile(latencies, 0.5),
     latencyP95: percentile(latencies, 0.95),
-    costPerSuccess: singleCurrency
-      ? costPerSuccess(totalCost, successfulRuns)
-      : null,
-    currency: singleCurrency,
+    costPerSuccess: costPerSuccessUsd,
+    currency: costPerSuccessUsd === null ? null : "USD",
     coverage: tasksDefined > 0 ? tasksAttempted / tasksDefined : null,
     tasksAttempted,
     tasksDefined,

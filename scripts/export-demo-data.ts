@@ -99,6 +99,9 @@ writeAtomic(
   `${JSON.stringify(payload, null, 2)}\n`,
 );
 
+// Flat scalar columns only. Attempt artifact manifests are structured records,
+// so the JSON export stays canonical for them rather than collapsing a manifest
+// into an ambiguous CSV cell.
 const headers = [
   "system",
   "country",
@@ -107,7 +110,7 @@ const headers = [
   "successfulRuns",
   "tasksAttempted",
   "tasksDefined",
-  "totalEligibleCost",
+  "totalEligibleCostUsd",
   "criticalSafetyEvents",
   "dataStatus",
   "publicationEligible",

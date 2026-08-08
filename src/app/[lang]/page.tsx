@@ -7,7 +7,7 @@ import { localeAlternates } from "@/lib/i18n/config";
 import { SITE } from "@/lib/site";
 import { COUNTRIES } from "@/data/demo/countries";
 import { SYSTEMS } from "@/data/demo/systems";
-import { TASK_FAMILIES } from "@/data/demo/tasks";
+import { TASK_CATALOGUE_STATUS, TASK_FAMILIES } from "@/data/demo/tasks";
 import { RUN_CELLS } from "@/data/demo/runs";
 import { DIAGNOSTIC_AXES, OUTCOME_AXES } from "@/data/policy/axes";
 import {
@@ -54,6 +54,30 @@ export default async function HomePage({
   // Both are counted, not asserted, so the honest zeroes below stay honest
   // if a verified result is ever admitted.
   const measuredRuns = RUN_CELLS.reduce((sum, cell) => sum + cell.eligibleRuns, 0);
+
+  // The catalogue lifecycle, counted from the canonical task records and the
+  // run-cell ledger rather than asserted in copy.
+  const calibrationPending = TASK_FAMILIES.flatMap((family) => family.canonicalTasks)
+    .filter((task) => task.measurement.references.status === "calibration-pending")
+    .length;
+  const lifecycleFigures = [
+    {
+      term: dict.home.lifecycleCandidates,
+      value: String(TASK_CATALOGUE_STATUS.candidateTasks),
+    },
+    {
+      term: dict.home.lifecycleCalibrationPending,
+      value: String(calibrationPending),
+    },
+    {
+      term: dict.home.lifecycleValidated,
+      value: String(TASK_CATALOGUE_STATUS.validatedTasks),
+    },
+    {
+      term: dict.home.lifecyclePublishedResults,
+      value: String(RUN_CELLS.length),
+    },
+  ];
 
   return (
     <div>
@@ -185,6 +209,18 @@ export default async function HomePage({
             <p className="mica-body-sm mt-2 mb-0">{dict.coverage.detail}</p>
           </div>
         </div>
+        <dl
+          className="mica-ledger mt-4"
+          data-testid="catalogue-lifecycle-status"
+          aria-label={dict.home.lifecycleLabel}
+        >
+          {lifecycleFigures.map((figure) => (
+            <div key={figure.term}>
+              <dt className="mica-eyebrow">{figure.term}</dt>
+              <dd>{figure.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
       <Section

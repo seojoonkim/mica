@@ -43,14 +43,19 @@ describe("aggregateBySystem", () => {
     expect(slugs).not.toContain("test-system-2");
   });
 
-  it("reports a currency for a single market and none across markets", () => {
-    expect(aggregateBySystem({ country: "kr" })[0].currency).toBe("KRW");
-    expect(aggregateBySystem({ country: "all" })[0].currency).toBeNull();
+  it("reports canonical USD execution cost for single- and cross-market aggregates", () => {
+    expect(aggregateBySystem({ country: "kr" })[0].currency).toBe("USD");
+    expect(aggregateBySystem({ country: "all" })[0].currency).toBe("USD");
   });
 
-  it("withholds cost per success across markets rather than mixing currencies", () => {
-    for (const row of aggregateBySystem({ country: "all" })) {
-      expect(row.costPerSuccess).toBeNull();
+  it("sums canonical USD spend across markets before computing cost per success", () => {
+    const rows = aggregateBySystem({ country: "all" });
+    const system1 = rows.find((row) => row.systemSlug === "test-system-1")!;
+    const system2 = rows.find((row) => row.systemSlug === "test-system-2")!;
+    expect(system1.costPerSuccess).toBeCloseTo(6000 / 78, 12);
+    expect(system2.costPerSuccess).toBeCloseTo(2000 / 20, 12);
+    for (const row of rows) {
+      if (row.successfulRuns === 0) expect(row.costPerSuccess).toBeNull();
     }
   });
 

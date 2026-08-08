@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   modelInvocationSchema,
+  runCellSchema,
   taskAttemptResultSchema,
   taskAttemptScore,
   taskAttemptScoreEntry,
@@ -220,6 +221,63 @@ describe("task attempt cost and outcome invariants", () => {
     const parsed = parse(attempt()).data!;
     expect(Object.keys(parsed)).not.toContain("finalScore");
     expect(Object.keys(parsed)).not.toContain("score");
+  });
+});
+
+describe("aggregate evidence and currency lineage", () => {
+  const artifact = {
+    attemptId: "test-attempt-1",
+    taskId: "test-task-1",
+    taskVersion: "v1",
+    redactedTraceId: "trace-test-attempt-1",
+    finalStateEvidenceId: "evidence-test-attempt-1",
+    invocationRecordIds: ["invocation-test-attempt-1-1"],
+    artifactSha256: "a".repeat(64),
+  };
+
+  const cell = (overrides: Record<string, unknown> = {}) => ({
+    system: "test-system-1",
+    country: "kr",
+    family: "email-calendar",
+    eligibleRuns: 1,
+    successfulRuns: 1,
+    tasksAttempted: 1,
+    tasksDefined: 1,
+    successLatenciesSec: [120],
+    allEligibleLatenciesSec: [120],
+    totalEligibleCostUsd: 0.06,
+    attemptArtifacts: [artifact],
+    criticalSafetyEvents: 0,
+    dataStatus: "demo",
+    publicationEligible: false,
+    ...overrides,
+  });
+
+  it("requires canonical aggregate execution cost in USD", () => {
+    expect(runCellSchema.safeParse(cell()).success).toBe(true);
+    expect(runCellSchema.safeParse(cell({ totalEligibleCostUsd: undefined })).success).toBe(false);
+    expect(runCellSchema.safeParse(cell({ totalEligibleCost: 1000, totalEligibleCostUsd: undefined })).success).toBe(false);
+  });
+
+  it("requires one immutable artifact manifest per eligible attempt", () => {
+    expect(runCellSchema.safeParse(cell({ attemptArtifacts: [] })).success).toBe(false);
+    expect(runCellSchema.safeParse(cell({ attemptArtifacts: [artifact, artifact] })).success).toBe(false);
+    expect(runCellSchema.safeParse(cell({ attemptArtifacts: [{ ...artifact, artifactSha256: "bad" }] })).success).toBe(false);
+  });
+
+  it("publishes only bounded opaque evidence identifiers", () => {
+    for (const attemptId of ["person@example.com", "contains space", "x".repeat(65)]) {
+      expect(runCellSchema.safeParse(cell({
+        attemptArtifacts: [{ ...artifact, attemptId }],
+      })).success).toBe(false);
+    }
+    expect(runCellSchema.safeParse(cell({
+      eligibleRuns: 2,
+      successfulRuns: 2,
+      successLatenciesSec: [120, 121],
+      allEligibleLatenciesSec: [120, 121],
+      attemptArtifacts: [artifact, { ...artifact, attemptId: "test-attempt-2" }],
+    })).success).toBe(true);
   });
 });
 
