@@ -151,6 +151,17 @@ export const REFERENCE_GROUPS = [
     },
   },
   {
+    id: "consumer-platforms",
+    label: {
+      en: "Consumer-platform execution controls",
+      ko: "소비자 플랫폼 실행 통제",
+    },
+    lead: {
+      en: "Official platform documentation, cited as evidence of the conditions under which a consumer action can be executed in production. None of these vendors has reviewed, approved or endorsed MICA.",
+      ko: "소비자 행위를 실제 운영 환경에서 실행하려면 어떤 조건이 필요한지 보여 주는 근거로 인용한 공식 플랫폼 문서입니다. 여기 실린 어떤 사업자도 MICA를 검토하거나 승인한 바 없습니다.",
+    },
+  },
+  {
     id: "integrity",
     label: {
       en: "Contamination, reproducibility, localization and governance",
@@ -327,6 +338,38 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
     },
   },
   {
+    id: "webvoyager",
+    group: "agent-environments",
+    name: "WebVoyager",
+    title: "Building an End-to-End Web Agent with Large Multimodal Models",
+    venue: "ACL 2024 / arXiv v1 25 January 2024",
+    url: "https://arxiv.org/abs/2401.13919",
+    borrowed: {
+      en: "Operation on live websites rather than a frozen replica: 643 tasks across 15 real sites, which is the published precedent for evaluating against services the harness does not own.",
+      ko: "고정된 복제본이 아니라 살아 있는 웹사이트에서 동작시키는 방식입니다. 실제 사이트 15곳에 걸친 과제 643개이며, 하니스가 소유하지 않은 서비스를 대상으로 평가한 공개 선례입니다.",
+    },
+    notAdopted: {
+      en: "There is no systematic per-country localized suite, and success is judged in part by a GPT-4V reading of screenshots and agent output rather than by authoritative market-side completion. MICA requires a receipt, readback or handoff record instead.",
+      ko: "국가별로 체계적으로 현지화한 과제 묶음이 없고, 성공 판정에 시장 쪽의 권위 있는 완료 근거 대신 GPT-4V가 스크린샷과 에이전트 출력을 읽는 방식이 일부 사용됩니다. MICA는 그 대신 확인 응답이나 되읽기, 인계 기록을 요구합니다.",
+    },
+  },
+  {
+    id: "appworld",
+    group: "agent-environments",
+    name: "AppWorld",
+    title: "A Controllable World of Apps and People for Benchmarking Interactive Coding Agents",
+    venue: "ACL 2024 / arXiv v1 26 July 2024",
+    url: "https://arxiv.org/abs/2407.18901",
+    borrowed: {
+      en: "Everyday consumer domains spanning multiple interacting apps and people, checked by state-based tests rather than by output matching.",
+      ko: "여러 앱과 사람이 얽히는 일상 소비 영역을 다루고, 출력 대조가 아니라 상태 기반 시험으로 확인하는 방식입니다.",
+    },
+    notAdopted: {
+      en: `Its apps are a controllable simulated world authored for the benchmark, not ${WIKI_FACTS.markets} independently localized real-life markets with their own payment, identity and messaging rails.`,
+      ko: `그 앱들은 벤치마크를 위해 저작된 통제 가능한 시뮬레이션 세계이며, 각자의 결제와 본인확인과 메시징 경로를 가진 ${WIKI_FACTS.markets}개의 독립적인 현지 실생활 시장이 아닙니다.`,
+    },
+  },
+  {
     id: "tau-bench",
     group: "tool-interaction",
     name: "tau-bench",
@@ -338,8 +381,8 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
       ko: "도메인 정책과 백엔드 상태로 판정하는 사용자·에이전트·도구 간 상태 기반 상호작용, 그리고 운 좋은 한 번이 아닌 반복 시행 신뢰도입니다.",
     },
     notAdopted: {
-      en: "Its domains are synthetic and monolingual. MICA's policies are the actual authorization conventions of six markets.",
-      ko: "도메인이 합성이고 단일 언어입니다. MICA의 정책은 여섯 시장에서 실제로 통용되는 승인 관행입니다.",
+      en: `It covers two simulated service domains, retail and airline, in a single language. They are not ${WIKI_FACTS.markets} country-localized real consumer markets, and MICA's policies are the authorization conventions those markets actually apply.`,
+      ko: `대상은 단일 언어로 된 두 개의 시뮬레이션 서비스 도메인, 곧 소매와 항공입니다. 국가별로 현지화된 ${WIKI_FACTS.markets}개의 실제 소비자 시장이 아니며, MICA의 정책은 그 시장들이 실제로 적용하는 승인 관행입니다.`,
     },
   },
   {
@@ -532,6 +575,118 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
     notAdopted: {
       en: "Its estimators assume continuous returns. MICA's outcomes are binary and hierarchical, so the adaptation has to be justified, not copied.",
       ko: "그 추정량은 연속형 보상을 전제합니다. MICA의 결과는 이진이며 계층적이므로, 그대로 옮기지 않고 적용 근거를 밝혀야 합니다.",
+    },
+  },
+  {
+    id: "kakao-app",
+    group: "consumer-platforms",
+    name: "Kakao Developers",
+    title: "App",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developers.kakao.com/docs/latest/en/getting-started/app",
+    borrowed: {
+      en: "The documentation establishes that use of the platform begins with a registered application holding app keys and per-product configuration, so the registered app is the unit access is granted against.",
+      ko: "이 문서는 플랫폼 이용이 앱 키와 제품별 설정을 가진 등록 애플리케이션에서 시작한다는 점을 확인해 줍니다. 접근 권한이 부여되는 단위가 등록된 앱이라는 뜻입니다.",
+    },
+    notAdopted: {
+      en: "It does not establish that registration grants every capability. What a registered app may actually do is set per product and per scope, so MICA does not infer execution rights from registration.",
+      ko: "등록만으로 모든 기능이 허용된다는 뜻은 아닙니다. 등록된 앱이 실제로 무엇을 할 수 있는지는 제품과 스코프 단위로 정해지므로, MICA는 등록 사실에서 실행 권한을 추론하지 않습니다.",
+    },
+  },
+  {
+    id: "kakao-message",
+    group: "consumer-platforms",
+    name: "Kakao Developers",
+    title: "Kakao Talk Message · REST API",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developers.kakao.com/docs/latest/en/message/rest-api",
+    borrowed: {
+      en: "The documentation establishes that sending a message depends on a user access token, a consented scope, a supported message template and a permitted recipient relationship, which is a materially different condition from read-oriented local search.",
+      ko: "메시지 전송이 사용자 액세스 토큰과 동의된 스코프, 지원되는 메시지 템플릿, 허용된 수신자 관계에 달려 있음을 확인해 줍니다. 읽기 중심의 지역 검색과는 조건이 실질적으로 다릅니다.",
+    },
+    notAdopted: {
+      en: "It does not establish that messaging is unavailable, and MICA does not read it that way. It establishes that the send path is conditioned, which is why declared coverage is never treated as executable coverage.",
+      ko: "메시징이 불가능하다는 근거는 아니며 MICA도 그렇게 읽지 않습니다. 전송 경로에 조건이 붙는다는 사실을 보여 줄 뿐이고, 그래서 선언된 커버리지를 실행 가능한 커버리지로 취급하지 않습니다.",
+    },
+  },
+  {
+    id: "line-channels",
+    group: "consumer-platforms",
+    name: "LINE Developers",
+    title: "Creating a channel",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developers.line.biz/en/docs/line-developers-console/creating-channel/",
+    borrowed: {
+      en: "The documentation establishes a provider and channel structure as the control plane: a channel is created for a specific product and carries its own credentials.",
+      ko: "프로바이더와 채널 구조가 통제 지점임을 확인해 줍니다. 채널은 특정 제품을 위해 생성되고 자체 자격 증명을 갖습니다.",
+    },
+    notAdopted: {
+      en: "Creating a channel is not blanket product approval, and this page does not say it is. Individual products keep their own eligibility and review conditions.",
+      ko: "채널 생성이 모든 제품에 대한 포괄 승인은 아니며, 이 문서도 그렇게 말하지 않습니다. 개별 제품은 저마다의 자격 요건과 심사 조건을 유지합니다.",
+    },
+  },
+  {
+    id: "line-messaging",
+    group: "consumer-platforms",
+    name: "LINE Developers",
+    title: "Sending messages",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developers.line.biz/en/docs/messaging-api/sending-messages/",
+    borrowed: {
+      en: "The documentation establishes that a send depends on an Official Account channel and its access token, on the recipient relationship, and on which send method applies, rather than on a generic outbound call.",
+      ko: "전송이 일반적인 외부 호출이 아니라 공식 계정 채널과 그 액세스 토큰, 수신자와의 관계, 적용되는 전송 방식에 달려 있음을 확인해 줍니다.",
+    },
+    notAdopted: {
+      en: "It does not establish anything about non-messaging surfaces, and MICA does not generalize from it to payment, commerce or account operations on the same platform.",
+      ko: "메시징 이외의 표면에 대해서는 아무것도 확인해 주지 않으며, MICA는 이를 같은 플랫폼의 결제나 커머스, 계정 기능으로 일반화하지 않습니다.",
+    },
+  },
+  {
+    id: "line-mini-app",
+    group: "consumer-platforms",
+    name: "LINE Developers",
+    title: "LINE MINI App development flow",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developers.line.biz/en/docs/line-mini-app/develop/development-flow/",
+    borrowed: {
+      en: "The documentation establishes a lifecycle in which development and testing precede a review step before release, so reaching production is a gated transition rather than a deployment.",
+      ko: "개발과 테스트를 거친 뒤 공개 전에 심사 단계가 있는 수명주기를 확인해 줍니다. 운영 환경 도달이 단순 배포가 아니라 관문을 통과하는 전환이라는 뜻입니다.",
+    },
+    notAdopted: {
+      en: "It does not establish uniform worldwide availability. Regional availability and per-region conditions can differ, so MICA records executability per market rather than per platform.",
+      ko: "전 세계에서 동일하게 제공된다는 근거는 아닙니다. 지역별 제공 여부와 조건이 다를 수 있으므로, MICA는 실행 가능성을 플랫폼 단위가 아니라 시장 단위로 기록합니다.",
+    },
+  },
+  {
+    id: "wechat-release",
+    group: "consumer-platforms",
+    name: "WeChat Mini Program",
+    title: "Release",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developers.weixin.qq.com/miniprogram/en/dev/framework/quickstart/release.html",
+    borrowed: {
+      en: "The documentation establishes an account-controlled runtime bound to an AppID, where a build is uploaded, submitted for review and only then released to users.",
+      ko: "AppID에 묶인 계정 통제 런타임을 확인해 줍니다. 빌드를 업로드하고 심사를 받은 뒤에야 사용자에게 공개됩니다.",
+    },
+    notAdopted: {
+      en: "The English page is not a complete statement of current conditions. It can lag the Chinese documentation and the admin console, so MICA cites it for the shape of the control and verifies specifics per market edition.",
+      ko: "영문 문서가 현재 조건을 온전히 서술한다고 보지 않습니다. 중국어 문서나 관리자 콘솔보다 갱신이 늦을 수 있으므로, MICA는 통제의 형태에 한해 인용하고 세부 사항은 시장 에디션에서 따로 확인합니다.",
+    },
+  },
+  {
+    id: "grab-docs",
+    group: "consumer-platforms",
+    name: "Grab Developer",
+    title: "Grab Developer Documentation",
+    venue: "Official documentation · accessed 8 August 2026",
+    url: "https://developer.grab.com/docs/",
+    borrowed: {
+      en: "The documentation root establishes that access is organized around a developer application and product-specific onboarding, with some production capabilities conditioned by country or partner status.",
+      ko: "접근이 개발자 애플리케이션과 제품별 온보딩을 중심으로 구성되며, 일부 운영 기능은 국가나 파트너 지위에 따라 조건이 붙는다는 점을 문서 루트에서 확인할 수 있습니다.",
+    },
+    notAdopted: {
+      en: "It does not establish which specific capability is open in which market on a given date. MICA cites the documentation root rather than a deep link because product pages move, and it verifies specifics per market edition.",
+      ko: "특정 시점에 어느 시장에서 어떤 기능이 열려 있는지를 확인해 주지는 않습니다. 제품 문서 경로는 자주 바뀌므로 MICA는 개별 링크 대신 문서 루트를 인용하고, 세부 사항은 시장 에디션에서 확인합니다.",
     },
   },
   {
@@ -1222,19 +1377,29 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
     id: "why-mica",
     title: { en: "Why MICA exists", ko: "MICA가 존재하는 이유" },
     lead: {
-      en: "Published agent benchmarks measure capability in environments the benchmark controls. The thing a household actually buys is a whole system, working inside local services nobody controls. MICA exists in that gap.",
-      ko: "공개된 에이전트 벤치마크는 벤치마크가 통제하는 환경에서 능력을 측정합니다. 그러나 가정이 실제로 구매하는 것은, 아무도 통제하지 않는 현지 서비스 안에서 동작하는 시스템 전체입니다. MICA는 그 간극에 있습니다.",
+      en: `MICA is the world's first public benchmark initiative designed for outcome-verified end-to-end consumer-agent execution across ${WIKI_FACTS.markets} country-localized real-life markets and multiple everyday consumer domains. Published agent benchmarks measure capability in environments the benchmark controls, while the thing a household actually buys is a whole system working inside local services nobody controls. MICA exists in that gap, and it is an initiative designed to evaluate rather than a benchmark reporting results.`,
+      ko: `MICA는 ${WIKI_FACTS.markets}개의 국가별 현지 실생활 시장과 여러 일상 과제 영역에 걸쳐, 결과가 검증되는 소비자 에이전트의 엔드투엔드 실행을 평가하도록 설계된 세계 최초의 공개 벤치마크 이니셔티브입니다. 공개된 에이전트 벤치마크는 벤치마크가 통제하는 환경에서 능력을 측정하지만, 가정이 실제로 구매하는 것은 아무도 통제하지 않는 현지 서비스 안에서 동작하는 시스템 전체입니다. MICA는 그 간극에 있으며, 결과를 보고하는 벤치마크가 아니라 평가하도록 설계된 이니셔티브입니다.`,
     },
     entries: [
+      {
+        id: "first-mover-scope",
+        badge: "external-evidence",
+        term: { en: "The world-first claim, and its scope", ko: "세계 최초 주장과 그 범위" },
+        detail: {
+          en: `MICA is the world's first public benchmark initiative designed for outcome-verified end-to-end consumer-agent execution across ${WIKI_FACTS.markets} country-localized real-life markets and multiple everyday consumer domains. The claim is the conjunction of four conditions at once: ${WIKI_FACTS.markets} country-localized real-life markets, multiple everyday consumer domains, end-to-end execution rather than navigation or answering, and an authoritative outcome or final-state evidence requirement. It is a scoped category claim. It does not say prior work lacked live websites, shopping, travel, apps, transactions or state checks individually, because prior work has each of those. Review cutoff is 8 August 2026, and the claim is made to our knowledge from a finite literature review. MICA is currently an initiative designed to evaluate, with ${WIKI_FACTS.systems} systems and ${WIKI_FACTS.runCells} run cells, so it is not a benchmark reporting measured superiority over anything.`,
+          ko: `MICA는 ${WIKI_FACTS.markets}개의 국가별 현지 실생활 시장과 여러 일상 소비 영역에 걸쳐, 결과가 검증되는 소비자 에이전트의 엔드투엔드 실행을 평가하도록 설계된 세계 최초의 공개 벤치마크 이니셔티브입니다. 이 주장은 네 조건이 동시에 성립하는 결합을 가리킵니다. ${WIKI_FACTS.markets}개의 국가별 현지 실생활 시장, 여러 일상 소비 영역, 탐색이나 응답이 아닌 엔드투엔드 실행, 그리고 권위 있는 결과 또는 최종 상태 근거 요건입니다. 이는 범위가 한정된 범주 주장입니다. 선행 연구에 실제 웹사이트, 쇼핑, 여행, 앱, 거래, 상태 점검이 개별적으로 없었다는 뜻이 아니며, 선행 연구에는 그 각각이 존재합니다. 검토 기준일은 2026년 8월 8일이고, 유한한 문헌 검토에 근거해 저희가 아는 범위에서 밝히는 주장입니다. MICA는 현재 시스템 ${WIKI_FACTS.systems}개, 실행 셀 ${WIKI_FACTS.runCells}개인 평가 설계 단계의 이니셔티브이며, 무엇에 대해서도 측정된 우위를 보고하는 벤치마크가 아닙니다.`,
+        },
+        refs: ["webarena", "webvoyager", "webshop", "androidworld", "appworld", "tau-bench"],
+      },
       {
         id: "gap",
         badge: "external-evidence",
         term: { en: "The measurable gap", ko: "측정되지 않고 있는 간극" },
         detail: {
-          en: "Execution-based web, desktop and mobile benchmarks established that a task can be graded on final state rather than on a transcript. What they do not cover is a journey that crosses a local payment rail, a carrier identity check and an app with no browsable equivalent, in a language and register the user actually uses.",
-          ko: "실행 기반의 웹·데스크톱·모바일 벤치마크는 과제를 기록이 아니라 최종 상태로 채점할 수 있음을 확립했습니다. 그러나 현지 결제 경로와 통신사 본인확인, 브라우저로 대체할 수 없는 앱을 가로지르는 여정을, 사용자가 실제로 쓰는 언어와 화계로 다루지는 않습니다.",
+          en: `Execution-based benchmarks established that a task can be graded on final state rather than on a transcript, and they are not confined to controlled environments: WebVoyager operates on live websites, WebArena, WebShop, AndroidWorld and AppWorld use controlled or simulated ones, and tau-bench judges interaction against simulated domain policy and backend state. What none of them assembles is the conjunction: ${WIKI_FACTS.markets} country-localized real-life markets, multiple everyday consumer domains, execution carried through to the end, and an authoritative completion record, in the language and register the user actually uses.`,
+          ko: `실행 기반 벤치마크들은 과제를 기록이 아니라 최종 상태로 채점할 수 있음을 확립했고, 통제된 환경에만 머무르지도 않습니다. WebVoyager는 살아 있는 웹사이트에서 동작하고, WebArena와 WebShop, AndroidWorld, AppWorld는 통제되거나 시뮬레이션된 환경을 쓰며, tau-bench는 시뮬레이션된 도메인 정책과 백엔드 상태로 상호작용을 판정합니다. 다만 어느 쪽도 다음 결합을 함께 갖추지는 않습니다. ${WIKI_FACTS.markets}개의 국가별 현지 실생활 시장, 여러 일상 소비 영역, 끝까지 수행되는 실행, 권위 있는 완료 기록, 그리고 사용자가 실제로 쓰는 언어와 화계입니다.`,
         },
-        refs: ["webarena", "osworld", "androidworld", "webshop"],
+        refs: ["webarena", "webvoyager", "webshop", "androidworld", "appworld", "tau-bench", "osworld"],
       },
       {
         id: "orchestration",
@@ -1470,6 +1635,27 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
           en: "App enclosure and identity handoff are controlled conditions of the environment. A system is not awarded extra credit for operating inside an enclosed channel, and is not excused for failing to.",
           ko: "앱 폐쇄성과 신원 인계는 환경의 통제된 조건입니다. 폐쇄된 채널 안에서 동작한다고 해서 가산점을 주지 않고, 그러지 못했다고 해서 면제해 주지도 않습니다.",
         },
+      },
+      {
+        id: "platform-controlled-layer",
+        badge: "external-evidence",
+        term: {
+          en: "Execution is platform-controlled, separately from whether an API exists",
+          ko: "실행은 API 존재 여부와 별개로 플랫폼이 통제한다",
+        },
+        detail: {
+          en: "Official platform documentation shows that discovery and read access is often credentialed but broadly documented, while state-changing execution is conditioned. Messaging, payment, account operations and mini-app execution can require a registered application or channel, OAuth or platform consent, reviewed scopes, a permitted recipient relationship, merchant or partner onboarding, a user gesture, a controlled runtime and a release review. None of that means a market has no APIs; it means the presence of an API does not establish that a consumer errand can be completed in production by a given system on a given date. MICA therefore records production executability as a separate fact from API existence, per market edition, and treats it as a condition of the environment rather than a property of a system.",
+          ko: "공식 플랫폼 문서를 보면 탐색과 읽기 접근은 자격 증명이 필요하더라도 대체로 폭넓게 문서화되어 있는 반면, 상태를 바꾸는 실행에는 조건이 붙습니다. 메시징, 결제, 계정 기능, 미니앱 실행에는 등록된 애플리케이션이나 채널, OAuth 또는 플랫폼 동의, 심사를 거친 스코프, 허용된 수신자 관계, 가맹점이나 파트너 온보딩, 사용자 조작, 통제된 런타임, 배포 심사가 요구될 수 있습니다. 이는 어떤 시장에 API가 없다는 뜻이 결코 아니며, API가 있다는 사실만으로 특정 시점에 특정 시스템이 소비자 용무를 운영 환경에서 완료할 수 있음이 성립하지는 않는다는 뜻입니다. 그래서 MICA는 운영 환경에서의 실행 가능성을 API 존재 여부와 분리된 사실로 시장 에디션마다 기록하고, 시스템의 속성이 아니라 환경의 조건으로 다룹니다.",
+        },
+        refs: [
+          "kakao-app",
+          "kakao-message",
+          "line-channels",
+          "line-messaging",
+          "line-mini-app",
+          "wechat-release",
+          "grab-docs",
+        ],
       },
       {
         id: "profiles",
@@ -1930,6 +2116,16 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
           ko: "곱셈 형태는 강한 비보상적 결과를 낳는 정책적 선택입니다. 다른 집계 방식이 구매자가 중시하는 바를 더 잘 반영할지는 실제로 열려 있는 질문이며, 그 질문이 계속 답할 수 있는 상태로 남도록 민감도 분석을 요건으로 둡니다.",
         },
         refs: ["oecd-jrc-composite", "keeney-raiffa"],
+      },
+      {
+        id: "priority-claim-limit",
+        badge: "open-question",
+        term: { en: "The limit of the priority claim", ko: "최초 주장의 한계" },
+        detail: {
+          en: "Worldwide priority cannot be proven. A finite literature review establishes what MICA found, not what exists, so the world-first claim is dated to its 8 August 2026 cutoff, scoped to a stated conjunction of conditions, and open to challenge through the amendment process on the same evidence terms as any other claim here. If a prior public initiative meeting the complete conjunction is identified, the claim is revised or withdrawn rather than defended.",
+          ko: "세계 최초라는 사실은 증명할 수 없습니다. 유한한 문헌 검토는 MICA가 무엇을 찾았는지를 보여 줄 뿐 무엇이 존재하는지를 보여 주지 않습니다. 그래서 이 주장은 2026년 8월 8일 검토 기준일에 묶여 있고, 명시된 조건 결합으로 범위가 한정되며, 이 위키의 다른 주장과 같은 근거 요건 아래 개정 절차로 반박할 수 있습니다. 그 조건 결합을 모두 충족하는 선행 공개 이니셔티브가 확인되면, 이 주장은 방어하는 대신 수정하거나 철회합니다.",
+        },
+        refs: ["webarena", "webvoyager", "webshop", "androidworld", "appworld", "tau-bench"],
       },
       {
         id: "reference-setting",

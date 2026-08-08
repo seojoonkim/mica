@@ -188,6 +188,19 @@ export default async function HomePage({
       </div>
 
       <Section
+        eyebrow={dict.home.positionEyebrow}
+        title={dict.home.positionTitle}
+        intro={dict.home.positionIntro}
+      >
+        <DataList items={dict.home.positionItems} />
+        <p className="mt-6">
+          <LocaleLink lang={lang} href="/methodology#why-mica" className="mica-link">
+            {dict.home.positionLink}
+          </LocaleLink>
+        </p>
+      </Section>
+
+      <Section
         eyebrow={dict.home.axesEyebrow}
         title={dict.home.axesTitle}
         intro={dict.home.axesIntro}

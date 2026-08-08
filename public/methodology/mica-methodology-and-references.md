@@ -17,7 +17,7 @@ This document states MICA's current final methodology and its evidence base.
 - Minimum eligible runs: not set
 - Minimum coverage: not set
 - Per-task final score: 100 × accuracy × speed × cost, each factor normalized to the interval from 0 to 1, bounded by 0 and 100
-- References in this document: 47
+- References in this document: 56
 
 ## Reading vocabulary
 
@@ -28,9 +28,10 @@ This document states MICA's current final methodology and its evidence base.
 
 ## Why MICA exists
 
-Published agent benchmarks measure capability in environments the benchmark controls. The thing a household actually buys is a whole system, working inside local services nobody controls. MICA exists in that gap.
+MICA is the world's first public benchmark initiative designed for outcome-verified end-to-end consumer-agent execution across 6 country-localized real-life markets and multiple everyday consumer domains. Published agent benchmarks measure capability in environments the benchmark controls, while the thing a household actually buys is a whole system working inside local services nobody controls. MICA exists in that gap, and it is an initiative designed to evaluate rather than a benchmark reporting results.
 
-- **[External evidence] The measurable gap.** Execution-based web, desktop and mobile benchmarks established that a task can be graded on final state rather than on a transcript. What they do not cover is a journey that crosses a local payment rail, a carrier identity check and an app with no browsable equivalent, in a language and register the user actually uses. (see: webarena, osworld, androidworld, webshop)
+- **[External evidence] The world-first claim, and its scope.** MICA is the world's first public benchmark initiative designed for outcome-verified end-to-end consumer-agent execution across 6 country-localized real-life markets and multiple everyday consumer domains. The claim is the conjunction of four conditions at once: 6 country-localized real-life markets, multiple everyday consumer domains, end-to-end execution rather than navigation or answering, and an authoritative outcome or final-state evidence requirement. It is a scoped category claim. It does not say prior work lacked live websites, shopping, travel, apps, transactions or state checks individually, because prior work has each of those. Review cutoff is 8 August 2026, and the claim is made to our knowledge from a finite literature review. MICA is currently an initiative designed to evaluate, with 0 systems and 0 run cells, so it is not a benchmark reporting measured superiority over anything. (see: webarena, webvoyager, webshop, androidworld, appworld, tau-bench)
+- **[External evidence] The measurable gap.** Execution-based benchmarks established that a task can be graded on final state rather than on a transcript, and they are not confined to controlled environments: WebVoyager operates on live websites, WebArena, WebShop, AndroidWorld and AppWorld use controlled or simulated ones, and tau-bench judges interaction against simulated domain policy and backend state. What none of them assembles is the conjunction: 6 country-localized real-life markets, multiple everyday consumer domains, execution carried through to the end, and an authoritative completion record, in the language and register the user actually uses. (see: webarena, webvoyager, webshop, androidworld, appworld, tau-bench, osworld)
 - **[Current rule] The system is the subject.** A base model score does not predict whether an errand completes. Scaffolding, routing, memory, permissions and recovery decide that, and they are the parts a buyer chooses between. MICA therefore measures the assembled system and never a model in isolation.
 - **[MICA policy] Locality is the hard part.** A benchmark that translates English tasks measures translation. MICA's markets differ in which channel a journey lives on, who has to approve it, when it is actually complete and what counts as proof, and those differences are the point rather than a complication. (see: blend, m3exam, mega)
 - **[Current rule] What MICA refuses to be.** Not a marketing surface for the systems it measures, not a leaderboard that publishes a figure it cannot re-derive, and not an index that treats an absent measurement as a low one.
@@ -87,6 +88,7 @@ If two systems face different starting conditions, the comparison measures the c
 
 - **[Current rule] What is fixed equally.** The selected representative platforms, the account tier, the granted permissions, the initial state and the confirmation boundary are identical across systems for a given task version. (see: mlperf-inference)
 - **[Current rule] Enclosure is a condition, not a bonus.** App enclosure and identity handoff are controlled conditions of the environment. A system is not awarded extra credit for operating inside an enclosed channel, and is not excused for failing to.
+- **[External evidence] Execution is platform-controlled, separately from whether an API exists.** Official platform documentation shows that discovery and read access is often credentialed but broadly documented, while state-changing execution is conditioned. Messaging, payment, account operations and mini-app execution can require a registered application or channel, OAuth or platform consent, reviewed scopes, a permitted recipient relationship, merchant or partner onboarding, a user gesture, a controlled runtime and a release review. None of that means a market has no APIs; it means the presence of an API does not establish that a consumer errand can be completed in production by a given system on a given date. MICA therefore records production executability as a separate fact from API existence, per market edition, and treats it as a condition of the environment rather than a property of a system. (see: kakao-app, kakao-message, line-channels, line-messaging, line-mini-app, wechat-release, grab-docs)
 - **[Current rule] Market integration profiles.** Each of the 6 market editions declares at least 5 representative situations, spanning at least 3 surfaces, 3 authorization boundaries, 2 completion semantics, 3 recovery conditions and 4 evidence types.
 - **[Current rule] Declared, not exercised.** A profile declares planned coverage. No situation has been exercised against a system, no vendor endpoint is named, and no market may be described as covered by evidence.
 - **[Current rule] Environment faults are not agent failures.** An unreachable service, an evaluator defect or a broken starting state makes an attempt ineligible. It is discarded with a reason before scoring, never counted as a failure.
@@ -177,6 +179,7 @@ This wiki is written to be argued with. A challenge that names a section and car
 The parts of the method MICA does not consider settled. A benchmark that hides these is advertising.
 
 - **[Open question] Is the product the right form.** The multiplicative form is a policy choice with strong non-compensatory consequences. Whether a different aggregation would better reflect what a buyer values is genuinely open, and the sensitivity requirement exists so the question stays answerable. (see: oecd-jrc-composite, keeney-raiffa)
+- **[Open question] The limit of the priority claim.** Worldwide priority cannot be proven. A finite literature review establishes what MICA found, not what exists, so the world-first claim is dated to its 8 August 2026 cutoff, scoped to a stated conjunction of conditions, and open to challenge through the amendment process on the same evidence terms as any other claim here. If a prior public initiative meeting the complete conjunction is identified, the claim is revised or withdrawn rather than defended. (see: webarena, webvoyager, webshop, androidworld, appworld, tau-bench)
 - **[Open question] How references should be set.** Speed and cost references are pre-registered per task version and never re-derived from the cohort being scored. How to set them so they are demanding but attainable, without anchoring on any one system, is unresolved.
 - **[Open question] Does simulator behaviour transfer.** Deterministic replicas are reproducible but synthetic, and live services change under the runner. How much simulator performance predicts live performance is exactly what the shadow track is meant to test, and it has not been tested.
 - **[Open question] Uneven market coverage.** Markets differ in how much of a journey is reachable at all. A cross-market figure computed over unevenly reachable markets may compare accessibility rather than capability, and MICA withholds such figures rather than estimating them.
@@ -230,6 +233,12 @@ Where MICA takes its execution-based, final-state notion of a task from, and whe
 - [WebShop](https://arxiv.org/abs/2207.01206) — Towards Scalable Real-World Web Interaction with Grounded Language Agents. NeurIPS 2022.
   - Borrowed: Scalable consumer shopping goals expressed as constraint satisfaction over an instruction, which MICA reuses in its shopping family contracts.
   - Not adopted: A single simulated store is narrower than a market. MICA's shopping tasks cross payment, identity and delivery rails that a single store hides.
+- [WebVoyager](https://arxiv.org/abs/2401.13919) — Building an End-to-End Web Agent with Large Multimodal Models. ACL 2024 / arXiv v1 25 January 2024.
+  - Borrowed: Operation on live websites rather than a frozen replica: 643 tasks across 15 real sites, which is the published precedent for evaluating against services the harness does not own.
+  - Not adopted: There is no systematic per-country localized suite, and success is judged in part by a GPT-4V reading of screenshots and agent output rather than by authoritative market-side completion. MICA requires a receipt, readback or handoff record instead.
+- [AppWorld](https://arxiv.org/abs/2407.18901) — A Controllable World of Apps and People for Benchmarking Interactive Coding Agents. ACL 2024 / arXiv v1 26 July 2024.
+  - Borrowed: Everyday consumer domains spanning multiple interacting apps and people, checked by state-based tests rather than by output matching.
+  - Not adopted: Its apps are a controllable simulated world authored for the benchmark, not 6 independently localized real-life markets with their own payment, identity and messaging rails.
 
 ### Tool use and stateful interaction
 
@@ -237,7 +246,7 @@ Work on tool calls, policies, backend state and repeated reliability, which shap
 
 - [tau-bench](https://arxiv.org/abs/2406.12045) — A Benchmark for Tool-Agent-User Interaction in Real-World Domains. 2024.
   - Borrowed: Stateful user, agent and tool interaction judged against domain policy and backend state, plus repeated-trial reliability rather than one lucky run.
-  - Not adopted: Its domains are synthetic and monolingual. MICA's policies are the actual authorization conventions of six markets.
+  - Not adopted: It covers two simulated service domains, retail and airline, in a single language. They are not 6 country-localized real consumer markets, and MICA's policies are the authorization conventions those markets actually apply.
 - [API-Bank](https://aclanthology.org/2023.emnlp-main.187/) — A Comprehensive Benchmark for Tool-Augmented LLMs. EMNLP 2023.
   - Borrowed: The decomposition of tool use into deciding a tool is needed, retrieving it, forming arguments, executing and reading the response.
   - Not adopted: A well-formed call is not a completed errand. MICA scores the final state, and uses call diagnostics only to explain it.
@@ -279,6 +288,32 @@ The literature MICA uses to criticize its own product score, not to justify it. 
 - [Agarwal et al.](https://arxiv.org/abs/2108.13264) — Deep Reinforcement Learning at the Edge of the Statistical Precipice. NeurIPS 2021.
   - Borrowed: Few-run point estimates mislead. Report repeated runs, uncertainty intervals and performance distributions rather than a single mean.
   - Not adopted: Its estimators assume continuous returns. MICA's outcomes are binary and hierarchical, so the adaptation has to be justified, not copied.
+
+### Consumer-platform execution controls
+
+Official platform documentation, cited as evidence of the conditions under which a consumer action can be executed in production. None of these vendors has reviewed, approved or endorsed MICA.
+
+- [Kakao Developers](https://developers.kakao.com/docs/latest/en/getting-started/app) — App. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation establishes that use of the platform begins with a registered application holding app keys and per-product configuration, so the registered app is the unit access is granted against.
+  - Not adopted: It does not establish that registration grants every capability. What a registered app may actually do is set per product and per scope, so MICA does not infer execution rights from registration.
+- [Kakao Developers](https://developers.kakao.com/docs/latest/en/message/rest-api) — Kakao Talk Message · REST API. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation establishes that sending a message depends on a user access token, a consented scope, a supported message template and a permitted recipient relationship, which is a materially different condition from read-oriented local search.
+  - Not adopted: It does not establish that messaging is unavailable, and MICA does not read it that way. It establishes that the send path is conditioned, which is why declared coverage is never treated as executable coverage.
+- [LINE Developers](https://developers.line.biz/en/docs/line-developers-console/creating-channel/) — Creating a channel. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation establishes a provider and channel structure as the control plane: a channel is created for a specific product and carries its own credentials.
+  - Not adopted: Creating a channel is not blanket product approval, and this page does not say it is. Individual products keep their own eligibility and review conditions.
+- [LINE Developers](https://developers.line.biz/en/docs/messaging-api/sending-messages/) — Sending messages. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation establishes that a send depends on an Official Account channel and its access token, on the recipient relationship, and on which send method applies, rather than on a generic outbound call.
+  - Not adopted: It does not establish anything about non-messaging surfaces, and MICA does not generalize from it to payment, commerce or account operations on the same platform.
+- [LINE Developers](https://developers.line.biz/en/docs/line-mini-app/develop/development-flow/) — LINE MINI App development flow. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation establishes a lifecycle in which development and testing precede a review step before release, so reaching production is a gated transition rather than a deployment.
+  - Not adopted: It does not establish uniform worldwide availability. Regional availability and per-region conditions can differ, so MICA records executability per market rather than per platform.
+- [WeChat Mini Program](https://developers.weixin.qq.com/miniprogram/en/dev/framework/quickstart/release.html) — Release. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation establishes an account-controlled runtime bound to an AppID, where a build is uploaded, submitted for review and only then released to users.
+  - Not adopted: The English page is not a complete statement of current conditions. It can lag the Chinese documentation and the admin console, so MICA cites it for the shape of the control and verifies specifics per market edition.
+- [Grab Developer](https://developer.grab.com/docs/) — Grab Developer Documentation. Official documentation · accessed 8 August 2026.
+  - Borrowed: The documentation root establishes that access is organized around a developer application and product-specific onboarding, with some production capabilities conditioned by country or partner status.
+  - Not adopted: It does not establish which specific capability is open in which market on a given date. MICA cites the documentation root rather than a deep link because product pages move, and it verifies specifics per market edition.
 
 ### Contamination, reproducibility, localization and governance
 

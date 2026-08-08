@@ -5,7 +5,7 @@ import { readLocale, type LangParams } from "@/lib/i18n/route";
 import { localeAlternates } from "@/lib/i18n/config";
 import { COUNTRIES } from "@/data/demo/countries";
 import { heroMissionsForCountry } from "@/data/demo/tasks";
-import { DemoDisclosure, DetailCue, PageHeader, Section } from "@/components/editorial";
+import { DataList, DemoDisclosure, DetailCue, PageHeader, Section } from "@/components/editorial";
 import { DataTableScroller } from "@/components/data-table-scroller";
 import { CountryIntegrationIllustration } from "@/components/country-integration-illustration";
 
@@ -36,6 +36,14 @@ export default async function CountriesPage({
       >
         <DemoDisclosure lang={lang} />
       </PageHeader>
+
+      <Section
+        eyebrow={dict.countries.conditionsEyebrow}
+        title={dict.countries.conditionsTitle}
+        intro={dict.countries.conditionsIntro}
+      >
+        <DataList items={dict.countries.conditionsItems} />
+      </Section>
 
       <Section
         eyebrow={dict.countries.coverageEyebrow}

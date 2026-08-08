@@ -65,6 +65,10 @@ export default async function SubmitPage({
                 dict.submit.scopeSuffix,
               ].join(""),
             },
+            {
+              term: dict.submit.executionTerm,
+              detail: dict.submit.executionDetail,
+            },
             { term: dict.submit.accessTerm, detail: dict.submit.accessDetail },
             { term: dict.submit.traceTerm, detail: dict.submit.traceDetail },
           ]}

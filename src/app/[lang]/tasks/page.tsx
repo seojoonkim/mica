@@ -50,6 +50,14 @@ export default async function TasksPage({
         </p>
       </PageHeader>
 
+      <Section
+        eyebrow={dict.tasks.crossingEyebrow}
+        title={dict.tasks.crossingTitle}
+        intro={dict.tasks.crossingIntro}
+      >
+        <></>
+      </Section>
+
       {/*
        * A validated task earns one multiplicative final score; the raw axes
        * below it stay disclosed in their own units. Nothing on this page has

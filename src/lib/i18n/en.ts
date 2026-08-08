@@ -47,10 +47,12 @@ export const en = {
 
   site: {
     longName: "Multinational Index of Consumer Agents",
-    tagline: "The global benchmark for consumer agent orchestration.",
-    secondary: "Models matter. Orchestration wins.",
+    tagline:
+      "The world’s first public benchmark initiative for outcome-verified, end-to-end consumer-agent execution across six country-localized real-life markets and multiple everyday consumer domains.",
+    secondary:
+      "Benchmarks have measured models and agents in knowledge work, in code, in benchmark-controlled web environments and in isolated app simulations. MICA measures whether an assembled system can finish an ordinary errand in the market where the consumer actually lives.",
     definition:
-      "MICA measures complete, versioned consumer-agent systems on everyday tasks in six markets across Asia and the Middle East. Each validated task earns one final score from its normalized accuracy, speed and cost components, and all three raw axes stay published beside it.",
+      "MICA evaluates complete, versioned consumer-agent systems on everyday errands across six markets in Asia and the Middle East, where execution runs through local channels, identity and consent checks, payment rails and app-only flows rather than a controlled sandbox. Each validated task earns one final score from its normalized accuracy, speed and cost components, and all three raw axes stay published beside it.",
     edition: "Preview edition 0.1",
     demoNotice:
       "Illustrative demo data — not an official ranking. Every figure on this site is generated for interface development and carries no evidentiary weight.",
@@ -186,6 +188,28 @@ export const en = {
     noResultsHeadline: "No verified system results have been published yet.",
     noResultsDetail:
       "MICA has published no system, no score and no ranking. What exists today is the apparatus: a ten-family task taxonomy whose definitions are still provisional candidates, a stated measurement method, a publication gate with its thresholds still unset, and an evidence model in which every future figure will resolve to a named aggregate run cell. Results appear here only after a submitted snapshot has been independently rerun and cleared that gate.",
+    positionEyebrow: "Why MICA exists",
+    positionTitle: "Consumers still have no benchmark for whether an errand actually gets finished",
+    positionIntro:
+      "Benchmark attention has concentrated on enterprise knowledge work, software development, benchmark-controlled web environments and isolated mobile or transaction simulations. Those precedents are real and MICA builds on them. What none of them settles is whether an assembled consumer-agent system can carry an ordinary errand to completion in a live, localized market. That is the gap MICA is being built to measure, and it has measured nothing yet.",
+    positionItems: [
+      {
+        term: "The missing unit",
+        detail:
+          "The unit is the whole consumer outcome across whatever services the errand touches, not a model answer, a tool-call response, or success inside a single interface. An errand that ends with the right thing booked, ordered, cancelled or changed is one result; the same errand abandoned at a login wall is not a partial one.",
+      },
+      {
+        term: "The market is part of the task",
+        detail:
+          "Local channels, identity and phone verification, payment rails, language and register, and the local semantics of handoff and completion are conditions of the task, not translation details. The same errand is a different problem in each market, which is why MICA runs six editions rather than one benchmark rendered in six languages.",
+      },
+      {
+        term: "Why app-led Asia matters",
+        detail:
+          "In app-led markets, discovery and read access are often public while the state-changing layer is not: ordering, messaging, payment and account changes run through platform registration, partner approval, consent scopes, mini-app runtimes and messaging or payment handoffs. A benchmark that stops at retrieval never reaches the part that is actually hard.",
+      },
+    ],
+    positionLink: "Read why MICA exists →",
     axesEyebrow: "One score per task, three axes still published",
     axesTitle: "MICA multiplies accuracy, speed and cost into one task score",
     axesIntro:
@@ -234,9 +258,30 @@ export const en = {
     metaDescription:
       "The six markets in the MICA index and what changes for a consumer agent in each.",
     eyebrow: "Market index",
-    title: "Six markets, six different problems",
+    title: "Six execution environments, not six translations",
     standfirst:
-      "MICA does not translate one market's benchmark into the other five. Each edition is written against the payment rails, identity checks, address formats and service conventions that actually exist there.",
+      "A country edition is not one benchmark rendered in another language. Each edition is written against the channels, payment rails, identity checks, address formats and service conventions that actually govern execution in that market, so the same errand carries different conditions in each of the six.",
+    conditionsEyebrow: "What makes an edition",
+    conditionsTitle: "Three conditions that differ market by market",
+    conditionsIntro:
+      "These are design conditions written into each edition, held equal across systems rather than scored as difficulty. No market has yet been exercised against a system, so nothing below reports how any market behaved in practice.",
+    conditionsItems: [
+      {
+        term: "Platform-controlled execution",
+        detail:
+          "Where the state-changing step lives differs by market: an open web checkout in one, a registered app or mini-app runtime in another, a partner-approved interface in a third. Discovery being public says nothing about whether ordering, messaging or account changes are reachable the same way.",
+      },
+      {
+        term: "Local authorization and identity",
+        detail:
+          "Account creation, local phone or identity verification, consent scopes and re-authentication steps sit in different places in each market's flow, and each one is a point where an agent can be legitimately stopped.",
+      },
+      {
+        term: "Local completion and handoff",
+        detail:
+          "What counts as done differs: a confirmation record, a messaging-channel reply, an in-app status change, or a handoff back to the person. Each edition declares the authoritative signal MICA will read, and where the system must stop and ask instead.",
+      },
+    ],
     coverageEyebrow: "Edition parameters",
     coverageTitle: "The six editions at a glance",
     coverageIntro:
@@ -549,9 +594,13 @@ export const en = {
     metaDescription:
       "The ten MICA task families, their canonical tasks, completion conditions and points that require user approval.",
     eyebrow: "Task definitions",
-    title: "A task is a final state, not a transcript",
+    title: "A task is a change in the consumer’s world, not a transcript",
     standfirst:
-      "Every MICA task declares the state the world must be in for the run to count, and the line past which the system must stop and ask. Nothing is scored on how convincing the agent sounded along the way.",
+      "Every MICA task declares the state the world must be in for the run to count, and the line past which the system must stop and ask. What is measured is the end-to-end change, including a correct stop or handoff. Persuasive text, a successful tool call, or a green state inside one interface is not the result.",
+    crossingEyebrow: "What one task can cross",
+    crossingTitle: "One errand, several execution surfaces",
+    crossingIntro:
+      "A single consumer errand rarely stays in one place. It can begin in open search, continue in an app-only flow, pause at local identity or consent verification, pass through a payment or messaging handoff, and end only when the resulting state can be read back from the service that holds it. Each crossing is a place a run can fail while still looking successful in a log, which is why completion is defined by the declared final state rather than by the last response the system received. The definitions below are provisional candidates: none has been validated, and none has been run against any system.",
     disclosureDetail:
       "The task definitions on this page are the real thing; the run figures elsewhere on the site are illustrative demo data and not an official ranking.",
     publicationStatus:
@@ -1018,7 +1067,7 @@ export const en = {
     eyebrow: "About · Governance",
     title: "An index is only as good as its refusals",
     standfirst:
-      "MICA is built to be argued with. This page records who decides, what they are not allowed to decide, and how a result gets corrected when it is wrong.",
+      "MICA is built to be argued with. What these rules protect is an open public benchmark initiative for consumer execution, not a vendor marketing surface. This page records who decides, what they are not allowed to decide, and how a result gets corrected when it is wrong.",
     disclosureDetail:
       "MICA has published no official edition. Everything currently on the site is illustrative demo data and not an official ranking.",
     rulesEyebrow: "Standing rules",
@@ -1106,7 +1155,7 @@ export const en = {
     eyebrow: "Submissions",
     title: "What a submission will have to carry",
     standfirst:
-      "MICA has no submission intake open yet, so this page states the requirements in advance. MICA measures a dated, versioned system: orchestrator, models, tools and memory together. Submission will be free and will buy no influence over the result.",
+      "MICA has no submission intake open yet, so this page states the requirements in advance. What is submitted is an assembled consumer-agent system, not a model endpoint: orchestrator, models, tools, memory and the means by which it actually executes in each claimed market, fixed at a dated version. Submission will be free and will buy no influence over the result.",
     disclosureDetail:
       "MICA is not yet accepting submissions for an official edition. The requirements below are real; the results currently on this site are illustrative demo data and not an official ranking.",
     publicationStatus:
@@ -1114,7 +1163,7 @@ export const en = {
     stepOneEyebrow: "Step one",
     stepOneTitle: "Declare the snapshot",
     stepOneIntro:
-      "A snapshot is immutable. Change any part of it and you have a new snapshot, not an update.",
+      "A snapshot is an assembled system, not a model endpoint, and it is immutable. Change any part of it, including how it reaches a market, and you have a new snapshot rather than an update.",
     identityTerm: "Identity",
     identityDetail:
       "System name, operator, snapshot version string and snapshot date.",
@@ -1125,12 +1174,15 @@ export const en = {
     scopeMarkets: "The markets (",
     scopeFamilies: ") and task families (",
     scopeSuffix: ") you are claiming coverage in.",
+    executionTerm: "Market execution capability",
+    executionDetail:
+      "For every claimed market, how the system actually acts there: browser, app or mini-app runtime, API, platform or partner account standing, and the identity or consent handoff it relies on, together with the recovery path it takes when an authorization or verification step blocks it. Declare the capability and its limits, never secrets or raw credentials; MICA will not accept and does not want passwords, tokens or verification codes.",
     accessTerm: "Access",
     accessDetail:
       "A way for MICA to run the system itself on MICA-controlled accounts. Without this, the result can never rise above self-reported.",
     traceTerm: "Evidence trace",
     traceDetail:
-      "Per-run records: eligibility, wall-clock duration, evaluation cost in USD, the final state reached, every point where the system stopped for confirmation, and every model invocation with its provider, model, version, purpose, tokens, cost, latency and order.",
+      "Per-run records: eligibility, wall-clock duration, evaluation cost in USD, the final state reached, every point where the system stopped for confirmation, and every model invocation with its provider, model, version, purpose, tokens, cost, latency and order. For any state-changing task the record must also carry an authoritative post-action readback from the service that holds the state, or proof of the handoff where the system correctly stopped. A 2xx response or a reported tool success is not evidence of completion.",
     stepTwoEyebrow: "Step two",
     stepTwoTitle: "What MICA does with it",
     stepTwoIntro:
