@@ -1,0 +1,121 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "lean-010204-001",
+  "status": "completed",
+  "productionProfile": "lean",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
+  "resourceEstimate": {
+    "estimatedHours": "3–5",
+    "roleContexts": "독립 의미 역할은 유지하고 최대 2개만 동시 실행",
+    "maxConcurrentContexts": 2,
+    "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상"
+  },
+  "maxDrafts": 3,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "mica_lean010204_source_research",
+    "sourceReviewer": "mica_lean010204_source_review",
+    "needWriter": "mica_lean010204_need_writer",
+    "observationReviewer": "mica_lean010204_observation_review",
+    "observationCustodian": "mica_lean010204_observation_custodian",
+    "translator": "mica_lean010204_task_translator",
+    "candidateReviewer": "mica_lean010204_candidate_review",
+    "candidateCustodian": "mica_lean010204_candidate_custodian",
+    "comparator": "mica_lean010204_comparator",
+    "measurementAssetAuthor": "mica_lean010204_measurement_assets",
+    "oracleReviewer": "mica_lean010204_oracle_reviewer_r1",
+    "measurementReviewer": "mica_lean010204_measurement_review",
+    "controller": "mica_lean010204_controller"
+  },
+  "modelRecord": [
+    {"role":"sourceResearcher","contextId":"mica_lean010204_source_research","modelAlias":"gpt-5.4-mini","reasoningSetting":"high","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"sourceReviewer","contextId":"mica_lean010204_source_review","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"needWriter","contextId":"mica_lean010204_need_writer","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"observationReviewer","contextId":"mica_lean010204_observation_review","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"observationCustodian","contextId":"mica_lean010204_observation_custodian","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"translator","contextId":"mica_lean010204_task_translator","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"candidateReviewer","contextId":"mica_lean010204_candidate_review","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"candidateCustodian","contextId":"mica_lean010204_candidate_custodian","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"comparator","contextId":"mica_lean010204_comparator","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"measurementAssetAuthor","contextId":"mica_lean010204_measurement_assets","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"oracleReviewer","contextId":"mica_lean010204_oracle_reviewer_r1","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"measurementReviewer","contextId":"mica_lean010204_measurement_review","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T05:27:44+09:00"},
+    {"role":"controller","contextId":"mica_lean010204_controller","modelAlias":"primary-session-runtime","reasoningSetting":"ultra","recordedAt":"2026-08-11T05:27:44+09:00"}
+  ],
+  "externalActionsAuthorized": false
+}

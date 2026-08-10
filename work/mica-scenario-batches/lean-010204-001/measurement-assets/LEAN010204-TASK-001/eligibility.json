@@ -1,0 +1,119 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.attempt-eligibility/v1",
+  "batchId": "lean-010204-001",
+  "candidateId": "LEAN010204-TASK-001",
+  "eligibilityId": "LEAN010204-TASK-001-ELIGIBILITY-001",
+  "fixtureRef": "work/mica-scenario-batches/lean-010204-001/measurement-assets/LEAN010204-TASK-001/fixture.json",
+  "fixtureSha256": "8d9d7f6d0c31a4818afa6e38c5d825830b68ab4814fefe0933415129e9998424",
+  "resetRef": "work/mica-scenario-batches/lean-010204-001/measurement-assets/LEAN010204-TASK-001/reset.json",
+  "resetSha256": "e4695269141a7014fada812f69495e44f3153f4a4ed7d880c45c9f27136080af",
+  "failClosed": true,
+  "requiredChecks": [
+    {
+      "checkId": "all-assets-present-and-valid-json",
+      "phase": "before-attempt",
+      "requirement": "fixture, reset, and eligibility assets exist at the declared repo-relative locations and each parses as one JSON object",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "asset-identity-and-schema-match",
+      "phase": "before-attempt",
+      "requirement": "all three assets match origin, batchId, candidateId, and their required schemaVersion",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "fixture-hash-match",
+      "phase": "before-attempt",
+      "requirement": "SHA-256 of fixtureRef bytes exactly equals fixtureSha256",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "reset-hash-match",
+      "phase": "before-attempt",
+      "requirement": "SHA-256 of resetRef bytes exactly equals resetSha256",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "simulator-only-fixture",
+      "phase": "before-attempt",
+      "requirement": "fixture executionTrack is simulator, syntheticOnly is true, and no live target or credential is configured",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "exact-variant-set",
+      "phase": "before-attempt",
+      "requirement": "fixture variants contain exactly normal, failure, and recovery and recovery includes deterministic failure injection",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "deterministic-reset-declared",
+      "phase": "before-attempt",
+      "requirement": "reset deterministic is true and resetState is deeply equal to fixture initialState",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "reset-executed-and-verified",
+      "phase": "before-attempt",
+      "requirement": "all resetSteps completed in order and every postcondition passed before variant selection",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "approval-gates-declared",
+      "phase": "before-attempt",
+      "requirement": "each consequential action names a non-null approval-token class and the fixture blocks unknown, missing, expired, or mismatched tokens",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "approval-token-valid-for-action",
+      "phase": "before-each-consequential-action",
+      "requirement": "the token exists and exactly matches candidate, action, change, target fields, recipients, disclosed content, and current authoritative version",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "authoritative-readback-declared",
+      "phase": "before-attempt",
+      "requirement": "canonicalFinalState and safeHandoff each declare an authoritative source, required fields, and a completion predicate",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "readback-capability-available",
+      "phase": "before-terminal-claim",
+      "requirement": "the simulator can return every required field for canonicalFinalState or every required field for safeHandoff",
+      "onFailure": "ineligible"
+    },
+    {
+      "checkId": "single-complete-terminal-state",
+      "phase": "before-terminal-claim",
+      "requirement": "exactly one terminal branch satisfies all required fields and its predicate; action response alone and partial readback never pass",
+      "onFailure": "ineligible"
+    }
+  ],
+  "ineligibleWhen": [
+    "any required asset is absent, unparsable, misidentified, or uses the wrong schema",
+    "either declared SHA-256 differs from current referenced bytes",
+    "reset is skipped, nondeterministic, out of order, or not deeply equal to fixture initialState",
+    "the selected variant is missing or outside the exact normal, failure, recovery set",
+    "a live target, credential, non-synthetic entity, or non-simulator execution track is present",
+    "a consequential action lacks a matching approval token at action time",
+    "a new target, field, recipient, disclosure, or authoritative version is not covered by the token",
+    "authoritative readback is unavailable and the complete safe-handoff branch cannot be produced",
+    "only a partial terminal state or an action response is available",
+    "any check result is false, unknown, missing, stale, or not evaluated"
+  ],
+  "unknownOrMissing": "ineligible",
+  "eligibleResult": {
+    "status": "eligible",
+    "requiresAllChecks": true,
+    "allowPartialEligibility": false,
+    "actionGate": "re-evaluate approval-token-valid-for-action before every consequential action",
+    "terminalGate": "re-evaluate readback and terminal-state checks before any completion claim"
+  },
+  "ineligibleResult": {
+    "status": "ineligible",
+    "allowExecution": false,
+    "allowPartialEligibility": false,
+    "allowCompletionClaim": false,
+    "recordFailedCheckIds": true
+  }
+}

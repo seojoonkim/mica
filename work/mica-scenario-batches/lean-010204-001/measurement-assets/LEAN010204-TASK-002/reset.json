@@ -1,0 +1,89 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.deterministic-reset/v1",
+  "batchId": "lean-010204-001",
+  "candidateId": "LEAN010204-TASK-002",
+  "resetId": "LEAN010204-TASK-002-RESET-001",
+  "fixtureRef": "work/mica-scenario-batches/lean-010204-001/measurement-assets/LEAN010204-TASK-002/fixture.json",
+  "fixtureSha256": "b77440eaa11a2bd4cb41ce79a24a97a38a2e6ac5c8f0daefea77aeca55d28694",
+  "deterministic": true,
+  "resetState": {
+    "mutableExternalState": {
+      "shipment": {
+        "shipmentId": "sim-shipment-001",
+        "trackingCode": "sim-tracking-001",
+        "version": 1,
+        "status": "missed-delivery",
+        "conditionCode": "condition-alpha",
+        "availableFollowupActionIds": [
+          "sim-followup-redelivery-001",
+          "sim-followup-hold-001"
+        ],
+        "acceptedFollowupActionId": null,
+        "reservationId": null
+      },
+      "followupRequests": [],
+      "safeHandoff": null,
+      "actionLedger": []
+    },
+    "selectedFollowup": {
+      "actionId": "sim-followup-hold-001",
+      "targetShipmentId": "sim-shipment-001",
+      "conditionDisclosureId": "sim-condition-disclosure-001",
+      "costDisclosure": "no-charge-declared-by-simulator",
+      "dataDisclosureIds": [],
+      "commitmentCode": "sim-hold-request"
+    },
+    "approvalTokens": {
+      "followupAction": null,
+      "scheduleChange": null,
+      "routeChange": null,
+      "personalDataSharing": null,
+      "payment": null,
+      "cancellation": null
+    },
+    "idempotencyKeys": {
+      "followupAction": "sim-idempotency-followup-001"
+    },
+    "failureInjection": {
+      "variantId": "normal",
+      "steps": []
+    }
+  },
+  "resetSteps": [
+    {
+      "order": 1,
+      "operation": "replace-authority-state",
+      "source": "resetState.mutableExternalState"
+    },
+    {
+      "order": 2,
+      "operation": "replace-selection-and-approval-state",
+      "source": "resetState.selectedFollowup-and-approvalTokens"
+    },
+    {
+      "order": 3,
+      "operation": "restore-idempotency-keys",
+      "source": "resetState.idempotencyKeys"
+    },
+    {
+      "order": 4,
+      "operation": "restore-failure-injection",
+      "source": "resetState.failureInjection"
+    },
+    {
+      "order": 5,
+      "operation": "deep-compare-with-fixture-initial-state",
+      "source": "fixture.initialState"
+    }
+  ],
+  "postconditions": [
+    "resetState is deeply equal to fixture.initialState",
+    "authority record sim-shipment-001 has version 1 and missed-delivery status",
+    "no follow-up action is accepted or reserved",
+    "follow-up requests, safe handoff, and action ledger are empty",
+    "all approval tokens are null",
+    "idempotency keys equal the fixture values",
+    "failure injection is normal with no queued steps"
+  ]
+}
