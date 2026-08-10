@@ -58,6 +58,17 @@
 
 상세 공개용 초안은 [`candidate-specs.json`](./candidate-specs.json), 공정은 [`methodology.md`](./methodology.md), 반복 실행 절차는 [`reproduction.md`](./reproduction.md)에서 확인할 수 있다.
 
+## 저장소에서 바로 실행하기
+
+PR을 clone 또는 checkout한 뒤 저장소 루트에서 Codex나 Claude Code를 시작하면 제작 스킬이 자동 발견된다. 개인 컴퓨터의 별도 스킬 디렉터리나 다른 vooy 저장소는 필요하지 않다.
+
+- Codex: `$mica-scenario-production <batch-id>`
+- Claude Code: `/mica-scenario-production <batch-id>`
+- 공통 사전검사: `python3 scripts/mica-scenario-production.py preflight`
+- 빈 5개 배치 생성: `python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 5`
+
+실행 계약은 [`agent-production-contract.md`](./agent-production-contract.md), 독립 역할별 전달문은 [`role-prompts.md`](./role-prompts.md)에 있다. 작성자·번역자에게 이 15건이나 기존 MICA 과제를 발상 입력으로 제공하지 않는 것이 재현의 핵심이다.
+
 ## 이 PR이 채택되면 저장소 보유자가 할 수 있는 일
 
 - 15개 후보를 기존 MICA 문항과 분리된 연구 초안으로 검토하고 토론할 수 있다.
@@ -66,6 +77,7 @@
 - 후보별 simulator fixture·reset·attempt eligibility·oracle을 구현하고 실제 시스템을 반복 평가할 수 있는지 검증할 수 있다.
 - 후속 배치의 수락·거절·보완 이력을 별도 PR로 누적하면서 100건 원장을 구성할 수 있다.
 - 시장별 성립, 현지화, 실행, 공개·비공개 편입 여부를 시나리오 제작과 분리해 심사할 수 있다.
+- 저장소에 포함된 프로젝트 스킬과 표준 라이브러리 Python 도구로 다음 5개 배치의 작업 공간을 만들고 구조를 검사할 수 있다.
 
 채택은 이 15건을 canonical task나 공개 벤치마크 문항으로 자동 승인하는 행위가 아니다. 저장소 안에서 팀이 같은 방법론을 검토·재현하고 다음 결정을 이어갈 수 있도록 **버전이 고정된 중간 연구 기준점**을 추가하는 것이다.
 

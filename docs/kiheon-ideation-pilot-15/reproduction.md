@@ -1,5 +1,16 @@
 # 재현 가이드
 
+## 실행 환경
+
+저장소 루트에서 Codex 또는 Claude Code를 시작한다. Codex는 `.agents/skills/mica-scenario-production/`, Claude Code는 `.claude/skills/mica-scenario-production/`을 프로젝트 스킬로 읽는다. 개인 홈 디렉터리 설치나 특정 컴퓨터의 절대경로는 필요하지 않다.
+
+```bash
+python3 scripts/mica-scenario-production.py preflight
+python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 5
+```
+
+그 뒤 Codex에서는 `$mica-scenario-production <batch-id>`, Claude Code에서는 `/mica-scenario-production <batch-id>`로 시작한다. 역할별 새 컨텍스트에는 [`role-prompts.md`](./role-prompts.md)의 해당 블록과 허용 입력만 전달한다.
+
 ## 한 배치의 권장 크기
 
 처음에는 최대 5개의 생활 필요로 전체 공정을 끝까지 반복한다. 새 구조 결함이 없고 기존 결함 회귀 검사가 통과한 뒤에만 10개로 늘린다. 후보 수를 맞추기 위해 수락하거나, 거절된 원문을 조용히 수정하지 않는다.
@@ -45,4 +56,3 @@
 ## 다음 단계
 
 이 15건을 이어서 사용하려면 후보 제작보다 먼저 시장별 근거 검토, simulator 교정 사전등록, 실제 자산 전수 재검증, public/private 분리를 수행한다. live 실행이나 점수 산출은 그 뒤의 별도 승인 대상이다.
-
