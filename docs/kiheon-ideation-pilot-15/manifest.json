@@ -3,10 +3,10 @@
   "schemaVersion": "mica.kiheon-public-package-manifest/v1",
   "status": "draft-pr",
   "files": [
-    {"path":"docs/kiheon-ideation-pilot-15/README.md","sha256":"e4f51059765adfcae0b2e22a3e0bdab99f6a967e60a61211c8afddeec7d4183f","byteLength":4564},
-    {"path":"docs/kiheon-ideation-pilot-15/methodology.md","sha256":"8ff7a26e3b6e7551417e9c5248dc9c04b68c0766ad190e80d8a66dbe28920b33","byteLength":4057},
+    {"path":"docs/kiheon-ideation-pilot-15/README.md","sha256":"f12ebfd904eb4012177011bcc605e5b945c3d6ec2e1b0a4697e13b819b3515df","byteLength":7666},
+    {"path":"docs/kiheon-ideation-pilot-15/methodology.md","sha256":"c1a00e258bafd017b7ac69d55040ac949118e2027ecac6ce199dea84ff6505cf","byteLength":5328},
     {"path":"docs/kiheon-ideation-pilot-15/reproduction.md","sha256":"a7ba28c9660f8ce7681797544cc2853872eb88bb32c00c04236da2e22ae8d5c2","byteLength":2757},
     {"path":"docs/kiheon-ideation-pilot-15/candidate-specs.json","sha256":"bbb2784a8481883c8c8fc2dc65f6dabe80a7bf0fbfade1eb0144461cad076571","byteLength":69485},
-    {"path":"data/kiheon-ideation-pilot-15-summary.json","sha256":"6a55f639d19484fe2c100f1412ed2ff5bb6af9670fddf17da9535d978bacdbe1","byteLength":854}
+    {"path":"data/kiheon-ideation-pilot-15-summary.json","sha256":"1ee0c25775dc7635bc53da47c98f6dbe63beb1b49295872d2ad8cc0d065e8e9c","byteLength":1387}
   ]
 }
