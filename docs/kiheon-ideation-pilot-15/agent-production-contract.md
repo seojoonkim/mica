@@ -16,12 +16,28 @@
 - Codex: `$mica-scenario-production <batch-id>`
 - Claude Code: `/mica-scenario-production <batch-id>`
 - 공통 사전검사: `python3 scripts/mica-scenario-production.py preflight`
+- 프로필 안내: `python3 scripts/mica-scenario-production.py profiles`
 
-## Lean v1 운영 기준
+## 시작 전 프로필 선택 계약
 
-- 기본 배치는 3건이다. 새 실행 가능한 공정 결함 없이 배치가 닫히고 기존 결함 회귀가 통과할 때만 5건, 이후 10건 승격을 검토한다.
-- 동시에 최대 2개 컨텍스트만 실행하며, 순서 의존 단계는 병렬화하지 않는다.
-- 구조·해시·역할·건수 검사는 전수 실행하고, 의미 재검토는 새 항목·변경 항목·고위험 항목에 집중한다.
+- 에이전트는 배치를 만들기 전에 아래 두 방식의 작업량·예상 시간·필요 자원을 사람에게 먼저 안내한다.
+- 사용자가 이미 프로필을 지정했다면 안내 뒤 진행하고, 지정하지 않았다면 하나를 추천한 뒤 선택을 기다린다.
+- 선택값은 `standard` 또는 `lean`이며 `batch-manifest.json`과 `closure.json`에 기록한다.
+- 표준은 [`methodology.md`](./methodology.md), Lean은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)를 실행 기준으로 사용한다.
+- 프로필 필드가 없던 기존 v1 배치는 `legacy-v1`로 계속 구조 검증할 수 있지만, 새 배치는 반드시 두 프로필 중 하나를 명시한다.
+
+| 방식 | 배치 상한 | 1회 예상 | 역할·동시 실행 | 모델 자원 | 선택 기준 |
+|---|---:|---:|---|---|---|
+| 표준 `standard` | 5건 | 6–12시간 | 8–12개 분리 역할, 동시 2–3개 | 의미 역할 high/xhigh 중심 | 첫 재현·방법 변경·고위험·결함 또는 판정 충돌 |
+| 압축 `lean` | 3건 | 3–5시간 | 독립 의미 역할 유지, 동시 최대 2개 | 정형 medium·의미 high·예외만 xhigh 이상 | 계약이 안정된 후속 배치와 빠른 중간 공유 |
+
+두 시간값은 계획 추정이며 자료 접근, 거절과 재작업에 따라 달라진다. Lean도 역할 독립성, accepted-only freeze, 사후 대조, measurement 관문을 생략하지 않는다.
+
+## 공통 운영 기준
+
+- 순서 의존 단계는 병렬화하지 않는다.
+- 구조·해시·역할·건수 검사는 두 방식 모두 전수 실행한다.
+- Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.
 - 역할별 허용 입력은 `batch-manifest.json`의 `roleInputAllowlist`로 고정하며, controller가 배치 시작 전에 확인한다.
 
 ## 공정 상태

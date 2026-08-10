@@ -116,6 +116,7 @@ def portable_files() -> tuple[Path, ...]:
         CODEX_SKILL,
         CLAUDE_SKILL,
         ROOT / ".agents" / "skills" / "mica-scenario-production" / "agents" / "openai.yaml",
+        DOC_ROOT / "methodology-lean-v1.md",
         DOC_ROOT / "agent-production-contract.md",
         DOC_ROOT / "role-prompts.md",
         ROOT / "scripts" / "mica-scenario-production.py",
@@ -335,8 +336,19 @@ def validate_batch(target: Path) -> dict[str, object]:
     require(manifest.get("origin") == "kiheon-ideation", "batch-origin")
     require(closure.get("origin") == "kiheon-ideation", "closure-origin")
     require(manifest.get("batchId") == closure.get("batchId"), "batch-id-mismatch")
+    profile = manifest.get("productionProfile")
+    if profile is None and manifest.get("schemaVersion") == "mica.scenario-production-batch/v1":
+        profile = "legacy-v1"
+        config: dict[str, object] = {"maxDrafts": 5}
+        require(closure.get("productionProfile") is None, "legacy-batch-profile-mismatch")
+    else:
+        require(isinstance(profile, str), "batch-profile")
+        config = profile_config(profile)
+        require(closure.get("productionProfile") == profile, "batch-profile-mismatch")
     count = manifest.get("maxDrafts")
-    require(isinstance(count, int) and 1 <= count <= 5, "batch-max-drafts")
+    max_drafts = config["maxDrafts"]
+    require(isinstance(max_drafts, int), "profile-max-drafts")
+    require(isinstance(count, int) and 1 <= count <= max_drafts, "batch-max-drafts")
     row_counts: dict[str, int] = {}
     for name in ARTIFACTS:
         path = target / name
@@ -357,6 +369,7 @@ def validate_batch(target: Path) -> dict[str, object]:
     return {
         "status": "pass",
         "batchId": manifest.get("batchId"),
+        "productionProfile": profile,
         "batchStatus": manifest.get("status"),
         "rows": row_counts,
     }
@@ -365,9 +378,23 @@ def validate_batch(target: Path) -> dict[str, object]:
 def print_result(result: dict[str, object], as_json: bool) -> None:
     if as_json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
-    else:
-        details = " ".join(f"{key}={value}" for key, value in result.items() if key != "status")
-        print(f"PASS {details}".rstrip())
+        return
+    profiles = result.get("profiles")
+    if isinstance(profiles, list) and profiles and isinstance(profiles[0], dict):
+        print("PASS selectionRequired=true")
+        for profile in profiles:
+            print(
+                "PROFILE "
+                f"{profile['id']} label={profile['label']} "
+                f"maxDrafts={profile['maxDrafts']} estimatedHours={profile['estimatedHours']} "
+                f"roleContexts={profile['roleContexts']} "
+                f"maxConcurrentContexts={profile['maxConcurrentContexts']} "
+                f"reasoning={profile['reasoning']} recommendedWhen={profile['recommendedWhen']}"
+            )
+        print(f"NEXT {result['next']}")
+        return
+    details = " ".join(f"{key}={value}" for key, value in result.items() if key != "status")
+    print(f"PASS {details}".rstrip())
 
 
 def main() -> int:
@@ -375,9 +402,11 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="emit JSON")
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("preflight")
+    subparsers.add_parser("profiles")
     new = subparsers.add_parser("new-batch")
     new.add_argument("--batch-id", required=True)
-    new.add_argument("--count", type=int, default=3)
+    new.add_argument("--profile", choices=tuple(PRODUCTION_PROFILES), required=True)
+    new.add_argument("--count", type=int)
     new.add_argument("--output", type=Path)
     validate = subparsers.add_parser("validate-batch")
     validate.add_argument("path", type=Path)
@@ -385,8 +414,10 @@ def main() -> int:
     try:
         if args.command == "preflight":
             result = preflight()
+        elif args.command == "profiles":
+            result = profile_catalog()
         elif args.command == "new-batch":
-            result = new_batch(args.batch_id, args.count, args.output)
+            result = new_batch(args.batch_id, args.profile, args.count, args.output)
         else:
             result = validate_batch(args.path)
     except CheckError as exc:

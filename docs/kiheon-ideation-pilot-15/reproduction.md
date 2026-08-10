@@ -6,18 +6,35 @@
 
 ```bash
 python3 scripts/mica-scenario-production.py preflight
-python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 3
+python3 scripts/mica-scenario-production.py profiles
+```
+
+에이전트는 첫 응답에서 표준 5건·6–12시간과 Lean 3건·3–5시간의 역할·모델 자원을 비교해 보여주고 하나를 추천한다. 사용자가 방식을 선택한 뒤에만 다음 중 하나로 빈 배치를 만든다.
+
+```bash
+# 표준 방식
+python3 scripts/mica-scenario-production.py new-batch \
+  --profile standard --batch-id <batch-id>
+
+# Lean 방식
+python3 scripts/mica-scenario-production.py new-batch \
+  --profile lean --batch-id <batch-id>
 ```
 
 그 뒤 Codex에서는 `$mica-scenario-production <batch-id>`, Claude Code에서는 `/mica-scenario-production <batch-id>`로 시작한다. 역할별 새 컨텍스트에는 [`role-prompts.md`](./role-prompts.md)의 해당 블록과 허용 입력만 전달한다.
 
-## 한 배치의 권장 크기
+## 두 실행 방식
 
-처음에는 기본 3개(Lean v1)의 생활 필요로 전체 공정을 끝까지 반복한다. 새 구조 결함이 없고 기존 결함 회귀 검사가 통과한 뒤에만 5개, 이후 10개로 늘린다. 후보 수를 맞추기 위해 수락하거나, 거절된 원문을 조용히 수정하지 않는다.
+- `standard`: 저장소에서 처음 재현하거나 방법론·schema·검증 도구가 바뀐 경우, 고위험·민감 과업, 반복 결함, 독립 판정 충돌에 사용한다.
+- `lean`: 표준 계약과 도구가 안정된 상태에서 다음 중간 결과를 빠르게 공유할 때 사용한다. 최대 3건과 선택적 추론 자원으로 줄이지만 필수 관문은 유지한다.
+
+후보 수를 맞추기 위해 수락하거나 거절 원문을 조용히 수정하지 않는다. Lean에서 공정 결함이나 판정 충돌이 발견되면 배치를 닫고 표준으로 복귀한다.
+
+기존에 생성된 v1 배치는 프로필을 추정해 덮어쓰지 않고 `legacy-v1`로 구조 검증한다. 새 배치부터는 `--profile`을 반드시 명시한다.
 
 ## 실행 순서
 
-1. 공식 과제 목록이 아닌 1차 자료에서 배치 상한(기본 3개)의 bounded evidence를 고정한다.
+1. 공식 과제 목록이 아닌 1차 자료에서 선택한 프로필 상한만큼 bounded evidence를 고정한다.
 2. 독립 출처 검토자가 발행 주체·원문 위치·관찰 범위·한계를 확인한다.
 3. 격리된 작성자가 해결책 없는 생활 필요 관찰만 작성한다.
 4. 운반 담당자는 응답을 의미 수정 없이 저장하고 원문 행 해시를 기록한다.

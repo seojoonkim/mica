@@ -1,13 +1,13 @@
 ---
 name: mica-scenario-production
-description: MICA 생활과업 시나리오를 독립 근거에서 기본 3개씩(Lean v1, 안정 시 최대 5개) 제작하고, 역할 분리 검토·동결·사후 대조·simulator 측정 설계까지 재현할 때 사용한다. 기존 과제나 앞선 후보를 발상 입력으로 쓰거나, 작성자가 자기 결과를 심사하거나, 시장·실행·공개 적격을 추정하는 작업에는 사용하지 않는다.
+description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대 5개 또는 Lean 최대 3개로 제작하고 역할 분리 검토·동결·사후 대조·simulator 측정 설계까지 재현할 때 사용한다. 시작 전에 두 방식의 작업량·시간·필요 자원을 먼저 안내하고 하나를 선택해야 한다.
 ---
 
 # MICA 시나리오 제작
 
 이 저장소 안의 방법론과 도구만 사용해 `origin=kiheon-ideation` 시나리오 배치를 만든다. 개인 홈 디렉터리, 특정 컴퓨터의 절대경로, 별도 vooy 저장소를 요구하지 않는다.
 
-## 시작
+## 시작 전 필수 선택
 
 1. 저장소 루트에서 다음을 실행한다.
 
@@ -15,15 +15,42 @@ description: MICA 생활과업 시나리오를 독립 근거에서 기본 3개�
    python3 scripts/mica-scenario-production.py preflight
    ```
 
-2. 다음 문서를 전부 읽는다.
+2. 두 프로필의 작업량을 확인한다.
+
+   ```bash
+   python3 scripts/mica-scenario-production.py profiles
+   ```
+
+3. 다음 문서를 읽는다.
    - `docs/kiheon-ideation-pilot-15/methodology.md`
+   - `docs/kiheon-ideation-pilot-15/methodology-lean-v1.md`
    - `docs/kiheon-ideation-pilot-15/reproduction.md`
    - `docs/kiheon-ideation-pilot-15/agent-production-contract.md`
    - `docs/kiheon-ideation-pilot-15/role-prompts.md`
-3. 새 배치를 만든다. `$ARGUMENTS`에 배치 ID가 있으면 사용하고, 없으면 사용자에게 짧은 영문 소문자 ID를 받는다.
+4. 최초 응답에서 다음 표를 먼저 보여주고 한 방식을 추천한다.
+
+   | 방식 | 배치 | 예상 시간 | 역할·동시 실행 | 추론 자원 | 권장 상황 |
+   |---|---:|---:|---|---|---|
+   | 표준 `standard` | 최대 5건 | 6–12시간 | 8–12개 분리 역할, 동시 최대 2–3개 | 의미 역할 high/xhigh 중심 | 첫 재현·방법 변경·고위험·반복 결함·판정 충돌 |
+   | 압축 `lean` | 최대 3건 | 3–5시간 | 독립 의미 역할 유지, 동시 최대 2개 | 정형 medium·의미 high·예외만 xhigh 이상 | 안정된 계약에서 빠른 후속 공유 |
+
+   시간은 계획값이며 자료 접근과 거절·재작업에 따라 달라진다. 두 방식 모두 0건 수락이 유효하다.
+
+5. `$ARGUMENTS`나 사용자 요청에 프로필이 명시돼 있으면 리소스 안내 뒤 그 방식으로 진행한다. 명시가 없으면 위 기준으로 하나를 추천하고 사용자가 `standard` 또는 `lean`을 선택할 때까지 배치를 만들지 않는다.
+6. 배치 ID가 없으면 짧은 영문 소문자 ID를 받는다. 선택된 프로필을 명시해 새 배치를 만든다.
+
+   표준 방식:
 
    ```bash
-   python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 3
+   python3 scripts/mica-scenario-production.py new-batch \
+     --profile standard --batch-id <batch-id>
+   ```
+
+   Lean 방식:
+
+   ```bash
+   python3 scripts/mica-scenario-production.py new-batch \
+     --profile lean --batch-id <batch-id>
    ```
 
 ## 절대 경계
@@ -39,9 +66,11 @@ description: MICA 생활과업 시나리오를 독립 근거에서 기본 3개�
 
 ## 실행 단위
 
-- 한 배치는 기본 3개의 독립 생활 필요만 다룬다(Lean v1). 새 실행 가능한 공정 결함 없이 배치가 닫히고 기존 결함 회귀가 통과한 뒤에만 최대 5개 승격을 검토한다.
-- 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다.
-- 구조·해시·역할·건수 같은 기계 검사는 매번 전수 실행하고, 의미 재검토는 새 항목·변경 항목·고위험 항목에 집중한다.
+- 표준은 최대 5개, Lean은 최대 3개의 독립 생활 필요만 다룬다.
+- 선택한 프로필, 예상 시간과 동시 실행 한도를 `batch-manifest.json`에 기록한다.
+- Lean도 작성·검토·동결·사후 대조·measurement 관문과 역할 독립성을 생략하지 않는다.
+- 순서 의존 단계는 병렬화하지 않는다. 표준은 동시 최대 2–3개, Lean은 동시 최대 2개 컨텍스트만 활성화한다.
+- 구조·해시·역할·건수 같은 기계 검사는 두 방식 모두 매번 전수 실행한다. Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.
 - 수락 수량을 맞추지 않는다. 0개 수락도 유효한 결과다.
 - 전체 공정을 닫고 새 실행 가능한 공정 결함이 없으며 회귀 검사가 통과한 뒤에만 다음 배치를 시작한다.
 - 누적 목표의 분모는 초안 수가 아니라 `measurable-candidate` 수다.
