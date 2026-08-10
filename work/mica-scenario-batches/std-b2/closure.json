@@ -1,0 +1,39 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "std-b2",
+  "productionProfile": "standard",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 2,
+  "heldCandidates": [],
+  "rejectedCandidates": 0,
+  "stageCounts": {
+    "sourceEvidence": "5(수락 3·거절 2 — ev-b2-01·02 출처 신뢰성·범위 미달)",
+    "needObservations": "5(수락 2·거절 3 — ob-b2-01·03 근거 밖 시점정보=df-b2-01 운반 결함 여파, ob-b2-02 인과 단정; 재작성은 evidence 행수 상한으로 ob-b2-04·05만 수행)",
+    "taskCandidates": "2(수락 2)",
+    "comparison": "transformation 2",
+    "measurement": "designable 2 — 자산 4차 수정(ma-b2-01/02→03/04→05/06→07/08)·oracle 4회 판정(or-b2-01~08) 끝에 확정"
+  },
+  "newActionableProcessDefects": [
+    "df-b2-01 controller 운반 결함(검토 확인 사실의 비공식 전달)",
+    "df-b2-02 승인 발행 액터 규격 부재",
+    "df-b2-03 수정 지시문발 failClosedRule 집계 결함(미수행≠고장 미구분)",
+    "df-b2-04 custodian 컨텍스트 생략(기계 처리 대행)"
+  ],
+  "regression": {
+    "validateBatch(std-b2, HEAD 5de139c 계열 도구)": "pass — completed 상태·역할 전배정·수락 2 == 계약 2행 결속 확인",
+    "validateBatch(std-b2, aae1370 도구)": "pass — 이중 도구 동일 판정",
+    "validateBatch(lean-b1 회귀)": "fail: wrong-origin:source-evidence.jsonl:1 — 알려진 기대 실패 유지(df-lb1-06 동결 불변성 보호로 소급 미수정, 회귀 아님)",
+    "preflight(HEAD)": "pass — 기존 15건 결속·스킬 진입점·프로필 유지",
+    "defectMitigations 회귀": "lean-b1 df 8종 완화 중 7종 유효 작동. 행 단위 origin(df-lb1-06 유형)은 controller가 defect-ledger 작성에서 재누락 — 검증기가 적발해 작성 완료 전 보완(원장 nt 비고). 완화는 규칙이 아니라 검증기 실측으로 담보됨을 재확인"
+  },
+  "nextBatchDecision": "5건 배치 운영은 가능하나 수율 2/5 — 거절 3건 중 2건이 공정 결함(df-b2-01) 여파이므로, 운반 규칙 수정과 승인 액터 규격의 규약 반영 후 카테고리 9·10 잔여 3건 후속 배치가 타당. 판단은 기헌 몫",
+  "externalActionsPending": "결과의 Notion·PR 반영은 기헌 승인 대기",
+  "closedAt": "2026-08-11T04:56+0900",
+  "postHocCategoryAttachment": {
+    "note": "카테고리는 동결 후 사후 부착 정보 — 작성·번역 역할에는 생활 영역 범위(주거·공과금 / 통신·디지털 구독)로만 전달했다",
+    "ki-b2-01": "10 통신·디지털 구독 (명의 회선 전수 대조·추가 개통 차단)",
+    "ki-b2-02": "10 통신·디지털 구독 (인터넷 해지 확인·위약금·사은금·최종 요금 대조)",
+    "category09Outcome": "주거·공과금 계열 원천(ev-b2-01·02)은 출처 검토에서 거절, 관찰 ob-b2-01~03 계열도 탈락 — 카테고리 09는 이번 배치에서 수락 0건. 잔여 3칸 후속 배치 검토 대상"
+  }
+}
