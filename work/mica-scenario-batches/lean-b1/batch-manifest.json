@@ -1,0 +1,302 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v1",
+  "batchId": "lean-b1",
+  "status": "completed",
+  "maxDrafts": 3,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-ad1c8abc2e913d892",
+    "sourceReviewer": "agent-a91b00c0cc710e071",
+    "needWriter": "agent-a6a95dae655c41951",
+    "observationReviewer": "agent-ac6084e98ac766c99",
+    "observationCustodian": "agent-a9b982c88855322ef",
+    "translator": "agent-a8d93a02f3cdf8dab",
+    "candidateReviewer": "agent-ac91b4fd70ae3c78a",
+    "candidateCustodian": "agent-a8cf7c55d585411b5",
+    "comparator": "agent-aa9a7e2009dc87d53",
+    "measurementAssetAuthor": "agent-a467e7f3e3e2b03dd",
+    "oracleReviewer": "agent-ac8104b4fc3be23ed",
+    "measurementReviewer": "agent-abfe7f320419e2f13",
+    "controller": "claude-code-main-session (Fable, controller)"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형형)",
+      "effortClass": "medium",
+      "tools": "web search/fetch only",
+      "contextId": "agent-ad1c8abc2e913d892",
+      "executedAt": "2026-08-10T22:16+09:00",
+      "tokens": 138429
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "web fetch for cited sources only",
+      "contextId": "agent-a91b00c0cc710e071",
+      "executedAt": "2026-08-10T22:22+09:00",
+      "tokens": 83875
+    },
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형형)",
+      "effortClass": "medium",
+      "tools": "web search/fetch only",
+      "contextId": "agent-ad1c8abc2e913d892",
+      "executedAt": "2026-08-10T22:35+09:00",
+      "note": "거절 2건 교체분 ev-lb1-04/05 (새 ID 재작성 경로)",
+      "tokens": 20412
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "web fetch for cited sources only",
+      "contextId": "agent-a91b00c0cc710e071",
+      "executedAt": "2026-08-10T22:42+09:00",
+      "note": "교체분 ev-04/05 검토 — accept 2",
+      "tokens": 5197
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none (입력은 수락 근거 3행 붙여넣기뿐)",
+      "contextId": "agent-a6a95dae655c41951",
+      "executedAt": "2026-08-10T22:47+09:00",
+      "tokens": 49068
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-ac6084e98ac766c99",
+      "executedAt": "2026-08-10T22:55+09:00",
+      "tokens": 58957
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-a6a95dae655c41951",
+      "executedAt": "2026-08-10T23:02+09:00",
+      "note": "거절 2건 새 ID 재작성 ob-04/05",
+      "tokens": 48408
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-ac6084e98ac766c99",
+      "executedAt": "2026-08-10T23:10+09:00",
+      "note": "재작성 ob-04/05 판정 — accept 2",
+      "tokens": 311
+    },
+    {
+      "role": "observationCustodian",
+      "model": "claude-sonnet (균형형)",
+      "effortClass": "medium",
+      "tools": "none",
+      "contextId": "agent-a9b982c88855322ef",
+      "executedAt": "2026-08-10T23:20+09:00",
+      "note": "accepted-only 동결 3건 — controller 기계 검증(필드 동일성) 통과",
+      "tokens": 75355
+    },
+    {
+      "role": "translator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-a8d93a02f3cdf8dab",
+      "executedAt": "2026-08-10T23:35+09:00",
+      "tokens": 61489
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-ac91b4fd70ae3c78a",
+      "executedAt": "2026-08-10T23:45+09:00",
+      "tokens": 55590
+    },
+    {
+      "role": "candidateCustodian",
+      "model": "claude-sonnet (균형형)",
+      "effortClass": "medium",
+      "tools": "none",
+      "contextId": "agent-a8cf7c55d585411b5",
+      "executedAt": "2026-08-10T23:52+09:00",
+      "note": "accepted-only 동결 3건 — 해시 동일성 controller 기계 검증 통과",
+      "tokens": 55240
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 3파일만(카탈로그·정본 원문·파일럿 원문)",
+      "contextId": "agent-aa9a7e2009dc87d53",
+      "executedAt": "2026-08-11T00:05+09:00",
+      "tokens": 131562
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-a467e7f3e3e2b03dd",
+      "executedAt": "2026-08-11T00:20+09:00",
+      "tokens": 62281
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 배치 내 허용 2파일만",
+      "contextId": "agent-ac8104b4fc3be23ed",
+      "executedAt": "2026-08-11T00:40+09:00",
+      "note": "1차 판정 — 3건 infeasible(자산 결함), 상세 gap은 oracle-reviews.staging.jsonl",
+      "tokens": 114691
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-a467e7f3e3e2b03dd",
+      "executedAt": "2026-08-11T01:05+09:00",
+      "note": "infeasible gap 해소 재설계 ma-04/05/06 (새 ID)",
+      "tokens": 62191
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 배치 내 허용 2파일",
+      "contextId": "agent-ac8104b4fc3be23ed",
+      "executedAt": "2026-08-11T01:20+09:00",
+      "note": "재판정 — feasible 2(or-04/05), infeasible 1(or-06: 재설계 회귀 gap 2)",
+      "tokens": 37089
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-fable (최상위)",
+      "effortClass": "max급 — 반복 실패(2회 infeasible) 승급 조건 발동",
+      "tools": "read: 스테이징 마지막 행만",
+      "contextId": "agent-a5daf1f58f9844c53",
+      "executedAt": "2026-08-11T01:35+09:00",
+      "note": "ma-lb1-07 국소 수정(회귀 gap 2 해소 한정)",
+      "tokens": 87470
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-ac8104b4fc3be23ed",
+      "executedAt": "2026-08-11T01:40+09:00",
+      "note": "or-lb1-07 최종 — feasible (gap 2 해소 확인)",
+      "tokens": 11630
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 배치 내 허용 4파일",
+      "contextId": "agent-abfe7f320419e2f13",
+      "executedAt": "2026-08-11T01:55+09:00",
+      "tokens": 131174
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable (최상위)",
+      "effortClass": "max",
+      "tools": "전체 기록 읽기·운반·기계 검증",
+      "contextId": "main-session",
+      "executedAt": "2026-08-10T22:04~2026-08-11T02:00+09:00"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "toolVersionAtCreation": "aae1370 (Lean v1 sync)",
+  "toolVersionAtClosure": "9fccd8e (프로필 체계 — 배치 진행 중 병행 개정 관찰)",
+  "timekeepingNote": "modelRecord executedAt 중 일부는 controller 추정치 — 실측 정정은 defect-ledger nt-lb1-02 참조. 배치 실측 구간 2026-08-10 22:04~23:50 KST"
+}
