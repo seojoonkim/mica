@@ -6,18 +6,18 @@
 
 ```bash
 python3 scripts/mica-scenario-production.py preflight
-python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 5
+python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 3
 ```
 
 그 뒤 Codex에서는 `$mica-scenario-production <batch-id>`, Claude Code에서는 `/mica-scenario-production <batch-id>`로 시작한다. 역할별 새 컨텍스트에는 [`role-prompts.md`](./role-prompts.md)의 해당 블록과 허용 입력만 전달한다.
 
 ## 한 배치의 권장 크기
 
-처음에는 최대 5개의 생활 필요로 전체 공정을 끝까지 반복한다. 새 구조 결함이 없고 기존 결함 회귀 검사가 통과한 뒤에만 10개로 늘린다. 후보 수를 맞추기 위해 수락하거나, 거절된 원문을 조용히 수정하지 않는다.
+처음에는 기본 3개(Lean v1)의 생활 필요로 전체 공정을 끝까지 반복한다. 새 구조 결함이 없고 기존 결함 회귀 검사가 통과한 뒤에만 5개, 이후 10개로 늘린다. 후보 수를 맞추기 위해 수락하거나, 거절된 원문을 조용히 수정하지 않는다.
 
 ## 실행 순서
 
-1. 공식 과제 목록이 아닌 1차 자료에서 최대 5개의 bounded evidence를 고정한다.
+1. 공식 과제 목록이 아닌 1차 자료에서 배치 상한(기본 3개)의 bounded evidence를 고정한다.
 2. 독립 출처 검토자가 발행 주체·원문 위치·관찰 범위·한계를 확인한다.
 3. 격리된 작성자가 해결책 없는 생활 필요 관찰만 작성한다.
 4. 운반 담당자는 응답을 의미 수정 없이 저장하고 원문 행 해시를 기록한다.

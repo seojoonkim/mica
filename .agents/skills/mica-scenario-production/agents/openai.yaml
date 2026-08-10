@@ -1,7 +1,7 @@
 interface:
   display_name: "MICA 시나리오 제작"
-  short_description: "독립 근거에서 MICA 측정 후보를 5개씩 제작·검토합니다"
-  default_prompt: "이 저장소의 MICA 시나리오 제작 계약에 따라 새 5개 배치를 시작해 주세요."
+  short_description: "독립 근거에서 MICA 측정 후보를 기본 3개씩(Lean v1) 제작·검토합니다"
+  default_prompt: "이 저장소의 MICA 시나리오 제작 계약에 따라 새 3개 배치(Lean v1)를 시작해 주세요."
 
 policy:
   allow_implicit_invocation: true

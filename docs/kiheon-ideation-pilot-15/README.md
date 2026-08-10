@@ -13,7 +13,7 @@
 
 이 패키지는 100% 완성된 방법론이나 최종 벤치마크가 아니다. 서로 다른 배치에서 제작·독립 검토·동결·사후 대조·측정 설계를 반복하며 얻은 **근거 기반 중간 버전**이다. 방법론의 신뢰도는 정량 백분율이 아니라, 실제 이터레이션에서 결함을 발견하고 유효하지 않은 산출물을 차단한 기록으로 뒷받침한다.
 
-현재 `measurable-candidate`는 15건이다. 목표 100건까지 남은 85건도 같은 관문으로 단계적으로 제작한다. 새 실행 가능한 공정 결함이 있는 동안에는 5개 단위를 유지하고, 결함 회귀가 통과하며 새 보완점이 발견되지 않을 때만 10개 단위로 늘린다. 100건에 도달한 뒤에는 전수 중복·coverage·측정·시장·실행 적합성을 다시 분석한다.
+현재 `measurable-candidate`는 15건이다. 목표 100건까지 남은 85건도 같은 관문으로 단계적으로 제작한다. 새 실행 가능한 공정 결함이 있는 동안에는 기본 3개 단위(Lean v1)를 유지하고, 결함 회귀가 통과하며 새 보완점이 발견되지 않을 때만 5개, 이후 10개 단위로 늘린다. 100건에 도달한 뒤에는 전수 중복·coverage·측정·시장·실행 적합성을 다시 분석한다.
 
 ## 왜 이 패키지를 공유하는가
 
@@ -65,7 +65,7 @@ PR을 clone 또는 checkout한 뒤 저장소 루트에서 Codex나 Claude Code�
 - Codex: `$mica-scenario-production <batch-id>`
 - Claude Code: `/mica-scenario-production <batch-id>`
 - 공통 사전검사: `python3 scripts/mica-scenario-production.py preflight`
-- 빈 5개 배치 생성: `python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 5`
+- 빈 3개 배치 생성(기본): `python3 scripts/mica-scenario-production.py new-batch --batch-id <batch-id> --count 3`
 
 실행 계약은 [`agent-production-contract.md`](./agent-production-contract.md), 독립 역할별 전달문은 [`role-prompts.md`](./role-prompts.md)에 있다. 작성자·번역자에게 이 15건이나 기존 MICA 과제를 발상 입력으로 제공하지 않는 것이 재현의 핵심이다.
 
@@ -77,16 +77,16 @@ PR을 clone 또는 checkout한 뒤 저장소 루트에서 Codex나 Claude Code�
 - 후보별 simulator fixture·reset·attempt eligibility·oracle을 구현하고 실제 시스템을 반복 평가할 수 있는지 검증할 수 있다.
 - 후속 배치의 수락·거절·보완 이력을 별도 PR로 누적하면서 100건 원장을 구성할 수 있다.
 - 시장별 성립, 현지화, 실행, 공개·비공개 편입 여부를 시나리오 제작과 분리해 심사할 수 있다.
-- 저장소에 포함된 프로젝트 스킬과 표준 라이브러리 Python 도구로 다음 5개 배치의 작업 공간을 만들고 구조를 검사할 수 있다.
+- 저장소에 포함된 프로젝트 스킬과 표준 라이브러리 Python 도구로 다음 배치의 작업 공간을 만들고 구조를 검사할 수 있다.
 
 채택은 이 15건을 canonical task나 공개 벤치마크 문항으로 자동 승인하는 행위가 아니다. 저장소 안에서 팀이 같은 방법론을 검토·재현하고 다음 결정을 이어갈 수 있도록 **버전이 고정된 중간 연구 기준점**을 추가하는 것이다.
 
 ## 100건까지의 후속 계획
 
 1. 현재 15건과 방법론을 팀이 검토하고 재현한다.
-2. 다음 후보는 5개 단위로 근거 조사부터 측정 판정까지 전체 관문을 반복한다.
+2. 다음 후보는 기본 3개 단위(Lean v1)로 근거 조사부터 측정 판정까지 전체 관문을 반복한다.
 3. 새 공정 결함이 없고 이전 결함의 회귀가 통과하면 10개 단위로 승격한다.
-4. 결함이 재발하면 즉시 5개 단위로 돌아가 계약과 검증을 보완한다.
+4. 결함이 재발하면 즉시 3개 단위로 돌아가 계약과 검증을 보완한다.
 5. 추가로 통과한 `measurable-candidate`만 원장에 누적해 최소 85건을 더 확보한다.
 6. 총 100건에서 실질 중복, coverage 편중, oracle·reset 일관성, 시장·실행·공개 경계를 전수 분석한다.
 

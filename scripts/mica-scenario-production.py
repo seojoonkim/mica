@@ -16,6 +16,7 @@ CLAUDE_SKILL = ROOT / ".claude" / "skills" / "mica-scenario-production" / "SKILL
 REQUIRED_DOCS = (
     DOC_ROOT / "README.md",
     DOC_ROOT / "methodology.md",
+    DOC_ROOT / "methodology-lean-v1.md",
     DOC_ROOT / "reproduction.md",
     DOC_ROOT / "agent-production-contract.md",
     DOC_ROOT / "role-prompts.md",
@@ -59,6 +60,28 @@ LOCAL_PATH_PATTERNS = (
     re.compile(r"[A-Za-z]:\\Users\\"),
     re.compile(r"\$HOME/(?:vooy|\.codex|\.claude)/"),
 )
+PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
+    "standard": {
+        "label": "표준",
+        "maxDrafts": 5,
+        "estimatedHours": "6–12",
+        "roleContexts": "8–12개의 분리된 역할 실행",
+        "maxConcurrentContexts": 3,
+        "reasoning": "의미 역할 전반에 high/xhigh 중심",
+        "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+        "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
+    },
+    "lean": {
+        "label": "Lean v1",
+        "maxDrafts": 3,
+        "estimatedHours": "3–5",
+        "roleContexts": "독립 의미 역할은 유지하고 최대 2개만 동시 실행",
+        "maxConcurrentContexts": 2,
+        "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상",
+        "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
+        "recommendedWhen": "계약과 도구가 안정적이며 빠른 중간 공유가 필요한 후속 배치",
+    },
+}
 
 
 class CheckError(RuntimeError):
@@ -147,20 +170,56 @@ def preflight() -> dict[str, object]:
     return {
         "status": "pass",
         "skill": "mica-scenario-production",
+        "selectionRequired": True,
+        "profiles": list(PRODUCTION_PROFILES),
         "entrypoints": [str(CODEX_SKILL.relative_to(ROOT)), str(CLAUDE_SKILL.relative_to(ROOT))],
         "manifestEntries": len(entries),
         "measurableCandidates": len(candidates),
     }
 
 
-def batch_manifest(batch_id: str, count: int) -> dict[str, object]:
+def profile_catalog() -> dict[str, object]:
+    profiles = []
+    for profile_id, config in PRODUCTION_PROFILES.items():
+        profiles.append({"id": profile_id, **config})
+    return {
+        "status": "pass",
+        "selectionRequired": True,
+        "profiles": profiles,
+        "next": "new-batch --profile <standard|lean> --batch-id <batch-id>",
+    }
+
+
+def profile_config(profile: str) -> dict[str, object]:
+    config = PRODUCTION_PROFILES.get(profile)
+    require(config is not None, "profile-must-be-standard-or-lean")
+    return config
+
+
+def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]:
+    config = profile_config(profile)
     return {
         "origin": "kiheon-ideation",
-        "schemaVersion": "mica.scenario-production-batch/v1",
+        "schemaVersion": "mica.scenario-production-batch/v2",
         "batchId": batch_id,
         "status": "prepared",
+        "productionProfile": profile,
+        "methodologyPath": config["methodologyPath"],
+        "resourceEstimate": {
+            "estimatedHours": config["estimatedHours"],
+            "roleContexts": config["roleContexts"],
+            "maxConcurrentContexts": config["maxConcurrentContexts"],
+            "reasoning": config["reasoning"],
+        },
         "maxDrafts": count,
         "createdBy": "mica-scenario-production",
+        "leanV1": {
+            "defaultBatchSize": 3,
+            "escalatedBatchSize": 5,
+            "maxConcurrentContexts": 2,
+            "orderDependentStagesSequential": True,
+            "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full",
+        },
         "authorInputs": ["source-evidence.jsonl"],
         "forbiddenAuthorInputs": [
             "existing MICA tasks",
@@ -168,6 +227,21 @@ def batch_manifest(batch_id: str, count: int) -> dict[str, object]:
             "prior candidates and comparison results",
             "category quotas and gap hints",
         ],
+        "roleInputAllowlist": {
+            "sourceResearcher": ["controller-assigned research scope", "independent primary sources"],
+            "sourceReviewer": ["source-evidence.jsonl", "cited primary source locations"],
+            "needWriter": ["accepted rows of source-evidence.jsonl"],
+            "observationReviewer": ["need-observations.jsonl", "accepted source-evidence.jsonl rows", "agent-production-contract.md"],
+            "observationCustodian": ["need-observations.jsonl", "observation-reviews.jsonl"],
+            "translator": ["frozen-observations.jsonl", "task candidate base fields in agent-production-contract.md"],
+            "candidateReviewer": ["frozen-observations.jsonl", "task-candidates.jsonl", "agent-production-contract.md"],
+            "candidateCustodian": ["task-candidates.jsonl", "candidate-reviews.jsonl"],
+            "comparator": ["frozen-candidates.jsonl", "docs/kiheon-ideation-pilot-15/candidate-specs.json", "existing MICA task catalogue"],
+            "measurementAssetAuthor": ["frozen-candidates.jsonl", "comparison.jsonl"],
+            "oracleReviewer": ["frozen-candidates.jsonl", "fixture, reset, and eligibility assets"],
+            "measurementReviewer": ["frozen-candidates.jsonl", "comparison.jsonl", "measurement-contracts.jsonl"],
+            "controller": ["all batch artifacts read-only", "defect-ledger.jsonl", "closure.json"],
+        },
         "roles": {
             "sourceResearcher": None,
             "sourceReviewer": None,
@@ -188,14 +262,18 @@ def batch_manifest(batch_id: str, count: int) -> dict[str, object]:
     }
 
 
-def new_batch(batch_id: str, count: int, output: Path | None) -> dict[str, object]:
+def new_batch(batch_id: str, profile: str, count: int | None, output: Path | None) -> dict[str, object]:
     require(re.fullmatch(r"[a-z0-9][a-z0-9-]{2,63}", batch_id) is not None, "invalid-batch-id")
-    require(1 <= count <= 5, "count-must-be-1-to-5")
+    config = profile_config(profile)
+    max_drafts = config["maxDrafts"]
+    require(isinstance(max_drafts, int), "profile-max-drafts")
+    selected_count = max_drafts if count is None else count
+    require(1 <= selected_count <= max_drafts, f"count-must-be-1-to-{max_drafts}-for-{profile}")
     target = output.resolve() if output else ROOT / "work" / "mica-scenario-batches" / batch_id
     require(not target.exists(), f"target-exists:{target}")
     target.mkdir(parents=True)
     (target / "batch-manifest.json").write_text(
-        json.dumps(batch_manifest(batch_id, count), ensure_ascii=False, indent=2) + "\n",
+        json.dumps(batch_manifest(batch_id, selected_count, profile), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     for name in ARTIFACTS:
@@ -206,6 +284,7 @@ def new_batch(batch_id: str, count: int, output: Path | None) -> dict[str, objec
                 "origin": "kiheon-ideation",
                 "schemaVersion": "mica.scenario-production-closure/v1",
                 "batchId": batch_id,
+                "productionProfile": profile,
                 "status": "open",
                 "acceptedMeasurableCandidates": 0,
                 "newActionableProcessDefects": [],
@@ -217,7 +296,14 @@ def new_batch(batch_id: str, count: int, output: Path | None) -> dict[str, objec
         + "\n",
         encoding="utf-8",
     )
-    return {"status": "prepared", "batchId": batch_id, "maxDrafts": count, "path": str(target)}
+    return {
+        "status": "prepared",
+        "batchId": batch_id,
+        "productionProfile": profile,
+        "estimatedHours": config["estimatedHours"],
+        "maxDrafts": selected_count,
+        "path": str(target),
+    }
 
 
 def parse_jsonl(path: Path) -> list[dict[str, object]]:
@@ -291,7 +377,7 @@ def main() -> int:
     subparsers.add_parser("preflight")
     new = subparsers.add_parser("new-batch")
     new.add_argument("--batch-id", required=True)
-    new.add_argument("--count", type=int, default=5)
+    new.add_argument("--count", type=int, default=3)
     new.add_argument("--output", type=Path)
     validate = subparsers.add_parser("validate-batch")
     validate.add_argument("path", type=Path)
