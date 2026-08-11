@@ -2,7 +2,7 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.3`
+- current standard revision: `standard-v1.3.1`
 - current compressed revision: `lean-v1.2-b5`
 
 ## 1. 역할 선언
@@ -105,14 +105,14 @@ python3 scripts/mica-scenario-production.py validate-ready \
 
 - Claude Code와 Codex의 독립 검토는 `노출면은 간결하게, 평가 하네스는 엄밀하게`에 합의했다.
 - Claude Code production lane은 후보를 `agent-visible`, `evaluator-visible`, `harness-private` 세 표면으로 분리하고, 자연어 요청에 최종 상태·실패 분기·채점 식별자가 섞이지 않게 한다.
-- 별도 blind rehearsal 컨텍스트는 `agent-visible`만 받아 상식적인 수행 경로를 확인한다. 후보·fixture·oracle 파일은 허용 입력이 아니다.
-- Codex control plane은 새 `v4` 배치에서 `agent-visible.jsonl`과 `blind-agent-rehearsal.jsonl`을 별도 산출물로 검사한다. `validate-exposure`는 공개 입력 누출, 원문 행 SHA, 독립 리허설 판정, 측정 후보 집합 일치를 확인한다. minimum sufficient oracle과 실제 런타임의 하네스 경로 차단은 별도 의미·실행 검토로 남는다.
+- 별도 blind rehearsal 컨텍스트는 `agent-visible`만 받아 공개 요청의 입력 충분성과 합리적인 수행·안전 인계 경로의 존재를 확인한다. 후보·fixture·oracle 파일은 허용 입력이 아니다. 도구를 실제로 실행하거나 모델의 성공률·성능을 추론하지 않는다.
+- Codex control plane은 새 `v5` 배치에서 `agent-visible.jsonl`과 `blind-agent-rehearsal.jsonl`을 별도 산출물로 검사한다. `validate-exposure`는 공개 입력 누출, 원문 행 SHA, 독립 리허설 판정, 측정 후보 집합 일치와 `instruction-sufficiency` 의미 선언을 확인한다. minimum sufficient oracle과 실제 런타임의 하네스 경로 차단은 별도 의미·실행 검토로 남는다. 완료·진행 중인 `v3`·`v4` 배치에는 새 형식을 소급하지 않는다.
 - 기존 27개 측정 설계는 폐기하지 않으며, 실제 실행에 투입하기 전에 전수 정적 누출 감사와 우선 후보의 blind-agent rehearsal을 수행한다.
 
 ## 7. 현재 인수인계
 
-`std-b6`는 `standard-v1.2-b5`로 완료됐다. 초안 5건에서 관찰 4건과 후보 4건을 동결했고, 사후 대조에서 중복 1건을 제외한 3건이 측정 설계까지 통과했다. 실제 실행·시장 성립·공개 적격은 아직 검증하지 않았다.
+`std-b7`은 `standard-v1.3`으로 완료됐다. 후보 5건 중 3건은 측정 설계와 노출 검토를 통과했고, 2건은 blind rehearsal 의미가 단일 모델 실행 표본처럼 적용되는 교정 문제 때문에 보류됐다. 이 결과는 실제 실행 성능 실패가 아니다.
 
-다음 빈 배치는 `standard-v1.3` 제어면 도구가 포함된 source commit을 동결하고, `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다. 진행 중이거나 완료된 `v3` 배치의 method lock은 그대로 보존한다.
+현재 생산 중인 `std-b8`은 이미 동결된 `standard-v1.3`·`v4` 계약을 그대로 마친다. 그 산출물이나 method lock을 중간에 바꾸지 않는다. `std-b8` 종료 뒤 여는 다음 빈 배치부터 `standard-v1.3.1`·`v5` 제어면 도구가 포함된 source commit을 동결하고, `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다. 완료·진행 중인 `v3`·`v4` 배치의 method lock은 그대로 보존한다.
 
 이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.

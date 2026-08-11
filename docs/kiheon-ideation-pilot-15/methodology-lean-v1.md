@@ -48,7 +48,7 @@ Lean v1은 표준 계약과 도구가 이미 안정적이고, 팀에 다음 중�
 - fixture, deterministic reset, fail-closed eligibility, 독립 oracle과 measurement review를 생략하지 않는다.
 - 구조·origin·role·count·reference 검사는 전수 실행한다.
 - 권위 있는 완료 readback, 안전한 중단, 실패·복구 분기를 유지한다.
-- `agent-visible`, `evaluator-visible`, `harness-private` 노출면 분리와 blind-agent rehearsal을 유지한다.
+- `agent-visible`, `evaluator-visible`, `harness-private` 노출면 분리와 blind-agent rehearsal을 유지한다. 리허설은 입력 충분성과 합리적 경로 존재성만 검사하며 실제 모델 성능을 추론하지 않는다.
 - 0건 수락도 유효하며 수량을 맞추기 위해 hold·reject를 승격하지 않는다.
 
 ## 5. Lean 실행 순서

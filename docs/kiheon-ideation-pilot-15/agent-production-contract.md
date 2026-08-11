@@ -121,9 +121,9 @@ controller도 역할별 입력 목록을 `batch-manifest.json`에 기록한다. 
 
 에이전트는 자연어 요청에 답하고 허용 도구를 사용한다. 내부 JSON schema·판정 레코드·probe·event ID·token registry 생성은 요구하지 않는다. 하네스가 도구 호출, 외부 상태, 최종 응답을 원자료로 보존하고 평가 레코드로 파생한다.
 
-measurement review 뒤 별도 컨텍스트의 `blind-agent rehearsal`을 수행한다. 이 역할은 `agent-visible`만 받고 정답 단서 없이 수행 가능한지 확인한다. measurement reviewer는 리허설 기록과 비공개 계약을 대조해 누출, 특정 문구·구현 순서 강제, 숨은 파일 접근 가능성이 없을 때만 `designable`을 확정한다.
+measurement review 뒤 별도 컨텍스트의 `blind-agent rehearsal`을 수행한다. 이 역할은 `agent-visible`만 받고 정답 단서 없이 합리적인 수행 또는 안전 인계 경로가 존재하는지 확인한다. 실제 도구 실행 여부나 한 모델의 성공·실패를 성능 표본으로 사용하지 않는다. measurement reviewer는 리허설 기록과 비공개 계약을 대조해 누출, 특정 문구·구현 순서 강제, 숨은 파일 접근 가능성이 없을 때만 `designable`을 확정한다.
 
-새 `v4` 배치는 이 경계를 파일로 고정한다. `agent-visible.jsonl`의 각 행은 `origin`, `schemaVersion`, `batchId`, `candidateId`, `userRequest`, `userKnownConstraints`, `commonSafetyPolicy`, `allowedTools`, `preparedByContextId`만 가진다. `blind-agent-rehearsal.jsonl`은 공개 행 원문 SHA-256, 독립 context ID, 요청 이해 여부, 성공 또는 안전 인계 가능성, 숨은 정보 필요 여부, 특정 구현 순서 강제 여부, 숨은 경로 접근 여부와 이분 verdict를 기록한다. 기존 `v3` 배치는 역사적 검증 대상으로 유지하고 새 필드를 소급하지 않는다.
+새 `v5` 배치는 이 경계를 파일로 고정한다. `agent-visible.jsonl`의 각 행은 `origin`, `schemaVersion`, `batchId`, `candidateId`, `userRequest`, `userKnownConstraints`, `commonSafetyPolicy`, `allowedTools`, `preparedByContextId`만 가진다. `blind-agent-rehearsal.jsonl`은 공개 행 원문 SHA-256, 독립 context ID, 요청 이해 여부, 성공 또는 안전 인계 가능성, 숨은 정보 필요 여부, 특정 구현 순서 강제 여부, 숨은 경로 접근 여부와 이분 verdict를 기록한다. v5는 여기에 `assessmentMode=instruction-sufficiency`, 실제 실행 관측 여부 `false`, 성능 추론 허용 여부 `false`, 경로 존재성 근거를 결속한다. 기존 `v3`·`v4` 배치는 역사적 검증 대상으로 유지하고 새 필드를 소급하지 않는다.
 
 controller는 종료 전에 다음을 실행한다.
 
