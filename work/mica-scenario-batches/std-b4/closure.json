@@ -1,0 +1,36 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "std-b4",
+  "productionProfile": "standard",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 4,
+  "heldCandidates": [],
+  "rejectedCandidates": 0,
+  "stageCounts": {
+    "sourceEvidence": "6(수락 5·거절 1 — ev-b4-02 2차 혼입, ev-b4-06으로 개정·수락: 개정 사이클 2번째 실증. S2가 첨부 직접 다운로드로 2건 추가 구제)",
+    "needObservations": "5(수락 4·거절 1 — ob-b4-02 근거 밖 단정+내적 판별력. 자가검사 완화로 수율 2/5→4/5)",
+    "taskCandidates": "4(수락 4)",
+    "comparison": "transformation 2·independent-finding 2(착오송금·티메프 — 새 문제 가족)",
+    "measurement": "designable 4 — 1차 feasible 3, ma-b4-04만 2차 개정(ma-b4-05)으로 수렴: 역대 최소 사이클"
+  },
+  "newActionableProcessDefects": [
+    "df-b4-01 기대 판정표 동시 충족성 자가검사 규격 부재(c14 게이트로 해소·규격 편입 후보)"
+  ],
+  "regression": {
+    "validateBatch(std-b4, HEAD·aae1370 이중)": "pass·pass — completed·역할 전배정·수락 4==계약 4행. origin·역할 재발 0(첫 실행 통과 연속 2배치)",
+    "validateBatch(std-b3·std-b2 회귀)": "pass·pass — 기존 종결 배치 결속 유지",
+    "preflight(HEAD)": "pass — 기존 15건·스킬 진입점 유지",
+    "defectMitigations 회귀": "계약 9규칙+std-b3 관측 스키마 표준 전량 유효 — 개정 사이클 2번째 실증(S2의 첨부 직접 확보 구제 포함), 관찰 자가검사로 수율 2/5→4/5, 1차 설계 gap이 7종(b3)→1종(b4)으로 감소, max 승급 0회"
+  },
+  "postHocCategoryAttachment": {
+    "note": "카테고리는 동결 후 사후 부착 — 작성·번역 역할에는 생활 영역명으로만 전달",
+    "ki-b4-01": "03 여행 계획·숙박 (숙박 위약금 조항 대조)",
+    "ki-b4-02": "05 금융·은행·투자 (착오송금 반환 단계)",
+    "ki-b4-03": "05 금융·은행·투자 (휴면 예금·보험금 조회)",
+    "ki-b4-04": "03 여행 계획·숙박 (티메프 환급 당사자 확인)"
+  },
+  "nextBatchDecision": "표준 5건 운영 안정 — 수율 4/5(거절 1은 관찰 층위, 공정 결함 여파 0). 03·05가 각 3/10이 됨. 잔여 미예약 2순위는 01·02·09 — 01·02는 코덱스 Lean 문제 가족과의 충돌 확인 후. ki-b4-04는 실행 조건(수령일 결측 변형 고정) 부기. 판단은 기헌 몫",
+  "externalActionsPending": "결과의 Notion·PR 반영은 기헌 승인 대기(SSOT 조율 갱신은 승인 범위)",
+  "closedAt": "2026-08-11T13:08+0900"
+}
