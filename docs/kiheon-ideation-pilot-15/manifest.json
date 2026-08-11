@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "docs/kiheon-ideation-pilot-15/README.md",
-      "sha256": "00f4a48b7e1b0b5d97d93bf8d4e2553c512c62a67da400d5aa5ab4c2cec6de83",
-      "byteLength": 9260
+      "sha256": "78e369f2c7395526be068cb8a90bf2fd9645ea1af474832f098bfe9a234f7402",
+      "byteLength": 9642
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology.md",
@@ -25,8 +25,13 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
-      "sha256": "3210be757b74cd6a1cce0ba1086167a2eae93d5e6c054bb029594cb2673f3e8c",
-      "byteLength": 6917
+      "sha256": "f17bd65429327554ac0429453684c9ce00dd095f3e88e8359cc1b465e404aee0",
+      "byteLength": 6947
+    },
+    {
+      "path": "docs/kiheon-ideation-pilot-15/github-collaboration.md",
+      "sha256": "34fdc8c73bb9927703fee0a224722fcc04afc1782c202858d35cce0fd2652169",
+      "byteLength": 5541
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",

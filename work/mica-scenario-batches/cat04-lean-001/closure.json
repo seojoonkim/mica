@@ -1,0 +1,10 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "cat04-lean-001",
+  "productionProfile": "lean",
+  "status": "open",
+  "acceptedMeasurableCandidates": 0,
+  "newActionableProcessDefects": [],
+  "nextBatchDecision": "hold-until-reviewed"
+}

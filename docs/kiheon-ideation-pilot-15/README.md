@@ -71,6 +71,8 @@ PR을 clone 또는 checkout한 뒤 저장소 루트에서 Codex나 Claude Code�
 
 첫 에이전트는 표준 5건·6–12시간과 Lean 3건·3–5시간의 역할·모델 자원을 먼저 안내하고, 지정이 없으면 하나를 추천한 뒤 선택을 기다린다. 실행 계약은 [`agent-production-contract.md`](./agent-production-contract.md), 독립 역할별 전달문은 [`role-prompts.md`](./role-prompts.md)에 있다. 작성자·번역자에게 이 15건이나 기존 MICA 과제를 발상 입력으로 제공하지 않는 것이 재현의 핵심이다.
 
+GitHub의 브랜치·커밋·push·Draft PR을 안전하게 사용하는 절차는 [`github-collaboration.md`](./github-collaboration.md)에 정리했다. 현재 후속 방법론·배치는 `codex/mica-kiheon-pilot-15` 브랜치의 Draft PR #1에 누적하되, 사이트·점수 정책·canonical 변경처럼 성격이 다른 작업은 새 브랜치와 별도 PR로 분리한다.
+
 ## 이 PR이 채택되면 저장소 보유자가 할 수 있는 일
 
 - 15개 후보를 기존 MICA 문항과 분리된 연구 초안으로 검토하고 토론할 수 있다.

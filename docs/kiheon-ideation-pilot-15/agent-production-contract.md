@@ -68,15 +68,15 @@ controller도 역할별 입력 목록을 `batch-manifest.json`에 기록한다. 
 
 ### bounded source evidence
 
-`evidenceId`, `sourceTitle`, `publisher`, `sourceUrl`, `retrievedAt`, `sourceLocation`, `boundedObservation`, `populationAndScope`, `knownLimits`, `reviewerContextId`
+`origin`, `evidenceId`, `sourceTitle`, `publisher`, `sourceUrl`, `retrievedAt`, `sourceLocation`, `boundedObservation`, `populationAndScope`, `knownLimits`, `reviewerContextId`
 
 ### need observation
 
-`observationId`, `sourceRefs`, `burdenBearer`, `affectedParty`, `contextOrTrigger`, `currentState`, `desiredStateChange`, `unresolvedConsequence`, `evidenceStatus`, `marketScope`, `authorContextId`
+`origin`, `observationId`, `sourceRefs`, `burdenBearer`, `affectedParty`, `contextOrTrigger`, `currentState`, `desiredStateChange`, `unresolvedConsequence`, `evidenceStatus`, `marketScope`, `authorContextId`
 
 ### task candidate
 
-`candidateId`, `sourceObservationIds`, `label`, `userRequest`, `startState`, `taskAction`, `canonicalFinalState`, `confirmationBoundary`, `prohibitedStates`, `failureRecoveryEvents`, `unknowns`, `translatorContextId`
+`origin`, `candidateId`, `sourceObservationIds`, `label`, `userRequest`, `startState`, `taskAction`, `canonicalFinalState`, `confirmationBoundary`, `prohibitedStates`, `failureRecoveryEvents`, `unknowns`, `translatorContextId`
 
 ### measurable candidate
 
