@@ -39,6 +39,15 @@
 - 구조·해시·역할·건수 검사는 두 방식 모두 전수 실행한다.
 - Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.
 - 역할별 허용 입력은 `batch-manifest.json`의 `roleInputAllowlist`로 고정하며, controller가 배치 시작 전에 확인한다.
+- 신규 배치는 커밋된 방법 revision과 파일별 SHA-256을 `methodLock`에 기록하고 `validate-ready`를 통과하기 전까지 생산하지 않는다.
+- 진행 중인 배치에는 방법 변경을 소급하지 않는다. 결함은 원장에 남기고 다음 배치 revision에서만 반영한다.
+
+## 런타임 책임
+
+- Codex는 결함 분석, 방법·검증 도구 수정, 회귀 검사, revision 커밋과 다음 빈 배치 동결을 맡는다.
+- Claude Code는 동결된 revision으로 독립 역할 생산을 실행하고 defect ledger와 closure를 반환한다.
+- Codex는 신규 후보의 의미 원문을 대신 고치지 않고, Claude Code는 배치 도중 방법 파일을 고치지 않는다.
+- 세부 운영·교차 검토 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)를 따른다.
 
 ## 공정 상태
 

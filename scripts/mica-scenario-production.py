@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -13,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DOC_ROOT = ROOT / "docs" / "kiheon-ideation-pilot-15"
 CODEX_SKILL = ROOT / ".agents" / "skills" / "mica-scenario-production" / "SKILL.md"
 CLAUDE_SKILL = ROOT / ".claude" / "skills" / "mica-scenario-production" / "SKILL.md"
+OPERATING_MODEL = DOC_ROOT / "codex-claude-operating-model.md"
+TEST_SCRIPT = ROOT / "scripts" / "test-mica-scenario-production.py"
 REQUIRED_DOCS = (
     DOC_ROOT / "README.md",
     DOC_ROOT / "methodology.md",
@@ -20,6 +24,7 @@ REQUIRED_DOCS = (
     DOC_ROOT / "reproduction.md",
     DOC_ROOT / "agent-production-contract.md",
     DOC_ROOT / "role-prompts.md",
+    OPERATING_MODEL,
     DOC_ROOT / "candidate-specs.json",
     DOC_ROOT / "manifest.json",
     ROOT / "data" / "kiheon-ideation-pilot-15-summary.json",
@@ -69,6 +74,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+        "methodRevision": "standard-v1.1-b4",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
@@ -79,9 +85,20 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 2,
         "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
+        "methodRevision": "lean-v1.1-b4",
         "recommendedWhen": "계약과 도구가 안정적이며 빠른 중간 공유가 필요한 후속 배치",
     },
 }
+COMMON_METHOD_FILES = (
+    ".agents/skills/mica-scenario-production/SKILL.md",
+    ".claude/skills/mica-scenario-production/SKILL.md",
+    "docs/kiheon-ideation-pilot-15/reproduction.md",
+    "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
+    "docs/kiheon-ideation-pilot-15/role-prompts.md",
+    "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
+    "scripts/mica-scenario-production.py",
+    "scripts/test-mica-scenario-production.py",
+)
 
 
 class CheckError(RuntimeError):
@@ -111,6 +128,39 @@ def require(condition: bool, detail: str) -> None:
         raise CheckError(detail)
 
 
+def git(*args: str) -> bytes:
+    try:
+        return subprocess.run(
+            ("git", *args),
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise CheckError(f"git:{' '.join(args)}") from exc
+
+
+def method_files(profile: str) -> tuple[str, ...]:
+    profile_config(profile)
+    profile_docs = (
+        "docs/kiheon-ideation-pilot-15/methodology.md",
+        "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
+    )
+    if profile == "standard":
+        profile_docs = profile_docs[:1]
+    return (*profile_docs, *COMMON_METHOD_FILES)
+
+
+def git_head() -> str:
+    head = git("rev-parse", "HEAD").decode("ascii").strip()
+    require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "git-head")
+    return head
+
+
+def git_file_bytes(commit_sha: str, relative_path: str) -> bytes:
+    return git("show", f"{commit_sha}:{relative_path}")
+
+
 def portable_files() -> tuple[Path, ...]:
     return (
         CODEX_SKILL,
@@ -120,6 +170,8 @@ def portable_files() -> tuple[Path, ...]:
         DOC_ROOT / "agent-production-contract.md",
         DOC_ROOT / "role-prompts.md",
         ROOT / "scripts" / "mica-scenario-production.py",
+        TEST_SCRIPT,
+        OPERATING_MODEL,
     )
 
 
@@ -187,7 +239,7 @@ def profile_catalog() -> dict[str, object]:
         "status": "pass",
         "selectionRequired": True,
         "profiles": profiles,
-        "next": "new-batch --profile <standard|lean> --batch-id <batch-id>",
+        "next": "new-batch --profile <standard|lean> --batch-id <batch-id>, then lock-method <batch-path>",
     }
 
 
@@ -201,11 +253,13 @@ def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]
     config = profile_config(profile)
     return {
         "origin": "kiheon-ideation",
-        "schemaVersion": "mica.scenario-production-batch/v2",
+        "schemaVersion": "mica.scenario-production-batch/v3",
         "batchId": batch_id,
-        "status": "prepared",
+        "status": "prepared-unlocked",
         "productionProfile": profile,
         "methodologyPath": config["methodologyPath"],
+        "methodRevision": config["methodRevision"],
+        "methodLock": None,
         "resourceEstimate": {
             "estimatedHours": config["estimatedHours"],
             "roleContexts": config["roleContexts"],
@@ -298,12 +352,108 @@ def new_batch(batch_id: str, profile: str, count: int | None, output: Path | Non
         encoding="utf-8",
     )
     return {
-        "status": "prepared",
+        "status": "prepared-unlocked",
         "batchId": batch_id,
         "productionProfile": profile,
         "estimatedHours": config["estimatedHours"],
         "maxDrafts": selected_count,
         "path": str(target),
+    }
+
+
+def empty_batch_rows(target: Path) -> dict[str, int]:
+    row_counts: dict[str, int] = {}
+    for name in ARTIFACTS:
+        path = target / name
+        require(path.is_file(), f"missing:{name}")
+        row_counts[name] = len(parse_jsonl(path))
+    return row_counts
+
+
+def validate_method_lock(manifest: dict[str, object], require_current_files: bool) -> dict[str, object]:
+    profile = manifest.get("productionProfile")
+    require(isinstance(profile, str), "method-lock-profile")
+    config = profile_config(profile)
+    lock = manifest.get("methodLock")
+    require(isinstance(lock, dict), "method-lock-missing")
+    require(
+        set(lock) == {"schemaVersion", "revision", "sourceCommitSha", "sourceFiles", "lockedAt"},
+        "method-lock-shape",
+    )
+    require(lock.get("schemaVersion") == "mica.scenario-production-method-lock/v1", "method-lock-schema")
+    locked_at = lock.get("lockedAt")
+    require(isinstance(locked_at, str), "method-lock-time")
+    try:
+        parsed_locked_at = datetime.fromisoformat(locked_at)
+    except ValueError as exc:
+        raise CheckError("method-lock-time") from exc
+    require(parsed_locked_at.tzinfo is not None, "method-lock-timezone")
+    revision = config["methodRevision"]
+    require(manifest.get("methodRevision") == revision, "method-revision-manifest")
+    require(lock.get("revision") == revision, "method-revision-lock")
+    commit_sha = lock.get("sourceCommitSha")
+    require(isinstance(commit_sha, str) and re.fullmatch(r"[0-9a-f]{40}", commit_sha) is not None, "method-lock-commit")
+    source_files = lock.get("sourceFiles")
+    require(isinstance(source_files, list), "method-lock-files")
+    expected_paths = method_files(profile)
+    require(len(source_files) == len(expected_paths), "method-lock-file-count")
+    for index, (entry, relative_path) in enumerate(zip(source_files, expected_paths, strict=True), start=1):
+        require(isinstance(entry, dict), f"method-lock-file-{index}")
+        require(set(entry) == {"path", "sha256"}, f"method-lock-file-shape-{index}")
+        require(entry.get("path") == relative_path, f"method-lock-file-path-{index}")
+        expected_sha = hashlib.sha256(git_file_bytes(commit_sha, relative_path)).hexdigest()
+        require(entry.get("sha256") == expected_sha, f"method-lock-file-sha-{index}")
+        if require_current_files:
+            current = ROOT / relative_path
+            require(current.is_file(), f"method-current-missing:{relative_path}")
+            require(sha256(current) == expected_sha, f"method-current-drift:{relative_path}")
+    return {"revision": revision, "sourceCommitSha": commit_sha}
+
+
+def lock_method(target: Path) -> dict[str, object]:
+    target = target.resolve()
+    require(target.is_dir(), f"batch-not-directory:{target}")
+    validate_batch(target)
+    manifest_path = target / "batch-manifest.json"
+    closure_path = target / "closure.json"
+    require(manifest_path.is_file(), "missing:batch-manifest.json")
+    require(closure_path.is_file(), "missing:closure.json")
+    manifest = load_json(manifest_path)
+    closure = load_json(closure_path)
+    require(isinstance(manifest, dict), "batch-manifest-not-object")
+    require(isinstance(closure, dict), "closure-not-object")
+    require(manifest.get("status") in {"prepared", "prepared-unlocked"}, "batch-not-lockable")
+    require(closure.get("status") == "open", "closure-not-open")
+    require(closure.get("acceptedMeasurableCandidates") == 0, "closure-not-zero")
+    require(all(count == 0 for count in empty_batch_rows(target).values()), "batch-not-empty")
+    profile = manifest.get("productionProfile")
+    require(isinstance(profile, str), "batch-profile")
+    config = profile_config(profile)
+    head = git_head()
+    source_files: list[dict[str, str]] = []
+    for relative_path in method_files(profile):
+        path = ROOT / relative_path
+        require(path.is_file(), f"method-current-missing:{relative_path}")
+        committed = git_file_bytes(head, relative_path)
+        require(path.read_bytes() == committed, f"method-uncommitted:{relative_path}")
+        source_files.append({"path": relative_path, "sha256": hashlib.sha256(committed).hexdigest()})
+    manifest["schemaVersion"] = "mica.scenario-production-batch/v3"
+    manifest["status"] = "prepared-locked"
+    manifest["methodRevision"] = config["methodRevision"]
+    manifest["methodLock"] = {
+        "schemaVersion": "mica.scenario-production-method-lock/v1",
+        "revision": config["methodRevision"],
+        "sourceCommitSha": head,
+        "sourceFiles": source_files,
+        "lockedAt": datetime.now().astimezone().isoformat(timespec="seconds"),
+    }
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {
+        "status": "prepared-locked",
+        "batchId": manifest.get("batchId"),
+        "methodRevision": config["methodRevision"],
+        "sourceCommitSha": head,
+        "methodFiles": len(source_files),
     }
 
 
@@ -349,11 +499,16 @@ def validate_batch(target: Path) -> dict[str, object]:
     max_drafts = config["maxDrafts"]
     require(isinstance(max_drafts, int), "profile-max-drafts")
     require(isinstance(count, int) and 1 <= count <= max_drafts, "batch-max-drafts")
-    row_counts: dict[str, int] = {}
-    for name in ARTIFACTS:
-        path = target / name
-        require(path.is_file(), f"missing:{name}")
-        row_counts[name] = len(parse_jsonl(path))
+    schema_version = manifest.get("schemaVersion")
+    method_lock: dict[str, object] | None = None
+    if schema_version == "mica.scenario-production-batch/v3":
+        require(manifest.get("status") != "prepared-unlocked" or manifest.get("methodLock") is None, "unlocked-batch-has-lock")
+        if manifest.get("status") != "prepared-unlocked":
+            method_lock = validate_method_lock(
+                manifest,
+                require_current_files=manifest.get("status") in {"prepared-locked", "in-progress"},
+            )
+    row_counts = empty_batch_rows(target)
     for name in ("need-observations.jsonl", "task-candidates.jsonl", "frozen-candidates.jsonl"):
         require(row_counts[name] <= count, f"row-count-over-max:{name}")
     if manifest.get("status") == "completed":
@@ -372,7 +527,23 @@ def validate_batch(target: Path) -> dict[str, object]:
         "productionProfile": profile,
         "batchStatus": manifest.get("status"),
         "rows": row_counts,
+        "methodLock": method_lock,
     }
+
+
+def validate_ready(target: Path) -> dict[str, object]:
+    result = validate_batch(target)
+    require(result.get("batchStatus") == "prepared-locked", "batch-not-prepared-locked")
+    rows = result.get("rows")
+    require(isinstance(rows, dict) and all(value == 0 for value in rows.values()), "ready-batch-not-empty")
+    closure = load_json(target.resolve() / "closure.json")
+    require(isinstance(closure, dict) and closure.get("status") == "open", "ready-closure-not-open")
+    manifest = load_json(target.resolve() / "batch-manifest.json")
+    require(isinstance(manifest, dict), "batch-manifest-not-object")
+    roles = manifest.get("roles")
+    require(isinstance(roles, dict) and all(value is None for value in roles.values()), "ready-role-already-assigned")
+    result["readyForProduction"] = True
+    return result
 
 
 def print_result(result: dict[str, object], as_json: bool) -> None:
@@ -410,6 +581,10 @@ def main() -> int:
     new.add_argument("--output", type=Path)
     validate = subparsers.add_parser("validate-batch")
     validate.add_argument("path", type=Path)
+    lock = subparsers.add_parser("lock-method")
+    lock.add_argument("path", type=Path)
+    ready = subparsers.add_parser("validate-ready")
+    ready.add_argument("path", type=Path)
     args = parser.parse_args()
     try:
         if args.command == "preflight":
@@ -418,8 +593,12 @@ def main() -> int:
             result = profile_catalog()
         elif args.command == "new-batch":
             result = new_batch(args.batch_id, args.profile, args.count, args.output)
-        else:
+        elif args.command == "validate-batch":
             result = validate_batch(args.path)
+        elif args.command == "lock-method":
+            result = lock_method(args.path)
+        else:
+            result = validate_ready(args.path)
     except CheckError as exc:
         if args.json:
             print(json.dumps({"status": "fail", "detail": str(exc)}, ensure_ascii=False))

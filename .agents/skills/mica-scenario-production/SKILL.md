@@ -53,6 +53,25 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
      --profile lean --batch-id <batch-id>
    ```
 
+7. 빈 배치를 만든 뒤 바로 작성하지 않는다. Codex가 방법 변경을 커밋한 다음 method lock과 시작 검사를 통과시킨다.
+
+   ```bash
+   python3 scripts/mica-scenario-production.py lock-method \
+     work/mica-scenario-batches/<batch-id>
+
+   python3 scripts/mica-scenario-production.py validate-ready \
+     work/mica-scenario-batches/<batch-id>
+   ```
+
+   `validate-ready`가 PASS하기 전에는 production 역할을 시작하지 않는다.
+
+## Codex·Claude Code 분업
+
+- Codex는 완료 배치의 결함 분석, 방법론·검증기 수정, 회귀 검사, revision 커밋과 다음 빈 배치 동결을 맡는다.
+- Claude Code는 동결된 revision으로 신규 자료 조사·관찰·후보·측정 산출물을 생산하고 결함 원장과 closure를 반환한다.
+- 진행 중인 배치에 방법 변경을 끼워 넣지 않는다. 결함은 현재 배치에 기록하고 다음 배치 경계에서만 새 revision으로 반영한다.
+- 자세한 책임과 교차 검토 주기는 `docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md`를 따른다.
+
 ## 절대 경계
 
 - 작성자와 번역자에게 `candidate-specs.json`, 기존 MICA 과제, 웹 과제 목록, 과거 후보, 비교 판정, gap·카테고리 할당을 보여주지 않는다.
@@ -68,6 +87,7 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 
 - 표준은 최대 5개, Lean은 최대 3개의 독립 생활 필요만 다룬다.
 - 선택한 프로필, 예상 시간과 동시 실행 한도를 `batch-manifest.json`에 기록한다.
+- 방법 revision, source commit과 파일별 SHA-256을 `methodLock`에 기록한다.
 - Lean도 작성·검토·동결·사후 대조·measurement 관문과 역할 독립성을 생략하지 않는다.
 - 순서 의존 단계는 병렬화하지 않는다. 표준은 동시 최대 2–3개, Lean은 동시 최대 2개 컨텍스트만 활성화한다.
 - 구조·해시·역할·건수 같은 기계 검사는 두 방식 모두 매번 전수 실행한다. Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.

@@ -1,6 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
+- method revision: `standard-v1.1-b4`
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -69,8 +70,20 @@
 - 접수나 준비 문서를 외부 상태 완료로 오인
 - 선택지별 승인 payload와 성공 readback·oracle의 결속 부족
 - 비교 source enum 불일치
+- 기대 판정표의 각 행은 그럴듯하지만 하나의 trace에서 동시에 충족되지 않는 측정 자산
+- 자격 gate와 실제로 차단되는 locked path가 1:1로 결속되지 않은 측정 자산
+- 재검사에서 이전 값을 되살릴 수 있는 일회성 실패 injector
+- 원문 첨부를 직접 내려받기 전에 2차 자료로 재구성한 출처 수집
 
 모든 결함은 원문을 조용히 고치는 대신 중단, 계약 보완, 독립 재검토 순서로 닫았다. 유효하지 않은 중간 artifact는 저장하거나 후속 입력으로 사용하지 않았다.
+
+### standard-v1.1-b4 회귀 규칙
+
+1. fixture 작성 전 기대 판정표의 정상·실패·복구 행을 하나의 trace에 대입해 동시에 성립 가능한지 확인한다.
+2. eligibility의 각 gate는 차단되는 locked path와 1:1로 대응시킨다.
+3. 실패 상태는 variant에 고정한다. 한 번만 값을 바꾸는 injector로 재검사 결과를 만들지 않는다.
+4. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용한다. 규정 threshold와 사용자의 실제 값은 서로 다른 필드이므로 값 차이만으로 source conflict라 하지 않는다.
+5. 공식 페이지가 첨부 파일을 제공하면 직접 첨부 경로를 먼저 확인하고, 2차 자료 재구성은 직접 원문을 확보할 수 없을 때만 한계와 함께 사용한다.
 
 ## 7. 통합 해석
 
@@ -91,3 +104,9 @@
 5. 100건 도달 뒤 전수 중복·coverage·측정 계약·시장 상태·실행 적합성·공개 경계를 통합 분석한다.
 
 남은 85건은 한 번에 생성하는 백로그가 아니다. 각 배치의 수락·거절·보류와 결함 원장을 보존하고, 중간 버전을 후속 PR로 공유하면서 방법론 자체의 완성도를 단계적으로 높인다.
+
+## 9. 런타임 분업과 방법 동결
+
+Codex는 완료 배치의 결함 분석, 방법론·검증기 수정, 회귀 검사와 다음 revision 동결을 맡는다. Claude Code는 동결된 revision으로 신규 배치를 생산하고 결함 원장과 closure를 반환한다. 진행 중인 배치에는 방법 변경을 소급하지 않는다.
+
+새 배치는 `prepared-unlocked → prepared-locked → in-progress` 순서로 진행한다. `methodLock`은 revision, 방법 source commit과 파일별 SHA-256을 기록한다. 자세한 역할과 인수인계 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)를 따른다.

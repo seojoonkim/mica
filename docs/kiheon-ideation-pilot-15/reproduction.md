@@ -21,6 +21,18 @@ python3 scripts/mica-scenario-production.py new-batch \
   --profile lean --batch-id <batch-id>
 ```
 
+빈 배치는 즉시 생산하지 않는다. Codex가 방법 revision을 커밋한 뒤 다음 두 관문을 실행한다.
+
+```bash
+python3 scripts/mica-scenario-production.py lock-method \
+  work/mica-scenario-batches/<batch-id>
+
+python3 scripts/mica-scenario-production.py validate-ready \
+  work/mica-scenario-batches/<batch-id>
+```
+
+`lock-method`는 커밋된 방법 source와 파일별 SHA-256을 배치에 결속한다. `validate-ready`가 빈 산출물·열린 closure·미할당 역할·현재 방법 파일의 일치를 확인한 뒤에만 역할 실행을 시작한다.
+
 그 뒤 Codex에서는 `$mica-scenario-production <batch-id>`, Claude Code에서는 `/mica-scenario-production <batch-id>`로 시작한다. 역할별 새 컨텍스트에는 [`role-prompts.md`](./role-prompts.md)의 해당 블록과 허용 입력만 전달한다.
 
 ## 두 실행 방식
@@ -49,6 +61,16 @@ python3 scripts/mica-scenario-production.py new-batch \
 13. 별도 measurement reviewer가 실제 파일 결속과 모든 분기를 확인한다.
 14. coverage readback과 결함 원장을 작성한다.
 15. typed audit가 건수·역할·해시·역류 금지를 확인한 뒤 배치를 닫는다.
+
+## Codex와 Claude Code의 순환
+
+1. Claude Code가 동결된 방법으로 신규 배치를 완료하거나 fail-closed로 닫는다.
+2. Codex가 defect ledger, 거절·수정 이력과 회귀 결과를 분석한다.
+3. Codex가 필요한 방법·검증기 변경을 다음 revision으로 커밋한다.
+4. 빈 다음 배치에 method lock을 기록한다.
+5. Claude Code가 새 revision으로 다음 생산을 시작한다.
+
+진행 중인 배치의 방법 파일을 바꾸지 않는다. 결함이 발견되면 원문을 보존하고 현재 배치를 닫은 뒤 새 배치 경계에서만 수정한다. 전체 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)에 있다.
 
 ## 배치별 필수 기록
 

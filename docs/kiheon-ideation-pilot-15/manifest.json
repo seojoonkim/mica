@@ -5,28 +5,28 @@
   "files": [
     {
       "path": "docs/kiheon-ideation-pilot-15/README.md",
-      "sha256": "78e369f2c7395526be068cb8a90bf2fd9645ea1af474832f098bfe9a234f7402",
-      "byteLength": 9642
+      "sha256": "e39a3ffe63a609e0427dcbecda777aa8a0161b1a41a548dbcbbd84bdcf1d8f40",
+      "byteLength": 10264
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology.md",
-      "sha256": "1925decca6ba9b7a784bc4967004c32baf4bc4b688ace75e612236e8fd0ecb29",
-      "byteLength": 5590
+      "sha256": "f733ca6ee25837a477750022039cce5939847aa95c7e2bf9bd1a078fedd2bf68",
+      "byteLength": 7461
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
-      "sha256": "dea61c3275d15da48e16e79f94b83697c04fe33bb95f1668999e63bc08041d87",
-      "byteLength": 4605
+      "sha256": "46875070506cf883a98c891479c5f533710436d28fe3fba24b7273f20e4ac7f8",
+      "byteLength": 4834
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/reproduction.md",
-      "sha256": "f15428279f629a8d4dd5d5138d619e73a74d0fee9459d5dbc52f5be66d951141",
-      "byteLength": 4442
+      "sha256": "bcada1cb8751a71b4be160f44c8cc555d8f72c5bc45bc8171ae725ae32f6f42d",
+      "byteLength": 5725
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
-      "sha256": "f17bd65429327554ac0429453684c9ce00dd095f3e88e8359cc1b465e404aee0",
-      "byteLength": 6947
+      "sha256": "ae18bc54186403801593b14235864c102d5250594ff0a06c7ba01934bd5ecfaa",
+      "byteLength": 7793
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/github-collaboration.md",
@@ -35,8 +35,13 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
-      "sha256": "6206a3df8b4b429cdf630d80e540c726abe252fa697086fa1d1c5760f06ff97c",
-      "byteLength": 5736
+      "sha256": "03b50627706317b2023e9b0b1a1bd8596cca667119753170b42261c26df17a67",
+      "byteLength": 6786
+    },
+    {
+      "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
+      "sha256": "5dcfbee7c20edbe0fe6598451531da276c6fbb0bbbf40691a71668bf73ed3848",
+      "byteLength": 4888
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/candidate-specs.json",
@@ -50,8 +55,8 @@
     },
     {
       "path": ".agents/skills/mica-scenario-production/SKILL.md",
-      "sha256": "468aa3701bf5cb62a4137a92078bfda72094b20372237cb7d1c31dc12f5afd69",
-      "byteLength": 6961
+      "sha256": "3bbc59c8dd13e1785b5a8cf61fed9a1c552d5e6be0a67688fd66362cab635288",
+      "byteLength": 8147
     },
     {
       "path": ".agents/skills/mica-scenario-production/agents/openai.yaml",
@@ -60,13 +65,18 @@
     },
     {
       "path": ".claude/skills/mica-scenario-production/SKILL.md",
-      "sha256": "468aa3701bf5cb62a4137a92078bfda72094b20372237cb7d1c31dc12f5afd69",
-      "byteLength": 6961
+      "sha256": "3bbc59c8dd13e1785b5a8cf61fed9a1c552d5e6be0a67688fd66362cab635288",
+      "byteLength": 8147
     },
     {
       "path": "scripts/mica-scenario-production.py",
-      "sha256": "6ddd600ebf0a6f9455f43f172831d6948c5866c22be65b26b0dc47af5e1f42bf",
-      "byteLength": 18028
+      "sha256": "75817f436c9ac2ec8bc1ced81a89576ef5405a53affb7feaab0fc422835a9941",
+      "byteLength": 26520
+    },
+    {
+      "path": "scripts/test-mica-scenario-production.py",
+      "sha256": "fe5a835f3fa485fde1cafcc47f1c802f3d1c88b8d9650cdf94077bc47e1b74c3",
+      "byteLength": 2884
     }
   ]
 }

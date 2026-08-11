@@ -68,8 +68,12 @@ PR을 clone 또는 checkout한 뒤 저장소 루트에서 Codex나 Claude Code�
 - 두 방식 비교: `python3 scripts/mica-scenario-production.py profiles`
 - 표준 배치: `python3 scripts/mica-scenario-production.py new-batch --profile standard --batch-id <batch-id>`
 - Lean 배치: `python3 scripts/mica-scenario-production.py new-batch --profile lean --batch-id <batch-id>`
+- 방법 동결: `python3 scripts/mica-scenario-production.py lock-method work/mica-scenario-batches/<batch-id>`
+- 생산 시작 검사: `python3 scripts/mica-scenario-production.py validate-ready work/mica-scenario-batches/<batch-id>`
 
 첫 에이전트는 표준 5건·6–12시간과 Lean 3건·3–5시간의 역할·모델 자원을 먼저 안내하고, 지정이 없으면 하나를 추천한 뒤 선택을 기다린다. 실행 계약은 [`agent-production-contract.md`](./agent-production-contract.md), 독립 역할별 전달문은 [`role-prompts.md`](./role-prompts.md)에 있다. 작성자·번역자에게 이 15건이나 기존 MICA 과제를 발상 입력으로 제공하지 않는 것이 재현의 핵심이다.
+
+현재 운영은 Codex가 완료 배치의 결함을 분석해 방법론·검증기와 다음 revision을 동결하고, Claude Code가 그 revision으로 신규 배치를 생산하는 방식이다. 진행 중인 배치에는 방법 변경을 소급하지 않는다. 자세한 분업과 교차 검토는 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)에 있다.
 
 GitHub의 브랜치·커밋·push·Draft PR을 안전하게 사용하는 절차는 [`github-collaboration.md`](./github-collaboration.md)에 정리했다. 현재 후속 방법론·배치는 `codex/mica-kiheon-pilot-15` 브랜치의 Draft PR #1에 누적하되, 사이트·점수 정책·canonical 변경처럼 성격이 다른 작업은 새 브랜치와 별도 PR로 분리한다.
 
