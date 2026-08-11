@@ -1,0 +1,35 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "std-b3",
+  "productionProfile": "standard",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 2,
+  "heldCandidates": [],
+  "rejectedCandidates": 0,
+  "stageCounts": {
+    "sourceEvidence": "6(수락 5·거절 1 — ev-b3-05 창작 수치, ev-b3-06으로 개정 재발행·수락: 개정 사이클 첫 정상 작동)",
+    "needObservations": "5(수락 2·거절 3 — 전부 과업 번역 불가 유형, 근거 결속 위반 0)",
+    "taskCandidates": "2(수락 2)",
+    "comparison": "transformation 2",
+    "measurement": "designable 2 — 자산 3차 수정(ma-b3-01/02→03/04→05/06)·oracle 3회 판정(or-b3-01~06), gap 7종→차단 4종→0으로 수렴"
+  },
+  "newActionableProcessDefects": [
+    "df-b3-01 관측 스키마 수준 규격 미정의(판정분류·귀속·라벨 — 이번 배치에서 표준화)",
+    "df-b3-02 해소 장치발 2차 결함(정답 런 오발화 등 — 최상위 승급 국소 수정으로 해소)"
+  ],
+  "regression": {
+    "validateBatch(std-b3, HEAD·aae1370 이중)": "pass·pass — completed 상태·역할 전배정·수락 2==계약 2행. std-b2에서 적발됐던 행 단위 origin 누락·역할 미배정이 재발 0(첫 실행에 통과)",
+    "validateBatch(std-b2 회귀)": "pass — 기존 종결 배치 결속 유지",
+    "preflight(HEAD)": "pass — 기존 15건·스킬 진입점·프로필 유지",
+    "defectMitigations 회귀": "계약 실행 결함 완화 9규칙 전량 유효 작동 — 운반 격리(근거 결속 위반 0), 개정 사이클(ev-b3-06 supersede 첫 실증), 승인 액터·evt-change-proposed 선반영, 미수행≠고장 귀속, preservationCheck·상속 유효 선언, oracle 재발행, origin 검증기 담보, date 실측, 2회 연속 실패 시 최상위 승급(3차 수정)"
+  },
+  "postHocCategoryAttachment": {
+    "note": "카테고리는 동결 후 사후 부착 — 작성·번역 역할에는 '이동·대중교통 생활 영역'으로만 전달",
+    "ki-b3-01": "06 이동·대중교통 (분실물 보관단계 확인)",
+    "ki-b3-02": "06 이동·대중교통 (취소수수료 구간 확인)"
+  },
+  "nextBatchDecision": "표준 5건 운영 유지 가능 — 수율 2/5(거절 3건은 전부 관찰 층위 문제, 공정 결함 여파 아님). 계약 9규칙 유효 작동 확인(운반 격리·개정 사이클·승급 규칙). 다음 영역은 SSOT 최신 분포 기준 04 외식·예약이 잔여 최우선. 판단은 기헌 몫",
+  "externalActionsPending": "결과의 Notion·PR 반영은 기헌 승인 대기(SSOT 조율 갱신은 승인 범위)",
+  "closedAt": "2026-08-11T10:05+0900"
+}

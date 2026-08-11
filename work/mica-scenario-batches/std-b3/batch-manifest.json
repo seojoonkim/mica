@@ -1,0 +1,301 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "std-b3",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-aa34d3fa6b1a8045c",
+    "sourceReviewer": "agent-aa118dfd720cf11ea",
+    "needWriter": "agent-af82b41ac1e30b093",
+    "observationReviewer": "agent-a25ad7e0bb749ac6a",
+    "observationCustodian": "controller-mechanical (전건 판정 존재·수락 필터+해시 — df-b2-04 규약 결정 대기 중 동일 방식)",
+    "translator": "agent-a37c5ed3e25307512",
+    "candidateReviewer": "agent-a5d2fcfe6b0a0597c",
+    "candidateCustodian": "controller-mechanical (전건 accept·해시 계산만)",
+    "comparator": "agent-a05620cac23bbc53e",
+    "measurementAssetAuthor": "agent-a5d5e336e8ac9a0d8 (1·2차) / agent-a4614d616fff34f94 (3차 max 승급)",
+    "oracleReviewer": "agent-a41368d6503629729",
+    "measurementReviewer": "agent-a01a4e4afac8bed3d",
+    "controller": "claude-code-main-session (Fable, controller)"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium — 정형 수집·웹 조사",
+      "tools": "web search/fetch",
+      "contextId": "agent-aa34d3fa6b1a8045c",
+      "executedAt": "2026-08-11T08:17+0900",
+      "durationSec": 475,
+      "note": "ev-b3-01~05: 분실물·장애인콜택시·승차거부 행정심판·교통약자 지표·고속버스 취소수수료",
+      "tokens": 136706
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 원문 대조 의미 검토",
+      "tools": "read: source-evidence.jsonl + 웹 재확인",
+      "contextId": "agent-aa118dfd720cf11ea",
+      "executedAt": "2026-08-11T08:27+0900",
+      "durationSec": 471,
+      "note": "accept 4·reject 1(ev-b3-05: 원문에 없는 '2026년 60%' 창작 수치). ev-04 publisher 표기 오류·knownLimits 뒤집힘은 비차단 지적",
+      "tokens": 127217
+    },
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "web fetch(원문 재열람)",
+      "contextId": "agent-aa34d3fa6b1a8045c",
+      "executedAt": "2026-08-11T08:28+0900",
+      "durationSec": 79,
+      "note": "ev-b3-06 발행(ev-b3-05 supersede) — 원문 직접 인용 재작성, 창작 수치 제거",
+      "tokens": 2749
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read+웹 재대조",
+      "contextId": "agent-aa118dfd720cf11ea",
+      "executedAt": "2026-08-11T08:30+0900",
+      "durationSec": 73,
+      "note": "srv-b3-06 accept — 직접 인용 5개 문자열 단위 일치, 창작 수치 부재 독립 재확인. 시행일 누락은 비차단 권고",
+      "tokens": 4865
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 작성 역할, 도구 사용 0(운반 파일만)",
+      "tools": "read: 수락 evidence 운반 파일만",
+      "contextId": "agent-af82b41ac1e30b093",
+      "executedAt": "2026-08-11T08:35+0900",
+      "durationSec": 210,
+      "note": "ob-b3-01~05 — 분실물 추적, 이동지원 지역 격차, 승차거부 사후 판정, 교통약자 유형 규모, 취소수수료 예측",
+      "tokens": 81442
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 관찰+수락 evidence 운반 파일",
+      "contextId": "agent-a25ad7e0bb749ac6a",
+      "executedAt": "2026-08-11T08:38+0900",
+      "durationSec": 145,
+      "note": "accept 2(ob-01·05)·reject 3(ob-02 제도 균질화, ob-03 절차 개선, ob-04 정보 욕구 — 전부 과업 번역 불가 사유, 근거 결속 위반 0). 관찰 상한 소진으로 재작성 없이 2건 진행",
+      "tokens": 79167
+    },
+    {
+      "role": "taskTranslator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 작성 역할, 도구 사용 0(운반 파일만)",
+      "tools": "read: 동결 관찰 운반 파일만",
+      "contextId": "agent-a37c5ed3e25307512",
+      "executedAt": "2026-08-11T08:42+0900",
+      "durationSec": 169,
+      "note": "ki-b3-01 분실물 보관단계 확인, ki-b3-02 취소수수료 구간 확인",
+      "tokens": 76550
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 후보+동결 관찰 운반 파일",
+      "contextId": "agent-a5d2fcfe6b0a0597c",
+      "executedAt": "2026-08-11T08:44+0900",
+      "durationSec": 83,
+      "note": "crv-b3-01/02 accept — 관찰 결속·이분 판정·권한 경계·복구 판정 가능성 통과. 측정 유의점 2건(분기별 채점 고정, 개편안 불일치≠오답)",
+      "tokens": 73137
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 동결 후보+카탈로그 4종(정본100·15·lean-b1·후속9)",
+      "contextId": "agent-a05620cac23bbc53e",
+      "executedAt": "2026-08-11T08:47+0900",
+      "durationSec": 135,
+      "note": "transformation 2 — ki-b3-01 closest mt-lost-item-report-draft, ki-b3-02 closest mt-cancel-and-refund. 역류 금지 유지",
+      "tokens": 92067
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 확정 규격 10항 명세 반영 1차 설계",
+      "tools": "read: 동결 후보만",
+      "contextId": "agent-a5d5e336e8ac9a0d8",
+      "executedAt": "2026-08-11T08:59+0900",
+      "durationSec": 666,
+      "note": "ma-b3-01(변형 3종·이중 출처 대조·분기별 채점 고정), ma-b3-02(예매 픽스처·이원 대조·불일치=정답 변형·구간 전이) — evt-change-proposed 외부화 포함",
+      "tokens": 142864
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — EXP 산술 검산 포함 엄격 심사",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a41368d6503629729",
+      "executedAt": "2026-08-11T09:14+0900",
+      "durationSec": 843,
+      "note": "1차 infeasible 2 — gap 7종은 전부 관측 필드·규칙 누락 유형(구조 재설계 불요). EXP 산술·구간 경계 검산은 전량 정합 확인",
+      "tokens": 152711
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 2차, gap 7종 국소 해소(동일 컨텍스트 재개)",
+      "tools": "스크래치 빌드+자가 형식 검증",
+      "contextId": "agent-a5d5e336e8ac9a0d8",
+      "executedAt": "2026-08-11T09:25+0900",
+      "durationSec": 627,
+      "note": "ma-b3-03/04 — 판정분류 7필드·판정/고지 이벤트·게이트 3항목 추가·[무효]/[실패] 귀속·재조회 귀속 규칙·날조 카나리 3객체·승인 선행 필드. preservationCheck 소실 0",
+      "tokens": 33567
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 분기 전량 재발행(7분기×2)·EXP 재검산",
+      "tools": "read 허용 2파일+스크래치 빌드",
+      "contextId": "agent-a41368d6503629729",
+      "executedAt": "2026-08-11T09:36+0900",
+      "durationSec": 900,
+      "note": "2차 infeasible 2 — 1차 gap 7종 해소 확인. 잔여 차단 gap: 공통 2(허용 토큰 과소로 정답 런 오발화, 채점 규약 축 범위 모호) + or-04 추가 2(시행일·중간연도 판정분류 충돌, 고지 순서 비교 대상 미지정). 비차단 5종 별도",
+      "tokens": 100212
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-fable (최상위)",
+      "effortClass": "max급 — 같은 자산 2회 연속 infeasible 승급(계약 9규칙 9번)",
+      "tools": "read: 스테이징 3~4행만 + 스크래치 병합 빌드·leaf-diff 검증",
+      "contextId": "agent-a4614d616fff34f94",
+      "executedAt": "2026-08-11T09:48+0900",
+      "durationSec": 667,
+      "note": "ma-b3-05/06 — 차단 gap 4종만 국소 수정(허용 토큰 패턴 보정·채점 규약 축 범위 확정·판정분류 목표 정정·고지 순서 비교 대상 지정). 객체 id -01/-02 보존, 소실 0",
+      "tokens": 152009
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a41368d6503629729",
+      "executedAt": "2026-08-11T09:54+0900",
+      "durationSec": 318,
+      "note": "3차 최종 — feasible 2. or-b3-05 완전 상속 유효(amendedTests 0), or-b3-06 조건부 유효(amendedTests 7항목 교체 명시). 비차단 권고 12건은 원장 기록 대상",
+      "tokens": 62731
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 3파일(행 지정)",
+      "contextId": "agent-a01a4e4afac8bed3d",
+      "executedAt": "2026-08-11T10:05+0900",
+      "durationSec": 558,
+      "note": "mr-b3-01/02 designable 2 — 6기준 pass. 신규 비차단 2건(reform-match 후값 미검사, 표기 불일치) 원장 편입",
+      "tokens": 180336
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable (메인 세션)",
+      "effortClass": "high",
+      "tools": "파일 운반·기계 검증·동결",
+      "contextId": "main",
+      "executedAt": "2026-08-11T10:05+0900",
+      "note": "S13 종결 — 계약 2·원장 5·closure. 행 단위 origin은 전 파일 작성 시점부터 탑재(std-b2 재발 방지)"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "userDirective": "기헌 2026-08-11: SSOT 조율 절차에 따른 다음 배치 진행 승인('진행해줘'). 범위는 controller 판단으로 06 이동·대중교통 단독 — 04는 코덱스 lean-010204-001의 거절 이력·재시도 맥락 보유로 회피(충돌 방지)",
+    "scopeNote": "카테고리 06은 예약 정보다. 작성·번역 역할에는 '이동·대중교통 생활 영역'으로만 전달하고 카테고리 번호·진행판·수량 목표를 노출하지 않는다",
+    "defectMitigations": "공통 에이전트 계약 '실행 결함 완화 기준' 9규칙 전량 적용(lean-b1·std-b2 실측 유래) — 운반 격리(evidence 행 밖 사실 전달 금지), 승인 발행 액터 규격, 미수행≠픽스처 고장, 성공 경로 실현성 검사, preservationCheck·basedOn unchanged, oracle 전량 재발행/상속 유효 선언, 행 단위 origin+이중 도구 validate, date 실측·자기 보고 배제, 수정 지시 후 독립 재확인·2회 연속 실패 시 최상위 승급",
+    "startedAt": "2026-08-11T08:08+0900",
+    "toolSha": "7ee0414"
+  },
+  "completedAt": "2026-08-11T10:05+0900"
+}
