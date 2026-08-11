@@ -1,0 +1,159 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v3",
+  "batchId": "std-b7",
+  "status": "prepared-locked",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "methodRevision": "standard-v1.2-b5",
+  "methodLock": {
+    "schemaVersion": "mica.scenario-production-method-lock/v1",
+    "revision": "standard-v1.2-b5",
+    "sourceCommitSha": "1109d0a2963625db34c6e6f36236d21e07639b97",
+    "sourceFiles": [
+      {
+        "path": "docs/kiheon-ideation-pilot-15/methodology.md",
+        "sha256": "cf89029682e091362579d2e1c86ae8f7bbf361fa37e7a7038104754a26bd8292"
+      },
+      {
+        "path": ".agents/skills/mica-scenario-production/SKILL.md",
+        "sha256": "8d9bbc24513d092c119720acf264321e88b9a299833f455b4b9769ce88d34cd5"
+      },
+      {
+        "path": ".claude/skills/mica-scenario-production/SKILL.md",
+        "sha256": "8d9bbc24513d092c119720acf264321e88b9a299833f455b4b9769ce88d34cd5"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/reproduction.md",
+        "sha256": "5e156a47bcf51c02c30c641c6cd53a39ad440b46c1551b52e49497b021a250e6"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
+        "sha256": "f09be773f5491f6a948b63e51d9637d67bab8d704065b53ce56048b6b0d947a6"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
+        "sha256": "32b01c9d9705c25cb164385aef7b5c7fc5192ecc44bcba9823557480d407d15b"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
+        "sha256": "f040c1d67272e0bdbad8723b1864f81b3af9ca8ca332783534bc87ac99d63a14"
+      },
+      {
+        "path": "scripts/mica-scenario-production.py",
+        "sha256": "119cdd5db8d271f79a7e305552867180cd8d5b29f0123d9d7e42a7ea221cb76d"
+      },
+      {
+        "path": "scripts/test-mica-scenario-production.py",
+        "sha256": "7c743982d3bda975c18cbed11e095c44c366446ab39c9b0f80af27d09517467f"
+      }
+    ],
+    "lockedAt": "2026-08-12T01:17:50+09:00"
+  },
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": null,
+    "sourceReviewer": null,
+    "needWriter": null,
+    "observationReviewer": null,
+    "observationCustodian": null,
+    "translator": null,
+    "candidateReviewer": null,
+    "candidateCustodian": null,
+    "comparator": null,
+    "measurementAssetAuthor": null,
+    "oracleReviewer": null,
+    "measurementReviewer": null,
+    "controller": null
+  },
+  "modelRecord": [],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "userDirective": "기헌 2026-08-12: 중간 목표 50개(현재 40) — 잔여는 생활계약 도메인 공백 4가족 우선. std-b7은 그 첫 배치",
+    "scopeNote": "작성·번역 역할에는 생활 영역명만: '가정 내 대여·설치 서비스(렌털) 계약 생활 영역' + '통신·인터넷 계약의 만료·전환·약속 이행 생활 영역'. 평가 맥락 문서는 controller·comparator 전용(origin 오염 방지) — 관찰은 독립 1차 자료에서만",
+    "methodNote": "도구 lock은 standard-v1.2-b5(도구 리비전 상수 체계상 과거 배치 잠금과 결속 — v1.3 상수 승격 시 기존 배치 검증이 깨져 revert함). **v1.3의 실질은 이 배치 공정으로 전량 적용**: ①측정 자산과 함께 agent-visible/evaluator-visible/harness-private 3묶음 산출 ②measurement review 뒤 blind-agent rehearsal(별도 컨텍스트, agent-visible만) 통과해야 designable ③판정 레코드 파생 책임 하네스 명시 ④호출 단위 선언·동시 충족성 게이트·formula 도메인 명시. 도구의 v1.3 리비전 승격(과거 lock 호환 설계 필요)은 코덱스 이관 항목",
+    "startedAt": "2026-08-12T01:17+0900",
+    "toolSha": "1109d0a"
+  }
+}
