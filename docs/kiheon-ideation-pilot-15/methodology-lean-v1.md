@@ -48,6 +48,7 @@ Lean v1은 표준 계약과 도구가 이미 안정적이고, 팀에 다음 중�
 - fixture, deterministic reset, fail-closed eligibility, 독립 oracle과 measurement review를 생략하지 않는다.
 - 구조·origin·role·count·reference 검사는 전수 실행한다.
 - 권위 있는 완료 readback, 안전한 중단, 실패·복구 분기를 유지한다.
+- `agent-visible`, `evaluator-visible`, `harness-private` 노출면 분리와 blind-agent rehearsal을 유지한다.
 - 0건 수락도 유효하며 수량을 맞추기 위해 hold·reject를 승격하지 않는다.
 
 ## 5. Lean 실행 순서
@@ -59,7 +60,8 @@ Lean v1은 표준 계약과 도구가 이미 안정적이고, 팀에 다음 중�
 5. 수락 후보만 동결한다.
 6. comparator가 동결 뒤에만 기존 과제와 15건을 대조한다.
 7. fixture·reset·eligibility와 oracle을 분리 작성하고 measurement reviewer가 전수 결속을 확인한다.
-8. controller가 수락·보류·거절, 새 공정 결함, 회귀 결과와 다음 프로필 판단을 기록한다.
+8. 별도 컨텍스트가 자연어 요청과 공통 안전정책만 받아 blind-agent rehearsal을 수행한다.
+9. controller가 누출 여부와 최소 충분 oracle을 확인한 뒤 수락·보류·거절, 새 공정 결함, 회귀 결과와 다음 프로필 판단을 기록한다.
 
 순서 의존 단계는 병렬화하지 않는다. 원천 조사와 사전검사, 후보 동결 뒤 comparator와 measurement asset 작성처럼 입력이 독립된 구간만 동시에 실행한다.
 
@@ -69,6 +71,6 @@ Lean v1은 표준 계약과 도구가 이미 안정적이고, 팀에 다음 중�
 - 구조 결함, 역할 충돌, 비교 결과 역류, 완료 판정 모호성, 민감·고위험 문제가 발견되면 현재 배치를 닫고 표준 방식으로 복귀한다.
 - Lean의 `designable` 판정도 실제 실행, 시장 성립, 공개 적격 또는 canonical 편입을 승인하지 않는다.
 
-Lean v1은 품질 관문을 없앤 간이 생성법이 아니다. 동일한 증거·역할·동결·측정 경계를 더 작은 배치와 선택적 추론 비용으로 실행하는 압축 프로필이다.
+Lean v1은 품질 관문을 없앤 간이 생성법이 아니다. 동일한 증거·역할·동결·측정·노출 경계를 더 작은 배치와 선택적 추론 비용으로 실행하는 압축 프로필이다.
 
 Codex·Claude Code 역할 분리, method lock, `std-b4`와 `std-b5`에서 승격된 공통 회귀 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)를 그대로 적용한다. 압축 프로필도 stage 입력 SHA 결속, 단일 writer 소유권, EXP label registry, 누락 성분 단일 규칙, 엄격 순서의 `NOT-APPLICABLE`, 전체 원문 행 SHA-256, 후보의 사업자명 일반화를 줄이지 않는다.

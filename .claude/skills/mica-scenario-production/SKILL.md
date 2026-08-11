@@ -83,6 +83,16 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 - 시장 검토, 실제 실행, 점수 산출, 공개·정본 편입은 이 스킬의 승인 범위가 아니다.
 - Notion·Slack·배포·정본 변경·git push는 사람의 명시 승인을 받은 별도 단계다.
 
+## 피측정 에이전트 노출면
+
+상세 후보와 측정 자산은 피측정 에이전트에게 주는 프롬프트가 아니다. 다음 세 표면을 분리한다.
+
+- `agent-visible`: 자연어 `userRequest`, 사용자가 알려 준 제약, 공통 안전정책, 허용 도구만 포함한다.
+- `evaluator-visible`: 시작·최종 상태, 승인 경계, 금지 결과, 실패 복구, 안전 인계를 포함하며 피측정 에이전트에게 전달하지 않는다.
+- `harness-private`: fixture, variant, reset, eligibility, full oracle, probe, registry, event ID, canary, tick·비용 계산을 포함하며 런타임에서 반드시 숨긴다.
+
+`candidate-specs.json`, 후보 JSONL, comparison, measurement assets를 피측정 에이전트 입력으로 직렬화하지 않는다. 에이전트에게 내부 schema·판정 레코드·채점 토큰 생성을 요구하지 않고, 하네스가 도구 호출·외부 상태·최종 응답에서 판정 기록을 파생한다. 공개 저장소에 파일이 있어도 실행 sandbox가 하네스 전용 경로를 읽지 못하게 한다.
+
 ## 실행 단위
 
 - 표준은 최대 5개, Lean은 최대 3개의 독립 생활 필요만 다룬다.
@@ -108,9 +118,19 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 5. 수락 후보만 동결한다.
 6. 그 뒤에만 comparator가 기존 과제와 파일럿 15건을 열어 사후 대조한다.
 7. measurement 역할들이 fixture·reset·eligibility·oracle을 분리 작성·검토한다.
-8. controller가 결함 원장과 종료 판정을 기록한다.
+8. 별도 컨텍스트가 `agent-visible`만 받아 blind-agent rehearsal을 수행한다.
+9. controller가 누출·최소 충분 oracle·숨은 경로 차단을 확인하고 결함 원장과 종료 판정을 기록한다.
 
 observation·candidate custodian은 별도 context에서 accepted 원문 행 전체 SHA-256을 기록한다. measurement asset author는 EXP literal label registry, 누락 성분 단일 formula, 사건 부재 시 strict-order `NOT-APPLICABLE`을 적용한다. 후보·fixture·oracle에는 실제 사업자명 대신 기능적 권위 역할 또는 합성 식별자를 쓴다.
+
+`std-b6` 종료 감사 이후에는 다음도 강제한다.
+
+- 역할 산출물의 `*ContextId`와 동결 담당 표기는 `self`가 아니라 실제 실행 컨텍스트 ID여야 하며 `batch-manifest.json`의 `modelRecord`와 일치해야 한다.
+- controller는 최종 측정 검토, `measurement-contracts.jsonl`, 결함 원장, closure의 SHA-256까지 종결 원장에 기록한다. `batch-manifest.json` 자체는 자기참조 때문에 제외한다.
+- 측정 자산은 기록의 원자적 호출 단위와 최악 경로 호출 수를 선언한다. 합성 시계 상한 안에 든다는 증명이 없으면 실제 simulator 실행으로 승격하지 않는다.
+- 열린 비차단 정리 항목이 있는 `designable` 후보는 측정 설계 완료일 뿐 실행 검증 완료가 아니다. 실제 실행 전에 정리 항목을 닫는다.
+- oracle은 사용자 결과, 권위 있는 readback, 승인 경계, 금지 상태, 안전 인계를 이분 판정하는 최소 조건만 포함한다. 특정 문구·클릭 순서·내부 필드명을 강제하지 않는다.
+- measurement review 뒤 `agent-visible`만 받은 별도 컨텍스트의 blind-agent rehearsal을 통과해야 `designable`로 종결한다. 그 전 상태는 `designable-pending-exposure`다.
 
 ## 모델 기준
 

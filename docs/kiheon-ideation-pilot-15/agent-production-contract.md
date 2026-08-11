@@ -61,7 +61,8 @@
 | task candidate | `task-candidates.jsonl` | 독립 후보 검토 수락 |
 | frozen candidate | `frozen-candidates.jsonl` | accepted-only 집합 |
 | comparison | `comparison.jsonl` | 동결 뒤에만 기존 과제 대조 |
-| measurement | `measurement-contracts.jsonl` | fixture·reset·eligibility·oracle 결속 |
+| measurement | `measurement-contracts.jsonl` | fixture·reset·eligibility·oracle 결속, 상태는 `designable-pending-exposure` |
+| exposure | `blind-agent-rehearsal.jsonl` | `agent-visible`만으로 수행 가능하고 비공개 단서·경로 누출이 없어야 `designable` 확정 |
 | close | `defect-ledger.jsonl`, `closure.json` | 수량보다 결함·한계 보존 |
 
 ## 입력 방화벽
@@ -93,6 +94,35 @@ controller도 역할별 입력 목록을 `batch-manifest.json`에 기록한다. 
 
 동결 후보에 `comparisonVerdict`, `executionTrack`, `fixtureRefs`, `resetRef`, `attemptEligibilityRef`, `oracleRef`, `measurementDecision`, `measurementReviewerContextId`가 결속된 상태다. `designable`은 실제 실행 성공이나 시장 성립을 뜻하지 않는다.
 
+## 실행 노출면 계약
+
+상세한 후보 명세와 측정 자산은 피측정 에이전트의 프롬프트가 아니다. 실행 전에 후보별 내용을 다음 세 묶음으로 나눈다.
+
+### `agent-visible`
+
+- `userRequest`: 일반 사용자가 말할 법한 1~2문장
+- `userKnownConstraints`: 사용자가 알고 직접 제공한 조건만
+- `commonSafetyPolicy`: 승인 필요 행동과 공통 금지 행동
+- `allowedTools`: 이번 실행에서 사용할 수 있는 도구 범위
+
+### `evaluator-visible`
+
+- `startState`, `taskAction`, `canonicalFinalState`
+- `confirmationBoundary`, `prohibitedStates`, `failureRecoveryEvents`
+- 권위 있는 readback과 안전 인계 요약
+
+### `harness-private`
+
+- fixture의 계정·서비스 상태와 정상·실패·복구 variant
+- deterministic reset과 fail-closed eligibility
+- full oracle, probe, token registry, event ID, canary, tick·비용 계산
+
+실행기는 `agent-visible`만 피측정 에이전트에게 전달한다. `candidate-specs.json`, `task-candidates.jsonl`, `frozen-candidates.jsonl`, comparison, measurement assets는 런타임에서 읽을 수 없어야 한다. 공개 저장소에 파일이 있더라도 실행 sandbox의 허용 경로에서 제외한다.
+
+에이전트는 자연어 요청에 답하고 허용 도구를 사용한다. 내부 JSON schema·판정 레코드·probe·event ID·token registry 생성은 요구하지 않는다. 하네스가 도구 호출, 외부 상태, 최종 응답을 원자료로 보존하고 평가 레코드로 파생한다.
+
+measurement review 뒤 별도 컨텍스트의 `blind-agent rehearsal`을 수행한다. 이 역할은 `agent-visible`만 받고 정답 단서 없이 수행 가능한지 확인한다. measurement reviewer는 리허설 기록과 비공개 계약을 대조해 누출, 특정 문구·구현 순서 강제, 숨은 파일 접근 가능성이 없을 때만 `designable`을 확정한다.
+
 ## 독립성
 
 한 컨텍스트에서 생성과 검토를 함께 하지 않는다. 도구가 격리된 하위 에이전트를 제공하지 않으면 별도 채팅을 사용한다. reviewer는 작성자의 대화 요약이나 의도를 받지 않고 고정 산출물과 계약만 받는다. comparator 결과를 다음 작성자에게 되돌리지 않는다.
@@ -105,6 +135,8 @@ custodian은 controller의 기계적 대행 역할이 아니다. 작성자·revi
 - 거절 원문과 review는 보존한다. 원문을 수정해야 하면 새 ID와 새 검토가 필요하다.
 - 근거 부족, 권한 불명, 완료 readback 부재, 안전한 반복 실행 불가 중 하나라도 있으면 hold 또는 reject다.
 - 목표 수량 때문에 통과시키지 않는다.
+- `userRequest`가 내부 필드명, 정답 상태, 실패 분기, 채점 식별자를 노출하면 reject 또는 새 ID 재작성이다.
+- oracle은 사용자 결과를 판정하는 최소 조건만 포함한다. 결과와 무관한 특정 문구·클릭 순서·내부 표현을 강제하면 reject다.
 
 ## 모델과 재현성
 
@@ -112,4 +144,4 @@ custodian은 controller의 기계적 대행 역할이 아니다. 작성자·revi
 
 ## 사람이 승인해야 하는 것
 
-시장별 성립, 현지 검토, live 실행, 점수 정책, 공개·비공개 분리, canonical 편입, Notion·Slack 공유, 배포와 push는 이 계약의 자동 승인 범위 밖이다.
+시장별 성립, 현지 검토, live 실행, 점수 정책, 공개 저장 정책과 런타임 접근 통제의 최종 승인, canonical 편입, Notion·Slack 공유, 배포와 push는 이 계약의 자동 승인 범위 밖이다.

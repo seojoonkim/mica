@@ -59,8 +59,11 @@ python3 scripts/mica-scenario-production.py validate-ready \
 11. 별도 역할이 fixture, reset, attempt eligibility를 만든다.
 12. 독립 oracle 역할이 정상·실패·복구의 이분 판정을 작성한다.
 13. 별도 measurement reviewer가 실제 파일 결속과 모든 분기를 확인한다.
-14. coverage readback과 결함 원장을 작성한다.
-15. typed audit가 건수·역할·해시·역류 금지를 확인한 뒤 배치를 닫는다.
+14. 후보별 `agent-visible`, `evaluator-visible`, `harness-private` 묶음을 분리한다.
+15. 별도 컨텍스트가 `agent-visible`만 받아 blind-agent rehearsal을 수행한다.
+16. measurement reviewer가 누출 여부, 최소 충분 oracle, 숨은 경로 차단을 판정한다.
+17. coverage readback과 결함 원장을 작성한다.
+18. typed audit가 건수·역할·해시·역류 금지를 확인한 뒤 배치를 닫는다.
 
 각 producer→reviewer 인계에서는 controller가 입력 파일의 SHA-256과 artifact owner를 먼저 기록한다. reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256을 확인하며, 값이 달라지면 결과를 저장하지 않는다. 런타임을 바꿀 때도 기존 owner가 입력을 닫고 새 owner가 SHA를 readback한 뒤에만 시작한다.
 
@@ -95,7 +98,9 @@ python3 scripts/mica-scenario-production.py validate-ready \
 - 요청·접수·문서만으로 외부 상태 완료를 주장함
 - 승인 없는 외부 변경 또는 민감정보 전송이 포함됨
 - 원문과 판정을 사후에 덮어씀
+- 피측정 에이전트 입력에 최종 상태·금지 상태·fixture·oracle·probe·채점 식별자가 포함됨
+- 특정 문구·내부 레코드·클릭 순서를 따르지 않으면 같은 사용자 결과도 실패하도록 설계됨
 
 ## 다음 단계
 
-이 15건을 이어서 사용하려면 후보 제작보다 먼저 시장별 근거 검토, simulator 교정 사전등록, 실제 자산 전수 재검증, public/private 분리를 수행한다. live 실행이나 점수 산출은 그 뒤의 별도 승인 대상이다.
+이 15건을 이어서 사용하려면 후보 제작보다 먼저 실행 노출면을 분리하고 정적 누출 감사를 수행한다. 실제 실행에 올릴 소수 후보부터 blind-agent rehearsal, simulator 교정 사전등록, 실제 자산 재검증을 거친다. 시장별 근거 검토, live 실행이나 점수 산출은 그 뒤의 별도 승인 대상이다.

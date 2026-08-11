@@ -24,11 +24,11 @@
 
 ## 6. translator
 
-> accepted-only frozen observation과 task candidate 기본 필드만 읽는다. 기존 MICA 과제·후보·카테고리·comparison은 금지 입력이다. 각 관찰을 단순 정보 제공이 아닌 종단 간 상태 변화 과업으로 번역한다. 권위 있는 완료 readback, 사용자 확인 경계, 금지 상태, 실패·복구 사건, 미확인 값을 명시한다. 실제 사업자명은 source evidence에만 두고 후보에는 기능적 권위 역할을 쓴다. 실명 자체가 판정 대상인 예외는 만들지 말고 hold한다. 추측이 필요하면 후보를 만들지 말고 hold 이유를 반환한다.
+> accepted-only frozen observation과 task candidate 기본 필드만 읽는다. 기존 MICA 과제·후보·카테고리·comparison은 금지 입력이다. 각 관찰을 단순 정보 제공이 아닌 종단 간 상태 변화 과업으로 번역한다. `userRequest`는 일반 사용자가 말할 법한 1~2문장으로 쓰고, 사용자가 모르는 내부 필드명·정답 상태·실패 분기·채점 식별자를 넣지 않는다. 권위 있는 완료 readback, 사용자 확인 경계, 금지 상태, 실패·복구 사건, 미확인 값은 평가자용 필드에만 명시한다. 실제 사업자명은 source evidence에만 두고 후보에는 기능적 권위 역할을 쓴다. 실명 자체가 판정 대상인 예외는 만들지 말고 hold한다. 추측이 필요하면 후보를 만들지 말고 hold 이유를 반환한다.
 
 ## 7. candidate reviewer
 
-> translator와 다른 독립 검토자다. frozen observation, 후보 원문, 계약만 읽는다. traceability, 실행 단위, 시작 상태, 최종 상태, 권위 있는 oracle, confirmation boundary, prohibited states, failure recovery, non-fabrication을 판정한다. 요청·접수·문서 생성만으로 완료를 주장하거나 외부 권한을 추정하면 reject한다. 원문을 수정하지 않는다.
+> translator와 다른 독립 검토자다. frozen observation, 후보 원문, 계약만 읽는다. traceability, 실행 단위, 시작 상태, 최종 상태, 권위 있는 oracle, confirmation boundary, prohibited states, failure recovery, non-fabrication을 판정한다. 별도로 `userRequest`가 사용자에게 알려진 조건과 공통 안전정책만 포함하는지, 평가자용 최종 상태·금지 상태·내부 판정 표현이 섞이지 않았는지 판정한다. 요청·접수·문서 생성만으로 완료를 주장하거나 외부 권한을 추정하거나 정답 단서가 누출되면 reject한다. 원문을 수정하지 않는다.
 
 ## 8. candidate custodian
 
@@ -40,7 +40,7 @@
 
 ## 10. measurement asset author
 
-> frozen candidate와 comparison만 읽고 simulator용 fixture, deterministic reset, fail-closed attempt eligibility를 설계한다. 작성 전에 기대 판정표의 모든 정상·실패·복구 행이 하나의 trace에서 동시에 성립 가능한지 확인한다. eligibility의 각 gate를 차단되는 locked path와 1:1로 연결하고, 재검사에서 과거 값이 되살아나는 일회성 injector 대신 variant 자체에 실패 상태를 고정한다. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용하며 규정 threshold와 사용자의 실제 값을 별도 필드로 둔다. EXP expected table의 모든 literal label을 허용 registry에 열거하고, 누락 성분 처리 formula는 전 variant에서 하나만 쓴다. 두 사건의 strict-before는 두 사건이 모두 존재할 때만 평가하고 사건 부재는 `NOT-APPLICABLE`로 둔다. 정상·실패·복구 분기를 포함하고 민감 원문과 실제 사업자명 대신 합성 식별자와 기능적 권위 역할을 쓴다. 실제 시장·사업자·비용·시간을 만들지 않는다.
+> frozen candidate와 comparison만 읽고 simulator용 fixture, deterministic reset, fail-closed attempt eligibility를 설계한다. `userRequest`를 측정 편의에 맞춰 고치거나 내부 필드·토큰·분기명을 추가하지 않는다. 작성 전에 기대 판정표의 모든 정상·실패·복구 행이 하나의 trace에서 동시에 성립 가능한지 확인한다. eligibility의 각 gate를 차단되는 locked path와 1:1로 연결하고, 재검사에서 과거 값이 되살아나는 일회성 injector 대신 variant 자체에 실패 상태를 고정한다. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용하며 규정 threshold와 사용자의 실제 값을 별도 필드로 둔다. EXP expected table의 모든 literal label을 허용 registry에 열거하고, 누락 성분 처리 formula는 전 variant에서 하나만 쓴다. 두 사건의 strict-before는 두 사건이 모두 존재할 때만 평가하고 사건 부재는 `NOT-APPLICABLE`로 둔다. 정상·실패·복구 분기를 포함하고 민감 원문과 실제 사업자명 대신 합성 식별자와 기능적 권위 역할을 쓴다. 실제 시장·사업자·비용·시간을 만들지 않는다.
 
 ## 11. oracle reviewer
 
@@ -48,8 +48,12 @@
 
 ## 12. measurement reviewer
 
-> fixture, reset, eligibility, oracle, frozen candidate를 전수 대조한다. 기대 판정표의 모든 행이 같은 trace에서 동시에 성립하는지, gate와 locked path가 1:1인지, 실패 상태가 재검사에서도 유지되는지 확인한다. EXP literal label 전부가 registry에 있는지, 누락 성분 formula가 전 variant에서 같은지, 엄격한 사건 순서가 사건 부재를 true로 처리하지 않는지 확인한다. 판정은 위에서 아래로 첫 일치 규칙을 적용하고 규정 threshold와 사용자 값의 차이만으로 source conflict라 하지 않는다. 모든 파일 참조와 분기가 실제로 결속되고 reset이 결정적이며 자격 판정이 fail-closed일 때만 `designable`로 판정한다. live 실행, 시장 성립, 공개 적격은 판정하지 않는다.
+> fixture, reset, eligibility, oracle, frozen candidate를 전수 대조한다. 기대 판정표의 모든 행이 같은 trace에서 동시에 성립하는지, gate와 locked path가 1:1인지, 실패 상태가 재검사에서도 유지되는지 확인한다. EXP literal label 전부가 registry에 있는지, 누락 성분 formula가 전 variant에서 같은지, 엄격한 사건 순서가 사건 부재를 true로 처리하지 않는지 확인한다. 판정은 위에서 아래로 첫 일치 규칙을 적용하고 규정 threshold와 사용자 값의 차이만으로 source conflict라 하지 않는다. oracle이 사용자 결과·권위 있는 readback·승인·금지·안전 인계를 판정하는 최소 조건인지 확인하고 특정 표현·클릭 순서·내부 레코드를 부당하게 강제하면 reject한다. 모든 파일 참조와 분기가 실제로 결속되고 reset이 결정적이며 자격 판정이 fail-closed일 때도 blind-agent rehearsal 전에는 `designable-pending-exposure`로만 판정한다. live 실행, 시장 성립, 공개 적격은 판정하지 않는다.
 
-## 13. controller 종료 보고
+## 13. blind-agent rehearsal
 
-> 배치의 원천 수, 관찰 수락·거절, 후보 수락·거절, comparison 분포, designable 수, 발견 결함, 회귀 결과, 다음 배치 유지·중단 판단을 한국어로 요약한다. 수락이 0이어도 숨기지 않는다. 외부 공유와 정본 반영은 사람 승인 대기 상태로 남긴다.
+> measurement reviewer와 다른 독립 컨텍스트다. `agent-visible` 묶음의 자연어 요청, 사용자가 알려 준 제약, 공통 안전정책, 허용 도구 범위만 받는다. 후보 명세, 최종 상태, 금지 상태, fixture, variant, reset, eligibility, oracle, probe, registry, event ID, tick 계산은 보지 않는다. 상식적인 에이전트가 요청을 이해하고 권위 있는 상태를 탐색해 성공 또는 안전 인계에 도달할 수 있는지 리허설 기록을 남긴다. 내부 정답 단서가 보이거나 특정 JSON·판정 표현을 요구하거나 숨은 파일을 읽어야만 성공할 수 있으면 실패로 보고한다. 이 리허설은 실제 벤치마크 점수나 시스템 성능 결과가 아니다.
+
+## 14. controller 종료 보고
+
+> 배치의 원천 수, 관찰 수락·거절, 후보 수락·거절, comparison 분포, `designable-pending-exposure`와 blind-agent rehearsal 통과 `designable` 수, 발견 결함, 회귀 결과, 다음 배치 유지·중단 판단을 한국어로 요약한다. 수락이 0이어도 숨기지 않는다. 외부 공유와 정본 반영은 사람 승인 대기 상태로 남긴다.

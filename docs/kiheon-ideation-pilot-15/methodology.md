@@ -95,6 +95,41 @@
 6. custodian은 원문 JSONL 행의 전체 SHA-256과 독립 context ID를 기록한다. 잘린 hash나 controller의 기계적 대행으로 동결하지 않는다.
 7. 실제 사업자명은 source evidence와 출처 표기에만 남긴다. 후보·fixture·oracle에는 기능적 권위 역할 또는 합성 식별자를 쓰며, 실명 자체가 판정 대상인 예외는 별도 검토 근거를 남긴다.
 
+### std-b6 Codex 감사 보강 규칙
+
+`std-b6`는 `standard-v1.2-b5`로 생산됐고 3건이 `designable`까지 통과했다. 다음 배치부터는 아래 항목도 종결 조건으로 적용한다.
+
+1. 역할 산출물의 `*ContextId`와 동결 담당 표기는 `self` 같은 상대 표현이 아니라 실제 실행 컨텍스트 ID여야 한다. controller는 `batch-manifest.json`의 `modelRecord`와 각 행의 값을 대조한다.
+2. controller는 마지막 측정 검토, `measurement-contracts.jsonl`, 결함 원장, closure까지 모든 최종 산출물의 SHA-256을 종결 원장에 기록한다. 자기참조가 생기는 `batch-manifest.json` 자체만 예외다.
+3. 측정 자산은 probe·sink·이벤트를 한 번의 호출로 기록하는지 건별 호출로 기록하는지 원자적 호출 단위를 선언하고, 최악 경로의 호출 수가 합성 시계 상한 안에 드는지 `designable` 판정 전에 증명한다.
+4. 비차단 정리 항목이 남아 있는 `designable` 후보는 측정 설계 완료로 집계할 수 있지만 실제 simulator 실행 전에는 해당 항목을 닫아야 한다. `designable`을 실행 검증 완료로 표현하지 않는다.
+
+### 상세성 적합성 검토 이후의 노출면 계약
+
+2026-08-11 Claude Code와 Codex의 독립 검토는 `노출면은 간결하게, 평가 하네스는 엄밀하게`에 합의했다. 상세한 최종 상태·금지 상태·실패 변형·oracle은 재현 가능한 평가에 필요하지만, 이를 피측정 에이전트에게 그대로 주면 생활과업 수행 능력이 아니라 명세 준수 능력을 측정하게 된다.
+
+후보 하나는 다음 세 표면으로 분리한다.
+
+| 표면 | 포함 항목 | 피측정 에이전트 접근 |
+|---|---|---:|
+| `agent-visible` | 자연어 `userRequest`, 사용자가 이미 알고 제공한 제약, 공통 안전 정책, 허용 도구 범위 | 허용 |
+| `evaluator-visible` | 시작 상태 요약, 최종 상태, 승인 경계, 금지 결과, 안전 인계 기준 | 금지 |
+| `harness-private` | fixture, 실패 variant, reset, eligibility, full oracle, probe, registry, event ID, tick·비용 계산 | 반드시 금지 |
+
+`candidate-specs.json`과 `task-candidates.jsonl`은 평가자용 연구 명세다. 실제 실행에서 피측정 에이전트에게 전달하는 입력 파일이 아니다. 실행기는 `agent-visible` 묶음만 직렬화하고, 평가자는 도구 호출·외부 상태·최종 응답에서 내부 판정 레코드를 파생해야 한다. 에이전트에게 내부 JSON schema, 판정 토큰, event ID 또는 probe 레코드 생성을 요구하지 않는다.
+
+oracle은 `minimum sufficient oracle` 원칙을 따른다. 사용자가 원한 결과, 권위 있는 readback, 승인 경계, 금지 상태, 안전한 실패를 이분 판정하는 데 필요한 최소 조건만 둔다. 특정 클릭 순서, 특정 문구, 내부 필드명은 결과가 같다면 성공의 필수조건으로 만들지 않는다.
+
+다음 배치부터 measurement review 뒤 `blind-agent rehearsal`을 추가한다. 별도 컨텍스트가 `agent-visible` 묶음만 받고 상식적인 수행 경로를 설명하거나 합성 환경에서 리허설한다. measurement reviewer는 그 기록과 비공개 계약을 대조해 다음을 모두 확인해야 `designable`로 종결할 수 있다.
+
+1. 사용자 요청에 정답 상태·실패 분기·채점 식별자가 누출되지 않았다.
+2. 명세를 모르는 에이전트도 도구 탐색과 권위 있는 readback을 통해 성공 경로에 도달할 수 있다.
+3. 자연어 응답을 내부 판정 형식으로 바꾸는 책임이 하네스에 있다.
+4. 평가 조건이 사용자 결과와 무관한 특정 표현·구현 순서를 강제하지 않는다.
+5. 실행 런타임에서 `evaluator-visible`과 `harness-private` 파일 경로를 읽을 수 없다.
+
+기존 27개 측정 설계는 폐기하지 않는다. 실제 실행에 투입하기 전에 전수 정적 누출 감사를 하고, 우선 실행할 소수 후보부터 blind-agent rehearsal을 통과시킨다. 측정하기 어렵지만 삶의 중요도가 큰 관찰은 삭제하지 않고 `중요하지만 현재 측정 불가` 원장에 보존한다.
+
 ## 7. 통합 해석
 
 15건 중 12건은 기존 필요를 더 엄격한 실행·완료·복구 구조로 바꾼 `transformation`, 3건은 고정 비교군에서 동일 상태 구조를 찾지 못한 `independent-finding`이다. 이 결과는 신규성 또는 시장 가치의 최종 증명이 아니다.

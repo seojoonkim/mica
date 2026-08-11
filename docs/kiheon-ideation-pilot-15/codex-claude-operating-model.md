@@ -94,10 +94,25 @@ python3 scripts/mica-scenario-production.py validate-ready \
 - 같은 결함이 재발하거나 method lock이 어긋나면 다음 생산을 중단하고 표준 프로필로 복귀한다.
 - 동일 artifact path를 두 런타임이 동시에 쓰지 않는다. runtime 전환은 controller가 고정 입력 SHA와 새 소유자를 기록한 뒤에만 허용한다.
 
+### std-b6 종료 감사에서 추가된 종결 점검
+
+- 역할 산출물은 `self`가 아니라 실제 컨텍스트 ID를 기록하고, controller가 `modelRecord`와 일치 여부를 확인한다.
+- 종결 원장은 최종 측정 검토, 측정 계약, 결함 원장, closure의 SHA-256까지 포함한다. `batch-manifest.json`은 자기참조 때문에 제외한다.
+- 측정 reviewer는 합성 시계의 호출 단위와 최악 경로 호출 수를 확인한다. 호출 단위가 모호하거나 상한을 넘으면 실제 실행 전 정리 항목으로 남기고 실행 승인으로 승격하지 않는다.
+- Codex 감사 결과는 생산 커밋에 결속해 남기며, 다음 배치는 이 보강 규칙을 포함한 방법 source commit을 새로 동결한 뒤에만 연다.
+
+### 상세성 적합성 검토에서 추가된 실행 노출 점검
+
+- Claude Code와 Codex의 독립 검토는 `노출면은 간결하게, 평가 하네스는 엄밀하게`에 합의했다.
+- Claude Code production lane은 후보를 `agent-visible`, `evaluator-visible`, `harness-private` 세 표면으로 분리하고, 자연어 요청에 최종 상태·실패 분기·채점 식별자가 섞이지 않게 한다.
+- 별도 blind rehearsal 컨텍스트는 `agent-visible`만 받아 상식적인 수행 경로를 확인한다. 후보·fixture·oracle 파일은 허용 입력이 아니다.
+- Codex control plane은 배치 종료 때 공개 입력 누출, minimum sufficient oracle, 피측정 런타임의 하네스 경로 차단을 회귀 검사한다.
+- 기존 27개 측정 설계는 폐기하지 않으며, 실제 실행에 투입하기 전에 전수 정적 누출 감사와 우선 후보의 blind-agent rehearsal을 수행한다.
+
 ## 7. 현재 인수인계
 
-`std-b5`는 이전 v2 계약으로 완료됐다. 5개 관찰 중 4개가 후보·비교·측정 설계까지 통과했고, 기존 과제와의 사후 대조는 모두 `transformation`이었다. 실제 실행·시장 성립·공개 적격은 아직 검증하지 않았다.
+`std-b6`는 `standard-v1.2-b5`로 완료됐다. 초안 5건에서 관찰 4건과 후보 4건을 동결했고, 사후 대조에서 중복 1건을 제외한 3건이 측정 설계까지 통과했다. 실제 실행·시장 성립·공개 적격은 아직 검증하지 않았다.
 
-`standard-v1.2-b5`와 `lean-v1.2-b5`는 `std-b5` 다음 빈 배치부터 강제한다. 다음 배치는 `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다.
+다음 배치는 `standard-v1.2-b5`와 `lean-v1.2-b5`에 위 `std-b6` 종료 감사 규칙과 실행 노출 점검을 더한 방법 source commit을 동결하고, `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다.
 
 이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.
