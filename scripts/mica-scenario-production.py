@@ -74,7 +74,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.2-b5",
+        "methodRevision": "standard-v1.3",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
