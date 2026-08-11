@@ -3,8 +3,10 @@
   "schemaVersion": "mica.scenario-production-closure/v1",
   "batchId": "cat04-lean-001",
   "productionProfile": "lean",
-  "status": "open",
-  "acceptedMeasurableCandidates": 0,
-  "newActionableProcessDefects": [],
-  "nextBatchDecision": "hold-until-reviewed"
+  "status": "completed",
+  "acceptedMeasurableCandidates": 1,
+  "newActionableProcessDefects": [
+    "CAT04-DEFECT-001"
+  ],
+  "nextBatchDecision": "category-04 candidate KI-L4-001 completed as simulator-designable; preserve origin-field regression guard before the next batch"
 }
