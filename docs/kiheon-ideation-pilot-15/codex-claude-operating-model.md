@@ -84,6 +84,8 @@ python3 scripts/mica-scenario-production.py validate-ready \
 
 ## 6. 현재 인수인계
 
-다음 생산 배치는 `std-b5`다. 카테고리 09 주거·공과금의 독립 1차 자료를 조사하는 표준 최대 5건 배치이며, 현재 작성 산출물은 0건이다. `standard-v1.1-b4` 동결과 `validate-ready` PASS 뒤에만 Claude Code가 시작한다.
+`std-b5`는 이 운영 모델이 커밋되기 전에 Claude Code가 이전 v2 계약으로 시작했다. 진행 중인 배치에는 새 방법을 소급하지 않는 원칙에 따라 기존 계약으로 완료하거나 fail-closed로 닫고, closure에 사용한 기준과 발견 결함을 남긴다.
+
+`standard-v1.1-b4`와 method lock은 `std-b5` 다음에 만드는 빈 표준 배치부터 강제한다. 다음 배치는 `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다.
 
 이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.
