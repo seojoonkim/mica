@@ -41,6 +41,8 @@
 - 역할별 허용 입력은 `batch-manifest.json`의 `roleInputAllowlist`로 고정하며, controller가 배치 시작 전에 확인한다.
 - 신규 배치는 커밋된 방법 revision과 파일별 SHA-256을 `methodLock`에 기록하고 `validate-ready`를 통과하기 전까지 생산하지 않는다.
 - 진행 중인 배치에는 방법 변경을 소급하지 않는다. 결함은 원장에 남기고 다음 배치 revision에서만 반영한다.
+- 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. 각 reviewer는 controller가 확정한 입력 SHA-256을 시작 전·쓰기 직전·완료 후 확인한다.
+- 입력 SHA-256이 바뀐 review는 결과 수량에서 제외하고 stale evidence로 격리한다.
 
 ## 런타임 책임
 
@@ -94,6 +96,8 @@ controller도 역할별 입력 목록을 `batch-manifest.json`에 기록한다. 
 ## 독립성
 
 한 컨텍스트에서 생성과 검토를 함께 하지 않는다. 도구가 격리된 하위 에이전트를 제공하지 않으면 별도 채팅을 사용한다. reviewer는 작성자의 대화 요약이나 의도를 받지 않고 고정 산출물과 계약만 받는다. comparator 결과를 다음 작성자에게 되돌리지 않는다.
+
+custodian은 controller의 기계적 대행 역할이 아니다. 작성자·reviewer와 다른 context에서 accepted row 원문 전체의 SHA-256을 결속한다. 후보와 측정 자산은 실제 사업자명 대신 기능적 권위 역할 또는 합성 식별자를 사용한다.
 
 ## 판정
 

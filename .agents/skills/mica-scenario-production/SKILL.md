@@ -88,6 +88,8 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 - 표준은 최대 5개, Lean은 최대 3개의 독립 생활 필요만 다룬다.
 - 선택한 프로필, 예상 시간과 동시 실행 한도를 `batch-manifest.json`에 기록한다.
 - 방법 revision, source commit과 파일별 SHA-256을 `methodLock`에 기록한다.
+- 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. producer가 입력 SHA-256을 닫기 전 reviewer를 시작하지 않으며 reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA를 확인한다.
+- 입력 SHA가 바뀐 review는 채택하지 않고 `stale-review-evidence/`에 격리한다.
 - Lean도 작성·검토·동결·사후 대조·measurement 관문과 역할 독립성을 생략하지 않는다.
 - 순서 의존 단계는 병렬화하지 않는다. 표준은 동시 최대 2–3개, Lean은 동시 최대 2개 컨텍스트만 활성화한다.
 - 구조·해시·역할·건수 같은 기계 검사는 두 방식 모두 매번 전수 실행한다. Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.
@@ -107,6 +109,8 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 6. 그 뒤에만 comparator가 기존 과제와 파일럿 15건을 열어 사후 대조한다.
 7. measurement 역할들이 fixture·reset·eligibility·oracle을 분리 작성·검토한다.
 8. controller가 결함 원장과 종료 판정을 기록한다.
+
+observation·candidate custodian은 별도 context에서 accepted 원문 행 전체 SHA-256을 기록한다. measurement asset author는 EXP literal label registry, 누락 성분 단일 formula, 사건 부재 시 strict-order `NOT-APPLICABLE`을 적용한다. 후보·fixture·oracle에는 실제 사업자명 대신 기능적 권위 역할 또는 합성 식별자를 쓴다.
 
 ## 모델 기준
 

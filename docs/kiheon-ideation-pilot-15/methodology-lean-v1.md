@@ -1,7 +1,7 @@
 # MICA 시나리오 제작 Lean v1
 
 - origin: `kiheon-ideation`
-- method revision: `lean-v1.1-b4`
+- method revision: `lean-v1.2-b5`
 - status: `intermediate-compressed-method`
 - relationship: 표준 방법론을 대체하지 않는 별도 실행 프로필
 - scope: 신규 최대 3건의 빠른 중간 배치
@@ -71,4 +71,4 @@ Lean v1은 표준 계약과 도구가 이미 안정적이고, 팀에 다음 중�
 
 Lean v1은 품질 관문을 없앤 간이 생성법이 아니다. 동일한 증거·역할·동결·측정 경계를 더 작은 배치와 선택적 추론 비용으로 실행하는 압축 프로필이다.
 
-Codex·Claude Code 역할 분리, method lock, `std-b4`에서 승격된 공통 회귀 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)를 그대로 적용한다.
+Codex·Claude Code 역할 분리, method lock, `std-b4`와 `std-b5`에서 승격된 공통 회귀 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)를 그대로 적용한다. 압축 프로필도 stage 입력 SHA 결속, 단일 writer 소유권, EXP label registry, 누락 성분 단일 규칙, 엄격 순서의 `NOT-APPLICABLE`, 전체 원문 행 SHA-256, 후보의 사업자명 일반화를 줄이지 않는다.

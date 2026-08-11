@@ -1,7 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
-- method revision: `standard-v1.1-b4`
+- method revision: `standard-v1.2-b5`
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -84,6 +84,16 @@
 3. 실패 상태는 variant에 고정한다. 한 번만 값을 바꾸는 injector로 재검사 결과를 만들지 않는다.
 4. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용한다. 규정 threshold와 사용자의 실제 값은 서로 다른 필드이므로 값 차이만으로 source conflict라 하지 않는다.
 5. 공식 페이지가 첨부 파일을 제공하면 직접 첨부 경로를 먼저 확인하고, 2차 자료 재구성은 직접 원문을 확보할 수 없을 때만 한계와 함께 사용한다.
+
+### standard-v1.2-b5 회귀 규칙
+
+1. 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. producer가 입력 artifact를 닫고 SHA-256을 controller에 넘긴 뒤에만 reviewer를 시작한다.
+2. reviewer는 시작 전·쓰기 직전·완료 후 입력 SHA-256을 다시 확인한다. 값이 달라지면 결과를 채택하지 않고 `stale-review-evidence/`에 격리한다.
+3. EXP 기대값에 쓰는 모든 literal label은 허용 registry에 구 단위로 먼저 열거한다. 정답 trace가 registry에 없는 표현을 요구하면 asset을 수락하지 않는다.
+4. 부분 산출·상태 요약의 누락 성분 처리 규칙은 모든 variant에서 하나여야 한다. 기대 판정표와 formula가 서로 다른 누락 규칙을 쓰면 차단한다.
+5. 두 사건의 엄격한 선후를 요구하는 branch는 두 사건이 모두 존재할 때만 평가한다. 하나라도 없으면 `NOT-APPLICABLE`이며 vacuous true로 간주하지 않는다.
+6. custodian은 원문 JSONL 행의 전체 SHA-256과 독립 context ID를 기록한다. 잘린 hash나 controller의 기계적 대행으로 동결하지 않는다.
+7. 실제 사업자명은 source evidence와 출처 표기에만 남긴다. 후보·fixture·oracle에는 기능적 권위 역할 또는 합성 식별자를 쓰며, 실명 자체가 판정 대상인 예외는 별도 검토 근거를 남긴다.
 
 ## 7. 통합 해석
 

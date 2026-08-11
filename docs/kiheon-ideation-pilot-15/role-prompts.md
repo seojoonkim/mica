@@ -1,6 +1,6 @@
 # 역할별 전달 프롬프트
 
-각 블록은 서로 다른 에이전트 컨텍스트에 단독 전달한다. `<...>` 값과 허용 파일 목록은 controller가 채운다. 다른 역할의 대화나 결론을 함께 전달하지 않는다. 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다(Lean v1).
+각 블록은 서로 다른 에이전트 컨텍스트에 단독 전달한다. `<...>` 값과 허용 파일 목록은 controller가 채운다. 다른 역할의 대화나 결론을 함께 전달하지 않는다. 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다(Lean v1). producer가 입력 파일의 SHA-256을 확정한 뒤 reviewer에게 전달하며, reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256인지 확인한다. 값이 바뀌면 출력하지 않고 controller에 stale input을 보고한다.
 
 ## 1. source researcher
 
@@ -20,11 +20,11 @@
 
 ## 5. observation custodian
 
-> observation reviewer와 다른 동결 담당자다. `need-observations.jsonl`과 `observation-reviews.jsonl`만 읽고, accept 판정된 관찰 원문만 한 글자도 바꾸지 않고 `frozen-observations.jsonl`로 동결한다. 거절·보류 행은 포함하지 않으며, 원문·판정 파일은 수정하지 않는다. 동결 건수와 제외 건수를 기록하고, 판정 없는 행이나 원문 변형이 발견되면 동결을 중단하고 결함으로 보고한다.
+> observation reviewer와 다른 동결 담당자다. `need-observations.jsonl`과 `observation-reviews.jsonl`만 읽고, accept 판정된 관찰 원문만 한 글자도 바꾸지 않고 `frozen-observations.jsonl`로 동결한다. 각 frozen row에 원문 JSONL 행 전체의 SHA-256과 자기 custodian context ID를 기록한다. 거절·보류 행은 포함하지 않으며, 원문·판정 파일은 수정하지 않는다. 잘린 hash, controller 대행, 판정 없는 행이나 원문 변형이 발견되면 동결을 중단하고 결함으로 보고한다.
 
 ## 6. translator
 
-> accepted-only frozen observation과 task candidate 기본 필드만 읽는다. 기존 MICA 과제·후보·카테고리·comparison은 금지 입력이다. 각 관찰을 단순 정보 제공이 아닌 종단 간 상태 변화 과업으로 번역한다. 권위 있는 완료 readback, 사용자 확인 경계, 금지 상태, 실패·복구 사건, 미확인 값을 명시한다. 추측이 필요하면 후보를 만들지 말고 hold 이유를 반환한다.
+> accepted-only frozen observation과 task candidate 기본 필드만 읽는다. 기존 MICA 과제·후보·카테고리·comparison은 금지 입력이다. 각 관찰을 단순 정보 제공이 아닌 종단 간 상태 변화 과업으로 번역한다. 권위 있는 완료 readback, 사용자 확인 경계, 금지 상태, 실패·복구 사건, 미확인 값을 명시한다. 실제 사업자명은 source evidence에만 두고 후보에는 기능적 권위 역할을 쓴다. 실명 자체가 판정 대상인 예외는 만들지 말고 hold한다. 추측이 필요하면 후보를 만들지 말고 hold 이유를 반환한다.
 
 ## 7. candidate reviewer
 
@@ -32,7 +32,7 @@
 
 ## 8. candidate custodian
 
-> candidate reviewer와 다른 동결 담당자다. `task-candidates.jsonl`과 `candidate-reviews.jsonl`만 읽고, accept 판정된 후보 원문만 그대로 `frozen-candidates.jsonl`로 동결한다. 거절·보류 행은 포함하지 않으며, 원문·판정 파일은 수정하지 않는다. 동결 건수와 제외 건수를 기록하고, 판정 없는 행이나 원문 변형이 발견되면 동결을 중단하고 결함으로 보고한다.
+> candidate reviewer와 다른 동결 담당자다. `task-candidates.jsonl`과 `candidate-reviews.jsonl`만 읽고, accept 판정된 후보 원문만 그대로 `frozen-candidates.jsonl`로 동결한다. 각 frozen row에 원문 JSONL 행 전체의 SHA-256과 자기 custodian context ID를 기록한다. 거절·보류 행은 포함하지 않으며, 원문·판정 파일은 수정하지 않는다. 잘린 hash, controller 대행, 판정 없는 행이나 원문 변형이 발견되면 동결을 중단하고 결함으로 보고한다.
 
 ## 9. comparator
 
@@ -40,7 +40,7 @@
 
 ## 10. measurement asset author
 
-> frozen candidate와 comparison만 읽고 simulator용 fixture, deterministic reset, fail-closed attempt eligibility를 설계한다. 작성 전에 기대 판정표의 모든 정상·실패·복구 행이 하나의 trace에서 동시에 성립 가능한지 확인한다. eligibility의 각 gate를 차단되는 locked path와 1:1로 연결하고, 재검사에서 과거 값이 되살아나는 일회성 injector 대신 variant 자체에 실패 상태를 고정한다. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용하며 규정 threshold와 사용자의 실제 값을 별도 필드로 둔다. 정상·실패·복구 분기를 포함하고 민감 원문 대신 합성 식별자와 상태를 쓴다. 실제 시장·사업자·비용·시간을 만들지 않는다.
+> frozen candidate와 comparison만 읽고 simulator용 fixture, deterministic reset, fail-closed attempt eligibility를 설계한다. 작성 전에 기대 판정표의 모든 정상·실패·복구 행이 하나의 trace에서 동시에 성립 가능한지 확인한다. eligibility의 각 gate를 차단되는 locked path와 1:1로 연결하고, 재검사에서 과거 값이 되살아나는 일회성 injector 대신 variant 자체에 실패 상태를 고정한다. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용하며 규정 threshold와 사용자의 실제 값을 별도 필드로 둔다. EXP expected table의 모든 literal label을 허용 registry에 열거하고, 누락 성분 처리 formula는 전 variant에서 하나만 쓴다. 두 사건의 strict-before는 두 사건이 모두 존재할 때만 평가하고 사건 부재는 `NOT-APPLICABLE`로 둔다. 정상·실패·복구 분기를 포함하고 민감 원문과 실제 사업자명 대신 합성 식별자와 기능적 권위 역할을 쓴다. 실제 시장·사업자·비용·시간을 만들지 않는다.
 
 ## 11. oracle reviewer
 
@@ -48,7 +48,7 @@
 
 ## 12. measurement reviewer
 
-> fixture, reset, eligibility, oracle, frozen candidate를 전수 대조한다. 기대 판정표의 모든 행이 같은 trace에서 동시에 성립하는지, gate와 locked path가 1:1인지, 실패 상태가 재검사에서도 유지되는지 확인한다. 판정은 위에서 아래로 첫 일치 규칙을 적용하고 규정 threshold와 사용자 값의 차이만으로 source conflict라 하지 않는다. 모든 파일 참조와 분기가 실제로 결속되고 reset이 결정적이며 자격 판정이 fail-closed일 때만 `designable`로 판정한다. live 실행, 시장 성립, 공개 적격은 판정하지 않는다.
+> fixture, reset, eligibility, oracle, frozen candidate를 전수 대조한다. 기대 판정표의 모든 행이 같은 trace에서 동시에 성립하는지, gate와 locked path가 1:1인지, 실패 상태가 재검사에서도 유지되는지 확인한다. EXP literal label 전부가 registry에 있는지, 누락 성분 formula가 전 variant에서 같은지, 엄격한 사건 순서가 사건 부재를 true로 처리하지 않는지 확인한다. 판정은 위에서 아래로 첫 일치 규칙을 적용하고 규정 threshold와 사용자 값의 차이만으로 source conflict라 하지 않는다. 모든 파일 참조와 분기가 실제로 결속되고 reset이 결정적이며 자격 판정이 fail-closed일 때만 `designable`로 판정한다. live 실행, 시장 성립, 공개 적격은 판정하지 않는다.
 
 ## 13. controller 종료 보고
 

@@ -62,6 +62,10 @@ python3 scripts/mica-scenario-production.py validate-ready \
 14. coverage readback과 결함 원장을 작성한다.
 15. typed audit가 건수·역할·해시·역류 금지를 확인한 뒤 배치를 닫는다.
 
+각 producer→reviewer 인계에서는 controller가 입력 파일의 SHA-256과 artifact owner를 먼저 기록한다. reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256을 확인하며, 값이 달라지면 결과를 저장하지 않는다. 런타임을 바꿀 때도 기존 owner가 입력을 닫고 새 owner가 SHA를 readback한 뒤에만 시작한다.
+
+동결 담당자는 accepted row의 원문 JSONL 행 전체 SHA-256을 기록한다. 후보와 simulator 자산에서는 source evidence에 등장한 실제 사업자명을 기능적 권위 역할 또는 합성 식별자로 일반화한다.
+
 ## Codex와 Claude Code의 순환
 
 1. Claude Code가 동결된 방법으로 신규 배치를 완료하거나 fail-closed로 닫는다.

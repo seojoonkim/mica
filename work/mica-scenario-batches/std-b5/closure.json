@@ -16,13 +16,18 @@
   },
   "newActionableProcessDefects": [
     "df-b5-01 EXP 라벨 토큰의 레지스트리 열거 검사 부재(오발화 재발 — 검사 신설로 해소)",
-    "df-b5-02 부분 산출·상태 요약형 EXP의 단일 규칙 미명문(변형 상반 고정 — 단일 규칙 2종으로 해소)"
+    "df-b5-02 부분 산출·상태 요약형 EXP의 단일 규칙 미명문(변형 상반 고정 — 단일 규칙 2종으로 해소)",
+    "df-b5-03 교차 런타임 stage 입력 SHA 미동결(오염 검토 격리·최종 production lane 재검토로 해소)",
+    "df-b5-04 동결 provenance의 축약 hash·controller 대행(다음 revision에서 전체 원문 행 SHA-256·별도 custodian 강제)",
+    "df-b5-05 실제 사업자명의 후보 계약 유입(다음 revision에서 기능적 권위 역할·합성 식별자로 일반화)"
   ],
   "regression": {
     "validateBatch(std-b5, HEAD·aae1370 이중)": "pass·pass — completed·역할 전배정·수락 4==계약 4행",
     "validateBatch(std-b2·b3·b4 회귀)": "전량 pass",
     "preflight(HEAD)": "pass — 기존 15건 유지(도구는 코덱스 병행 개정 중 — methodLock 필드 신설 확인, PASS 무영향)",
-    "defectMitigations 회귀": "9규칙+관측 스키마 표준+b4 신규 규격 전량 유효 — 출처 첫 무개정 전건 수락, 1차 설계 차단 gap 3건(b4 1건 대비 증가는 EXP 라벨·단일 규칙 유형 신규 발견), 2차 수렴·max 승급 0회 유지"
+    "defectMitigations 회귀": "9규칙+관측 스키마 표준+b4 신규 규격 전량 유효 — 출처 첫 무개정 전건 수락, 1차 설계 차단 gap 3건(b4 1건 대비 증가는 EXP 라벨·단일 규칙 유형 신규 발견), 2차 수렴·max 승급 0회 유지",
+    "crossRuntimeInputBinding": "경합으로 생성된 검토 3파일은 stale-review-evidence/로 격리. 최종 production lane의 자산·oracle·measurement review만 수량 판정에 사용",
+    "finalMeasurementAssetSha256": "120f943fff6b086ca3f1a39c16865c65c608ee490b16f14540c25d4b2b7062e3"
   },
   "postHocCategoryAttachment": {
     "note": "카테고리는 동결 후 사후 부착 — 작성·번역 역할에는 '주거·공과금 생활 영역'으로만 전달",

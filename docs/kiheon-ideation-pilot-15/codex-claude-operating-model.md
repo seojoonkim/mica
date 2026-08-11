@@ -2,8 +2,8 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.1-b4`
-- current compressed revision: `lean-v1.1-b4`
+- current standard revision: `standard-v1.2-b5`
+- current compressed revision: `lean-v1.2-b5`
 
 ## 1. 역할 선언
 
@@ -75,17 +75,29 @@ python3 scripts/mica-scenario-production.py validate-ready \
 4. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용한다. 규정 threshold와 사용자의 실제 값은 별도 필드이며, 값 차이만으로 source conflict로 분류하지 않는다.
 5. 원문 페이지가 첨부 링크를 제공하면 `download.do`, `fileDown.do` 같은 직접 첨부 경로를 먼저 시도하고, 2차 자료 재구성은 최후 수단으로 남긴다.
 
-## 5. 교차 런타임 점검
+## 5. standard-v1.2-b5에 반영된 회귀 규칙
+
+`std-b5`에서 측정 설계 자체의 모호성과 교차 런타임 입력 경합을 확인했다. 다음 빈 배치부터 아래를 공통 관문으로 사용한다.
+
+1. 한 활성 배치의 같은 artifact path는 한 런타임만 소유한다. producer가 입력을 닫고 SHA-256을 controller가 기록하기 전에는 reviewer를 시작하지 않는다.
+2. reviewer는 시작 전·쓰기 직전·완료 후 입력 SHA-256을 검증한다. 중간에 값이 바뀌면 결과를 채택하지 않고 stale evidence로 격리한다.
+3. EXP expected table의 literal label은 허용 registry에 전부 열거한다. 누락 성분 처리 formula는 모든 variant에서 하나로 유지한다.
+4. strict-before 같은 사건 순서는 두 사건이 모두 존재할 때만 평가하며, 사건 부재는 `NOT-APPLICABLE`로 처리한다.
+5. accepted-only freeze는 원문 행 전체 SHA-256과 별도 custodian context를 남긴다. 잘린 hash나 controller 대행 freeze는 허용하지 않는다.
+6. source evidence의 실제 발행 주체와 후보의 실행 권위 표현을 분리한다. 후보·fixture·oracle은 기능적 역할 또는 합성 식별자를 사용한다.
+
+## 6. 교차 런타임 점검
 
 - Claude Code는 매 배치 closure에 method revision, source commit, 역할별 모델·context ID를 기록한다.
 - Codex는 매 배치 종료 뒤 결함 원장과 구조 회귀를 확인한다.
 - 두 배치마다 또는 의미 판정 충돌이 생길 때, 다른 런타임이 원문 산출물만 받아 blind review를 한 번 수행한다.
 - 같은 결함이 재발하거나 method lock이 어긋나면 다음 생산을 중단하고 표준 프로필로 복귀한다.
+- 동일 artifact path를 두 런타임이 동시에 쓰지 않는다. runtime 전환은 controller가 고정 입력 SHA와 새 소유자를 기록한 뒤에만 허용한다.
 
-## 6. 현재 인수인계
+## 7. 현재 인수인계
 
-`std-b5`는 이 운영 모델이 커밋되기 전에 Claude Code가 이전 v2 계약으로 시작했다. 진행 중인 배치에는 새 방법을 소급하지 않는 원칙에 따라 기존 계약으로 완료하거나 fail-closed로 닫고, closure에 사용한 기준과 발견 결함을 남긴다.
+`std-b5`는 이전 v2 계약으로 완료됐다. 5개 관찰 중 4개가 후보·비교·측정 설계까지 통과했고, 기존 과제와의 사후 대조는 모두 `transformation`이었다. 실제 실행·시장 성립·공개 적격은 아직 검증하지 않았다.
 
-`standard-v1.1-b4`와 method lock은 `std-b5` 다음에 만드는 빈 표준 배치부터 강제한다. 다음 배치는 `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다.
+`standard-v1.2-b5`와 `lean-v1.2-b5`는 `std-b5` 다음 빈 배치부터 강제한다. 다음 배치는 `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다.
 
 이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.

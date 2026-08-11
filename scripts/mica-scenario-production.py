@@ -74,7 +74,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.1-b4",
+        "methodRevision": "standard-v1.2-b5",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
@@ -85,7 +85,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 2,
         "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
-        "methodRevision": "lean-v1.1-b4",
+        "methodRevision": "lean-v1.2-b5",
         "recommendedWhen": "계약과 도구가 안정적이며 빠른 중간 공유가 필요한 후속 배치",
     },
 }
