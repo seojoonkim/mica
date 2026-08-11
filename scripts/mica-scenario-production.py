@@ -42,6 +42,52 @@ ARTIFACTS = (
     "measurement-contracts.jsonl",
     "defect-ledger.jsonl",
 )
+EXPOSURE_ARTIFACTS = (
+    "agent-visible.jsonl",
+    "blind-agent-rehearsal.jsonl",
+)
+V4_SCHEMA = "mica.scenario-production-batch/v4"
+AGENT_VISIBLE_FIELDS = {
+    "origin",
+    "schemaVersion",
+    "batchId",
+    "candidateId",
+    "userRequest",
+    "userKnownConstraints",
+    "commonSafetyPolicy",
+    "allowedTools",
+    "preparedByContextId",
+}
+BLIND_REHEARSAL_FIELDS = {
+    "origin",
+    "schemaVersion",
+    "batchId",
+    "candidateId",
+    "agentVisibleRowSha256",
+    "rehearsalContextId",
+    "requestUnderstood",
+    "successOrSafeHandoffReachable",
+    "hiddenInformationRequired",
+    "implementationSequenceForced",
+    "hiddenPathAccessible",
+    "verdict",
+    "notes",
+    "reviewedAt",
+}
+PUBLIC_LEAK_PATTERNS = (
+    re.compile(
+        r"(?<![A-Za-z0-9_])(?:canonicalFinalState|confirmationBoundary|prohibitedStates|"
+        r"failureRecoveryEvents|fixtureRefs?|resetRef|attemptEligibilityRef|"
+        r"oracleRef|binaryOracle|measurementDecision)(?![A-Za-z0-9_])",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"(?<![A-Za-z0-9_])(?:token[ -]?registry|probe[ -]?id|event[ -]?id|tick[ -]?formula|"
+        r"fixture[ -]?id|variant[ -]?id)(?![A-Za-z0-9_])",
+        re.IGNORECASE,
+    ),
+    re.compile(r"(?<![A-Za-z0-9_])(?:EXP|EV|PROBE|EVENT|TOKEN|FIXTURE|VARIANT)-[A-Za-z0-9_-]+(?![A-Za-z0-9_])"),
+)
 CANDIDATE_FIELDS = {
     "id",
     "label",
@@ -70,18 +116,18 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "label": "표준",
         "maxDrafts": 5,
         "estimatedHours": "6–12",
-        "roleContexts": "8–12개의 분리된 역할 실행",
+        "roleContexts": "15개 역할 경계, 동시 실행은 최대 3개",
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.2-b5",
+        "methodRevision": "standard-v1.3",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
         "label": "Lean v1",
         "maxDrafts": 3,
         "estimatedHours": "3–5",
-        "roleContexts": "독립 의미 역할은 유지하고 최대 2개만 동시 실행",
+        "roleContexts": "15개 역할 경계, 정형 단계는 저비용 컨텍스트",
         "maxConcurrentContexts": 2,
         "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
@@ -249,11 +295,17 @@ def profile_config(profile: str) -> dict[str, object]:
     return config
 
 
+def artifacts_for_manifest(manifest: dict[str, object]) -> tuple[str, ...]:
+    if manifest.get("schemaVersion") == V4_SCHEMA:
+        return (*ARTIFACTS, *EXPOSURE_ARTIFACTS)
+    return ARTIFACTS
+
+
 def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]:
     config = profile_config(profile)
     return {
         "origin": "kiheon-ideation",
-        "schemaVersion": "mica.scenario-production-batch/v3",
+        "schemaVersion": V4_SCHEMA,
         "batchId": batch_id,
         "status": "prepared-unlocked",
         "productionProfile": profile,
@@ -294,7 +346,14 @@ def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]
             "comparator": ["frozen-candidates.jsonl", "docs/kiheon-ideation-pilot-15/candidate-specs.json", "existing MICA task catalogue"],
             "measurementAssetAuthor": ["frozen-candidates.jsonl", "comparison.jsonl"],
             "oracleReviewer": ["frozen-candidates.jsonl", "fixture, reset, and eligibility assets"],
-            "measurementReviewer": ["frozen-candidates.jsonl", "comparison.jsonl", "measurement-contracts.jsonl"],
+            "exposurePreparer": ["frozen-candidates.jsonl", "agent-production-contract.md"],
+            "blindAgentRehearsal": ["agent-visible.jsonl"],
+            "measurementReviewer": [
+                "frozen-candidates.jsonl",
+                "comparison.jsonl",
+                "measurement-contracts.jsonl",
+                "blind-agent-rehearsal.jsonl",
+            ],
             "controller": ["all batch artifacts read-only", "defect-ledger.jsonl", "closure.json"],
         },
         "roles": {
@@ -309,6 +368,8 @@ def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]
             "comparator": None,
             "measurementAssetAuthor": None,
             "oracleReviewer": None,
+            "exposurePreparer": None,
+            "blindAgentRehearsal": None,
             "measurementReviewer": None,
             "controller": None,
         },
@@ -327,11 +388,12 @@ def new_batch(batch_id: str, profile: str, count: int | None, output: Path | Non
     target = output.resolve() if output else ROOT / "work" / "mica-scenario-batches" / batch_id
     require(not target.exists(), f"target-exists:{target}")
     target.mkdir(parents=True)
+    manifest = batch_manifest(batch_id, selected_count, profile)
     (target / "batch-manifest.json").write_text(
-        json.dumps(batch_manifest(batch_id, selected_count, profile), ensure_ascii=False, indent=2) + "\n",
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    for name in ARTIFACTS:
+    for name in artifacts_for_manifest(manifest):
         (target / name).write_text("", encoding="utf-8")
     (target / "closure.json").write_text(
         json.dumps(
@@ -361,9 +423,9 @@ def new_batch(batch_id: str, profile: str, count: int | None, output: Path | Non
     }
 
 
-def empty_batch_rows(target: Path) -> dict[str, int]:
+def empty_batch_rows(target: Path, manifest: dict[str, object]) -> dict[str, int]:
     row_counts: dict[str, int] = {}
-    for name in ARTIFACTS:
+    for name in artifacts_for_manifest(manifest):
         path = target / name
         require(path.is_file(), f"missing:{name}")
         row_counts[name] = len(parse_jsonl(path))
@@ -373,7 +435,7 @@ def empty_batch_rows(target: Path) -> dict[str, int]:
 def validate_method_lock(manifest: dict[str, object], require_current_files: bool) -> dict[str, object]:
     profile = manifest.get("productionProfile")
     require(isinstance(profile, str), "method-lock-profile")
-    config = profile_config(profile)
+    profile_config(profile)
     lock = manifest.get("methodLock")
     require(isinstance(lock, dict), "method-lock-missing")
     require(
@@ -388,8 +450,8 @@ def validate_method_lock(manifest: dict[str, object], require_current_files: boo
     except ValueError as exc:
         raise CheckError("method-lock-time") from exc
     require(parsed_locked_at.tzinfo is not None, "method-lock-timezone")
-    revision = config["methodRevision"]
-    require(manifest.get("methodRevision") == revision, "method-revision-manifest")
+    revision = manifest.get("methodRevision")
+    require(isinstance(revision, str) and revision.strip(), "method-revision-manifest")
     require(lock.get("revision") == revision, "method-revision-lock")
     commit_sha = lock.get("sourceCommitSha")
     require(isinstance(commit_sha, str) and re.fullmatch(r"[0-9a-f]{40}", commit_sha) is not None, "method-lock-commit")
@@ -425,7 +487,7 @@ def lock_method(target: Path) -> dict[str, object]:
     require(manifest.get("status") in {"prepared", "prepared-unlocked"}, "batch-not-lockable")
     require(closure.get("status") == "open", "closure-not-open")
     require(closure.get("acceptedMeasurableCandidates") == 0, "closure-not-zero")
-    require(all(count == 0 for count in empty_batch_rows(target).values()), "batch-not-empty")
+    require(all(count == 0 for count in empty_batch_rows(target, manifest).values()), "batch-not-empty")
     profile = manifest.get("productionProfile")
     require(isinstance(profile, str), "batch-profile")
     config = profile_config(profile)
@@ -437,7 +499,8 @@ def lock_method(target: Path) -> dict[str, object]:
         committed = git_file_bytes(head, relative_path)
         require(path.read_bytes() == committed, f"method-uncommitted:{relative_path}")
         source_files.append({"path": relative_path, "sha256": hashlib.sha256(committed).hexdigest()})
-    manifest["schemaVersion"] = "mica.scenario-production-batch/v3"
+    if manifest.get("schemaVersion") != V4_SCHEMA:
+        manifest["schemaVersion"] = "mica.scenario-production-batch/v3"
     manifest["status"] = "prepared-locked"
     manifest["methodRevision"] = config["methodRevision"]
     manifest["methodLock"] = {
@@ -472,6 +535,165 @@ def parse_jsonl(path: Path) -> list[dict[str, object]]:
     return rows
 
 
+def parse_jsonl_with_hash(path: Path) -> list[tuple[dict[str, object], str]]:
+    rows: list[tuple[dict[str, object], str]] = []
+    for line_no, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not raw.strip():
+            continue
+        try:
+            value = json.loads(raw)
+        except json.JSONDecodeError as exc:
+            raise CheckError(f"invalid-jsonl:{path.name}:{line_no}:{exc.msg}") from exc
+        require(isinstance(value, dict), f"jsonl-row-not-object:{path.name}:{line_no}")
+        require(value.get("origin") == "kiheon-ideation", f"wrong-origin:{path.name}:{line_no}")
+        rows.append((value, hashlib.sha256(raw.encode("utf-8")).hexdigest()))
+    return rows
+
+
+def require_string_list(value: object, detail: str, allow_empty: bool = False) -> None:
+    require(isinstance(value, list), detail)
+    require(allow_empty or len(value) > 0, detail)
+    require(all(isinstance(item, str) and item.strip() for item in value), detail)
+
+
+def validate_timestamp(value: object, detail: str) -> None:
+    require(isinstance(value, str), detail)
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError as exc:
+        raise CheckError(detail) from exc
+    require(parsed.tzinfo is not None, detail)
+
+
+def validate_exposure(target: Path, require_complete: bool = True) -> dict[str, object]:
+    target = target.resolve()
+    require(target.is_dir(), f"batch-not-directory:{target}")
+    manifest = load_json(target / "batch-manifest.json")
+    require(isinstance(manifest, dict), "batch-manifest-not-object")
+    require(manifest.get("schemaVersion") == V4_SCHEMA, "exposure-requires-batch-v4")
+    batch_id = manifest.get("batchId")
+    require(isinstance(batch_id, str), "batch-id")
+
+    public_path = target / "agent-visible.jsonl"
+    rehearsal_path = target / "blind-agent-rehearsal.jsonl"
+    measurement_path = target / "measurement-contracts.jsonl"
+    for path in (public_path, rehearsal_path, measurement_path):
+        require(path.is_file(), f"missing:{path.name}")
+
+    measurement_rows = parse_jsonl(measurement_path)
+    measurement_by_id: dict[str, dict[str, object]] = {}
+    for index, row in enumerate(measurement_rows, start=1):
+        candidate_id = row.get("candidateId")
+        require(isinstance(candidate_id, str) and candidate_id.strip(), f"measurement-candidate-id:{index}")
+        require(candidate_id not in measurement_by_id, f"measurement-candidate-duplicate:{candidate_id}")
+        measurement_by_id[candidate_id] = row
+
+    public_by_id: dict[str, tuple[dict[str, object], str]] = {}
+    for index, (row, raw_sha) in enumerate(parse_jsonl_with_hash(public_path), start=1):
+        require(set(row) == AGENT_VISIBLE_FIELDS, f"agent-visible-shape:{index}")
+        require(row.get("schemaVersion") == "mica.agent-visible/v1", f"agent-visible-schema:{index}")
+        require(row.get("batchId") == batch_id, f"agent-visible-batch:{index}")
+        candidate_id = row.get("candidateId")
+        require(isinstance(candidate_id, str) and candidate_id.strip(), f"agent-visible-candidate:{index}")
+        require(candidate_id not in public_by_id, f"agent-visible-duplicate:{candidate_id}")
+        require(candidate_id in measurement_by_id, f"agent-visible-without-measurement:{candidate_id}")
+        require(isinstance(row.get("userRequest"), str) and row["userRequest"].strip(), f"agent-visible-request:{index}")
+        require_string_list(row.get("userKnownConstraints"), f"agent-visible-constraints:{index}", allow_empty=True)
+        require_string_list(row.get("commonSafetyPolicy"), f"agent-visible-safety:{index}")
+        require_string_list(row.get("allowedTools"), f"agent-visible-tools:{index}")
+        require(
+            isinstance(row.get("preparedByContextId"), str) and row["preparedByContextId"].strip(),
+            f"agent-visible-preparer:{index}",
+        )
+        public_text = json.dumps(row, ensure_ascii=False, sort_keys=True)
+        for pattern in PUBLIC_LEAK_PATTERNS:
+            require(pattern.search(public_text) is None, f"agent-visible-leak:{candidate_id}:{pattern.pattern}")
+        public_by_id[candidate_id] = (row, raw_sha)
+
+    rehearsal_by_id: dict[str, dict[str, object]] = {}
+    for index, row in enumerate(parse_jsonl(rehearsal_path), start=1):
+        require(set(row) == BLIND_REHEARSAL_FIELDS, f"blind-rehearsal-shape:{index}")
+        require(row.get("schemaVersion") == "mica.blind-agent-rehearsal/v1", f"blind-rehearsal-schema:{index}")
+        require(row.get("batchId") == batch_id, f"blind-rehearsal-batch:{index}")
+        candidate_id = row.get("candidateId")
+        require(isinstance(candidate_id, str) and candidate_id.strip(), f"blind-rehearsal-candidate:{index}")
+        require(candidate_id not in rehearsal_by_id, f"blind-rehearsal-duplicate:{candidate_id}")
+        require(candidate_id in public_by_id, f"blind-rehearsal-without-agent-visible:{candidate_id}")
+        require(
+            row.get("agentVisibleRowSha256") == public_by_id[candidate_id][1],
+            f"blind-rehearsal-agent-visible-sha:{candidate_id}",
+        )
+        require(
+            isinstance(row.get("rehearsalContextId"), str) and row["rehearsalContextId"].strip(),
+            f"blind-rehearsal-context:{index}",
+        )
+        for field in (
+            "requestUnderstood",
+            "successOrSafeHandoffReachable",
+            "hiddenInformationRequired",
+            "implementationSequenceForced",
+            "hiddenPathAccessible",
+        ):
+            require(type(row.get(field)) is bool, f"blind-rehearsal-boolean:{candidate_id}:{field}")
+        expected_pass = (
+            row["requestUnderstood"]
+            and row["successOrSafeHandoffReachable"]
+            and not row["hiddenInformationRequired"]
+            and not row["implementationSequenceForced"]
+            and not row["hiddenPathAccessible"]
+        )
+        require(row.get("verdict") in {"pass", "reject"}, f"blind-rehearsal-verdict:{candidate_id}")
+        require((row["verdict"] == "pass") == expected_pass, f"blind-rehearsal-verdict-mismatch:{candidate_id}")
+        require(isinstance(row.get("notes"), str) and row["notes"].strip(), f"blind-rehearsal-notes:{candidate_id}")
+        validate_timestamp(row.get("reviewedAt"), f"blind-rehearsal-time:{candidate_id}")
+        rehearsal_by_id[candidate_id] = row
+
+    roles = manifest.get("roles")
+    if isinstance(roles, dict):
+        preparer = roles.get("exposurePreparer")
+        rehearsal_context = roles.get("blindAgentRehearsal")
+        if isinstance(preparer, str):
+            require(
+                all(row[0].get("preparedByContextId") == preparer for row in public_by_id.values()),
+                "agent-visible-role-mismatch",
+            )
+        if isinstance(rehearsal_context, str):
+            require(
+                all(row.get("rehearsalContextId") == rehearsal_context for row in rehearsal_by_id.values()),
+                "blind-rehearsal-role-mismatch",
+            )
+
+    if require_complete:
+        measurement_ids = set(measurement_by_id)
+        require(set(public_by_id) == measurement_ids, "agent-visible-candidate-set")
+        require(set(rehearsal_by_id) == measurement_ids, "blind-rehearsal-candidate-set")
+        require(all(row.get("verdict") == "pass" for row in rehearsal_by_id.values()), "blind-rehearsal-not-all-pass")
+        require(isinstance(roles, dict), "exposure-roles-not-object")
+        boundary_roles = [roles.get(name) for name in ("exposurePreparer", "blindAgentRehearsal", "measurementReviewer")]
+        require(
+            all(isinstance(value, str) and value.strip() for value in boundary_roles),
+            "exposure-role-unassigned",
+        )
+        require(len(set(boundary_roles)) == len(boundary_roles), "exposure-role-collision")
+        require(
+            all(row.get("measurementReviewerContextId") == boundary_roles[2] for row in measurement_by_id.values()),
+            "measurement-reviewer-role-mismatch",
+        )
+        require(
+            all(row.get("measurementDecision") == "designable" for row in measurement_by_id.values()),
+            "measurement-not-designable-after-exposure",
+        )
+
+    return {
+        "status": "pass",
+        "batchId": batch_id,
+        "agentVisible": len(public_by_id),
+        "rehearsed": len(rehearsal_by_id),
+        "rehearsalPassed": sum(row.get("verdict") == "pass" for row in rehearsal_by_id.values()),
+        "complete": require_complete,
+    }
+
+
 def validate_batch(target: Path) -> dict[str, object]:
     target = target.resolve()
     require(target.is_dir(), f"batch-not-directory:{target}")
@@ -501,14 +723,22 @@ def validate_batch(target: Path) -> dict[str, object]:
     require(isinstance(count, int) and 1 <= count <= max_drafts, "batch-max-drafts")
     schema_version = manifest.get("schemaVersion")
     method_lock: dict[str, object] | None = None
-    if schema_version == "mica.scenario-production-batch/v3":
+    if schema_version == V4_SCHEMA:
+        if manifest.get("status") == "prepared-unlocked":
+            require(manifest.get("methodRevision") == config["methodRevision"], "v4-method-revision")
+        expected_manifest = batch_manifest(str(manifest.get("batchId")), count, str(profile))
+        roles = manifest.get("roles")
+        allowlist = manifest.get("roleInputAllowlist")
+        require(isinstance(roles, dict), "v4-roles-not-object")
+        require(set(roles) == set(expected_manifest["roles"]), "v4-role-shape")
+        require(isinstance(allowlist, dict), "v4-role-allowlist-not-object")
+        require(set(allowlist) == set(expected_manifest["roleInputAllowlist"]), "v4-role-allowlist-shape")
+        require(allowlist.get("blindAgentRehearsal") == ["agent-visible.jsonl"], "v4-blind-input-boundary")
+    if schema_version in {"mica.scenario-production-batch/v3", V4_SCHEMA}:
         require(manifest.get("status") != "prepared-unlocked" or manifest.get("methodLock") is None, "unlocked-batch-has-lock")
         if manifest.get("status") != "prepared-unlocked":
-            method_lock = validate_method_lock(
-                manifest,
-                require_current_files=manifest.get("status") in {"prepared-locked", "in-progress"},
-            )
-    row_counts = empty_batch_rows(target)
+            method_lock = validate_method_lock(manifest, require_current_files=False)
+    row_counts = empty_batch_rows(target, manifest)
     for name in ("need-observations.jsonl", "task-candidates.jsonl", "frozen-candidates.jsonl"):
         require(row_counts[name] <= count, f"row-count-over-max:{name}")
     if manifest.get("status") == "completed":
@@ -521,6 +751,9 @@ def validate_batch(target: Path) -> dict[str, object]:
         accepted = closure.get("acceptedMeasurableCandidates")
         require(isinstance(accepted, int), "completed-accepted-count")
         require(accepted == row_counts["measurement-contracts.jsonl"], "completed-measurement-count")
+        if schema_version == V4_SCHEMA:
+            exposure = validate_exposure(target, require_complete=True)
+            require(accepted == exposure["rehearsalPassed"], "completed-exposure-count")
     return {
         "status": "pass",
         "batchId": manifest.get("batchId"),
@@ -540,6 +773,8 @@ def validate_ready(target: Path) -> dict[str, object]:
     require(isinstance(closure, dict) and closure.get("status") == "open", "ready-closure-not-open")
     manifest = load_json(target.resolve() / "batch-manifest.json")
     require(isinstance(manifest, dict), "batch-manifest-not-object")
+    if manifest.get("schemaVersion") in {"mica.scenario-production-batch/v3", V4_SCHEMA}:
+        validate_method_lock(manifest, require_current_files=True)
     roles = manifest.get("roles")
     require(isinstance(roles, dict) and all(value is None for value in roles.values()), "ready-role-already-assigned")
     result["readyForProduction"] = True
@@ -585,6 +820,8 @@ def main() -> int:
     lock.add_argument("path", type=Path)
     ready = subparsers.add_parser("validate-ready")
     ready.add_argument("path", type=Path)
+    exposure = subparsers.add_parser("validate-exposure")
+    exposure.add_argument("path", type=Path)
     args = parser.parse_args()
     try:
         if args.command == "preflight":
@@ -597,6 +834,8 @@ def main() -> int:
             result = validate_batch(args.path)
         elif args.command == "lock-method":
             result = lock_method(args.path)
+        elif args.command == "validate-exposure":
+            result = validate_exposure(args.path)
         else:
             result = validate_ready(args.path)
     except CheckError as exc:

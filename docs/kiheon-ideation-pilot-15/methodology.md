@@ -130,6 +130,8 @@ oracle은 `minimum sufficient oracle` 원칙을 따른다. 사용자가 원한 �
 
 기존 27개 측정 설계는 폐기하지 않는다. 실제 실행에 투입하기 전에 전수 정적 누출 감사를 하고, 우선 실행할 소수 후보부터 blind-agent rehearsal을 통과시킨다. 측정하기 어렵지만 삶의 중요도가 큰 관찰은 삭제하지 않고 `중요하지만 현재 측정 불가` 원장에 보존한다.
 
+새 생산 배치는 `mica.scenario-production-batch/v4`를 사용한다. 공개 요청은 `agent-visible.jsonl`, 블라인드 리허설은 `blind-agent-rehearsal.jsonl`에 분리하고, `validate-exposure`가 내부 필드·채점 식별자 누출, 공개 행 원문 SHA, 후보 집합과 이분 판정을 확인한다. 기존 `v3` 배치에는 이 형식을 소급하지 않는다.
+
 ### standard-v1.3 확정 사항 (2026-08-11 기헌 채택)
 
 위 노출면 계약과 std-b6 감사 보강 규칙을 묶어 `standard-v1.3`으로 확정한다. 추가 확정:

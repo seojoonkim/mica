@@ -65,6 +65,15 @@ python3 scripts/mica-scenario-production.py validate-ready \
 17. coverage readback과 결함 원장을 작성한다.
 18. typed audit가 건수·역할·해시·역류 금지를 확인한 뒤 배치를 닫는다.
 
+새 `v4` 배치는 18번 종료 전에 공개 입력과 블라인드 리허설의 집합·원문 SHA·누출 여부를 별도 관문으로 검사한다.
+
+```bash
+python3 scripts/mica-scenario-production.py validate-exposure \
+  work/mica-scenario-batches/<batch-id>
+```
+
+기존 `v3` 배치에는 이 파일을 소급 생성하지 않는다. `v3`는 당시 동결된 method lock으로 재검증하고, 이후 새 배치부터 `v4` 노출면 관문을 사용한다.
+
 각 producer→reviewer 인계에서는 controller가 입력 파일의 SHA-256과 artifact owner를 먼저 기록한다. reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256을 확인하며, 값이 달라지면 결과를 저장하지 않는다. 런타임을 바꿀 때도 기존 owner가 입력을 닫고 새 owner가 SHA를 readback한 뒤에만 시작한다.
 
 동결 담당자는 accepted row의 원문 JSONL 행 전체 SHA-256을 기록한다. 후보와 simulator 자산에서는 source evidence에 등장한 실제 사업자명을 기능적 권위 역할 또는 합성 식별자로 일반화한다.

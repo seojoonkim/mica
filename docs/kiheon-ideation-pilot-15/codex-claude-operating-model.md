@@ -2,7 +2,7 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.2-b5`
+- current standard revision: `standard-v1.3`
 - current compressed revision: `lean-v1.2-b5`
 
 ## 1. 역할 선언
@@ -106,13 +106,13 @@ python3 scripts/mica-scenario-production.py validate-ready \
 - Claude Code와 Codex의 독립 검토는 `노출면은 간결하게, 평가 하네스는 엄밀하게`에 합의했다.
 - Claude Code production lane은 후보를 `agent-visible`, `evaluator-visible`, `harness-private` 세 표면으로 분리하고, 자연어 요청에 최종 상태·실패 분기·채점 식별자가 섞이지 않게 한다.
 - 별도 blind rehearsal 컨텍스트는 `agent-visible`만 받아 상식적인 수행 경로를 확인한다. 후보·fixture·oracle 파일은 허용 입력이 아니다.
-- Codex control plane은 배치 종료 때 공개 입력 누출, minimum sufficient oracle, 피측정 런타임의 하네스 경로 차단을 회귀 검사한다.
+- Codex control plane은 새 `v4` 배치에서 `agent-visible.jsonl`과 `blind-agent-rehearsal.jsonl`을 별도 산출물로 검사한다. `validate-exposure`는 공개 입력 누출, 원문 행 SHA, 독립 리허설 판정, 측정 후보 집합 일치를 확인한다. minimum sufficient oracle과 실제 런타임의 하네스 경로 차단은 별도 의미·실행 검토로 남는다.
 - 기존 27개 측정 설계는 폐기하지 않으며, 실제 실행에 투입하기 전에 전수 정적 누출 감사와 우선 후보의 blind-agent rehearsal을 수행한다.
 
 ## 7. 현재 인수인계
 
 `std-b6`는 `standard-v1.2-b5`로 완료됐다. 초안 5건에서 관찰 4건과 후보 4건을 동결했고, 사후 대조에서 중복 1건을 제외한 3건이 측정 설계까지 통과했다. 실제 실행·시장 성립·공개 적격은 아직 검증하지 않았다.
 
-다음 배치는 `standard-v1.2-b5`와 `lean-v1.2-b5`에 위 `std-b6` 종료 감사 규칙과 실행 노출 점검을 더한 방법 source commit을 동결하고, `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다.
+다음 빈 배치는 `standard-v1.3` 제어면 도구가 포함된 source commit을 동결하고, `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다. 진행 중이거나 완료된 `v3` 배치의 method lock은 그대로 보존한다.
 
 이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.

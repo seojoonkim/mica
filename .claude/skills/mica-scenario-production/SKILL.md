@@ -31,8 +31,8 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 
    | 방식 | 배치 | 예상 시간 | 역할·동시 실행 | 추론 자원 | 권장 상황 |
    |---|---:|---:|---|---|---|
-   | 표준 `standard` | 최대 5건 | 6–12시간 | 8–12개 분리 역할, 동시 최대 2–3개 | 의미 역할 high/xhigh 중심 | 첫 재현·방법 변경·고위험·반복 결함·판정 충돌 |
-   | 압축 `lean` | 최대 3건 | 3–5시간 | 독립 의미 역할 유지, 동시 최대 2개 | 정형 medium·의미 high·예외만 xhigh 이상 | 안정된 계약에서 빠른 후속 공유 |
+   | 표준 `standard` | 최대 5건 | 6–12시간 | 15개 역할 경계, 동시 최대 2–3개 | 의미 역할 high/xhigh 중심 | 첫 재현·방법 변경·고위험·반복 결함·판정 충돌 |
+   | 압축 `lean` | 최대 3건 | 3–5시간 | 15개 역할 경계, 동시 최대 2개·정형 단계 저비용 실행 | 정형 medium·의미 high·예외만 xhigh 이상 | 안정된 계약에서 빠른 후속 공유 |
 
    시간은 계획값이며 자료 접근과 거절·재작업에 따라 달라진다. 두 방식 모두 0건 수락이 유효하다.
 
@@ -118,8 +118,9 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 5. 수락 후보만 동결한다.
 6. 그 뒤에만 comparator가 기존 과제와 파일럿 15건을 열어 사후 대조한다.
 7. measurement 역할들이 fixture·reset·eligibility·oracle을 분리 작성·검토한다.
-8. 별도 컨텍스트가 `agent-visible`만 받아 blind-agent rehearsal을 수행한다.
-9. controller가 누출·최소 충분 oracle·숨은 경로 차단을 확인하고 결함 원장과 종료 판정을 기록한다.
+8. 별도 exposure preparer가 공개 요청을 `agent-visible.jsonl`로 분리한다.
+9. 별도 컨텍스트가 `agent-visible`만 받아 `blind-agent-rehearsal.jsonl`을 작성한다.
+10. controller가 `validate-exposure`로 공개 입력 누출·원문 SHA·후보 집합·이분 판정을 확인하고 결함 원장과 종료 판정을 기록한다.
 
 observation·candidate custodian은 별도 context에서 accepted 원문 행 전체 SHA-256을 기록한다. measurement asset author는 EXP literal label registry, 누락 성분 단일 formula, 사건 부재 시 strict-order `NOT-APPLICABLE`을 적용한다. 후보·fixture·oracle에는 실제 사업자명 대신 기능적 권위 역할 또는 합성 식별자를 쓴다.
 
@@ -146,8 +147,11 @@ observation·candidate custodian은 별도 context에서 accepted 원문 행 전
 다음을 실행해 구조를 확인한다.
 
 ```bash
+python3 scripts/mica-scenario-production.py validate-exposure \
+  work/mica-scenario-batches/<batch-id>
+
 python3 scripts/mica-scenario-production.py validate-batch \
   work/mica-scenario-batches/<batch-id>
 ```
 
-구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.
+`validate-exposure`는 새 `v4` 배치에서만 사용하며, 기존 `v3` 배치에 새 산출물을 소급하지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.

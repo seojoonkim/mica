@@ -28,8 +28,8 @@
 
 | 방식 | 배치 상한 | 1회 예상 | 역할·동시 실행 | 모델 자원 | 선택 기준 |
 |---|---:|---:|---|---|---|
-| 표준 `standard` | 5건 | 6–12시간 | 8–12개 분리 역할, 동시 2–3개 | 의미 역할 high/xhigh 중심 | 첫 재현·방법 변경·고위험·결함 또는 판정 충돌 |
-| 압축 `lean` | 3건 | 3–5시간 | 독립 의미 역할 유지, 동시 최대 2개 | 정형 medium·의미 high·예외만 xhigh 이상 | 계약이 안정된 후속 배치와 빠른 중간 공유 |
+| 표준 `standard` | 5건 | 6–12시간 | 15개 역할 경계, 동시 2–3개 | 의미 역할 high/xhigh 중심 | 첫 재현·방법 변경·고위험·결함 또는 판정 충돌 |
+| 압축 `lean` | 3건 | 3–5시간 | 15개 역할 경계, 동시 최대 2개·정형 단계 저비용 실행 | 정형 medium·의미 high·예외만 xhigh 이상 | 계약이 안정된 후속 배치와 빠른 중간 공유 |
 
 두 시간값은 계획 추정이며 자료 접근, 거절과 재작업에 따라 달라진다. Lean도 역할 독립성, accepted-only freeze, 사후 대조, measurement 관문을 생략하지 않는다.
 
@@ -62,7 +62,7 @@
 | frozen candidate | `frozen-candidates.jsonl` | accepted-only 집합 |
 | comparison | `comparison.jsonl` | 동결 뒤에만 기존 과제 대조 |
 | measurement | `measurement-contracts.jsonl` | fixture·reset·eligibility·oracle 결속, 상태는 `designable-pending-exposure` |
-| exposure | `blind-agent-rehearsal.jsonl` | `agent-visible`만으로 수행 가능하고 비공개 단서·경로 누출이 없어야 `designable` 확정 |
+| exposure | `agent-visible.jsonl`, `blind-agent-rehearsal.jsonl` | 공개 입력의 정적 누출 검사와 블라인드 리허설을 모두 통과해야 `designable` 확정 |
 | close | `defect-ledger.jsonl`, `closure.json` | 수량보다 결함·한계 보존 |
 
 ## 입력 방화벽
@@ -122,6 +122,17 @@ controller도 역할별 입력 목록을 `batch-manifest.json`에 기록한다. 
 에이전트는 자연어 요청에 답하고 허용 도구를 사용한다. 내부 JSON schema·판정 레코드·probe·event ID·token registry 생성은 요구하지 않는다. 하네스가 도구 호출, 외부 상태, 최종 응답을 원자료로 보존하고 평가 레코드로 파생한다.
 
 measurement review 뒤 별도 컨텍스트의 `blind-agent rehearsal`을 수행한다. 이 역할은 `agent-visible`만 받고 정답 단서 없이 수행 가능한지 확인한다. measurement reviewer는 리허설 기록과 비공개 계약을 대조해 누출, 특정 문구·구현 순서 강제, 숨은 파일 접근 가능성이 없을 때만 `designable`을 확정한다.
+
+새 `v4` 배치는 이 경계를 파일로 고정한다. `agent-visible.jsonl`의 각 행은 `origin`, `schemaVersion`, `batchId`, `candidateId`, `userRequest`, `userKnownConstraints`, `commonSafetyPolicy`, `allowedTools`, `preparedByContextId`만 가진다. `blind-agent-rehearsal.jsonl`은 공개 행 원문 SHA-256, 독립 context ID, 요청 이해 여부, 성공 또는 안전 인계 가능성, 숨은 정보 필요 여부, 특정 구현 순서 강제 여부, 숨은 경로 접근 여부와 이분 verdict를 기록한다. 기존 `v3` 배치는 역사적 검증 대상으로 유지하고 새 필드를 소급하지 않는다.
+
+controller는 종료 전에 다음을 실행한다.
+
+```bash
+python3 scripts/mica-scenario-production.py validate-exposure \
+  work/mica-scenario-batches/<batch-id>
+```
+
+이 명령은 공개 입력의 내부 필드·채점 식별자 누출, 공개 행 해시 불일치, 리허설 역할·판정 불일치, 측정 후보 집합 누락을 거부한다. PASS는 실행 성능이나 시장 성립이 아니라 입력 방화벽과 리허설 기록의 구조적 완결만 뜻한다.
 
 ## 독립성
 

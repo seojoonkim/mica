@@ -50,10 +50,14 @@
 
 > fixture, reset, eligibility, oracle, frozen candidate를 전수 대조한다. 기대 판정표의 모든 행이 같은 trace에서 동시에 성립하는지, gate와 locked path가 1:1인지, 실패 상태가 재검사에서도 유지되는지 확인한다. EXP literal label 전부가 registry에 있는지, 누락 성분 formula가 전 variant에서 같은지, 엄격한 사건 순서가 사건 부재를 true로 처리하지 않는지 확인한다. 판정은 위에서 아래로 첫 일치 규칙을 적용하고 규정 threshold와 사용자 값의 차이만으로 source conflict라 하지 않는다. oracle이 사용자 결과·권위 있는 readback·승인·금지·안전 인계를 판정하는 최소 조건인지 확인하고 특정 표현·클릭 순서·내부 레코드를 부당하게 강제하면 reject한다. 모든 파일 참조와 분기가 실제로 결속되고 reset이 결정적이며 자격 판정이 fail-closed일 때도 blind-agent rehearsal 전에는 `designable-pending-exposure`로만 판정한다. live 실행, 시장 성립, 공개 적격은 판정하지 않는다.
 
-## 13. blind-agent rehearsal
+## 13. exposure preparer
+
+> frozen candidate에서 일반 사용자가 말할 법한 요청, 사용자가 알고 제공한 제약, 공통 안전정책, 허용 도구만 `agent-visible.jsonl`로 분리한다. 최종 상태, 승인 판정, 금지 상태, 실패 분기, fixture, variant, reset, eligibility, oracle, probe, registry, event ID, tick 계산과 내부 식별자를 포함하지 않는다. 원문 행은 한 줄 JSON으로 저장하고 본인의 실제 context ID를 기록한다. 피측정 에이전트의 수행 방법이나 정답 경로를 대신 작성하지 않는다.
+
+## 14. blind-agent rehearsal
 
 > measurement reviewer와 다른 독립 컨텍스트다. `agent-visible` 묶음의 자연어 요청, 사용자가 알려 준 제약, 공통 안전정책, 허용 도구 범위만 받는다. 후보 명세, 최종 상태, 금지 상태, fixture, variant, reset, eligibility, oracle, probe, registry, event ID, tick 계산은 보지 않는다. 상식적인 에이전트가 요청을 이해하고 권위 있는 상태를 탐색해 성공 또는 안전 인계에 도달할 수 있는지 리허설 기록을 남긴다. 내부 정답 단서가 보이거나 특정 JSON·판정 표현을 요구하거나 숨은 파일을 읽어야만 성공할 수 있으면 실패로 보고한다. 이 리허설은 실제 벤치마크 점수나 시스템 성능 결과가 아니다.
 
-## 14. controller 종료 보고
+## 15. controller 종료 보고
 
 > 배치의 원천 수, 관찰 수락·거절, 후보 수락·거절, comparison 분포, `designable-pending-exposure`와 blind-agent rehearsal 통과 `designable` 수, 발견 결함, 회귀 결과, 다음 배치 유지·중단 판단을 한국어로 요약한다. 수락이 0이어도 숨기지 않는다. 외부 공유와 정본 반영은 사람 승인 대기 상태로 남긴다.
