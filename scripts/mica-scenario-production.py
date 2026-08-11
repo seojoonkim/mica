@@ -397,7 +397,7 @@ def validate_method_lock(manifest: dict[str, object], require_current_files: boo
     require(isinstance(source_files, list), "method-lock-files")
     expected_paths = method_files(profile)
     require(len(source_files) == len(expected_paths), "method-lock-file-count")
-    for index, (entry, relative_path) in enumerate(zip(source_files, expected_paths, strict=True), start=1):
+    for index, (entry, relative_path) in enumerate(zip(source_files, expected_paths), start=1):
         require(isinstance(entry, dict), f"method-lock-file-{index}")
         require(set(entry) == {"path", "sha256"}, f"method-lock-file-shape-{index}")
         require(entry.get("path") == relative_path, f"method-lock-file-path-{index}")
