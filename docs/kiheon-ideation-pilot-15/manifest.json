@@ -75,8 +75,8 @@
     },
     {
       "path": "scripts/test-mica-scenario-production.py",
-      "sha256": "fe5a835f3fa485fde1cafcc47f1c802f3d1c88b8d9650cdf94077bc47e1b74c3",
-      "byteLength": 2884
+      "sha256": "34fa89d4c91a3fc913046994ece1f20d1d70b68d529c01b9195ca61ceb38cf78",
+      "byteLength": 2965
     }
   ]
 }

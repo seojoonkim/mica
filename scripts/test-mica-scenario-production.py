@@ -43,7 +43,8 @@ class ScenarioProductionCliTest(unittest.TestCase):
 
             locked = run_cli("lock-method", str(batch))
             self.assertEqual(locked.returncode, 0, locked.stdout + locked.stderr)
-            self.assertIn("status=prepared-locked", locked.stdout)
+            self.assertIn("batchId=test-standard-batch", locked.stdout)
+            self.assertIn("methodRevision=standard-v1.1-b4", locked.stdout)
 
             ready = run_cli("validate-ready", str(batch))
             self.assertEqual(ready.returncode, 0, ready.stdout + ready.stderr)
