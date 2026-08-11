@@ -1,0 +1,29 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.simulator-reset/v1",
+  "batchId": "cat07-08-standard-001",
+  "candidateId": "CAT0708-TASK-002",
+  "resetId": "CAT0708-TASK-002-reset-v1",
+  "fixtureRef": "work/mica-scenario-batches/cat07-08-standard-001/measurement-assets/CAT0708-TASK-002/fixture.json",
+  "fixtureSha256": "3b1aed3d88fd3d4cc634132016fa8bdc9935e943343d759b7d94c9a0e7bb8914",
+  "deterministic": true,
+  "resetState": {
+    "registryState": "access-not-started",
+    "eligibilityState": "requester-category-unverified",
+    "documentState": "authority-documents-unverified",
+    "confirmationState": "not-confirmed",
+    "readbackState": "none"
+  },
+  "resetSteps": [
+    "clear synthetic registry record syn-record-access-002",
+    "seed authoritySystem synthetic-registry-medical-record-access with resetState",
+    "seed synthetic authority document tokens without payload bodies",
+    "assert confirmationState is not-confirmed and readbackState is none"
+  ],
+  "postconditions": [
+    "recordKey syn-record-access-002 exists only in resetState",
+    "no access, application, or visit readback is present",
+    "all variant injected states are absent until simulator selection",
+    "no live network or external authority call was made"
+  ]
+}

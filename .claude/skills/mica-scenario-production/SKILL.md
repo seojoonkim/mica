@@ -123,7 +123,7 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 
 observation·candidate custodian은 별도 context에서 accepted 원문 행 전체 SHA-256을 기록한다. measurement asset author는 EXP literal label registry, 누락 성분 단일 formula, 사건 부재 시 strict-order `NOT-APPLICABLE`을 적용한다. 후보·fixture·oracle에는 실제 사업자명 대신 기능적 권위 역할 또는 합성 식별자를 쓴다.
 
-`std-b6` 종료 감사 이후에는 다음도 강제한다.
+`std-b6` 종료 감사 이후(`standard-v1.3`)에는 다음도 강제한다.
 
 - 역할 산출물의 `*ContextId`와 동결 담당 표기는 `self`가 아니라 실제 실행 컨텍스트 ID여야 하며 `batch-manifest.json`의 `modelRecord`와 일치해야 한다.
 - controller는 최종 측정 검토, `measurement-contracts.jsonl`, 결함 원장, closure의 SHA-256까지 종결 원장에 기록한다. `batch-manifest.json` 자체는 자기참조 때문에 제외한다.

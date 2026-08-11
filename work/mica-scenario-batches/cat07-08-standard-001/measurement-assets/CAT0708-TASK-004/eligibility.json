@@ -1,0 +1,62 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.attempt-eligibility/v1",
+  "batchId": "cat07-08-standard-001",
+  "candidateId": "CAT0708-TASK-004",
+  "eligibilityId": "CAT0708-TASK-004-eligibility-v1",
+  "fixtureRef": "work/mica-scenario-batches/cat07-08-standard-001/measurement-assets/CAT0708-TASK-004/fixture.json",
+  "fixtureSha256": "e908ab55d30517ffbb8645130c017151ba2174de6fe144fc38617a07655c5391",
+  "resetRef": "work/mica-scenario-batches/cat07-08-standard-001/measurement-assets/CAT0708-TASK-004/reset.json",
+  "resetSha256": "3598bd5fc47a820e80d4758e2ceff8054fb5d4fb1a82a7e756d7198579c6027f",
+  "failClosed": true,
+  "requiredChecks": [
+    {
+      "checkId": "fixture-identity",
+      "rule": "fixture origin, schemaVersion, batchId, candidateId, executionTrack, syntheticOnly, and fixtureSha256 must match this eligibility file"
+    },
+    {
+      "checkId": "reset-success",
+      "rule": "resetRef must exist, resetSha256 must match, deterministic must be true, and reset postconditions must be satisfied"
+    },
+    {
+      "checkId": "actor-authorization-confirmation-capability",
+      "rule": "actor must be able to confirm address token transfer, identity token use, and legal report submission before submit or handoff"
+    },
+    {
+      "checkId": "required-synthetic-inputs",
+      "rule": "online eligibility token, residence token, and required identity tokens must be present for the selected branch"
+    },
+    {
+      "checkId": "authority-readback-availability",
+      "rule": "genericSyntheticRegistry must be able to return required readbackContract fields for the selected branch"
+    },
+    {
+      "checkId": "no-live-data",
+      "rule": "attempt must use only synthetic registry state, synthetic address token, and synthetic identity tokens"
+    }
+  ],
+  "ineligibleWhen": [
+    "any required check is missing, unknown, false, or not evaluated",
+    "fixture or reset hash does not match current bytes",
+    "confirmation is absent before legal report submission or safe handoff",
+    "online eligibility, special status, or identity requirements are unsupported by synthetic inputs",
+    "readbackContract fields cannot be returned by the synthetic registry",
+    "any live institution, live service, real personal data, or non-synthetic payload is requested"
+  ],
+  "unknownOrMissing": "ineligible",
+  "eligibleResult": {
+    "decision": "eligible",
+    "allowedExecutionTrack": "simulator",
+    "allowedBranches": [
+      "normal",
+      "failure",
+      "recovery"
+    ],
+    "requiredNextAction": "run fixture branch only after reset postconditions and confirmation gate pass"
+  },
+  "ineligibleResult": {
+    "decision": "ineligible",
+    "allowedExecutionTrack": "none",
+    "requiredNextAction": "stop attempt and report failed check without submitting live reports, querying live systems, or claiming completion"
+  }
+}

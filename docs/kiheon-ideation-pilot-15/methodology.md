@@ -1,7 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
-- method revision: `standard-v1.2-b5`
+- method revision: `standard-v1.3` (2026-08-11 기헌 채택 — `standard-v1.2-b5` + std-b6 Codex 감사 보강 + 상세성 적합성 검토의 노출면 계약·blind-agent rehearsal·정적 누출 감사·`중요하지만 현재 측정 불가` 원장. 근거: work/method-reviews/2026-08-11-detail-fitness-*)
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -129,6 +129,21 @@ oracle은 `minimum sufficient oracle` 원칙을 따른다. 사용자가 원한 �
 5. 실행 런타임에서 `evaluator-visible`과 `harness-private` 파일 경로를 읽을 수 없다.
 
 기존 27개 측정 설계는 폐기하지 않는다. 실제 실행에 투입하기 전에 전수 정적 누출 감사를 하고, 우선 실행할 소수 후보부터 blind-agent rehearsal을 통과시킨다. 측정하기 어렵지만 삶의 중요도가 큰 관찰은 삭제하지 않고 `중요하지만 현재 측정 불가` 원장에 보존한다.
+
+### standard-v1.3 확정 사항 (2026-08-11 기헌 채택)
+
+위 노출면 계약과 std-b6 감사 보강 규칙을 묶어 `standard-v1.3`으로 확정한다. 추가 확정:
+
+1. 소급 강도: 기존 designable 전건은 **정적 누출 감사**(에이전트 노출 후보 필드에 하네스 내부
+   식별자·채점 어휘 등장 여부 스캔)를 통과해야 하며, blind-agent rehearsal은 실제 실행에
+   투입하는 후보부터 적용한다. 전면 재제작은 하지 않는다.
+2. `중요하지만 현재 측정 불가` 원장: `docs/kiheon-ideation-pilot-15/deferred-needs-ledger.jsonl`.
+   과업 번역 불가(외부 확인 불가·제도 층위 등)로 거절된 관찰 중 삶의 비중이 큰 항목을 원문
+   보존 형태로 수록하고, 새 환경·oracle 수단이 생기면 재검토한다. 수록은 삭제·격하가 아니라 보존이다.
+3. 사이먼 정렬 시점: 100개 아이디어 완성 후. 비공개 하네스 상세 공유는 GitHub PR로 상정하고
+   채택·병합 시점에 실제 반영한다(병합 전에는 정본·운영에 미반영).
+4. 웹 진행판·팀 커뮤니케이션: 설계 수와 실행 수를 분리 표기하고 `0회 실행`을 성공률·실패율로
+   읽히게 하지 않는다.
 
 ## 7. 통합 해석
 

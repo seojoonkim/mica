@@ -1,0 +1,29 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.simulator-reset/v1",
+  "batchId": "cat07-08-standard-001",
+  "candidateId": "CAT0708-TASK-005",
+  "resetId": "CAT0708-TASK-005-reset-v1",
+  "fixtureRef": "work/mica-scenario-batches/cat07-08-standard-001/measurement-assets/CAT0708-TASK-005/fixture.json",
+  "fixtureSha256": "15a3a2b4c5174b2cd547d9a9485e39ace94594cfb0eebe2c018cb5a8674abc3d",
+  "deterministic": true,
+  "resetState": {
+    "registryState": "certificate-not-started",
+    "eligibilityState": "applicant-category-unverified",
+    "documentState": "issue-inputs-unverified",
+    "confirmationState": "not-confirmed",
+    "readbackState": "none"
+  },
+  "resetSteps": [
+    "clear synthetic registry record syn-certificate-record-005",
+    "seed authoritySystem synthetic-registry-civil-record-issue with resetState",
+    "seed synthetic record and authority tokens without payload bodies",
+    "assert confirmationState is not-confirmed and readbackState is none"
+  ],
+  "postconditions": [
+    "recordKey syn-certificate-record-005 exists only in resetState",
+    "no certificate, issue, or office handoff readback is present",
+    "all variant injected states are absent until simulator selection",
+    "no live network or external authority call was made"
+  ]
+}

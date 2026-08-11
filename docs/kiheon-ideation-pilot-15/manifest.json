@@ -10,8 +10,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology.md",
-      "sha256": "dd7684f73642d6cac1e2a2ac0a9562315b43b50d0add00e32b3db34073e6d72a",
-      "byteLength": 13082
+      "sha256": "cf89029682e091362579d2e1c86ae8f7bbf361fa37e7a7038104754a26bd8292",
+      "byteLength": 14613
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
@@ -55,8 +55,8 @@
     },
     {
       "path": ".agents/skills/mica-scenario-production/SKILL.md",
-      "sha256": "377828f10136e70ddfdf21af8224b06e108142526a352d434dd1cca4390b3395",
-      "byteLength": 11360
+      "sha256": "8d9bbc24513d092c119720acf264321e88b9a299833f455b4b9769ce88d34cd5",
+      "byteLength": 11377
     },
     {
       "path": ".agents/skills/mica-scenario-production/agents/openai.yaml",
@@ -65,8 +65,8 @@
     },
     {
       "path": ".claude/skills/mica-scenario-production/SKILL.md",
-      "sha256": "377828f10136e70ddfdf21af8224b06e108142526a352d434dd1cca4390b3395",
-      "byteLength": 11360
+      "sha256": "8d9bbc24513d092c119720acf264321e88b9a299833f455b4b9769ce88d34cd5",
+      "byteLength": 11377
     },
     {
       "path": "scripts/mica-scenario-production.py",

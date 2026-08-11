@@ -1,0 +1,131 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "cat07-08-standard-001",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "researchScope": {
+    "userRequestedDomains": [
+      "07 의료 행정",
+      "08 행정·공공 서비스"
+    ],
+    "scopeUse": "source-research-only",
+    "quota": null,
+    "selectionRule": "두 영역의 독립 1차 자료에서 직접 지지되는 생활 필요를 최대 5건 조사하되 수량이나 영역별 배분을 강제하지 않는다.",
+    "authorExposure": "need writer와 translator에는 수락된 source evidence만 제공하고 카테고리 목표·기존 과제·gap 정보는 제공하지 않는다."
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "accepted-source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "mica_cat0708_source_research",
+    "sourceReviewer": "mica_cat0708_source_reviewer_r1",
+    "needWriter": "mica_cat0708_need_writer",
+    "observationReviewer": "mica_cat0708_observation_reviewer",
+    "observationCustodian": "mica_cat0708_observation_custodian",
+    "translator": "mica_cat0708_task_translator",
+    "candidateReviewer": "mica_cat0708_candidate_reviewer",
+    "candidateCustodian": "mica_cat0708_candidate_custodian",
+    "comparator": "mica_cat0708_comparator",
+    "measurementAssetAuthor": "mica_cat0708_measurement_asset_author",
+    "oracleReviewer": "mica_cat0708_oracle_reviewer",
+    "measurementReviewer": "mica_cat0708_measurement_reviewer",
+    "controller": "mica_cat0708_controller"
+  },
+  "modelRecord": [
+    {"role":"sourceResearcher","contextId":"mica_cat0708_source_research","modelAlias":"runtime-default-not-exported","reasoningSetting":"not-exported","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"sourceReviewer","contextId":"mica_cat0708_source_reviewer_r1","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"needWriter","contextId":"mica_cat0708_need_writer","modelAlias":"gpt-5.5","reasoningSetting":"medium","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"observationReviewer","contextId":"mica_cat0708_observation_reviewer","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"observationCustodian","contextId":"mica_cat0708_observation_custodian","modelAlias":"gpt-5.5","reasoningSetting":"medium","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"translator","contextId":"mica_cat0708_task_translator","modelAlias":"gpt-5.5","reasoningSetting":"medium","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"candidateReviewer","contextId":"mica_cat0708_candidate_reviewer","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"candidateCustodian","contextId":"mica_cat0708_candidate_custodian","modelAlias":"gpt-5.5","reasoningSetting":"medium","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"comparator","contextId":"mica_cat0708_comparator","modelAlias":"gpt-5.5","reasoningSetting":"medium","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"measurementAssetAuthor","contextId":"mica_cat0708_measurement_asset_author","modelAlias":"gpt-5.5","reasoningSetting":"medium","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"oracleReviewer","contextId":"mica_cat0708_oracle_reviewer","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"measurementReviewer","contextId":"mica_cat0708_measurement_reviewer","modelAlias":"gpt-5.5","reasoningSetting":"high","recordedAt":"2026-08-11T03:45:27+09:00"},
+    {"role":"controller","contextId":"mica_cat0708_controller","modelAlias":"primary-session-runtime","reasoningSetting":"ultra","recordedAt":"2026-08-11T03:45:27+09:00"}
+  ],
+  "externalActionsAuthorized": false
+}

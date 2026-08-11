@@ -1,0 +1,13 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "cat07-08-standard-001",
+  "productionProfile": "standard",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 5,
+  "newActionableProcessDefects": [
+    "CAT0708-DEF-003",
+    "CAT0708-DEF-004"
+  ],
+  "nextBatchDecision": "hold-for-human-review-and-contract-schema-update"
+}
