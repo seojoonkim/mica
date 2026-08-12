@@ -3,8 +3,42 @@
   "schemaVersion": "mica.scenario-production-closure/v1",
   "batchId": "std-b9",
   "productionProfile": "standard",
-  "status": "open",
-  "acceptedMeasurableCandidates": 0,
-  "newActionableProcessDefects": [],
-  "nextBatchDecision": "hold-until-reviewed"
+  "methodRevision": "standard-v1.3.1",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 3,
+  "heldCandidates": [],
+  "rejectedCandidates": 0,
+  "duplicateCandidates": [],
+  "stageCounts": {
+    "sourceEvidence": "5(수락 3·거절 2)",
+    "needObservations": "4(수락 3·거절 1 — 거절 관찰은 새 ID ob-b9-04 재작성으로 회수)",
+    "taskCandidates": "3(수락 3·거절 0·hold 0)",
+    "comparison": "transformation 3",
+    "measurement": "designable-pending-exposure 3 → blind rehearsal pass 3 → designable 3"
+  },
+  "newActionableProcessDefects": [
+    "nt-b9-schema-01 sourceFrozenRowSha256 필드 의미 표기 명확화(다음 revision, Codex)",
+    "nt-b9-measure-01 ki-b9-01 비차단 정리 9건(1차 7+2차 공통 2)을 실제 simulator 실행 전 해소",
+    "nt-b9-measure-02 ki-b9-02 비차단 정리 7건(1차 5+2차 공통 2)을 실제 simulator 실행 전 해소",
+    "nt-b9-measure-03 ki-b9-03 비차단 정리 9건(1차 7+2차 공통 2)을 실제 simulator 실행 전 해소",
+    "df-b9-proc-01 측정 2차 API 연결 오류 — 같은 컨텍스트 재개 복구(배치 내 종결, 조치 불요)"
+  ],
+  "exposureResult": {
+    "agentVisible": 3,
+    "blindRehearsalPassed": 3,
+    "hiddenContractLeak": 0,
+    "actualExecutionAttempts": 0,
+    "actualExecutionPassed": 0,
+    "liveServiceExecutions": 0
+  },
+  "regression": {
+    "validateExposure": "pass (std-b9 complete=True; 회귀 std-b8 pass, std-b7은 v3 배치라 검사 비대상)",
+    "validateBatch": "pass (std-b9 + 회귀 std-b3~b8 전건)",
+    "productionScriptTests": "pass (2 tests)",
+    "preflight": "fail — 병행 Codex 레인의 미커밋 실행 프로토콜 작업(synthetic-execution-protocol.md 등 std-b9 methodLock 비대상 파일)로 repo 전역 docs manifest 게이트 불일치. std-b9 lock 무결성은 validate-batch로 확인됨. 새 배치 개설 전 Codex 커밋 후 재확인 필요",
+    "gitDiffCheck": "pass — std-b9 경로만 커밋, Codex 진행 중 파일(scripts 러너·실행 프로토콜·std-b8/execution-pilot-002) 불포함"
+  },
+  "nextBatchDecision": "kiheon-ideation designable 누적 50 도달(정본 100과 별도 계열) — 다음 배치 개설·실행 승격(격리 일반화 후)·사이먼 정렬 샘플(100개 완성 후)은 기헌 결정 대기. 배치 점유 표식 정식 장치는 Codex 다음 revision 후보 유지",
+  "closedAt": "2026-08-12T21:45:25+09:00",
+  "controller": "claude-code-controller-std-b9"
 }
