@@ -5,11 +5,8 @@
  "productionProfile": "standard",
  "methodRevision": "standard-v1.2-b5",
  "status": "completed",
- "acceptedMeasurableCandidates": 3,
- "heldCandidates": [
-  "ki-b7-04 (이사 자동이체 정리 — 정적 17/17 pass·리허설 항목 2 2회 불통과, 게이트 보정(nt-b7-01) 확정 시 재판정)",
-  "ki-b7-05 (약속 조건 보관 — 정적 17/17 pass·리허설 항목 2 2회 불통과, 동일 보정 대기)"
- ],
+ "acceptedMeasurableCandidates": 5,
+ "heldCandidates": [],
  "rejectedCandidates": 0,
  "duplicateCandidates": [],
  "stageCounts": {
@@ -17,7 +14,7 @@
   "needObservations": "5(수락 5·거절 0 — 첫 관찰 만점 배치)",
   "taskCandidates": "5(수락 5) + v2 개정 4(수락 4 — 리허설 발 개정 사이클)",
   "comparison": "transformation 3·independent-finding 1(ki-b7-03 구두 진술 대조 축)·hold 1(cmp-b7-05 — v2 재확인에서도 별개 유지)",
-  "measurement": "designable 3(01·02·03) + rehearsal-hold 2(04·05) — 자산 3세대(gen1 5→gen2 3→gen3 4), oracle 사이클 3회, 리허설 2라운드"
+  "measurement": "designable 3(v1.3) + rehearsal-hold 2 → standard-v1.3.1 재판정(2026-08-12)으로 hold 2건 designable 전환 = 최종 5. 자산 3세대, oracle 사이클 3회, 리허설 2라운드 + v1.3.1 재판정 1회"
  },
  "newActionableProcessDefects": [
   "df-b7-01 1차 자산 차단 6건(귀속 단일성 표·보관 앵커로 해소)",
@@ -38,5 +35,11 @@
   "v1.3 준수 실측": "3표면 분리 5자산, 정적 누출 스캔 0건(통제자+S12 이중), blind rehearsal 2라운드 실행, 판정 레코드 하네스 파생 명시, minimum sufficient oracle 적용 2건, 실행 패키지 격리 4요건 선언"
  },
  "closedAt": "2026-08-12T05:11+0900",
- "controller": "claude-code(controller)"
+ "controller": "claude-code(controller)",
+ "rejudgment": {
+  "standard": "standard-v1.3.1",
+  "date": "2026-08-12",
+  "records": "measurement-review-rejudgment-v131.jsonl(rj-b7-01/02)",
+  "result": "ki-b7-04·05 designable 전환 — v1.3 기록은 불변 보존"
+ }
 }
