@@ -91,6 +91,11 @@ def validate_contract(contract: dict[str, Any]) -> None:
     ordered = evaluation.get("orderedMilestones")
     require(isinstance(ordered, list) and bool(ordered), "evaluation:orderedMilestones")
     require(all(name in definitions for name in ordered), "evaluation:unknown-milestone")
+    evaluation_mode = evaluation.get("mode", "legacy-normalized-fact-inclusion")
+    require(
+        evaluation_mode in {"legacy-normalized-fact-inclusion", "post-hoc-semantic-fact-satisfaction"},
+        "evaluation:mode",
+    )
     facts = evaluation.get("requiredResponseFacts")
     require(isinstance(facts, list), "evaluation:requiredResponseFacts")
     for fact in facts:
@@ -103,8 +108,24 @@ def validate_contract(contract: dict[str, Any]) -> None:
         require(isinstance(fact, dict), "evaluation:arg-fact")
         require(fact.get("tool") in definitions, "evaluation:arg-fact:tool")
         require(isinstance(fact.get("arg"), str), "evaluation:arg-fact:arg")
-        includes = fact.get("includes")
-        require(isinstance(includes, list) and all(isinstance(term, str) for term in includes), "evaluation:arg-fact:includes")
+        if evaluation_mode == "post-hoc-semantic-fact-satisfaction":
+            concepts = fact.get("concepts")
+            require(isinstance(concepts, list) and bool(concepts), "evaluation:arg-fact:concepts")
+            for concept in concepts:
+                require(isinstance(concept, dict), "evaluation:arg-fact:concept")
+                representations = concept.get("acceptedRepresentations")
+                require(
+                    isinstance(representations, list)
+                    and bool(representations)
+                    and all(isinstance(value, str) and bool(value) for value in representations),
+                    "evaluation:arg-fact:accepted-representations",
+                )
+        else:
+            includes = fact.get("includes")
+            require(
+                isinstance(includes, list) and all(isinstance(term, str) for term in includes),
+                "evaluation:arg-fact:includes",
+            )
 
 
 def public_surface(contract: dict[str, Any]) -> dict[str, Any]:
@@ -313,8 +334,6 @@ def evaluate(args: argparse.Namespace) -> int:
     ]
     for index, requirement in enumerate(contract["evaluation"].get("requiredArgFacts", []), 1):
         require(isinstance(requirement, dict), "evaluation:arg-fact")
-        required_terms = requirement.get("includes")
-        require(isinstance(required_terms, list), "evaluation:arg-fact:includes")
         matched = False
         for row in rows:
             if row.get("accepted") is not True or row.get("tool") != requirement.get("tool"):
@@ -322,7 +341,24 @@ def evaluate(args: argparse.Namespace) -> int:
             value = row.get("args", {}).get(requirement.get("arg"))
             if isinstance(value, str):
                 normalized = normalize_text(value)
-                terms_match = all(isinstance(term, str) and normalize_text(term) in normalized for term in required_terms)
+                if contract["evaluation"].get("mode") == "post-hoc-semantic-fact-satisfaction":
+                    concepts = requirement.get("concepts")
+                    require(isinstance(concepts, list), "evaluation:arg-fact:concepts")
+                    terms_match = all(
+                        isinstance(concept, dict)
+                        and isinstance(concept.get("acceptedRepresentations"), list)
+                        and any(
+                            isinstance(representation, str) and normalize_text(representation) in normalized
+                            for representation in concept["acceptedRepresentations"]
+                        )
+                        for concept in concepts
+                    )
+                else:
+                    required_terms = requirement.get("includes")
+                    require(isinstance(required_terms, list), "evaluation:arg-fact:includes")
+                    terms_match = all(
+                        isinstance(term, str) and normalize_text(term) in normalized for term in required_terms
+                    )
             else:
                 terms_match = False
             if terms_match:
@@ -355,6 +391,7 @@ def evaluate(args: argparse.Namespace) -> int:
         "agentInputProtocol": contract["isolation"]["agentInputProtocol"],
         "hiddenContractPathDisclosed": contract["isolation"]["hiddenContractPathDisclosed"],
         "osFilesystemIsolation": contract["isolation"]["osFilesystemIsolation"],
+        "evaluationMode": contract["evaluation"].get("mode", "legacy-normalized-fact-inclusion"),
         "contractSha256": sha256(contract_path),
         "transcriptSha256": sha256(transcript_path),
         "acceptedToolCalls": len(accepted_tools),

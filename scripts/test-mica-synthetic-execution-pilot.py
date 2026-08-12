@@ -44,7 +44,7 @@ def contract() -> dict[str, object]:
                 "조회": {"requires": {}, "effects": {"lookedUp": True}, "response": {"status": "ok"}},
                 "완료": {
                     "requires": {"lookedUp": True},
-                    "expectedArgs": {"message": "완료"},
+                    "expectedArgs": {},
                     "effects": {"done": True},
                     "response": {"status": "recorded"},
                     "blockedResponse": {"status": "blocked"},
@@ -53,8 +53,15 @@ def contract() -> dict[str, object]:
             },
         },
         "evaluation": {
+            "mode": "post-hoc-semantic-fact-satisfaction",
             "orderedMilestones": ["조회", "완료"],
-            "requiredArgFacts": [{"tool": "완료", "arg": "message", "includes": ["완료"]}],
+            "requiredArgFacts": [
+                {
+                    "tool": "완료",
+                    "arg": "message",
+                    "concepts": [{"acceptedRepresentations": ["완료", "마쳤"]}],
+                }
+            ],
             "requiredResponseFacts": [{"tool": "조회", "path": ["status"], "equals": "ok"}],
         },
     }
@@ -96,7 +103,7 @@ def main() -> None:
                 {
                     "sequence": 2,
                     "tool": "완료",
-                    "args": {"message": "완료"},
+                    "args": {"message": "요청하신 업무를 모두 마쳤습니다."},
                     "accepted": True,
                     "response": {"status": "recorded"},
                 },
@@ -104,7 +111,9 @@ def main() -> None:
         )
         args = type("Args", (), {"contract": str(contract_path), "transcript": str(transcript), "output": str(output)})
         assert MODULE.evaluate(args) == 0
-        assert json.loads(output.read_text())["verdict"] == "pass"
+        result = json.loads(output.read_text())
+        assert result["verdict"] == "pass"
+        assert result["evaluationMode"] == "post-hoc-semantic-fact-satisfaction"
 
         failed_transcript = root / "failed.jsonl"
         failed_output = root / "failed-result.json"

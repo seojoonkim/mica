@@ -36,7 +36,7 @@
 
 15건 모두 합성 simulator에서 fixture, reset, attempt eligibility, 독립 oracle을 설계할 수 있는 상태다. 실제 실행 성공, 시장별 성립, 대표성 또는 공개 평가 적합성을 뜻하지 않는다.
 
-이 상세 자산은 피측정 에이전트에게 주는 지시문이 아니다. 실제 실행에서는 자연어 요청·사용자가 알려 준 제약·공통 안전정책·허용 도구만 전달하고, 최종 상태·금지 상태·fixture·reset·oracle·probe와 채점 식별자는 평가자와 하네스에만 둔다. 이 15건은 해당 노출면 계약이 명문화되기 전에 제작됐으므로 실제 실행 전 정적 누출 감사와 소수 후보 blind-agent rehearsal이 필요하다.
+이 상세 자산은 피측정 에이전트에게 주는 지시문이 아니다. 실제 실행에서는 자연어 요청·사용자가 알려 준 제약·공통 안전정책·허용 도구만 전달하고, 최종 상태·금지 상태·fixture·reset·oracle·probe와 채점 식별자는 평가자와 하네스에만 둔다. 이 15건은 해당 노출면 계약이 명문화되기 전에 제작됐으므로 실제 실행 전 정적 누출 감사와 소수 후보 blind-agent rehearsal이 필요하다. 이후 첫 합성 실행에서 2회 시도·1회 통과를 관찰했고, 발견한 하네스 결함을 바탕으로 OS 파일 격리와 의미 기반 사후판정을 [`synthetic-execution-protocol.md`](./synthetic-execution-protocol.md)에 분리했다. 이는 실제 서비스 실행이나 공개 벤치마크 통과를 뜻하지 않는다.
 
 ## 15개 후보
 
@@ -58,7 +58,7 @@
 | KI-P15-014 | 불용 의약품 안전 처분 | 품목별 지침·수용 경로·처분 readback 확인 | transformation |
 | KI-P15-015 | 비동의 친밀 콘텐츠 피해 회복 | 증거 보존 뒤 제거·위협 중단·지원 상태 확인 | independent-finding |
 
-상세 공개용 초안은 [`candidate-specs.json`](./candidate-specs.json), 표준 공정은 [`methodology.md`](./methodology.md), 압축 공정은 [`methodology-lean-v1.md`](./methodology-lean-v1.md), 반복 실행 절차는 [`reproduction.md`](./reproduction.md)에서 확인할 수 있다.
+상세 공개용 초안은 [`candidate-specs.json`](./candidate-specs.json), 표준 공정은 [`methodology.md`](./methodology.md), 압축 공정은 [`methodology-lean-v1.md`](./methodology-lean-v1.md), 반복 제작은 [`reproduction.md`](./reproduction.md), 합성 실행 경계는 [`synthetic-execution-protocol.md`](./synthetic-execution-protocol.md)에서 확인할 수 있다.
 
 ## 저장소에서 바로 실행하기
 
@@ -108,7 +108,7 @@ GitHub의 브랜치·커밋·push·Draft PR을 안전하게 사용하는 절차�
 - 모든 측정 준비는 simulator 기준이며 live 실행은 하지 않았다.
 - timeout, 목표 비용, 반복 수, 공개 threshold는 교정되지 않았다.
 - 공공·제도·권리·민감 행정성 과업이 많아 전체 생활과업 대표성을 주장할 수 없다.
-- 공개 카탈로그와 실제 실행 입력, 비공개 평가 계약의 저장·접근 통제 구현은 후속 실행 관문이다. 이 패키지는 세 표면의 원칙을 정의하지만 실제 런타임 격리까지 검증하지 않았다.
+- macOS에서는 공개 작업 디렉터리를 유지하면서 비공개 저장소 루트와 심볼릭 링크 접근을 막는 OS 격리 회귀를 통과했다. 다른 운영체제와 네트워크 목적지 격리는 아직 구현·검증하지 않았다.
 
 ## 이 PR이 바꾸지 않는 것
 
