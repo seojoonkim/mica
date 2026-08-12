@@ -45,8 +45,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/synthetic-execution-protocol.md",
-      "sha256": "df0e95cf092cb2df6b5c13bae885e0c32c2e10371cc9adb5133702786e3cdf19",
-      "byteLength": 4648
+      "sha256": "ecad1bb9a34bd3b86c2bd88ce16eb1856a07cc26b4a0ae046617f672a8e4e1ca",
+      "byteLength": 5177
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/candidate-specs.json",
@@ -85,13 +85,13 @@
     },
     {
       "path": "scripts/mica-synthetic-execution-pilot.py",
-      "sha256": "c124d39ced7cca17652c0d66fa857fa45d7837f6c89844bed1cdd4b868c70671",
-      "byteLength": 20647
+      "sha256": "cb6f6c0aa9dd66b6ba1c05e6f28a4e11156735abdbd6c2478e04694bfb55e639",
+      "byteLength": 20891
     },
     {
       "path": "scripts/test-mica-synthetic-execution-pilot.py",
-      "sha256": "60b842f82baec2a24b39b5e3b79815f2a32dfaa15d9b16fa512915afd23144a7",
-      "byteLength": 7228
+      "sha256": "dec9ccb8509fde500ba2d384c20f9c01ff65a5e1defb5254534be2123246a097",
+      "byteLength": 8170
     },
     {
       "path": "scripts/mica-isolated-agent-runner.py",

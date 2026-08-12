@@ -119,6 +119,29 @@ def main() -> None:
         assert result["osFilesystemIsolation"] is False
         assert result["isolationReceiptSha256"] is None
 
+        structured_transcript = root / "structured.jsonl"
+        structured_output = root / "structured-result.json"
+        write_rows(
+            structured_transcript,
+            [
+                {"sequence": 1, "tool": "조회", "args": {}, "accepted": True, "response": {"status": "ok"}},
+                {
+                    "sequence": 2,
+                    "tool": "완료",
+                    "args": {"message": {"status": "업무를 마쳤습니다."}},
+                    "accepted": True,
+                    "response": {"status": "recorded"},
+                },
+            ],
+        )
+        structured_args = type(
+            "Args",
+            (),
+            {"contract": str(contract_path), "transcript": str(structured_transcript), "output": str(structured_output)},
+        )
+        assert MODULE.evaluate(structured_args) == 0
+        assert json.loads(structured_output.read_text())["verdict"] == "pass"
+
         isolated_value = contract()
         isolated_value["isolation"] = {
             "agentInputProtocol": "public-http-surface-only",

@@ -356,8 +356,15 @@ def evaluate(args: argparse.Namespace) -> int:
             if row.get("accepted") is not True or row.get("tool") != requirement.get("tool"):
                 continue
             value = row.get("args", {}).get(requirement.get("arg"))
-            if isinstance(value, str):
-                normalized = normalize_text(value)
+            semantic_value = (
+                value
+                if isinstance(value, str)
+                else json.dumps(value, ensure_ascii=False)
+                if isinstance(value, (dict, list))
+                else ""
+            )
+            if semantic_value:
+                normalized = normalize_text(semantic_value)
                 if contract["evaluation"].get("mode") == "post-hoc-semantic-fact-satisfaction":
                     concepts = requirement.get("concepts")
                     require(isinstance(concepts, list), "evaluation:arg-fact:concepts")
