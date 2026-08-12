@@ -79,6 +79,8 @@ def main() -> None:
     assert "simulator" not in serialized_public
     assert "evaluation" not in serialized_public
     assert "lookedUp" not in serialized_public
+    assert "run-test-001" not in serialized_public
+    assert "candidate-test" not in serialized_public
     assert MODULE.normalize_text("할인 공백은 0 일입니다.") == MODULE.normalize_text("할인공백은 0일입니다")
 
     leaking = contract()
@@ -114,6 +116,48 @@ def main() -> None:
         result = json.loads(output.read_text())
         assert result["verdict"] == "pass"
         assert result["evaluationMode"] == "post-hoc-semantic-fact-satisfaction"
+        assert result["osFilesystemIsolation"] is False
+        assert result["isolationReceiptSha256"] is None
+
+        isolated_value = contract()
+        isolated_value["isolation"] = {
+            "agentInputProtocol": "public-http-surface-only",
+            "hiddenContractPathDisclosed": False,
+            "osFilesystemIsolation": True,
+            "enforcement": "macos-sandbox-exec",
+            "processMetadataIsolation": True,
+        }
+        isolated_contract = root / "isolated-contract.json"
+        isolated_output = root / "isolated-result.json"
+        receipt = root / "isolation-receipt.json"
+        isolated_contract.write_text(json.dumps(isolated_value, ensure_ascii=False), encoding="utf-8")
+        receipt.write_text(
+            json.dumps(
+                {
+                    "enforcement": "macos-sandbox-exec",
+                    "publicRootReadable": True,
+                    "privateProbeBlocked": True,
+                    "otherProcessInfoBlocked": True,
+                    "commandExitCode": 0,
+                }
+            ),
+            encoding="utf-8",
+        )
+        isolated_args = type(
+            "Args",
+            (),
+            {
+                "contract": str(isolated_contract),
+                "transcript": str(transcript),
+                "output": str(isolated_output),
+                "isolation_receipt": str(receipt),
+            },
+        )
+        assert MODULE.evaluate(isolated_args) == 0
+        isolated_result = json.loads(isolated_output.read_text())
+        assert isolated_result["osFilesystemIsolation"] is True
+        assert isolated_result["processMetadataIsolation"] is True
+        assert isolated_result["isolationReceiptSha256"] == MODULE.sha256(receipt)
 
         failed_transcript = root / "failed.jsonl"
         failed_output = root / "failed-result.json"
@@ -134,7 +178,7 @@ def main() -> None:
         )
         assert MODULE.evaluate(failed_args) == 1
         assert json.loads(failed_output.read_text())["verdict"] == "fail"
-    print("PASS tests=public-isolation,successful-run,fail-closed")
+    print("PASS tests=public-isolation,receipt-binding,successful-run,fail-closed")
 
 
 if __name__ == "__main__":

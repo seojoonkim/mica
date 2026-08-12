@@ -55,8 +55,13 @@ def validate_contract(contract: dict[str, Any]) -> None:
     require(isolation.get("agentInputProtocol") == "public-http-surface-only", "isolation:protocol")
     require(isolation.get("hiddenContractPathDisclosed") is False, "isolation:hidden-path")
     require(isinstance(isolation.get("osFilesystemIsolation"), bool), "isolation:os-filesystem")
+    if isolation["osFilesystemIsolation"] is True:
+        require(isolation.get("enforcement") == "macos-sandbox-exec", "isolation:enforcement")
+        require(isolation.get("processMetadataIsolation") is True, "isolation:process-metadata")
     require(isinstance(public.get("userRequest"), str), "public:userRequest")
     public_serialized = json.dumps(public, ensure_ascii=False)
+    for field in ("runId", "candidateId", "assetId", "oracleId", "variantRef"):
+        require(contract[field] not in public_serialized, f"public-identity-leak:{field}")
     hidden_tokens = contract.get("publicLeakTokens", [])
     require(isinstance(hidden_tokens, list), "publicLeakTokens")
     for token in hidden_tokens:
@@ -133,8 +138,6 @@ def public_surface(contract: dict[str, Any]) -> dict[str, Any]:
     return {
         "origin": contract["origin"],
         "schemaVersion": SCHEMA,
-        "runId": contract["runId"],
-        "candidateId": contract["candidateId"],
         "userRequest": public["userRequest"],
         "userKnownConstraints": public.get("userKnownConstraints", []),
         "commonSafetyPolicy": public.get("commonSafetyPolicy", []),
@@ -304,6 +307,20 @@ def evaluate(args: argparse.Namespace) -> int:
     output_path = Path(args.output).resolve()
     contract = load_json(contract_path)
     validate_contract(contract)
+    isolation_receipt_path_value = getattr(args, "isolation_receipt", None)
+    isolation_receipt_path = Path(isolation_receipt_path_value).resolve() if isolation_receipt_path_value else None
+    isolation_receipt_sha256: str | None = None
+    verified_os_isolation = False
+    if contract["isolation"]["osFilesystemIsolation"] is True:
+        require(isolation_receipt_path is not None and isolation_receipt_path.is_file(), "missing-isolation-receipt")
+        isolation_receipt = load_json(isolation_receipt_path)
+        require(isolation_receipt.get("enforcement") == contract["isolation"]["enforcement"], "isolation-receipt:enforcement")
+        require(isolation_receipt.get("publicRootReadable") is True, "isolation-receipt:public-root")
+        require(isolation_receipt.get("privateProbeBlocked") is True, "isolation-receipt:private-probe")
+        require(isolation_receipt.get("otherProcessInfoBlocked") is True, "isolation-receipt:process-info")
+        require(isolation_receipt.get("commandExitCode") == 0, "isolation-receipt:command-exit")
+        isolation_receipt_sha256 = sha256(isolation_receipt_path)
+        verified_os_isolation = True
     require(transcript_path.is_file(), f"missing-transcript:{transcript_path}")
     rows: list[dict[str, Any]] = []
     for line_number, line in enumerate(transcript_path.read_text(encoding="utf-8").splitlines(), 1):
@@ -390,7 +407,9 @@ def evaluate(args: argparse.Namespace) -> int:
         "actualSyntheticExecution": True,
         "agentInputProtocol": contract["isolation"]["agentInputProtocol"],
         "hiddenContractPathDisclosed": contract["isolation"]["hiddenContractPathDisclosed"],
-        "osFilesystemIsolation": contract["isolation"]["osFilesystemIsolation"],
+        "osFilesystemIsolation": verified_os_isolation,
+        "processMetadataIsolation": verified_os_isolation,
+        "isolationReceiptSha256": isolation_receipt_sha256,
         "evaluationMode": contract["evaluation"].get("mode", "legacy-normalized-fact-inclusion"),
         "contractSha256": sha256(contract_path),
         "transcriptSha256": sha256(transcript_path),
@@ -421,6 +440,7 @@ def parser() -> argparse.ArgumentParser:
     evaluate_parser.add_argument("--contract", required=True)
     evaluate_parser.add_argument("--transcript", required=True)
     evaluate_parser.add_argument("--output", required=True)
+    evaluate_parser.add_argument("--isolation-receipt")
     evaluate_parser.set_defaults(handler=evaluate)
     return root
 

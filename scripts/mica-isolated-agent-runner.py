@@ -21,6 +21,7 @@ class IsolationReceipt:
     agent_root: str
     public_root_readable: bool
     private_probe_blocked: bool
+    other_process_info_blocked: bool
 
 
 class IsolationError(RuntimeError):
@@ -32,6 +33,7 @@ def sandbox_profile() -> str:
         [
             "(version 1)",
             "(allow default)",
+            "(deny process-info* (target others))",
             '(deny file-read* file-write* (subpath (param "PRIVATE_ROOT")))',
             '(allow file-read* file-write* (subpath (param "AGENT_ROOT")))',
         ]
@@ -85,12 +87,20 @@ def verify_isolation(private_root: Path, agent_root: Path, private_probe: Path) 
         public_probe.unlink(missing_ok=True)
     if result.returncode != 0:
         raise IsolationError("os-isolation-preflight-failed")
+    process_info_result = run_isolated(
+        private_root,
+        agent_root,
+        ["/bin/ps", "-axo", "pid,command"],
+    )
+    if process_info_result.returncode == 0:
+        raise IsolationError("process-info-isolation-preflight-failed")
     return IsolationReceipt(
         enforcement="macos-sandbox-exec",
         private_root=str(private_root),
         agent_root=str(agent_root),
         public_root_readable=True,
         private_probe_blocked=True,
+        other_process_info_blocked=True,
     )
 
 
@@ -113,10 +123,12 @@ def main() -> int:
         return 2
     receipt_value = {
         "enforcement": receipt.enforcement,
-        "privateRoot": receipt.private_root,
-        "agentRoot": receipt.agent_root,
+        "privateRoot": "controller-private-root",
+        "agentRoot": "isolated-ephemeral-root",
         "publicRootReadable": receipt.public_root_readable,
         "privateProbeBlocked": receipt.private_probe_blocked,
+        "otherProcessInfoBlocked": receipt.other_process_info_blocked,
+        "commandExitCode": result.returncode,
     }
     Path(args.receipt).write_text(json.dumps(receipt_value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     sys.stdout.write(result.stdout)

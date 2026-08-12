@@ -35,7 +35,18 @@ def main() -> None:
         # Then: public input remains readable and the hidden oracle is blocked by the OS.
         assert receipt.public_root_readable is True
         assert receipt.private_probe_blocked is True
+        assert receipt.other_process_info_blocked is True
         assert receipt.enforcement == "macos-sandbox-exec"
+
+        # Given: the controller may have launched the harness with private paths in its arguments.
+        # When: the measured process attempts to enumerate other processes and their commands.
+        process_result = MODULE.run_isolated(
+            private_root,
+            agent_root,
+            ["/bin/ps", "-axo", "pid,command"],
+        )
+        # Then: process metadata is blocked before it can reveal controller arguments.
+        assert process_result.returncode != 0
 
         # Given: the same isolated working directory and hidden contract root.
         # When: a measured command attempts to read both paths.
@@ -93,8 +104,10 @@ def main() -> None:
         assert cli_result.returncode == 0
         receipt_value = json.loads(receipt_path.read_text(encoding="utf-8"))
         assert receipt_value["privateProbeBlocked"] is True
+        assert receipt_value["otherProcessInfoBlocked"] is True
+        assert receipt_value["commandExitCode"] == 0
 
-    print("PASS tests=os-preflight,isolated-command,symlink,overlap,cli-receipt")
+    print("PASS tests=os-preflight,process-info,isolated-command,symlink,overlap,cli-receipt")
 
 
 if __name__ == "__main__":
