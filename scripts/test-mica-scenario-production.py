@@ -45,7 +45,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
             locked = run_cli("lock-method", str(batch))
             self.assertEqual(locked.returncode, 0, locked.stdout + locked.stderr)
             self.assertIn("batchId=test-standard-batch", locked.stdout)
-            self.assertIn("methodRevision=standard-v1.3", locked.stdout)
+            self.assertIn("methodRevision=standard-v1.3.1", locked.stdout)
 
             ready = run_cli("validate-ready", str(batch))
             self.assertEqual(ready.returncode, 0, ready.stdout + ready.stderr)
@@ -70,9 +70,11 @@ class ScenarioProductionCliTest(unittest.TestCase):
             self.assertEqual(started_too_early.returncode, 1)
             self.assertIn("ready-batch-not-empty", started_too_early.stdout)
 
-    def test_v4_exposure_gate_and_legacy_v3_compatibility(self) -> None:
+    def test_v5_rehearsal_semantics_and_v3_v4_compatibility(self) -> None:
         legacy = run_cli("validate-batch", str(ROOT / "work" / "mica-scenario-batches" / "std-b6"))
         self.assertEqual(legacy.returncode, 0, legacy.stdout + legacy.stderr)
+        v4 = run_cli("validate-batch", str(ROOT / "work" / "mica-scenario-batches" / "std-b8"))
+        self.assertEqual(v4.returncode, 0, v4.stdout + v4.stderr)
 
         with tempfile.TemporaryDirectory(prefix="mica-exposure-") as temp_dir:
             batch = Path(temp_dir) / "test-exposure-batch"
@@ -89,8 +91,8 @@ class ScenarioProductionCliTest(unittest.TestCase):
             )
             self.assertEqual(created.returncode, 0, created.stdout + created.stderr)
             manifest = json.loads((batch / "batch-manifest.json").read_text(encoding="utf-8"))
-            self.assertEqual(manifest["schemaVersion"], "mica.scenario-production-batch/v4")
-            self.assertEqual(manifest["methodRevision"], "standard-v1.3")
+            self.assertEqual(manifest["schemaVersion"], "mica.scenario-production-batch/v5")
+            self.assertEqual(manifest["methodRevision"], "standard-v1.3.1")
             self.assertTrue((batch / "agent-visible.jsonl").is_file())
             self.assertTrue((batch / "blind-agent-rehearsal.jsonl").is_file())
             manifest["roles"]["exposurePreparer"] = "exposure-preparer-001"
@@ -126,7 +128,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
             (batch / "agent-visible.jsonl").write_text(public_raw + "\n", encoding="utf-8")
             rehearsal = {
                 "origin": "kiheon-ideation",
-                "schemaVersion": "mica.blind-agent-rehearsal/v1",
+                "schemaVersion": "mica.blind-agent-rehearsal/v2",
                 "batchId": "test-exposure-batch",
                 "candidateId": "KI-TEST-001",
                 "agentVisibleRowSha256": hashlib.sha256(public_raw.encode("utf-8")).hexdigest(),
@@ -136,6 +138,10 @@ class ScenarioProductionCliTest(unittest.TestCase):
                 "hiddenInformationRequired": False,
                 "implementationSequenceForced": False,
                 "hiddenPathAccessible": False,
+                "assessmentMode": "instruction-sufficiency",
+                "actualExecutionObserved": False,
+                "performanceInferenceAllowed": False,
+                "reachabilityBasis": "공개 요청과 허용 도구로 조회, 승인, 변경 또는 안전 인계 경로를 설명할 수 있음",
                 "verdict": "pass",
                 "notes": "공개 입력만으로 조회와 승인 경계를 이해할 수 있음",
                 "reviewedAt": "2026-08-12T10:00:00+09:00",
@@ -177,6 +183,26 @@ class ScenarioProductionCliTest(unittest.TestCase):
             unsafe = run_cli("validate-exposure", str(batch))
             self.assertEqual(unsafe.returncode, 1)
             self.assertIn("blind-rehearsal-verdict-mismatch:KI-TEST-001", unsafe.stdout)
+
+            rehearsal["hiddenPathAccessible"] = False
+            rehearsal["actualExecutionObserved"] = True
+            (batch / "blind-agent-rehearsal.jsonl").write_text(
+                json.dumps(rehearsal, ensure_ascii=False, separators=(",", ":")) + "\n",
+                encoding="utf-8",
+            )
+            performance_claim = run_cli("validate-exposure", str(batch))
+            self.assertEqual(performance_claim.returncode, 1)
+            self.assertIn("blind-rehearsal-execution-claim:KI-TEST-001", performance_claim.stdout)
+
+            rehearsal["actualExecutionObserved"] = False
+            rehearsal["performanceInferenceAllowed"] = True
+            (batch / "blind-agent-rehearsal.jsonl").write_text(
+                json.dumps(rehearsal, ensure_ascii=False, separators=(",", ":")) + "\n",
+                encoding="utf-8",
+            )
+            performance_inference = run_cli("validate-exposure", str(batch))
+            self.assertEqual(performance_inference.returncode, 1)
+            self.assertIn("blind-rehearsal-performance-inference:KI-TEST-001", performance_inference.stdout)
 
 
 if __name__ == "__main__":

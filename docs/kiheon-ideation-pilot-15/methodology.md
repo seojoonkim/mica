@@ -1,7 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
-- method revision: `standard-v1.3` (2026-08-11 기헌 채택 — `standard-v1.2-b5` + std-b6 Codex 감사 보강 + 상세성 적합성 검토의 노출면 계약·blind-agent rehearsal·정적 누출 감사·`중요하지만 현재 측정 불가` 원장. 근거: work/method-reviews/2026-08-11-detail-fitness-*)
+- method revision: `standard-v1.3.1` (`standard-v1.3` + std-b7 리허설 의미 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -120,17 +120,26 @@
 
 oracle은 `minimum sufficient oracle` 원칙을 따른다. 사용자가 원한 결과, 권위 있는 readback, 승인 경계, 금지 상태, 안전한 실패를 이분 판정하는 데 필요한 최소 조건만 둔다. 특정 클릭 순서, 특정 문구, 내부 필드명은 결과가 같다면 성공의 필수조건으로 만들지 않는다.
 
-다음 배치부터 measurement review 뒤 `blind-agent rehearsal`을 추가한다. 별도 컨텍스트가 `agent-visible` 묶음만 받고 상식적인 수행 경로를 설명하거나 합성 환경에서 리허설한다. measurement reviewer는 그 기록과 비공개 계약을 대조해 다음을 모두 확인해야 `designable`로 종결할 수 있다.
+measurement review 뒤 `blind-agent rehearsal`을 수행한다. 별도 컨텍스트는 `agent-visible` 묶음만 받고, 공개 요청과 허용 도구만으로 합리적인 수행 또는 안전 인계 경로가 존재하는지 설명한다. 이 단계는 실제 도구 실행 성공, 특정 모델의 수행 능력, 성공률이나 표본 통계를 판정하지 않는다. measurement reviewer는 그 기록과 비공개 계약을 대조해 다음을 모두 확인해야 `designable`로 종결할 수 있다.
 
 1. 사용자 요청에 정답 상태·실패 분기·채점 식별자가 누출되지 않았다.
-2. 명세를 모르는 에이전트도 도구 탐색과 권위 있는 readback을 통해 성공 경로에 도달할 수 있다.
+2. 명세를 모르는 에이전트가 도구 탐색과 권위 있는 readback을 통해 성공 또는 안전 인계에 이를 합리적인 경로가 존재한다.
 3. 자연어 응답을 내부 판정 형식으로 바꾸는 책임이 하네스에 있다.
 4. 평가 조건이 사용자 결과와 무관한 특정 표현·구현 순서를 강제하지 않는다.
 5. 실행 런타임에서 `evaluator-visible`과 `harness-private` 파일 경로를 읽을 수 없다.
 
 기존 27개 측정 설계는 폐기하지 않는다. 실제 실행에 투입하기 전에 전수 정적 누출 감사를 하고, 우선 실행할 소수 후보부터 blind-agent rehearsal을 통과시킨다. 측정하기 어렵지만 삶의 중요도가 큰 관찰은 삭제하지 않고 `중요하지만 현재 측정 불가` 원장에 보존한다.
 
-새 생산 배치는 `mica.scenario-production-batch/v4`를 사용한다. 공개 요청은 `agent-visible.jsonl`, 블라인드 리허설은 `blind-agent-rehearsal.jsonl`에 분리하고, `validate-exposure`가 내부 필드·채점 식별자 누출, 공개 행 원문 SHA, 후보 집합과 이분 판정을 확인한다. 기존 `v3` 배치에는 이 형식을 소급하지 않는다.
+새 생산 배치는 `mica.scenario-production-batch/v5`를 사용한다. 공개 요청은 `agent-visible.jsonl`, 블라인드 리허설은 `blind-agent-rehearsal.jsonl`에 분리하고, `validate-exposure`가 내부 필드·채점 식별자 누출, 공개 행 원문 SHA, 후보 집합과 이분 판정을 확인한다. v5 리허설은 `assessmentMode=instruction-sufficiency`, `actualExecutionObserved=false`, `performanceInferenceAllowed=false`를 강제하고 경로 존재성 근거를 별도로 기록한다. 기존 `v3`·`v4` 배치에는 이 형식을 소급하지 않는다.
+
+### standard-v1.3.1 리허설 보정
+
+`std-b7`에서 동일 후보가 두 리허설 라운드 사이 서로 다른 행동을 보여, 단일 블라인드 컨텍스트의 실제 walkthrough를 통과·실패 표본처럼 읽을 수 없음이 확인됐다. 따라서 리허설은 다음처럼 판정한다.
+
+1. 합리적인 경로를 설명할 수 있으면 통과할 수 있다. 그 컨텍스트가 실제로 모든 단계를 수행할 필요는 없다.
+2. 요청·도구·안전정책만으로 경로를 설명할 수 없거나 비공개 정보를 알아야 하면 reject다.
+3. 특정 구현 순서·정답 문구를 요청에 더해 한 모델의 행동을 맞추는 수정은 역방향 오염이므로 금지한다.
+4. 모델별 성공률, 실행 분산과 실패 원인은 실제 simulator 실행 단계에서 별도 측정한다.
 
 ### standard-v1.3 확정 사항 (2026-08-11 기헌 채택)
 

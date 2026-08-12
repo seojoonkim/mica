@@ -56,7 +56,7 @@
 
 ## 14. blind-agent rehearsal
 
-> measurement reviewer와 다른 독립 컨텍스트다. `agent-visible` 묶음의 자연어 요청, 사용자가 알려 준 제약, 공통 안전정책, 허용 도구 범위만 받는다. 후보 명세, 최종 상태, 금지 상태, fixture, variant, reset, eligibility, oracle, probe, registry, event ID, tick 계산은 보지 않는다. 상식적인 에이전트가 요청을 이해하고 권위 있는 상태를 탐색해 성공 또는 안전 인계에 도달할 수 있는지 리허설 기록을 남긴다. 내부 정답 단서가 보이거나 특정 JSON·판정 표현을 요구하거나 숨은 파일을 읽어야만 성공할 수 있으면 실패로 보고한다. 이 리허설은 실제 벤치마크 점수나 시스템 성능 결과가 아니다.
+> measurement reviewer와 다른 독립 컨텍스트다. `agent-visible` 묶음의 자연어 요청, 사용자가 알려 준 제약, 공통 안전정책, 허용 도구 범위만 받는다. 후보 명세, 최종 상태, 금지 상태, fixture, variant, reset, eligibility, oracle, probe, registry, event ID, tick 계산은 보지 않는다. 이 단계는 도구를 실제로 실행하거나 모델의 성능을 재는 시험이 아니라, 공개 요청만으로 합리적인 해결 경로 또는 안전 인계 경로를 설명할 수 있는지 확인하는 입력 충분성 검토다. `assessmentMode`는 `instruction-sufficiency`, `actualExecutionObserved`와 `performanceInferenceAllowed`는 모두 `false`로 기록하고, `reachabilityBasis`에 가능한 경로의 근거를 남긴다. 한 번의 서술에서 가능한 단계 하나가 빠졌다는 이유만으로 실패시키거나 특정 모델의 클릭·도구 순서를 정답으로 강제하지 않는다. 공개 요청과 허용 도구로 합리적인 경로를 전혀 설명할 수 없거나 숨은 정보가 있어야만 성공할 수 있을 때, 또는 내부 정답 단서·특정 JSON·판정 표현이 노출됐을 때 실패로 보고한다. 이 리허설로 실제 벤치마크 점수, 성공률, 실행 성능을 추론하지 않는다.
 
 ## 15. controller 종료 보고
 

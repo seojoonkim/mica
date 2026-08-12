@@ -47,6 +47,7 @@ EXPOSURE_ARTIFACTS = (
     "blind-agent-rehearsal.jsonl",
 )
 V4_SCHEMA = "mica.scenario-production-batch/v4"
+V5_SCHEMA = "mica.scenario-production-batch/v5"
 AGENT_VISIBLE_FIELDS = {
     "origin",
     "schemaVersion",
@@ -58,7 +59,7 @@ AGENT_VISIBLE_FIELDS = {
     "allowedTools",
     "preparedByContextId",
 }
-BLIND_REHEARSAL_FIELDS = {
+BLIND_REHEARSAL_V1_FIELDS = {
     "origin",
     "schemaVersion",
     "batchId",
@@ -73,6 +74,12 @@ BLIND_REHEARSAL_FIELDS = {
     "verdict",
     "notes",
     "reviewedAt",
+}
+BLIND_REHEARSAL_V2_FIELDS = BLIND_REHEARSAL_V1_FIELDS | {
+    "assessmentMode",
+    "actualExecutionObserved",
+    "performanceInferenceAllowed",
+    "reachabilityBasis",
 }
 PUBLIC_LEAK_PATTERNS = (
     re.compile(
@@ -120,7 +127,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.3",
+        "methodRevision": "standard-v1.3.1",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
@@ -296,7 +303,7 @@ def profile_config(profile: str) -> dict[str, object]:
 
 
 def artifacts_for_manifest(manifest: dict[str, object]) -> tuple[str, ...]:
-    if manifest.get("schemaVersion") == V4_SCHEMA:
+    if manifest.get("schemaVersion") in {V4_SCHEMA, V5_SCHEMA}:
         return (*ARTIFACTS, *EXPOSURE_ARTIFACTS)
     return ARTIFACTS
 
@@ -305,7 +312,7 @@ def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]
     config = profile_config(profile)
     return {
         "origin": "kiheon-ideation",
-        "schemaVersion": V4_SCHEMA,
+        "schemaVersion": V5_SCHEMA,
         "batchId": batch_id,
         "status": "prepared-unlocked",
         "productionProfile": profile,
@@ -499,7 +506,7 @@ def lock_method(target: Path) -> dict[str, object]:
         committed = git_file_bytes(head, relative_path)
         require(path.read_bytes() == committed, f"method-uncommitted:{relative_path}")
         source_files.append({"path": relative_path, "sha256": hashlib.sha256(committed).hexdigest()})
-    if manifest.get("schemaVersion") != V4_SCHEMA:
+    if manifest.get("schemaVersion") not in {V4_SCHEMA, V5_SCHEMA}:
         manifest["schemaVersion"] = "mica.scenario-production-batch/v3"
     manifest["status"] = "prepared-locked"
     manifest["methodRevision"] = config["methodRevision"]
@@ -570,7 +577,8 @@ def validate_exposure(target: Path, require_complete: bool = True) -> dict[str, 
     require(target.is_dir(), f"batch-not-directory:{target}")
     manifest = load_json(target / "batch-manifest.json")
     require(isinstance(manifest, dict), "batch-manifest-not-object")
-    require(manifest.get("schemaVersion") == V4_SCHEMA, "exposure-requires-batch-v4")
+    schema_version = manifest.get("schemaVersion")
+    require(schema_version in {V4_SCHEMA, V5_SCHEMA}, "exposure-requires-batch-v4-or-v5")
     batch_id = manifest.get("batchId")
     require(isinstance(batch_id, str), "batch-id")
 
@@ -612,8 +620,14 @@ def validate_exposure(target: Path, require_complete: bool = True) -> dict[str, 
 
     rehearsal_by_id: dict[str, dict[str, object]] = {}
     for index, row in enumerate(parse_jsonl(rehearsal_path), start=1):
-        require(set(row) == BLIND_REHEARSAL_FIELDS, f"blind-rehearsal-shape:{index}")
-        require(row.get("schemaVersion") == "mica.blind-agent-rehearsal/v1", f"blind-rehearsal-schema:{index}")
+        expected_rehearsal_fields = (
+            BLIND_REHEARSAL_V2_FIELDS if schema_version == V5_SCHEMA else BLIND_REHEARSAL_V1_FIELDS
+        )
+        expected_rehearsal_schema = (
+            "mica.blind-agent-rehearsal/v2" if schema_version == V5_SCHEMA else "mica.blind-agent-rehearsal/v1"
+        )
+        require(set(row) == expected_rehearsal_fields, f"blind-rehearsal-shape:{index}")
+        require(row.get("schemaVersion") == expected_rehearsal_schema, f"blind-rehearsal-schema:{index}")
         require(row.get("batchId") == batch_id, f"blind-rehearsal-batch:{index}")
         candidate_id = row.get("candidateId")
         require(isinstance(candidate_id, str) and candidate_id.strip(), f"blind-rehearsal-candidate:{index}")
@@ -646,6 +660,17 @@ def validate_exposure(target: Path, require_complete: bool = True) -> dict[str, 
         require((row["verdict"] == "pass") == expected_pass, f"blind-rehearsal-verdict-mismatch:{candidate_id}")
         require(isinstance(row.get("notes"), str) and row["notes"].strip(), f"blind-rehearsal-notes:{candidate_id}")
         validate_timestamp(row.get("reviewedAt"), f"blind-rehearsal-time:{candidate_id}")
+        if schema_version == V5_SCHEMA:
+            require(row.get("assessmentMode") == "instruction-sufficiency", f"blind-rehearsal-mode:{candidate_id}")
+            require(row.get("actualExecutionObserved") is False, f"blind-rehearsal-execution-claim:{candidate_id}")
+            require(
+                row.get("performanceInferenceAllowed") is False,
+                f"blind-rehearsal-performance-inference:{candidate_id}",
+            )
+            require(
+                isinstance(row.get("reachabilityBasis"), str) and row["reachabilityBasis"].strip(),
+                f"blind-rehearsal-reachability-basis:{candidate_id}",
+            )
         rehearsal_by_id[candidate_id] = row
 
     roles = manifest.get("roles")
@@ -723,7 +748,7 @@ def validate_batch(target: Path) -> dict[str, object]:
     require(isinstance(count, int) and 1 <= count <= max_drafts, "batch-max-drafts")
     schema_version = manifest.get("schemaVersion")
     method_lock: dict[str, object] | None = None
-    if schema_version == V4_SCHEMA:
+    if schema_version in {V4_SCHEMA, V5_SCHEMA}:
         if manifest.get("status") == "prepared-unlocked":
             require(manifest.get("methodRevision") == config["methodRevision"], "v4-method-revision")
         expected_manifest = batch_manifest(str(manifest.get("batchId")), count, str(profile))
@@ -734,7 +759,7 @@ def validate_batch(target: Path) -> dict[str, object]:
         require(isinstance(allowlist, dict), "v4-role-allowlist-not-object")
         require(set(allowlist) == set(expected_manifest["roleInputAllowlist"]), "v4-role-allowlist-shape")
         require(allowlist.get("blindAgentRehearsal") == ["agent-visible.jsonl"], "v4-blind-input-boundary")
-    if schema_version in {"mica.scenario-production-batch/v3", V4_SCHEMA}:
+    if schema_version in {"mica.scenario-production-batch/v3", V4_SCHEMA, V5_SCHEMA}:
         require(manifest.get("status") != "prepared-unlocked" or manifest.get("methodLock") is None, "unlocked-batch-has-lock")
         if manifest.get("status") != "prepared-unlocked":
             method_lock = validate_method_lock(manifest, require_current_files=False)
@@ -751,7 +776,7 @@ def validate_batch(target: Path) -> dict[str, object]:
         accepted = closure.get("acceptedMeasurableCandidates")
         require(isinstance(accepted, int), "completed-accepted-count")
         require(accepted == row_counts["measurement-contracts.jsonl"], "completed-measurement-count")
-        if schema_version == V4_SCHEMA:
+        if schema_version in {V4_SCHEMA, V5_SCHEMA}:
             exposure = validate_exposure(target, require_complete=True)
             require(accepted == exposure["rehearsalPassed"], "completed-exposure-count")
     return {
@@ -773,7 +798,7 @@ def validate_ready(target: Path) -> dict[str, object]:
     require(isinstance(closure, dict) and closure.get("status") == "open", "ready-closure-not-open")
     manifest = load_json(target.resolve() / "batch-manifest.json")
     require(isinstance(manifest, dict), "batch-manifest-not-object")
-    if manifest.get("schemaVersion") in {"mica.scenario-production-batch/v3", V4_SCHEMA}:
+    if manifest.get("schemaVersion") in {"mica.scenario-production-batch/v3", V4_SCHEMA, V5_SCHEMA}:
         validate_method_lock(manifest, require_current_files=True)
     roles = manifest.get("roles")
     require(isinstance(roles, dict) and all(value is None for value in roles.values()), "ready-role-already-assigned")
