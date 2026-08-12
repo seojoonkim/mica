@@ -3,8 +3,38 @@
   "schemaVersion": "mica.scenario-production-closure/v1",
   "batchId": "std-b8",
   "productionProfile": "standard",
-  "status": "open",
-  "acceptedMeasurableCandidates": 0,
-  "newActionableProcessDefects": [],
-  "nextBatchDecision": "hold-until-reviewed"
+  "methodRevision": "standard-v1.3",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 2,
+  "heldCandidates": [],
+  "rejectedCandidates": 1,
+  "duplicateCandidates": [],
+  "stageCounts": {
+    "sourceEvidence": "5(수락 2·거절 3)",
+    "needObservations": "2(수락 2·거절 0)",
+    "taskCandidates": "초안 2 + 수정 후보 1(최종 수락 2·거절 이력 1)",
+    "comparison": "transformation 2",
+    "measurement": "designable-pending-exposure 2 → blind rehearsal pass 2 → designable 2"
+  },
+  "newActionableProcessDefects": [
+    "df-b8-proc-01 역할 context ID 선부여 절차를 전 역할에 표준화",
+    "nt-b8-measure-01 ki-b8-02 비차단 측정 정합 9건을 실제 simulator 실행 전에 해소",
+    "nt-b8-measure-02 ki-b8-03 비차단 측정 정합 6건을 실제 simulator 실행 전에 해소"
+  ],
+  "exposureResult": {
+    "agentVisible": 2,
+    "blindRehearsalPassed": 2,
+    "hiddenContractLeak": 0,
+    "actualExecutions": 0
+  },
+  "regression": {
+    "validateExposure": "pass",
+    "validateBatch": "pass",
+    "productionScriptTests": "pass",
+    "preflight": "pass",
+    "gitDiffCheck": "pass"
+  },
+  "nextBatchDecision": "stop-before-actual-execution-until-nonblocking-measurement-cleanup-is-closed",
+  "closedAt": "2026-08-12T11:36:00+09:00",
+  "controller": "codex-controller-std-b8"
 }
