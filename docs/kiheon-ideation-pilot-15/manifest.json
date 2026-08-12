@@ -10,8 +10,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology.md",
-      "sha256": "7603d1c810b28c93591ff25d57517ad87f0a39ccb4fa251681fe8694159fefd4",
-      "byteLength": 14998
+      "sha256": "72905ef02b9ef2e4fe667140f89171b5b875847ed61b848c926e47e838590a45",
+      "byteLength": 15393
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
@@ -40,8 +40,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
-      "sha256": "d1e13f4d79855be467c260cba9b28056be0b5c7cf1125f0915b6ff9323831b68",
-      "byteLength": 8536
+      "sha256": "632eb6b804bbf679e5bc6143a9270811d683d2b069c90bfa46433499033db85e",
+      "byteLength": 8914
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/candidate-specs.json",

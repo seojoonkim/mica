@@ -19,13 +19,24 @@
   "newActionableProcessDefects": [
     "df-b8-proc-01 역할 context ID 선부여 절차를 전 역할에 표준화",
     "nt-b8-measure-01 ki-b8-02 비차단 측정 정합 9건을 실제 simulator 실행 전에 해소",
-    "nt-b8-measure-02 ki-b8-03 비차단 측정 정합 6건을 실제 simulator 실행 전에 해소"
+    "nt-b8-measure-02 ki-b8-03 비차단 측정 정합 6건을 실제 simulator 실행 전에 해소",
+    "EXE-001 자연어 고지를 특정 정답 문장과 문자 단위 비교해 정상 행동을 차단한 하네스 결함. 의미 기반 사후 판정으로 수리하고 회귀 실행 통과"
   ],
   "exposureResult": {
     "agentVisible": 2,
     "blindRehearsalPassed": 2,
     "hiddenContractLeak": 0,
-    "actualExecutions": 0
+    "actualExecutionAttempts": 2,
+    "actualExecutionPassed": 1,
+    "liveServiceExecutions": 0
+  },
+  "executionPilot": {
+    "candidateId": "ki-b8-03",
+    "assetId": "ma-b8-04",
+    "oracleId": "or-b8-04",
+    "run001": "fail-harness-defect",
+    "run002": "pass",
+    "knownIsolationLimit": "os-filesystem-isolation-not-enforced"
   },
   "regression": {
     "validateExposure": "pass",
@@ -34,7 +45,7 @@
     "preflight": "pass",
     "gitDiffCheck": "pass"
   },
-  "nextBatchDecision": "stop-before-actual-execution-until-nonblocking-measurement-cleanup-is-closed",
+  "nextBatchDecision": "generalize-execution-isolation-and-semantic-evaluation-before-next-candidate",
   "closedAt": "2026-08-12T11:36:00+09:00",
   "controller": "codex-controller-std-b8"
 }

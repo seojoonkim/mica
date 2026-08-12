@@ -108,6 +108,7 @@ python3 scripts/mica-scenario-production.py validate-ready \
 - 별도 blind rehearsal 컨텍스트는 `agent-visible`만 받아 상식적인 수행 경로를 확인한다. 후보·fixture·oracle 파일은 허용 입력이 아니다.
 - Codex control plane은 새 `v4` 배치에서 `agent-visible.jsonl`과 `blind-agent-rehearsal.jsonl`을 별도 산출물로 검사한다. `validate-exposure`는 공개 입력 누출, 원문 행 SHA, 독립 리허설 판정, 측정 후보 집합 일치를 확인한다. minimum sufficient oracle과 실제 런타임의 하네스 경로 차단은 별도 의미·실행 검토로 남는다.
 - 기존 27개 측정 설계는 폐기하지 않으며, 실제 실행에 투입하기 전에 전수 정적 누출 감사와 우선 후보의 blind-agent rehearsal을 수행한다.
+- 첫 actual-execution pilot에서 특정 정답 문장과의 문자 단위 비교가 의미상 충분한 사용자 고지를 차단했다. 이후 도구 경계는 선행 상태·승인·제출 결속만 강제하고, 자연어 고지와 최종 응답의 요구 사실은 비공개 evaluator가 사후 판정한다. 최초 실패와 수리 후 재실행을 모두 보존한다.
 
 ## 7. 현재 인수인계
 
