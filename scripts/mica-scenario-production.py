@@ -127,7 +127,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.3.1",
+        "methodRevision": "standard-v1.3.2",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
@@ -566,7 +566,8 @@ def require_string_list(value: object, detail: str, allow_empty: bool = False) -
 def validate_timestamp(value: object, detail: str) -> None:
     require(isinstance(value, str), detail)
     try:
-        parsed = datetime.fromisoformat(value)
+        normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
+        parsed = datetime.fromisoformat(normalized)
     except ValueError as exc:
         raise CheckError(detail) from exc
     require(parsed.tzinfo is not None, detail)

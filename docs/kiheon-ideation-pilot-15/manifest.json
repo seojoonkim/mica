@@ -10,8 +10,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology.md",
-      "sha256": "0cf29da858cac2dc6985c2484f282234adcda8d18084f10ba8cd04079b964c38",
-      "byteLength": 16514
+      "sha256": "bd663dfcad6da659f5cef3add86bb052b5372ffad5fe3cf76d92e2aeade0e091",
+      "byteLength": 17272
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
@@ -35,13 +35,13 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
-      "sha256": "e144ac2888904e3e6ebdf985d5424351b5c113dcb6d7ff8b367a37e2d9d7cf76",
-      "byteLength": 10711
+      "sha256": "3f2657a0f6137d2140d8a0bed0b2db19d68838b35af3e5fc6dcacfc2f2c28593",
+      "byteLength": 10961
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
-      "sha256": "c45718cbb7c2139ceab3f3016cd1575de80f51e0d08e98fa5dfd6c66907e5fb0",
-      "byteLength": 9421
+      "sha256": "9bb374fc8a7a3b97a4902706b084485c14214734a3fd040b1c511304dec5c038",
+      "byteLength": 10390
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/synthetic-execution-protocol.md",
@@ -60,8 +60,8 @@
     },
     {
       "path": ".agents/skills/mica-scenario-production/SKILL.md",
-      "sha256": "218b684774fcd1a2a28f876bbd3a14ed4da3ea4c99dc31a81772a33b95c3e20d",
-      "byteLength": 12420
+      "sha256": "df97c4b23dd1190117c787e6f4083f15e8e7a8d4763cd5af00fcdf69ddabecf6",
+      "byteLength": 12611
     },
     {
       "path": ".agents/skills/mica-scenario-production/agents/openai.yaml",
@@ -70,18 +70,18 @@
     },
     {
       "path": ".claude/skills/mica-scenario-production/SKILL.md",
-      "sha256": "218b684774fcd1a2a28f876bbd3a14ed4da3ea4c99dc31a81772a33b95c3e20d",
-      "byteLength": 12420
+      "sha256": "df97c4b23dd1190117c787e6f4083f15e8e7a8d4763cd5af00fcdf69ddabecf6",
+      "byteLength": 12611
     },
     {
       "path": "scripts/mica-scenario-production.py",
-      "sha256": "34ba2a5c25bca9edfc24790ddbc36f4584ffc31f6d1e5219531151ed33d882ed",
-      "byteLength": 39634
+      "sha256": "9f0a0b60159d1a5cb3a63806a05cce016be4400f35e8b30a3f61fbf6bdb90391",
+      "byteLength": 39716
     },
     {
       "path": "scripts/test-mica-scenario-production.py",
-      "sha256": "fd4e3fb679abe5aa2b62fcc252687067304ca33f43b7101ac70616b33a6af478",
-      "byteLength": 10332
+      "sha256": "363541df2b6369d0205849ac4219e15f099e4939fe5836ac00058ad37f005333",
+      "byteLength": 10327
     },
     {
       "path": "scripts/mica-synthetic-execution-pilot.py",

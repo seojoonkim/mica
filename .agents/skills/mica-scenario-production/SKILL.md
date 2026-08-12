@@ -131,7 +131,7 @@ observation·candidate custodian은 별도 context에서 accepted 원문 행 전
 - 측정 자산은 기록의 원자적 호출 단위와 최악 경로 호출 수를 선언한다. 합성 시계 상한 안에 든다는 증명이 없으면 실제 simulator 실행으로 승격하지 않는다.
 - 열린 비차단 정리 항목이 있는 `designable` 후보는 측정 설계 완료일 뿐 실행 검증 완료가 아니다. 실제 실행 전에 정리 항목을 닫는다.
 - oracle은 사용자 결과, 권위 있는 readback, 승인 경계, 금지 상태, 안전 인계를 이분 판정하는 최소 조건만 포함한다. 특정 문구·클릭 순서·내부 필드명을 강제하지 않는다.
-- measurement review 뒤 `agent-visible`만 받은 별도 컨텍스트의 blind-agent rehearsal을 통과해야 `designable`로 종결한다. 그 전 상태는 `designable-pending-exposure`다. `standard-v1.3.1`의 리허설은 실제 도구 실행이 아니라 공개 입력만으로 합리적인 경로를 설명할 수 있는지 보는 검토다. `assessmentMode=instruction-sufficiency`, `actualExecutionObserved=false`, `performanceInferenceAllowed=false`를 기록하고, 한 번의 서술에서 가능한 단계가 빠졌다는 이유만으로 실패시키거나 특정 모델의 행동 순서를 정답으로 강제하지 않는다.
+- measurement review 뒤 `agent-visible`만 받은 별도 컨텍스트의 blind-agent rehearsal을 통과해야 `designable`로 종결한다. 그 전 상태는 `designable-pending-exposure`다. `standard-v1.3.2`의 리허설은 실제 도구 실행이 아니라 공개 입력만으로 합리적인 경로를 설명할 수 있는지 보는 검토다. `assessmentMode=instruction-sufficiency`, `actualExecutionObserved=false`, `performanceInferenceAllowed=false`를 기록하고, 한 번의 서술에서 가능한 단계가 빠졌다는 이유만으로 실패시키거나 특정 모델의 행동 순서를 정답으로 강제하지 않는다.
 
 ## 모델 기준
 
@@ -154,4 +154,4 @@ python3 scripts/mica-scenario-production.py validate-batch \
   work/mica-scenario-batches/<batch-id>
 ```
 
-`validate-exposure`는 `v4`와 `v5` 배치에서 사용한다. 새 배치는 `standard-v1.3.1`·`v5`를 쓰며, 완료·진행 중인 `v3`·`v4` 배치에 새 형식을 소급하지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.
+`validate-exposure`는 `v4`와 `v5` 배치에서 사용한다. 새 배치는 `standard-v1.3.2`·`v5`를 쓰며, 완료·진행 중인 배치에 새 revision을 소급하지 않는다. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl` 해당 후보의 원문 한 줄 전체(줄바꿈 제외) SHA-256으로만 기록하고 상류 source·observation hash를 대신 쓰지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.

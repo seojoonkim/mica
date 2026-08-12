@@ -1,7 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
-- method revision: `standard-v1.3.1` (`standard-v1.3` + std-b7 리허설 의미 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
+- method revision: `standard-v1.3.2` (`standard-v1.3.1` + std-b9 계보·시각 이식성 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -140,6 +140,14 @@ measurement review 뒤 `blind-agent rehearsal`을 수행한다. 별도 컨텍스
 2. 요청·도구·안전정책만으로 경로를 설명할 수 없거나 비공개 정보를 알아야 하면 reject다.
 3. 특정 구현 순서·정답 문구를 요청에 더해 한 모델의 행동을 맞추는 수정은 역방향 오염이므로 금지한다.
 4. 모델별 성공률, 실행 분산과 실패 원인은 실제 simulator 실행 단계에서 별도 측정한다.
+
+### standard-v1.3.2 계보·시각 이식성 보정
+
+`std-b9` 종결 대조에서 재현 환경에 따른 시각 파싱 차이와 `sourceFrozenRowSha256`의 의미 모호성을 확인했다. 다음 빈 배치부터 아래를 적용한다.
+
+1. RFC 3339의 UTC `Z` 표기와 숫자 오프셋 표기를 모두 유효한 timezone-aware 시각으로 검증한다.
+2. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl`의 해당 후보 원문 한 줄 전체에서 줄바꿈을 제외하고 계산한 SHA-256이다. source evidence나 frozen observation의 hash를 대신 쓰지 않는다.
+3. 완료된 `std-b9` 산출물은 역사 기록으로 보존하며 소급 수정하지 않는다. 새 규칙은 다음 배치의 method lock부터 적용한다.
 
 ### standard-v1.3 확정 사항 (2026-08-11 기헌 채택)
 

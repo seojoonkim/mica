@@ -40,7 +40,7 @@
 
 ## 10. measurement asset author
 
-> frozen candidate와 comparison만 읽고 simulator용 fixture, deterministic reset, fail-closed attempt eligibility를 설계한다. `userRequest`를 측정 편의에 맞춰 고치거나 내부 필드·토큰·분기명을 추가하지 않는다. 작성 전에 기대 판정표의 모든 정상·실패·복구 행이 하나의 trace에서 동시에 성립 가능한지 확인한다. eligibility의 각 gate를 차단되는 locked path와 1:1로 연결하고, 재검사에서 과거 값이 되살아나는 일회성 injector 대신 variant 자체에 실패 상태를 고정한다. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용하며 규정 threshold와 사용자의 실제 값을 별도 필드로 둔다. EXP expected table의 모든 literal label을 허용 registry에 열거하고, 누락 성분 처리 formula는 전 variant에서 하나만 쓴다. 두 사건의 strict-before는 두 사건이 모두 존재할 때만 평가하고 사건 부재는 `NOT-APPLICABLE`로 둔다. 정상·실패·복구 분기를 포함하고 민감 원문과 실제 사업자명 대신 합성 식별자와 기능적 권위 역할을 쓴다. 실제 시장·사업자·비용·시간을 만들지 않는다.
+> frozen candidate와 comparison만 읽고 simulator용 fixture, deterministic reset, fail-closed attempt eligibility를 설계한다. `userRequest`를 측정 편의에 맞춰 고치거나 내부 필드·토큰·분기명을 추가하지 않는다. `sourceFrozenRowSha256`을 쓰는 경우 그 값은 `frozen-candidates.jsonl`에서 해당 후보가 들어 있는 원문 한 줄 전체(줄바꿈 제외)의 SHA-256이어야 하며, 상류 source·observation 행의 hash를 대신 넣지 않는다. 작성 전에 기대 판정표의 모든 정상·실패·복구 행이 하나의 trace에서 동시에 성립 가능한지 확인한다. eligibility의 각 gate를 차단되는 locked path와 1:1로 연결하고, 재검사에서 과거 값이 되살아나는 일회성 injector 대신 variant 자체에 실패 상태를 고정한다. 판정 규칙은 위에서 아래로 첫 일치 규칙을 적용하며 규정 threshold와 사용자의 실제 값을 별도 필드로 둔다. EXP expected table의 모든 literal label을 허용 registry에 열거하고, 누락 성분 처리 formula는 전 variant에서 하나만 쓴다. 두 사건의 strict-before는 두 사건이 모두 존재할 때만 평가하고 사건 부재는 `NOT-APPLICABLE`로 둔다. 정상·실패·복구 분기를 포함하고 민감 원문과 실제 사업자명 대신 합성 식별자와 기능적 권위 역할을 쓴다. 실제 시장·사업자·비용·시간을 만들지 않는다.
 
 ## 11. oracle reviewer
 

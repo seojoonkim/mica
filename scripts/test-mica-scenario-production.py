@@ -45,7 +45,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
             locked = run_cli("lock-method", str(batch))
             self.assertEqual(locked.returncode, 0, locked.stdout + locked.stderr)
             self.assertIn("batchId=test-standard-batch", locked.stdout)
-            self.assertIn("methodRevision=standard-v1.3.1", locked.stdout)
+            self.assertIn("methodRevision=standard-v1.3.2", locked.stdout)
 
             ready = run_cli("validate-ready", str(batch))
             self.assertEqual(ready.returncode, 0, ready.stdout + ready.stderr)
@@ -92,7 +92,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
             self.assertEqual(created.returncode, 0, created.stdout + created.stderr)
             manifest = json.loads((batch / "batch-manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest["schemaVersion"], "mica.scenario-production-batch/v5")
-            self.assertEqual(manifest["methodRevision"], "standard-v1.3.1")
+            self.assertEqual(manifest["methodRevision"], "standard-v1.3.2")
             self.assertTrue((batch / "agent-visible.jsonl").is_file())
             self.assertTrue((batch / "blind-agent-rehearsal.jsonl").is_file())
             manifest["roles"]["exposurePreparer"] = "exposure-preparer-001"
@@ -144,7 +144,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
                 "reachabilityBasis": "공개 요청과 허용 도구로 조회, 승인, 변경 또는 안전 인계 경로를 설명할 수 있음",
                 "verdict": "pass",
                 "notes": "공개 입력만으로 조회와 승인 경계를 이해할 수 있음",
-                "reviewedAt": "2026-08-12T10:00:00+09:00",
+                "reviewedAt": "2026-08-12T01:00:00Z",
             }
             (batch / "blind-agent-rehearsal.jsonl").write_text(
                 json.dumps(rehearsal, ensure_ascii=False, separators=(",", ":")) + "\n",

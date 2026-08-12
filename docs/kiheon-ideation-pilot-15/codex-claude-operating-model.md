@@ -2,7 +2,7 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.3.1`
+- current standard revision: `standard-v1.3.2`
 - current compressed revision: `lean-v1.2-b5`
 
 ## 1. 역할 선언
@@ -112,8 +112,16 @@ python3 scripts/mica-scenario-production.py validate-ready \
 
 ## 7. 현재 인수인계
 
-`std-b7`은 `standard-v1.3`으로 완료됐다. 후보 5건 중 3건은 측정 설계와 노출 검토를 통과했고, 2건은 blind rehearsal 의미가 단일 모델 실행 표본처럼 적용되는 교정 문제 때문에 보류됐다. 이 결과는 실제 실행 성능 실패가 아니다.
+`std-b9`은 `standard-v1.3.1`·`v5`로 완료됐다. source 5건 중 3건, observation 4건 중 3건이 수락됐고 후보 3건은 모두 `transformation`·`designable`로 종결됐다. 신기헌 아이데이션의 측정 설계 후보는 누적 50건이다. 이는 실제 에이전트 실행 50회나 성공률, 시장 성립, 공개 적격을 뜻하지 않는다.
 
-현재 생산 중인 `std-b8`은 이미 동결된 `standard-v1.3`·`v4` 계약을 그대로 마친다. 그 산출물이나 method lock을 중간에 바꾸지 않는다. `std-b8` 종료 뒤 여는 다음 빈 배치부터 `standard-v1.3.1`·`v5` 제어면 도구가 포함된 source commit을 동결하고, `new-batch → lock-method → validate-ready`를 통과하기 전까지 생산 역할을 시작하지 않는다. 완료·진행 중인 `v3`·`v4` 배치의 method lock은 그대로 보존한다.
+같은 시점에 Codex는 `std-b8`의 실행 파일럿에서 OS 경로 격리와 의미 기반 사후 판정을 확인했다. 저장소 전체 preflight와 `std-b9` 검증을 다시 수행하는 과정에서 RFC 3339 UTC `Z` 시각이 일부 Python 환경에서 거부되는 이식성 결함과 `sourceFrozenRowSha256`의 의미 모호성을 확인했고, 이를 `standard-v1.3.2`로 보정한다. 완료된 `std-b9` 산출물은 수정하지 않는다.
 
-이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.
+다음 협업 순서는 아래와 같다.
+
+1. Codex가 `standard-v1.3.2`를 커밋하고 전체 preflight·회귀를 통과시킨다.
+2. 다음 빈 표준 배치는 `std-b10`, 최대 3건으로 준비한다. source research는 상대적으로 적게 다룬 저위험 일상 유지 영역을 우선하되 기존 과제명·후보·카테고리 quota를 author 입력으로 전달하지 않는다.
+3. Claude Code는 동결된 `std-b10` method lock만 사용해 신규 생산을 맡고 방법 파일·실행 러너는 수정하지 않는다.
+4. Codex는 `std-b9` 결함 원장의 simulator 실행 전 정리 항목을 후보별로 닫고, 별도 실행 승격 대상으로 선정된 후보만 OS 격리 합성 실행에 올린다.
+5. 두 런타임은 같은 artifact path를 동시에 수정하지 않는다. Claude Code는 `work/mica-scenario-batches/std-b10/`, Codex는 방법 파일과 별도 execution pilot 경로만 소유한다.
+
+이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 서비스 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.
