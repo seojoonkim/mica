@@ -321,11 +321,166 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
             occupied += slot["status"] == "occupied"
             blocked += slot["status"] == "blocked"
     require(len(seen_slots) == 100, "portfolio-slot-count")
-    for name in ("catalog-annotations.jsonl", "catalog-annotation-reviews.jsonl", "portfolio-artifact-ledger.jsonl"):
-        parse_jsonl_with_hash(portfolio_root / name)
+    annotation_rows = parse_jsonl_with_hash(portfolio_root / "catalog-annotations.jsonl")
+    review_rows = parse_jsonl_with_hash(portfolio_root / "catalog-annotation-reviews.jsonl")
+    annotation_by_id: dict[str, tuple[dict[str, object], str]] = {}
+    for annotation, row_sha in annotation_rows:
+        candidate_id = annotation.get("candidateId")
+        require(tuple(annotation) == ANNOTATION_FIELDS, f"portfolio-annotation-shape:{candidate_id}")
+        require(annotation.get("origin") == "kiheon-ideation", f"portfolio-annotation-origin:{candidate_id}")
+        require(
+            annotation.get("schemaVersion") == "mica.catalog-annotation/v1",
+            f"portfolio-annotation-schema:{candidate_id}",
+        )
+        require(isinstance(candidate_id, str) and candidate_id, "portfolio-annotation-candidate")
+        require(candidate_id not in annotation_by_id, f"portfolio-annotation-duplicate:{candidate_id}")
+        category = annotation.get("categoryId")
+        require(category in CATEGORIES, f"portfolio-annotation-category:{candidate_id}")
+        require(
+            annotation.get("proposedSlotId")
+            in {f"{category}-{index:02d}" for index in range(1, 11)},
+            f"portfolio-annotation-slot:{candidate_id}",
+        )
+        require(annotation.get("terminationClass") in TERMINATION_CLASSES, f"portfolio-annotation-termination:{candidate_id}")
+        require(annotation.get("declaredComplexity") in COMPLEXITIES, f"portfolio-annotation-complexity:{candidate_id}")
+        require(annotation.get("targetSurface") in TARGET_SURFACES, f"portfolio-annotation-surface:{candidate_id}")
+        require(annotation.get("surfaceStatus") == "target-only", f"portfolio-annotation-surface-status:{candidate_id}")
+        timestamp(annotation.get("annotatedAt"), f"portfolio-annotation-time:{candidate_id}")
+        annotation_by_id[candidate_id] = (annotation, row_sha)
+    review_by_id: dict[str, tuple[dict[str, object], str]] = {}
+    for review, row_sha in review_rows:
+        candidate_id = review.get("candidateId")
+        require(tuple(review) == REVIEW_FIELDS, f"portfolio-review-shape:{candidate_id}")
+        require(review.get("origin") == "kiheon-ideation", f"portfolio-review-origin:{candidate_id}")
+        require(
+            review.get("schemaVersion") == "mica.catalog-annotation-review/v1",
+            f"portfolio-review-schema:{candidate_id}",
+        )
+        require(isinstance(candidate_id, str) and candidate_id in annotation_by_id, f"portfolio-review-candidate:{candidate_id}")
+        require(candidate_id not in review_by_id, f"portfolio-review-duplicate:{candidate_id}")
+        require(
+            review.get("annotationRowSha256") == annotation_by_id[candidate_id][1],
+            f"portfolio-review-annotation-sha:{candidate_id}",
+        )
+        require(review.get("verdict") == "accept", f"portfolio-review-not-accepted:{candidate_id}")
+        require(
+            all(
+                review.get(field) is True
+                for field in (
+                    "candidateBinding",
+                    "categorySlot",
+                    "terminationClass",
+                    "declaredComplexity",
+                    "targetSurfaceProvisional",
+                )
+            ),
+            f"portfolio-review-check:{candidate_id}",
+        )
+        require(
+            review.get("reviewerContextId") != annotation_by_id[candidate_id][0].get("annotatorContextId"),
+            f"portfolio-role-context-collision:{candidate_id}",
+        )
+        timestamp(review.get("reviewedAt"), f"portfolio-review-time:{candidate_id}")
+        review_by_id[candidate_id] = (review, row_sha)
+    require(set(annotation_by_id) == set(review_by_id), "portfolio-annotation-review-set")
+    require(seen_candidates == set(annotation_by_id), "portfolio-slot-annotation-set")
+    slot_by_candidate = {
+        slot["candidateId"]: slot
+        for category in categories
+        for slot in category["slots"]
+        if slot["status"] == "occupied"
+    }
+    for candidate_id, (annotation, annotation_sha) in annotation_by_id.items():
+        slot = slot_by_candidate[candidate_id]
+        require(slot["slotId"] == annotation["proposedSlotId"], f"portfolio-slot-id-binding:{candidate_id}")
+        require(slot["annotationRowSha256"] == annotation_sha, f"portfolio-slot-annotation-sha:{candidate_id}")
+        require(slot["reviewRowSha256"] == review_by_id[candidate_id][1], f"portfolio-slot-review-sha:{candidate_id}")
+        require(slot["sourceBatchId"] == annotation["batchId"], f"portfolio-slot-batch:{candidate_id}")
+    parse_jsonl_with_hash(portfolio_root / "portfolio-artifact-ledger.jsonl")
     receipts = portfolio_root / "receipts"
     require(receipts.is_dir(), "portfolio-receipts")
     return {"status": "pass", "occupied": occupied, "blocked": blocked, "empty": 100 - occupied - blocked}
+
+
+def portfolio_status(portfolio_root: Path) -> dict[str, object]:
+    state = validate_portfolio(portfolio_root)
+    ledger = load_json(portfolio_root.resolve() / "portfolio-100.json")
+    require(isinstance(ledger, dict), "portfolio-object")
+    categories = ledger.get("categories")
+    require(isinstance(categories, list), "portfolio-categories")
+    category_counts = []
+    for category in categories:
+        require(isinstance(category, dict), "portfolio-category-object")
+        slots = category.get("slots")
+        require(isinstance(slots, list), "portfolio-category-slots")
+        category_counts.append(
+            {
+                "categoryId": category.get("categoryId"),
+                "labelKo": CATEGORY_LABELS_KO[str(category.get("categoryId"))],
+                "occupied": sum(slot.get("status") == "occupied" for slot in slots if isinstance(slot, dict)),
+                "blocked": sum(slot.get("status") == "blocked" for slot in slots if isinstance(slot, dict)),
+                "target": 10,
+            }
+        )
+    annotated = len(parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl"))
+    return {
+        "status": "pass",
+        "portfolioId": ledger.get("portfolioId"),
+        "displayNameKo": ledger.get("displayNameKo"),
+        "relationToCanonical": ledger.get("relationToCanonical"),
+        "canonicalAdoptionStatus": ledger.get("canonicalAdoptionStatus"),
+        "targetSlots": 100,
+        "occupiedSlots": state["occupied"],
+        "blockedSlots": state["blocked"],
+        "emptySlots": state["empty"],
+        "annotationTargets": 56,
+        "annotatedCandidates": annotated,
+        "remainingAnnotationTargets": 56 - annotated,
+        "categories": category_counts,
+    }
+
+
+def export_public(portfolio_root: Path, output: Path) -> dict[str, object]:
+    status = portfolio_status(portfolio_root)
+    output = output.resolve()
+    try:
+        relative = output.relative_to(ROOT)
+    except ValueError:
+        relative = output
+    relative_text = str(relative)
+    require("public/data/demo" not in relative_text, "portfolio-export-canonical-namespace")
+    require(output.name != "project-state.json", "portfolio-export-canonical-name")
+    ledger_path = portfolio_root.resolve() / "portfolio-100.json"
+    ledger = load_json(ledger_path)
+    require(isinstance(ledger, dict), "portfolio-object")
+    categories = ledger.get("categories")
+    require(isinstance(categories, list), "portfolio-categories")
+    payload = {
+        "origin": "kiheon-ideation",
+        "schemaVersion": "mica.research-portfolio-public-export/v1",
+        "namespace": "kiheon-ideation-research-portfolio",
+        "portfolioId": ledger.get("portfolioId"),
+        "displayNameKo": ledger.get("displayNameKo"),
+        "displayNameEn": ledger.get("displayNameEn"),
+        "relationToCanonical": "parallel-research-portfolio",
+        "relationNoteKo": "공식 MICA canonical catalogue와 병존하는 비정본 연구 포트폴리오",
+        "canonicalAdoptionStatus": "not-adopted",
+        "taskSet": "public",
+        "holdoutIncluded": False,
+        "targetSlotCount": 100,
+        "occupiedSlotCount": status["occupiedSlots"],
+        "blockedSlotCount": status["blockedSlots"],
+        "categories": categories,
+        "sourcePortfolioLedgerSha256": sha_file(ledger_path),
+    }
+    write_json(output, payload)
+    return {
+        "status": "pass",
+        "output": display_path(output),
+        "occupied": status["occupiedSlots"],
+        "blocked": status["blockedSlots"],
+        "sha256": sha_file(output),
+    }
 
 
 def closed_batch_candidates() -> list[dict[str, object]]:
@@ -819,6 +974,9 @@ def main() -> int:
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("init")
     commands.add_parser("validate")
+    commands.add_parser("status")
+    export = commands.add_parser("export-public")
+    export.add_argument("--output", type=Path, required=True)
     prepare = commands.add_parser("prepare-job")
     prepare.add_argument("--job-id", required=True)
     prepare.add_argument("--limit", type=int, default=10)
@@ -834,6 +992,10 @@ def main() -> int:
             result = init_portfolio(args.portfolio_root)
         elif args.command == "validate":
             result = validate_portfolio(args.portfolio_root)
+        elif args.command == "status":
+            result = portfolio_status(args.portfolio_root)
+        elif args.command == "export-public":
+            result = export_public(args.portfolio_root, args.output)
         elif args.command == "prepare-job":
             result = prepare_job(args.job_id, args.limit, args.exchange_root, args.portfolio_root)
         elif args.command == "validate-job":

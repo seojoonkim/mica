@@ -112,6 +112,16 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual(applied["applied"], 2)
         state = portfolio.validate_portfolio(self.portfolio_root)
         self.assertEqual(state, {"status": "pass", "occupied": 2, "blocked": 0, "empty": 98})
+        status = portfolio.portfolio_status(self.portfolio_root)
+        self.assertEqual(status["occupiedSlots"], 2)
+        self.assertEqual(status["remainingAnnotationTargets"], 54)
+        output = self.root / "public-export" / "portfolio.json"
+        exported = portfolio.export_public(self.portfolio_root, output)
+        self.assertEqual(exported["occupied"], 2)
+        payload = json.loads(output.read_text())
+        self.assertEqual(payload["namespace"], "kiheon-ideation-research-portfolio")
+        self.assertEqual(payload["canonicalAdoptionStatus"], "not-adopted")
+        self.assertFalse(payload["holdoutIncluded"])
 
     def test_reapply_is_idempotent_without_mutating_ledgers(self) -> None:
         self.complete_job()
@@ -165,6 +175,13 @@ class PortfolioTest(unittest.TestCase):
         ledger["categories"][0]["slots"][0]["status"] = "blocked"
         write_json(path, ledger)
         with self.assertRaisesRegex(portfolio.PortfolioError, "blocked-slot-history"):
+            portfolio.validate_portfolio(self.portfolio_root)
+
+    def test_public_ledger_rejects_holdout_annotation(self) -> None:
+        row = self.annotation(self.packet[0], "email-calendar-01")
+        row["taskSet"] = "holdout"
+        portfolio.write_jsonl(self.portfolio_root / "catalog-annotations.jsonl", [row])
+        with self.assertRaisesRegex(portfolio.PortfolioError, "portfolio-annotation-shape"):
             portfolio.validate_portfolio(self.portfolio_root)
 
 
