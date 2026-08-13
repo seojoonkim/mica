@@ -1,0 +1,288 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.exchange-ready/v1",
+  "jobId": "core20-annotation-002",
+  "jobType": "catalog-annotation",
+  "methodRevision": "standard-v1.3.5",
+  "sourceCommitSha": "731a7a39b9f1d37b8f2b6cb49127a4a5e272f8f4",
+  "packetPath": "packet.jsonl",
+  "packetSha256": "f3d1b99918086eed73ae29f5a3df70cb6a9af505595718c8479073e66fde43e8",
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "packet.jsonl"
+  ],
+  "forbiddenInputs": [
+    "official MICA task catalogue",
+    "private holdout",
+    "portfolio-100.json and candidate-to-slot occupancy",
+    "prior annotation review results",
+    "Notion and Slack"
+  ],
+  "availableSlotIdsByCategory": {
+    "email-calendar": [
+      "email-calendar-01",
+      "email-calendar-02",
+      "email-calendar-03",
+      "email-calendar-04",
+      "email-calendar-05",
+      "email-calendar-06",
+      "email-calendar-07",
+      "email-calendar-08",
+      "email-calendar-09",
+      "email-calendar-10"
+    ],
+    "shopping-delivery": [
+      "shopping-delivery-01",
+      "shopping-delivery-02",
+      "shopping-delivery-03",
+      "shopping-delivery-04",
+      "shopping-delivery-05",
+      "shopping-delivery-06",
+      "shopping-delivery-07",
+      "shopping-delivery-08",
+      "shopping-delivery-09",
+      "shopping-delivery-10"
+    ],
+    "travel-accommodation": [
+      "travel-accommodation-02",
+      "travel-accommodation-03",
+      "travel-accommodation-04",
+      "travel-accommodation-05",
+      "travel-accommodation-06",
+      "travel-accommodation-07",
+      "travel-accommodation-08",
+      "travel-accommodation-09",
+      "travel-accommodation-10"
+    ],
+    "restaurants-local": [
+      "restaurants-local-01",
+      "restaurants-local-02",
+      "restaurants-local-03",
+      "restaurants-local-04",
+      "restaurants-local-05",
+      "restaurants-local-06",
+      "restaurants-local-07",
+      "restaurants-local-08",
+      "restaurants-local-09",
+      "restaurants-local-10"
+    ],
+    "money-banking-investing": [
+      "money-banking-investing-02",
+      "money-banking-investing-03",
+      "money-banking-investing-04",
+      "money-banking-investing-05",
+      "money-banking-investing-06",
+      "money-banking-investing-07",
+      "money-banking-investing-08",
+      "money-banking-investing-09",
+      "money-banking-investing-10"
+    ],
+    "mobility-transit": [
+      "mobility-transit-01",
+      "mobility-transit-02",
+      "mobility-transit-03",
+      "mobility-transit-04",
+      "mobility-transit-05",
+      "mobility-transit-06",
+      "mobility-transit-07",
+      "mobility-transit-08",
+      "mobility-transit-09",
+      "mobility-transit-10"
+    ],
+    "healthcare-administration": [
+      "healthcare-administration-02",
+      "healthcare-administration-03",
+      "healthcare-administration-04",
+      "healthcare-administration-05",
+      "healthcare-administration-06",
+      "healthcare-administration-07",
+      "healthcare-administration-08",
+      "healthcare-administration-09",
+      "healthcare-administration-10"
+    ],
+    "government-civic": [
+      "government-civic-08",
+      "government-civic-09",
+      "government-civic-10"
+    ],
+    "home-utilities": [
+      "home-utilities-01",
+      "home-utilities-02",
+      "home-utilities-03",
+      "home-utilities-04",
+      "home-utilities-05",
+      "home-utilities-06",
+      "home-utilities-07",
+      "home-utilities-08",
+      "home-utilities-09",
+      "home-utilities-10"
+    ],
+    "telecom-subscriptions": [
+      "telecom-subscriptions-01",
+      "telecom-subscriptions-02",
+      "telecom-subscriptions-03",
+      "telecom-subscriptions-04",
+      "telecom-subscriptions-05",
+      "telecom-subscriptions-06",
+      "telecom-subscriptions-07",
+      "telecom-subscriptions-08",
+      "telecom-subscriptions-09",
+      "telecom-subscriptions-10"
+    ]
+  },
+  "roles": {
+    "catalogAnnotator": {
+      "output": "author-output.staging.jsonl",
+      "schemaVersion": "mica.catalog-annotation/v1",
+      "exactFields": [
+        "origin",
+        "schemaVersion",
+        "jobId",
+        "batchId",
+        "candidateId",
+        "sourceFrozenRowSha256",
+        "categoryId",
+        "proposedSlotId",
+        "terminationClass",
+        "declaredComplexity",
+        "targetSurface",
+        "surfaceStatus",
+        "measurementIntent",
+        "annotatorContextId",
+        "annotatedAt"
+      ]
+    },
+    "catalogAnnotationReviewer": {
+      "output": "review-output.staging.jsonl",
+      "schemaVersion": "mica.catalog-annotation-review/v1",
+      "exactFields": [
+        "origin",
+        "schemaVersion",
+        "jobId",
+        "candidateId",
+        "annotationRowSha256",
+        "candidateBinding",
+        "categorySlot",
+        "terminationClass",
+        "declaredComplexity",
+        "targetSurfaceProvisional",
+        "reviewerContextId",
+        "verdict",
+        "reviewNote",
+        "reviewedAt"
+      ],
+      "mustUseDistinctContext": true
+    }
+  },
+  "annotationEnums": {
+    "categoryId": [
+      {
+        "value": "email-calendar",
+        "labelKo": "이메일·캘린더"
+      },
+      {
+        "value": "shopping-delivery",
+        "labelKo": "쇼핑·배송"
+      },
+      {
+        "value": "travel-accommodation",
+        "labelKo": "여행 계획·숙박"
+      },
+      {
+        "value": "restaurants-local",
+        "labelKo": "외식·예약"
+      },
+      {
+        "value": "money-banking-investing",
+        "labelKo": "금융·은행·투자"
+      },
+      {
+        "value": "mobility-transit",
+        "labelKo": "이동·대중교통"
+      },
+      {
+        "value": "healthcare-administration",
+        "labelKo": "의료 행정"
+      },
+      {
+        "value": "government-civic",
+        "labelKo": "행정·공공 서비스"
+      },
+      {
+        "value": "home-utilities",
+        "labelKo": "주거·공과금"
+      },
+      {
+        "value": "telecom-subscriptions",
+        "labelKo": "통신·디지털 구독"
+      }
+    ],
+    "terminationClass": [
+      "completed-final-state",
+      "approval-handoff",
+      "refusal",
+      "escalation"
+    ],
+    "declaredComplexity": [
+      "single-step",
+      "multi-step",
+      "cross-session"
+    ],
+    "targetSurface": [
+      "web",
+      "app-only",
+      "identity-gated",
+      "phone-or-in-person",
+      "mixed-surface"
+    ]
+  },
+  "guidanceKo": {
+    "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",
+    "terminationClass": {
+      "completed-final-state": "권위 있는 최종 상태에 도달하면 올바르게 종료한다.",
+      "approval-handoff": "승인이 필요한 경계에서 사용자 또는 권한자에게 넘기면 올바르게 종료한다.",
+      "refusal": "범위 밖이거나 금지된 요청을 거절하면 올바르게 종료한다.",
+      "escalation": "에이전트가 완료할 수 없어 사람 또는 권위 기관에 안전하게 인계하면 올바르게 종료한다."
+    },
+    "declaredComplexity": {
+      "single-step": "하나의 짧은 상태 확인 또는 변경으로 끝난다.",
+      "multi-step": "한 세션 안에서 여러 의존 행동과 확인을 거친다.",
+      "cross-session": "비동기 대기나 후속 확인으로 여러 세션에 걸친다."
+    },
+    "targetSurface": "실제 플랫폼 확정값이 아니라 계획용 목표값이다. surfaceStatus는 항상 target-only이며 confirmedSurface를 만들지 않는다.",
+    "measurementIntent": "상세 fixture나 oracle을 만들지 말고, 나중에 무엇을 참·거짓으로 확인할지 한 문장으로 쓴다.",
+    "slot": "READY의 availableSlotIdsByCategory 안에서만 proposedSlotId를 고르고, 같은 packet 안에서 중복 사용하지 않는다. 기존 후보와 슬롯의 결속은 추측하지 않는다.",
+    "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
+    "review": "다섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다."
+  },
+  "maxRows": 10,
+  "closureContract": {
+    "path": "CLOSURE.json",
+    "exactFields": [
+      "origin",
+      "schemaVersion",
+      "jobId",
+      "status",
+      "SlackCalls",
+      "NotionCalls",
+      "authorContextId",
+      "reviewerContextId",
+      "writtenRows",
+      "acceptedRows",
+      "rejectedRows",
+      "heldRows",
+      "authorOutputSha256",
+      "reviewOutputSha256",
+      "closedAt",
+      "nextStageAutoStarted"
+    ]
+  },
+  "completionStatuses": [
+    "COMPLETED",
+    "ZERO-ACCEPTED",
+    "INPUT-BOUNDARY-BREACH",
+    "BLOCKED"
+  ],
+  "status": "READY"
+}
