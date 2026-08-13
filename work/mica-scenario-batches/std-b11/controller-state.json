@@ -1,0 +1,41 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-controller-state/v1",
+  "batchId": "std-b11",
+  "methodRevision": "standard-v1.3.3",
+  "generation": 1,
+  "status": "parked",
+  "controllerContextId": "codex-std-b11-preparer",
+  "sessionId": "codex-thread-019fdf7b",
+  "acquiredAt": "2026-08-13T04:25:23Z",
+  "renewedAt": "2026-08-13T04:25:45Z",
+  "leaseExpiresAt": "2026-08-13T04:25:45Z",
+  "authorizationRef": "initial-validated-start",
+  "controllerHistory": [],
+  "roleClaims": {
+    "controller": {
+      "contextId": "codex-std-b11-preparer",
+      "claimedAt": "2026-08-13T04:25:23Z"
+    }
+  },
+  "roleCompletions": {},
+  "checkpoint": {
+    "HANDOFF.md": "aca9e8db6ec48df00549bd262f82c2180e0d60a0ebbc9698204fe028967bc610",
+    "agent-visible.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch-manifest.json": "5ba321d74d2e9e8a7b8cb09527335892196c8046b0db31c205dd5905f553e702",
+    "blind-agent-rehearsal.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "closure.json": "f1f6ba71906888704b35826db227a2d0bc840a215b0c78d091ec2822307a65df",
+    "comparison.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "defect-ledger.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-candidates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-observations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "measurement-contracts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "need-observations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observation-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-evidence.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "task-candidates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "parkReason": "Claude Code production handoff with self-contained instructions"
+}
