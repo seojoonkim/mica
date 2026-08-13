@@ -1,7 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
-- method revision: `standard-v1.3.3` (`standard-v1.3.2` + std-b10 컨트롤러 lease·재개·역할 선점·OS 시각 기록 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
+- method revision: `standard-v1.3.4` (`standard-v1.3.3` + std-b11 출처 한계·의미 판정·세션 권한·재개 기록 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -159,6 +159,16 @@ measurement review 뒤 `blind-agent rehearsal`을 수행한다. 별도 컨텍스
 4. 역할 종료와 원장 기록은 `complete-role`을 사용한다. `executedAt`과 원장 `at`은 산출물 파일 mtime에서, `observedAt`은 도구가 읽은 OS 시각에서 파생한다. 모델이 체감 시간이나 예상 시간을 입력하지 않는다.
 5. 거절 원문은 현재 배치에서 재작성하지 않는다. 수락 수가 상한보다 적어도 그대로 진행하거나 0건으로 닫고, 같은 필요를 다시 조사하려면 다음 배치에서 새 evidence와 새 ID로 시작한다. 이로써 원문 불변성과 `maxDrafts` 상한을 동시에 지킨다.
 6. 완료된 `std-b10`의 과거 시각·파킹 기록은 감사 증거로 보존한다. 새 controller state를 소급 생성하지 않고 새 규칙은 `standard-v1.3.3` method lock부터 강제한다.
+
+### standard-v1.3.4 판정·채택·재개 보정
+
+1. source review는 `publisher`, `scope`, `verbatim`, `directSupport`, `typeAccuracy`, `recency`, `limitationsHonesty`의 정확히 7개 기준을 사용한다. 하나라도 fail이면 verdict는 reject여야 하며, accept로 기록하면 검증기가 거부한다.
+2. observation review의 5개 기준도 전부 pass일 때만 accept다. frozen observation은 accepted 집합과 정확히 같고 원문 행 SHA-256이 일치해야 한다.
+3. controller는 `role-briefing`이 manifest의 `roleInputAllowlist`와 `roleOutputContract`에서 생성한 역할별 브리핑만 전달한다. 수동 전달문이 입력을 추가할 수 없다.
+4. `assign-role`은 controller 세대·역할·context·시각에 결속된 write authorization token을 발급한다. 토큰은 파일 쓰기를 물리적으로 차단하는 비밀 키가 아니라, `complete-role`이 그 산출물을 공식 원장에 채택할지 판단하는 채택 게이트다.
+5. 기본 lease는 180분이다. 미완료 역할이 있는 배치를 park하려면 해당 역할을 `--abandon-role`로 전부 명시해 claim과 manifest 할당을 해제하고 감사 기록을 남긴다.
+6. controller가 직접 쓰는 `defect-ledger.jsonl`은 `record-artifact`로 원장에 등록한다. `closure.json`은 기존 종료 예외와 `close` 경로를 유지해 이 명령과 중복시키지 않는다.
+7. 완료·진행 중인 이전 revision과 `std-b11` 원문 판정을 소급 수정하지 않는다. 같은 evidence의 새 판정이 필요하면 다음 배치의 새 독립 reviewer가 새 review 행을 만든다.
 
 ### standard-v1.3 확정 사항 (2026-08-11 기헌 채택)
 

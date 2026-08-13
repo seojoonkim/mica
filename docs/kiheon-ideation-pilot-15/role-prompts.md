@@ -1,6 +1,6 @@
 # 역할별 전달 프롬프트
 
-각 블록은 서로 다른 에이전트 컨텍스트에 단독 전달한다. `<...>` 값과 허용 파일 목록은 controller가 채운다. 다른 역할의 대화나 결론을 함께 전달하지 않는다. 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다(Lean v1). controller는 역할 시작 전에 `mica-batch-control.py assign-role`로 실제 context ID를 선점한다. producer가 입력 파일의 SHA-256을 확정한 뒤 reviewer에게 전달하며, reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256인지 확인한다. 값이 바뀌면 출력하지 않고 controller에 stale input을 보고한다. 역할 종료 시 controller는 `complete-role`로 파일 mtime 기반 시각과 SHA를 기록하며 모델이 시각을 추정하지 않는다.
+각 블록은 서로 다른 에이전트 컨텍스트에 단독 전달한다. `<...>` 값은 controller가 채우되, 허용 입력과 출력은 `role-briefing` JSON을 그대로 사용하고 임의로 늘리지 않는다. 다른 역할의 대화나 결론을 함께 전달하지 않는다. 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다(Lean v1). controller는 역할 시작 전에 `mica-batch-control.py assign-role`로 실제 context ID와 채택 토큰을 선점한다. producer가 입력 파일의 SHA-256을 확정한 뒤 reviewer에게 전달하며, reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256인지 확인한다. 값이 바뀌면 출력하지 않고 controller에 stale input을 보고한다. 역할 종료 시 controller는 같은 토큰을 `complete-role`에 제출해 파일 mtime 기반 시각과 SHA를 기록하며 모델이 시각을 추정하지 않는다.
 
 ## 1. source researcher
 
@@ -8,7 +8,7 @@
 
 ## 2. source reviewer
 
-> source researcher와 다른 독립 검토자다. 제공된 원문 위치에서 발행 주체, 관찰 범위, 인구·시장 범위, 한계를 확인한다. 각 행을 accept/reject하고 이유를 남긴다. 자료가 생활 필요를 직접 지지하지 않거나 2차 요약만 있거나 범위를 넘는 주장이 있으면 reject한다. 원문 행을 고치지 않는다.
+> source researcher와 다른 독립 검토자다. 제공된 원문 위치에서 `publisher`, `scope`, `verbatim`, `directSupport`, `typeAccuracy`, `recency`, `limitationsHonesty`의 정확히 7개 기준을 모두 pass/fail로 확인한다. 전부 pass일 때만 accept이며 하나라도 fail이면 reject다. 자료가 생활 필요를 직접 지지하지 않거나 2차 요약만 있거나 범위를 넘는 주장 또는 한계를 약화한 표현이 있으면 reject한다. 원문 행이나 기존 review를 고치지 않는다.
 
 ## 3. need writer
 

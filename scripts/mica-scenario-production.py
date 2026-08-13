@@ -47,6 +47,68 @@ EXPOSURE_ARTIFACTS = (
     "agent-visible.jsonl",
     "blind-agent-rehearsal.jsonl",
 )
+ROLE_OUTPUT_CONTRACTS: dict[str, dict[str, object]] = {
+    "sourceResearcher": {
+        "artifacts": ["source-evidence.jsonl"],
+        "schemaContract": "agent-production-contract.md#source-evidence",
+    },
+    "sourceReviewer": {
+        "artifacts": ["source-reviews.jsonl"],
+        "schemaContract": "mica.source-review/v1 with seven exact checks",
+    },
+    "needWriter": {
+        "artifacts": ["need-observations.jsonl"],
+        "schemaContract": "agent-production-contract.md#need-observation",
+    },
+    "observationReviewer": {
+        "artifacts": ["observation-reviews.jsonl"],
+        "schemaContract": "mica.observation-review/v1 with five exact checks",
+    },
+    "observationCustodian": {
+        "artifacts": ["frozen-observations.jsonl"],
+        "schemaContract": "accepted observations only with raw-row SHA-256",
+    },
+    "translator": {
+        "artifacts": ["task-candidates.jsonl"],
+        "schemaContract": "agent-production-contract.md#task-candidate",
+    },
+    "candidateReviewer": {
+        "artifacts": ["candidate-reviews.jsonl"],
+        "schemaContract": "agent-production-contract.md#candidate-review",
+    },
+    "candidateCustodian": {
+        "artifacts": ["frozen-candidates.jsonl"],
+        "schemaContract": "accepted candidates only with raw-row SHA-256",
+    },
+    "comparator": {
+        "artifacts": ["comparison.jsonl"],
+        "schemaContract": "agent-production-contract.md#comparison",
+    },
+    "measurementAssetAuthor": {
+        "artifacts": ["measurement-assets.staging.jsonl"],
+        "schemaContract": "fixture, deterministic reset, fail-closed eligibility",
+    },
+    "oracleReviewer": {
+        "artifacts": ["oracle-reviews.staging.jsonl"],
+        "schemaContract": "binary oracle and measurement asset bindings",
+    },
+    "exposurePreparer": {
+        "artifacts": ["agent-visible.jsonl"],
+        "schemaContract": "mica.agent-visible/v1 exact public fields",
+    },
+    "blindAgentRehearsal": {
+        "artifacts": ["blind-agent-rehearsal.jsonl"],
+        "schemaContract": "instruction-sufficiency without hidden inputs",
+    },
+    "measurementReviewer": {
+        "artifacts": ["measurement-contracts.jsonl"],
+        "schemaContract": "designable only after exposure review",
+    },
+    "controller": {
+        "artifacts": ["defect-ledger.jsonl", "closure.json"],
+        "schemaContract": "controller record-artifact and terminal closure",
+    },
+}
 V4_SCHEMA = "mica.scenario-production-batch/v4"
 V5_SCHEMA = "mica.scenario-production-batch/v5"
 AGENT_VISIBLE_FIELDS = {
@@ -128,7 +190,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.3.3",
+        "methodRevision": "standard-v1.3.4",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
@@ -375,6 +437,7 @@ def batch_manifest(batch_id: str, count: int, profile: str) -> dict[str, object]
             ],
             "controller": ["all batch artifacts read-only", "defect-ledger.jsonl", "closure.json"],
         },
+        "roleOutputContract": ROLE_OUTPUT_CONTRACTS,
         "roles": {
             "sourceResearcher": None,
             "sourceReviewer": None,
@@ -449,6 +512,44 @@ def empty_batch_rows(target: Path, manifest: dict[str, object]) -> dict[str, int
         require(path.is_file(), f"missing:{name}")
         row_counts[name] = len(parse_jsonl(path))
     return row_counts
+
+
+def role_briefing(target: Path, role: str) -> dict[str, object]:
+    manifest = load_json(target.resolve() / "batch-manifest.json")
+    require(isinstance(manifest, dict), "batch-manifest-not-object")
+    require(
+        manifest.get("methodRevision") == "standard-v1.3.4",
+        "role-briefing-requires-standard-v1.3.4",
+    )
+    allowlist = manifest.get("roleInputAllowlist")
+    output_contract = manifest.get("roleOutputContract")
+    require(isinstance(allowlist, dict), "role-briefing-input-allowlist")
+    require(isinstance(output_contract, dict), "role-briefing-output-contract")
+    require(role in allowlist and role in output_contract, f"role-briefing-role:{role}")
+    briefing_contract = {
+        "allowedInputs": allowlist[role],
+        "outputContract": output_contract[role],
+    }
+    briefing_hash = hashlib.sha256(
+        json.dumps(
+            briefing_contract,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    return {
+        "status": "pass",
+        "origin": "kiheon-ideation",
+        "batchId": manifest.get("batchId"),
+        "methodRevision": manifest.get("methodRevision"),
+        "role": role,
+        "allowedInputs": allowlist[role],
+        "forbiddenInputs": manifest.get("forbiddenAuthorInputs"),
+        "outputContract": output_contract[role],
+        "briefingContractSha256": briefing_hash,
+        "instruction": "Read only allowedInputs and write only outputContract artifacts.",
+    }
 
 
 def validate_method_lock(manifest: dict[str, object], require_current_files: bool) -> dict[str, object]:
@@ -574,6 +675,143 @@ def parse_jsonl_with_hash(path: Path) -> list[tuple[dict[str, object], str]]:
         require(value.get("origin") == "kiheon-ideation", f"wrong-origin:{path.name}:{line_no}")
         rows.append((value, hashlib.sha256(raw.encode("utf-8")).hexdigest()))
     return rows
+
+
+SOURCE_REVIEW_KEYS = {
+    "origin",
+    "schemaVersion",
+    "batchId",
+    "reviewId",
+    "evidenceId",
+    "verdict",
+    "checks",
+    "reasons",
+    "nonBlockingNotes",
+    "reviewerContextId",
+}
+SOURCE_REVIEW_CHECK_KEYS = {
+    "publisher",
+    "scope",
+    "verbatim",
+    "directSupport",
+    "typeAccuracy",
+    "recency",
+    "limitationsHonesty",
+}
+OBSERVATION_REVIEW_KEYS = {
+    "origin",
+    "schemaVersion",
+    "batchId",
+    "reviewId",
+    "observationId",
+    "verdict",
+    "checks",
+    "reasons",
+    "nonBlockingNotes",
+    "reviewerContextId",
+}
+OBSERVATION_REVIEW_CHECK_KEYS = {
+    "evidenceAlignment",
+    "needBoundary",
+    "nonPrescription",
+    "noInventedFacts",
+    "stateChangeClarity",
+}
+
+
+def _review_verdict(
+    row: dict[str, object], expected_checks: set[str], detail: str
+) -> str:
+    checks = row.get("checks")
+    require(isinstance(checks, dict), f"{detail}-checks")
+    require(set(checks) == expected_checks, f"{detail}-check-keys")
+    require(
+        all(value in {"pass", "fail"} for value in checks.values()),
+        f"{detail}-check-values",
+    )
+    verdict = row.get("verdict")
+    require(verdict in {"accept", "reject"}, f"{detail}-verdict")
+    expected_verdict = (
+        "accept" if all(value == "pass" for value in checks.values()) else "reject"
+    )
+    require(verdict == expected_verdict, f"{detail}-verdict-mismatch")
+    return str(verdict)
+
+
+def _unique_rows(
+    rows: list[dict[str, object]], key: str, detail: str
+) -> dict[str, dict[str, object]]:
+    result: dict[str, dict[str, object]] = {}
+    for row in rows:
+        value = row.get(key)
+        require(isinstance(value, str) and value.strip(), f"{detail}-id")
+        require(value not in result, f"{detail}-duplicate:{value}")
+        result[value] = row
+    return result
+
+
+def validate_v134_meaning_gates(target: Path, manifest: dict[str, object]) -> None:
+    batch_id = manifest.get("batchId")
+    source_rows = parse_jsonl(target / "source-evidence.jsonl")
+    source_by_id = _unique_rows(source_rows, "evidenceId", "source-evidence")
+    source_reviews = parse_jsonl(target / "source-reviews.jsonl")
+    source_review_by_id = _unique_rows(source_reviews, "evidenceId", "source-review")
+    accepted_sources: set[str] = set()
+    for evidence_id, row in source_review_by_id.items():
+        require(set(row) == SOURCE_REVIEW_KEYS, f"source-review-keys:{evidence_id}")
+        require(row.get("schemaVersion") == "mica.source-review/v1", f"source-review-schema:{evidence_id}")
+        require(row.get("batchId") == batch_id, f"source-review-batch:{evidence_id}")
+        require(evidence_id in source_by_id, f"source-review-unknown-evidence:{evidence_id}")
+        if _review_verdict(row, SOURCE_REVIEW_CHECK_KEYS, f"source-review:{evidence_id}") == "accept":
+            accepted_sources.add(evidence_id)
+
+    observation_rows_with_hash = parse_jsonl_with_hash(target / "need-observations.jsonl")
+    observation_rows = [row for row, _ in observation_rows_with_hash]
+    observation_by_id = _unique_rows(observation_rows, "observationId", "observation")
+    observation_hashes = {
+        str(row["observationId"]): row_hash for row, row_hash in observation_rows_with_hash
+    }
+    if observation_rows:
+        require(set(source_review_by_id) == set(source_by_id), "source-review-incomplete")
+        for observation_id, row in observation_by_id.items():
+            source_refs = row.get("sourceRefs")
+            require(isinstance(source_refs, list) and source_refs, f"observation-source-refs:{observation_id}")
+            require(
+                all(isinstance(value, str) and value in accepted_sources for value in source_refs),
+                f"observation-rejected-source:{observation_id}",
+            )
+
+    observation_reviews = parse_jsonl(target / "observation-reviews.jsonl")
+    observation_review_by_id = _unique_rows(
+        observation_reviews, "observationId", "observation-review"
+    )
+    accepted_observations: set[str] = set()
+    for observation_id, row in observation_review_by_id.items():
+        require(set(row) == OBSERVATION_REVIEW_KEYS, f"observation-review-keys:{observation_id}")
+        require(
+            row.get("schemaVersion") == "mica.observation-review/v1",
+            f"observation-review-schema:{observation_id}",
+        )
+        require(row.get("batchId") == batch_id, f"observation-review-batch:{observation_id}")
+        require(observation_id in observation_by_id, f"observation-review-unknown:{observation_id}")
+        if _review_verdict(
+            row, OBSERVATION_REVIEW_CHECK_KEYS, f"observation-review:{observation_id}"
+        ) == "accept":
+            accepted_observations.add(observation_id)
+
+    frozen_rows = parse_jsonl(target / "frozen-observations.jsonl")
+    frozen_by_id = _unique_rows(frozen_rows, "observationId", "frozen-observation")
+    if frozen_rows:
+        require(
+            set(observation_review_by_id) == set(observation_by_id),
+            "observation-review-incomplete",
+        )
+        require(set(frozen_by_id) == accepted_observations, "frozen-observation-accepted-only")
+        for observation_id, row in frozen_by_id.items():
+            require(
+                row.get("frozenRowSha256") == observation_hashes[observation_id],
+                f"frozen-observation-sha:{observation_id}",
+            )
 
 
 def require_string_list(value: object, detail: str, allow_empty: bool = False) -> None:
@@ -779,6 +1017,13 @@ def validate_batch(target: Path) -> dict[str, object]:
         require(isinstance(allowlist, dict), "v4-role-allowlist-not-object")
         require(set(allowlist) == set(expected_manifest["roleInputAllowlist"]), "v4-role-allowlist-shape")
         require(allowlist.get("blindAgentRehearsal") == ["agent-visible.jsonl"], "v4-blind-input-boundary")
+        if manifest.get("methodRevision") == "standard-v1.3.4":
+            output_contract = manifest.get("roleOutputContract")
+            require(isinstance(output_contract, dict), "v5-role-output-contract")
+            require(
+                output_contract == expected_manifest["roleOutputContract"],
+                "v5-role-output-contract-shape",
+            )
     if schema_version in {"mica.scenario-production-batch/v3", V4_SCHEMA, V5_SCHEMA}:
         require(manifest.get("status") != "prepared-unlocked" or manifest.get("methodLock") is None, "unlocked-batch-has-lock")
         if manifest.get("status") != "prepared-unlocked":
@@ -788,6 +1033,12 @@ def validate_batch(target: Path) -> dict[str, object]:
         "completed",
     }:
         validate_controller_state(target, manifest)
+    if manifest.get("methodRevision") == "standard-v1.3.4" and manifest.get("status") in {
+        "in-progress",
+        "completed",
+    }:
+        validate_controller_state(target, manifest)
+        validate_v134_meaning_gates(target, manifest)
     row_counts = empty_batch_rows(target, manifest)
     for name in ("need-observations.jsonl", "task-candidates.jsonl", "frozen-candidates.jsonl"):
         require(row_counts[name] <= count, f"row-count-over-max:{name}")
@@ -872,6 +1123,9 @@ def main() -> int:
     ready.add_argument("path", type=Path)
     exposure = subparsers.add_parser("validate-exposure")
     exposure.add_argument("path", type=Path)
+    briefing = subparsers.add_parser("role-briefing")
+    briefing.add_argument("path", type=Path)
+    briefing.add_argument("--role", required=True)
     args = parser.parse_args()
     try:
         if args.command == "preflight":
@@ -886,6 +1140,8 @@ def main() -> int:
             result = lock_method(args.path)
         elif args.command == "validate-exposure":
             result = validate_exposure(args.path)
+        elif args.command == "role-briefing":
+            result = role_briefing(args.path, args.role)
         else:
             result = validate_ready(args.path)
     except CheckError as exc:

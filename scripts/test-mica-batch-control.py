@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import tempfile
 import unittest
@@ -52,6 +53,18 @@ def create_locked_batch(parent: str, batch_id: str) -> Path:
     return batch
 
 
+def authorization_token(output: str) -> str:
+    if output.lstrip().startswith("{"):
+        payload = json.loads(output)
+        token = payload.get("writeAuthorizationToken")
+        if isinstance(token, str) and re.fullmatch(r"[0-9a-f]{64}", token):
+            return token
+    match = re.search(r"writeAuthorizationToken=([0-9a-f]{64})", output)
+    if match is None:
+        raise AssertionError(output)
+    return match.group(1)
+
+
 class BatchControlCliTest(unittest.TestCase):
     def test_claim_role_record_park_and_resume(self) -> None:
         with tempfile.TemporaryDirectory(
@@ -89,6 +102,7 @@ class BatchControlCliTest(unittest.TestCase):
 
             assigned = run(
                 CONTROL,
+                "--json",
                 "assign-role",
                 str(batch),
                 *OWNER,
@@ -98,6 +112,7 @@ class BatchControlCliTest(unittest.TestCase):
                 "source-researcher-001",
             )
             self.assertEqual(assigned.returncode, 0, assigned.stdout + assigned.stderr)
+            token = authorization_token(assigned.stdout)
             duplicate_role = run(
                 CONTROL,
                 "assign-role",
@@ -132,6 +147,8 @@ class BatchControlCliTest(unittest.TestCase):
                 "local-read-write",
                 "--artifact",
                 "source-evidence.jsonl",
+                "--write-authorization-token",
+                token,
             )
             self.assertEqual(
                 completed.returncode, 0, completed.stdout + completed.stderr
@@ -144,6 +161,21 @@ class BatchControlCliTest(unittest.TestCase):
                 ledger["timeSource"], "filesystem-mtime-observed-by-controller-tool"
             )
             self.assertEqual(manifest["modelRecord"][0]["executedAt"], ledger["at"])
+
+            defect_ledger = batch / "defect-ledger.jsonl"
+            defect_ledger.write_text(
+                '{"origin":"kiheon-ideation","defectId":"df-001"}\n',
+                encoding="utf-8",
+            )
+            recorded = run(
+                CONTROL,
+                "record-artifact",
+                str(batch),
+                *OWNER,
+                "--artifact",
+                "defect-ledger.jsonl",
+            )
+            self.assertEqual(recorded.returncode, 0, recorded.stdout + recorded.stderr)
 
             parked = run(
                 CONTROL,
@@ -233,6 +265,153 @@ class BatchControlCliTest(unittest.TestCase):
             self.assertEqual(rejected.returncode, 1)
             self.assertIn(
                 "resume-artifact-unrecorded:source-evidence.jsonl", rejected.stdout
+            )
+
+    def test_token_adoption_and_explicit_role_abandonment(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="mica-controller-token-") as temp_dir:
+            batch = create_locked_batch(temp_dir, "test-token-batch")
+            self.assertEqual(run(CONTROL, "claim", str(batch), *OWNER).returncode, 0)
+            assigned = run(
+                CONTROL,
+                "assign-role",
+                str(batch),
+                *OWNER,
+                "--role",
+                "sourceResearcher",
+                "--role-context-id",
+                "source-researcher-token",
+            )
+            self.assertEqual(assigned.returncode, 0, assigned.stdout + assigned.stderr)
+            token = authorization_token(assigned.stdout)
+            (batch / "source-evidence.jsonl").write_text(
+                '{"origin":"kiheon-ideation"}\n', encoding="utf-8"
+            )
+            rejected = run(
+                CONTROL,
+                "complete-role",
+                str(batch),
+                *OWNER,
+                "--role",
+                "sourceResearcher",
+                "--role-context-id",
+                "source-researcher-token",
+                "--model",
+                "test-model",
+                "--effort-class",
+                "high",
+                "--tools-summary",
+                "local-files",
+                "--artifact",
+                "source-evidence.jsonl",
+                "--write-authorization-token",
+                "0" * 64,
+            )
+            self.assertEqual(rejected.returncode, 1)
+            self.assertIn("role-authorization-token:sourceResearcher", rejected.stdout)
+
+            blocked_park = run(
+                CONTROL, "park", str(batch), *OWNER, "--reason", "handoff"
+            )
+            self.assertEqual(blocked_park.returncode, 1)
+            self.assertIn(
+                "park-incomplete-role-claims:sourceResearcher", blocked_park.stdout
+            )
+            parked = run(
+                CONTROL,
+                "park",
+                str(batch),
+                *OWNER,
+                "--reason",
+                "handoff",
+                "--abandon-role",
+                "sourceResearcher",
+            )
+            self.assertEqual(parked.returncode, 0, parked.stdout + parked.stderr)
+            state = json.loads(
+                (batch / "controller-state.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                state["abandonedRoleClaims"][0]["contextId"],
+                "source-researcher-token",
+            )
+            self.assertEqual(len(token), 64)
+            resumed = run(
+                CONTROL,
+                "resume",
+                str(batch),
+                *OWNER,
+                "--authorization-ref",
+                "user-message:same-session-resume",
+            )
+            self.assertEqual(resumed.returncode, 0, resumed.stdout + resumed.stderr)
+            resumed_state = json.loads(
+                (batch / "controller-state.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(resumed_state["generation"], 2)
+
+    def test_expired_resume_binds_controller_recorded_defect_ledger(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="mica-controller-ledger-") as temp_dir:
+            batch = create_locked_batch(temp_dir, "test-ledger-batch")
+            self.assertEqual(run(CONTROL, "claim", str(batch), *OWNER).returncode, 0)
+            ledger_path = batch / "defect-ledger.jsonl"
+            ledger_path.write_text(
+                '{"origin":"kiheon-ideation","defectId":"df-test-001"}\n',
+                encoding="utf-8",
+            )
+            recorded = run(
+                CONTROL,
+                "record-artifact",
+                str(batch),
+                *OWNER,
+                "--artifact",
+                "defect-ledger.jsonl",
+            )
+            self.assertEqual(recorded.returncode, 0, recorded.stdout + recorded.stderr)
+            state_path = batch / "controller-state.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["leaseExpiresAt"] = "2000-01-01T00:00:00Z"
+            state_path.write_text(
+                json.dumps(state, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            resumed = run(
+                CONTROL,
+                "resume",
+                str(batch),
+                "--controller-context-id",
+                "controller-002",
+                "--session-id",
+                "session-002",
+                "--authorization-ref",
+                "operator-approval:recorded-ledger",
+            )
+            self.assertEqual(resumed.returncode, 0, resumed.stdout + resumed.stderr)
+
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["leaseExpiresAt"] = "2000-01-01T00:00:00Z"
+            state_path.write_text(
+                json.dumps(state, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            ledger_path.write_text(
+                ledger_path.read_text(encoding="utf-8")
+                + '{"origin":"kiheon-ideation","defectId":"df-test-002"}\n',
+                encoding="utf-8",
+            )
+            tampered = run(
+                CONTROL,
+                "resume",
+                str(batch),
+                "--controller-context-id",
+                "controller-003",
+                "--session-id",
+                "session-003",
+                "--authorization-ref",
+                "operator-approval:tampered-ledger",
+            )
+            self.assertEqual(tampered.returncode, 1)
+            self.assertIn(
+                "resume-artifact-unrecorded:defect-ledger.jsonl", tampered.stdout
             )
 
 

@@ -3,6 +3,8 @@
 # ///
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
 from datetime import timedelta
 from pathlib import Path
@@ -15,6 +17,7 @@ from mica_batch_control import (
     _active_owner,
     _array,
     _checkpoint,
+    _integer,
     _load_object,
     _manifest,
     _now,
@@ -31,6 +34,28 @@ from mica_batch_control import (
     _write_object,
     validate_controller_state,
 )
+
+
+def _write_authorization_token(
+    batch_id: str,
+    generation: int,
+    role: str,
+    role_context_id: str,
+    claimed_at: str,
+) -> str:
+    payload = json.dumps(
+        {
+            "batchId": batch_id,
+            "generation": generation,
+            "role": role,
+            "roleContextId": role_context_id,
+            "claimedAt": claimed_at,
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def _validate_ready(target: Path) -> None:
@@ -159,6 +184,8 @@ def assign_role(
         f"role-context-collision:{role_context_id}",
     )
     claims = _object(state.get("roleClaims"), "controller-role-claims")
+    completions = _object(state.get("roleCompletions"), "controller-role-completions")
+    _require(role not in completions, f"role-already-completed:{role}")
     existing = claims.get(role)
     if existing is not None:
         existing_claim = _object(existing, f"role-already-claimed:{role}")
@@ -166,16 +193,37 @@ def assign_role(
             existing_claim.get("contextId") == role_context_id,
             f"role-already-claimed:{role}",
         )
+    claimed_at = _stamp(_now())
+    generation = _integer(state.get("generation"), "controller-generation")
+    token = _write_authorization_token(
+        _text(manifest.get("batchId"), "manifest-batch-id"),
+        generation,
+        role,
+        role_context_id,
+        claimed_at,
+    )
     claim_record: JsonObject = {
         "contextId": role_context_id,
-        "claimedAt": _stamp(_now()),
+        "claimedAt": claimed_at,
+        "generation": generation,
+        "writeAuthorizationToken": token,
     }
     claims[role] = claim_record
     roles[role] = role_context_id
     _renew(state, ttl_minutes)
     _write_object(resolved / "batch-manifest.json", manifest)
     _write_object(resolved / STATE_FILE, state)
-    return validate_controller_state(resolved, manifest)
+    result = validate_controller_state(resolved, manifest)
+    result.update(
+        {
+            "role": role,
+            "roleContextId": role_context_id,
+            "claimRecordedAt": claimed_at,
+            "leaseExpiresAt": state["leaseExpiresAt"],
+            "writeAuthorizationToken": token,
+        }
+    )
+    return result
 
 
 def renew_lease(
@@ -192,10 +240,54 @@ def renew_lease(
     return validate_controller_state(resolved)
 
 
-def park(target: Path, controller_id: str, session_id: str, reason: str) -> JsonObject:
+def park(
+    target: Path,
+    controller_id: str,
+    session_id: str,
+    reason: str,
+    abandon_roles: list[str],
+) -> JsonObject:
     resolved = target.resolve()
     state = _state(resolved)
     _active_owner(state, controller_id, session_id)
+    if state.get("methodRevision") == "standard-v1.3.4":
+        claims = _object(state.get("roleClaims"), "controller-role-claims")
+        completions = _object(
+            state.get("roleCompletions"), "controller-role-completions"
+        )
+        incomplete = sorted(
+            role for role in claims if role != "controller" and role not in completions
+        )
+        _require(
+            sorted(set(abandon_roles)) == incomplete,
+            "park-incomplete-role-claims:" + ",".join(incomplete),
+        )
+        if incomplete:
+            abandoned_value = state.get("abandonedRoleClaims")
+            abandoned = (
+                []
+                if abandoned_value is None
+                else _array(abandoned_value, "controller-abandoned-role-claims")
+            )
+            abandoned_at = _stamp(_now())
+            generation = _integer(state.get("generation"), "controller-generation")
+            for role in incomplete:
+                claim = _object(claims.pop(role), f"role-claim:{role}")
+                abandoned.append(
+                    {
+                        "role": role,
+                        "contextId": claim.get("contextId"),
+                        "generation": generation,
+                        "abandonedAt": abandoned_at,
+                        "reason": reason,
+                    }
+                )
+            state["abandonedRoleClaims"] = abandoned
+            manifest = _manifest(resolved)
+            manifest_roles = _roles(manifest)
+            for role in incomplete:
+                manifest_roles[role] = None
+            _write_object(resolved / "batch-manifest.json", manifest)
     state["status"] = "parked"
     state["renewedAt"] = _stamp(_now())
     state["leaseExpiresAt"] = state["renewedAt"]

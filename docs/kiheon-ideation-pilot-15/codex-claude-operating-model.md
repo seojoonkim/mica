@@ -2,7 +2,7 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.3.3`
+- current standard revision: `standard-v1.3.4`
 - current compressed revision: `lean-v1.3`
 
 ## 1. 역할 선언
@@ -70,7 +70,7 @@ python3 scripts/mica-batch-control.py claim \
 
 `validate-ready`는 빈 산출물, 열린 closure, 미할당 역할, 현재 checkout의 방법 파일과 동결 해시 일치를 확인한다. `claim`은 그 PASS 위에서 controller context·session·세대·lease 만료 시각을 `controller-state.json`에 원자적으로 기록한다. PASS는 생산 시작 조건만 확인하며 의미 품질이나 후보 수락을 승인하지 않는다.
 
-각 역할은 쓰기 전에 `assign-role`로 context ID를 선점한다. 역할 종료 시 `complete-role`이 산출물 SHA, 파일 mtime 기반 `at`·`executedAt`, OS 관측 `observedAt`을 기록한다. 중단 시 `park`가 전수 파일 checkpoint를 만들고, 새 세션의 `resume`은 checkpoint 불변·lease 상태·사람 지시 참조를 확인한다. 다른 세션의 전달문만으로 소유권을 바꾸지 않는다.
+각 역할은 쓰기 전에 `assign-role`로 context ID와 현재 controller 세대의 채택 토큰을 선점한다. `role-briefing`은 manifest의 허용 입력과 출력 계약만 직렬화한다. 역할 종료 시 같은 토큰을 받은 `complete-role`이 산출물 SHA, 파일 mtime 기반 `at`·`executedAt`, OS 관측 `observedAt`을 기록한다. 중단 시 미완료 역할을 명시적으로 abandon한 `park`가 전수 파일 checkpoint를 만들고, 새 세션의 `resume`은 checkpoint 불변·lease 상태·사람 지시 참조를 확인한다. 다른 세션의 전달문만으로 소유권을 바꾸지 않는다.
 
 ## 4. standard-v1.1-b4에 반영된 회귀 규칙
 

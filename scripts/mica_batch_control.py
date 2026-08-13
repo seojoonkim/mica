@@ -226,6 +226,16 @@ def validate_controller_state(
     _object(state.get("checkpoint"), "controller-checkpoint")
     claims = _object(state.get("roleClaims"), "controller-role-claims")
     completions = _object(state.get("roleCompletions"), "controller-role-completions")
+    abandoned_value = state.get("abandonedRoleClaims")
+    if abandoned_value is not None:
+        abandoned = _array(abandoned_value, "controller-abandoned-role-claims")
+        for index, row_value in enumerate(abandoned, start=1):
+            row = _object(row_value, f"abandoned-role-claim:{index}")
+            _text(row.get("role"), f"abandoned-role:{index}")
+            _text(row.get("contextId"), f"abandoned-context:{index}")
+            _integer(row.get("generation"), f"abandoned-generation:{index}")
+            _parse_stamp(row.get("abandonedAt"), f"abandoned-at:{index}")
+            _text(row.get("reason"), f"abandoned-reason:{index}")
     manifest_roles = _roles(current_manifest)
     _require(
         manifest_roles.get("controller") == state.get("controllerContextId"),
@@ -237,6 +247,19 @@ def validate_controller_state(
         claim = _object(claim_value, f"role-claim:{role}")
         context_id = _text(claim.get("contextId"), f"role-context:{role}")
         _parse_stamp(claim.get("claimedAt"), f"role-claimed-at:{role}")
+        if (
+            current_manifest.get("methodRevision") == "standard-v1.3.4"
+            and role != "controller"
+        ):
+            claim_generation = _integer(
+                claim.get("generation"), f"role-generation:{role}"
+            )
+            _require(claim_generation <= generation, f"role-generation:{role}")
+            token = _text(
+                claim.get("writeAuthorizationToken"),
+                f"role-write-authorization-token:{role}",
+            )
+            _require(len(token) == 64, f"role-write-authorization-token:{role}")
         _require(
             manifest_roles.get(role) == context_id,
             f"role-claim-manifest-mismatch:{role}",
@@ -263,6 +286,13 @@ def validate_controller_state(
         _parse_stamp(completion.get("completedAt"), f"role-completed-at:{role}")
         _parse_stamp(completion.get("observedAt"), f"role-observed-at:{role}")
         _array(completion.get("artifacts"), f"role-artifacts:{role}")
+        if current_manifest.get("methodRevision") == "standard-v1.3.4":
+            claim = _object(claims.get(role), f"role-claim:{role}")
+            _require(
+                completion.get("writeAuthorizationToken")
+                == claim.get("writeAuthorizationToken"),
+                f"role-completion-authorization-token:{role}",
+            )
     if current_manifest.get("status") == "completed":
         _require(state.get("status") == "closed", "completed-controller-not-closed")
     return {

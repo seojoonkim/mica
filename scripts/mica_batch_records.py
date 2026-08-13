@@ -117,6 +117,7 @@ def complete_role(
     effort_class: str,
     tools_summary: str,
     artifact_paths: list[str],
+    write_authorization_token: str | None,
 ) -> JsonObject:
     resolved = target.resolve()
     _require(
@@ -129,6 +130,18 @@ def complete_role(
     claims = _object(state.get("roleClaims"), "controller-role-claims")
     claim = _object(claims.get(role), f"role-not-claimed:{role}")
     _require(claim.get("contextId") == role_context_id, f"role-not-claimed:{role}")
+    completions = _object(state.get("roleCompletions"), "controller-role-completions")
+    _require(role not in completions, f"role-already-completed:{role}")
+    if manifest.get("methodRevision") == "standard-v1.3.4":
+        _require(
+            claim.get("generation") == state.get("generation"),
+            f"role-authorization-stale-generation:{role}",
+        )
+        _require(
+            isinstance(write_authorization_token, str)
+            and write_authorization_token == claim.get("writeAuthorizationToken"),
+            f"role-authorization-token:{role}",
+        )
     observed_at = _stamp(_now())
     additions = _upsert_ledger(
         manifest, resolved, artifact_paths, role_context_id, observed_at
@@ -143,7 +156,6 @@ def complete_role(
         tools_summary,
         completed_at,
     )
-    completions = _object(state.get("roleCompletions"), "controller-role-completions")
     artifact_values: list[JsonValue] = []
     artifact_values.extend(artifact_paths)
     completion: JsonObject = {
@@ -152,7 +164,43 @@ def complete_role(
         "observedAt": observed_at,
         "artifacts": artifact_values,
     }
+    if manifest.get("methodRevision") == "standard-v1.3.4":
+        completion["writeAuthorizationToken"] = write_authorization_token
     completions[role] = completion
     _write_object(resolved / "batch-manifest.json", manifest)
     _write_object(resolved / STATE_FILE, state)
+    return validate_controller_state(resolved, manifest)
+
+
+def record_controller_artifact(
+    target: Path,
+    controller_id: str,
+    session_id: str,
+    artifact_paths: list[str],
+) -> JsonObject:
+    resolved = target.resolve()
+    _require(
+        bool(artifact_paths) and len(set(artifact_paths)) == len(artifact_paths),
+        "controller-artifacts",
+    )
+    _require(
+        set(artifact_paths) <= {"defect-ledger.jsonl"},
+        "controller-artifact-not-allowed",
+    )
+    manifest = _manifest(resolved)
+    state = _state(resolved)
+    _active_owner(state, controller_id, session_id)
+    _require(
+        manifest.get("methodRevision") == "standard-v1.3.4",
+        "controller-artifact-requires-standard-v1.3.4",
+    )
+    observed_at = _stamp(_now())
+    _upsert_ledger(
+        manifest,
+        resolved,
+        artifact_paths,
+        controller_id,
+        observed_at,
+    )
+    _write_object(resolved / "batch-manifest.json", manifest)
     return validate_controller_state(resolved, manifest)

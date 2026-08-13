@@ -41,17 +41,21 @@ python3 scripts/mica-batch-control.py claim \
   --controller-context-id <controller-context-id> \
   --session-id <session-id>
 
-python3 scripts/mica-batch-control.py assign-role \
+python3 scripts/mica-batch-control.py --json assign-role \
   work/mica-scenario-batches/<batch-id> \
   --controller-context-id <controller-context-id> \
   --session-id <session-id> \
   --role <role> \
   --role-context-id <role-context-id>
+
+python3 scripts/mica-scenario-production.py --json role-briefing \
+  work/mica-scenario-batches/<batch-id> \
+  --role <role>
 ```
 
-역할은 `assign-role` PASS 뒤에만 파일을 쓴다. 90분을 넘길 수 있는 역할은 만료 전에 `renew`로 lease를 갱신한다. 종료 시 `complete-role`에 실제 산출물 경로와 모델·자원 정보를 넘기면 도구가 파일 mtime과 관측 OS 시각으로 `artifactShaLedger`와 `modelRecord`를 기록한다. 시각을 직접 추정해 적지 않는다.
+역할은 `assign-role` PASS가 반환한 `writeAuthorizationToken`과 `role-briefing` JSON을 받은 뒤에만 파일을 쓴다. 기본 lease는 180분이며, 더 길어질 역할은 만료 전에 `renew`한다. 종료 시 `complete-role`에 실제 산출물 경로, 모델·자원 정보, 같은 `--write-authorization-token`을 넘긴다. 도구는 토큰이 현재 controller 세대와 역할 claim에 맞을 때만 파일 mtime과 관측 OS 시각으로 `artifactShaLedger`와 `modelRecord`를 기록한다. 시각을 직접 추정해 적지 않는다.
 
-중단 전에는 `park --reason <reason>`을 실행한다. 새 세션은 사람의 정확한 지시를 가리키는 `--authorization-ref user-message:<reference>`와 함께 `resume`을 실행하며, parked checkpoint의 파일 집합과 SHA가 하나라도 달라지면 재개하지 않는다.
+중단 전에는 `park --reason <reason>`을 실행한다. 미완료 claim이 있으면 모든 해당 역할을 `--abandon-role <role>`로 명시해야 한다. 새 세션은 사람의 정확한 지시를 가리키는 `--authorization-ref user-message:<reference>`와 함께 `resume`을 실행하며, parked checkpoint의 파일 집합과 SHA가 하나라도 달라지면 재개하지 않는다. controller가 직접 작성한 결함 기록은 park 또는 lease 만료 전 `record-artifact --artifact defect-ledger.jsonl`로 등록한다.
 
 그 뒤 Codex에서는 `$mica-scenario-production <batch-id>`, Claude Code에서는 `/mica-scenario-production <batch-id>`로 시작한다. 역할별 새 컨텍스트에는 [`role-prompts.md`](./role-prompts.md)의 해당 블록과 허용 입력만 전달한다.
 

@@ -38,10 +38,10 @@
 - 순서 의존 단계는 병렬화하지 않는다.
 - 구조·해시·역할·건수 검사는 두 방식 모두 전수 실행한다.
 - Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.
-- 역할별 허용 입력은 `batch-manifest.json`의 `roleInputAllowlist`로 고정하며, controller가 배치 시작 전에 확인한다.
+- 역할별 허용 입력과 출력은 `batch-manifest.json`의 `roleInputAllowlist`와 `roleOutputContract`로 고정한다. controller는 `role-briefing` 출력만 역할에 전달하고 수동 문구로 입력을 추가하지 않는다.
 - 신규 배치는 커밋된 방법 revision과 파일별 SHA-256을 `methodLock`에 기록하고 `validate-ready`를 통과하기 전까지 생산하지 않는다.
-- `validate-ready` 통과 뒤 controller는 `mica-batch-control.py claim`으로 OS 시각 기반 lease를 얻고 만료 전 `renew`한다. 각 역할은 산출물을 쓰기 전에 `assign-role`로 실제 context ID를 선점하고, 종료 시 `complete-role`로 파일 mtime 기반 원장과 모델 기록을 닫는다.
-- 세션을 넘길 때는 `park`가 만든 전수 SHA checkpoint와 사람 지시 참조를 `resume`이 함께 검증한다. 연결된 다른 세션의 요약이나 전달문만으로 controller 소유권을 바꾸지 않는다.
+- `validate-ready` 통과 뒤 controller는 `mica-batch-control.py claim`으로 기본 180분 OS 시각 기반 lease를 얻고 만료 전 `renew`한다. 각 역할은 산출물을 쓰기 전에 `assign-role`로 실제 context ID와 현재 세대의 채택 토큰을 선점하고, 종료 시 같은 토큰을 `complete-role`에 제출해 파일 mtime 기반 원장과 모델 기록을 닫는다.
+- 세션을 넘길 때는 미완료 역할을 명시적으로 abandon하고 `park`가 만든 전수 SHA checkpoint와 사람 지시 참조를 `resume`이 함께 검증한다. 연결된 다른 세션의 요약이나 전달문만으로 controller 소유권을 바꾸지 않는다.
 - 진행 중인 배치에는 방법 변경을 소급하지 않는다. 결함은 원장에 남기고 다음 배치 revision에서만 반영한다.
 - 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. 각 reviewer는 controller가 확정한 입력 SHA-256을 시작 전·쓰기 직전·완료 후 확인한다.
 - 입력 SHA-256이 바뀐 review는 결과 수량에서 제외하고 stale evidence로 격리한다.
@@ -77,6 +77,8 @@
 - 카테고리별 부족 수나 목표 슬롯
 
 controller도 역할별 입력 목록을 `batch-manifest.json`에 기록한다. 금지 입력이 노출되면 결과를 수정해 살리지 않고 배치를 닫은 뒤 새 컨텍스트로 다시 시작한다.
+
+source reviewer는 7개 기준을 정확히 기록하며 `limitationsHonesty`를 생략할 수 없다. source·observation review는 필수 기준이 전부 pass일 때만 accept다. 같은 배치의 기존 review를 controller나 작성자가 수정하지 않으며, 재판정은 다음 배치의 새 독립 reviewer가 새 review 행으로 남긴다.
 
 ## 기본 필드
 
