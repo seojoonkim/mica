@@ -402,11 +402,11 @@
         },
         {
           "slotId": "money-banking-investing-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-012",
+          "annotationRowSha256": "e347d906aa056f2594914e222bf7a66c243f7128bd42233b29cca4de47907433",
+          "reviewRowSha256": "06c9a41720060b0c1e94b085948ad4401cfa50fe3a297ae9803a8ac238a3b593",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
@@ -592,29 +592,29 @@
         },
         {
           "slotId": "healthcare-administration-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-001",
+          "annotationRowSha256": "9926b483a093d7ade7c29eed2ff512939db5ea465a3365f69db6ec133c122c6f",
+          "reviewRowSha256": "deccf578f1613c72ddbc9d07cbb9980282a47f3282b17b524256b2eb52a0d373",
+          "sourceBatchId": "cat07-08-standard-001",
           "attemptHistory": []
         },
         {
           "slotId": "healthcare-administration-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-002",
+          "annotationRowSha256": "a2d9a6a15c6cc52a98b28aaca2291063112a03d2a5adc14c9d71f0a123df8897",
+          "reviewRowSha256": "3c0ee2f812642270341b2c6806167012380a1ddadc09b6862078c7515b8be45d",
+          "sourceBatchId": "cat07-08-standard-001",
           "attemptHistory": []
         },
         {
           "slotId": "healthcare-administration-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-003",
+          "annotationRowSha256": "ff4aba1454e8f99ff6413f8fa56ca48a0e3229bb29bc90299d14a95312864ee6",
+          "reviewRowSha256": "c7c16ba7da82b592c5717f3bdd544dbe363222913b19fae38df9d44c53ec16ee",
+          "sourceBatchId": "cat07-08-standard-001",
           "attemptHistory": []
         },
         {
@@ -741,29 +741,29 @@
         },
         {
           "slotId": "government-civic-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-011",
+          "annotationRowSha256": "8976a4f98f8f559cc1839f674aa38ffc8181094e078171e9e7fbd9d61c565fad",
+          "reviewRowSha256": "b1155a55337a88368882154724d369e11c3e551d7399415c5713e60a972fcabd",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-013",
+          "annotationRowSha256": "5c7e61eeb535d57bfbae6ee552fd20f2e29c4a8017350e007f5eae1629cb3876",
+          "reviewRowSha256": "da95b4ddcebb27bfbfc00be368a1b9b621de2b459d53cad695e36eba98fca155",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-004",
+          "annotationRowSha256": "2ddeaa810db8fe4b26ab22c335d9f8a98abe988a0e2f413c1a4c8bccb599db90",
+          "reviewRowSha256": "0d8805fcea113bb85493bcc3a695d8df5c564eace73da7b3c8f4b489c545a9c5",
+          "sourceBatchId": "cat07-08-standard-001",
           "attemptHistory": []
         }
       ]
