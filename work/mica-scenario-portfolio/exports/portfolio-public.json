@@ -1,12 +1,18 @@
 {
   "origin": "kiheon-ideation",
-  "schemaVersion": "mica.research-portfolio/v1",
+  "schemaVersion": "mica.research-portfolio-public-export/v1",
+  "namespace": "kiheon-ideation-research-portfolio",
   "portfolioId": "kiheon-ideation-100-slot",
   "displayNameKo": "신기헌 아이데이션 100-slot 연구 포트폴리오",
   "displayNameEn": "Kiheon Ideation 100-slot Research Portfolio",
   "relationToCanonical": "parallel-research-portfolio",
+  "relationNoteKo": "공식 MICA canonical catalogue와 병존하는 비정본 연구 포트폴리오",
   "canonicalAdoptionStatus": "not-adopted",
+  "taskSet": "public",
+  "holdoutIncluded": false,
   "targetSlotCount": 100,
+  "occupiedSlotCount": 25,
+  "blockedSlotCount": 0,
   "categories": [
     {
       "categoryId": "email-calendar",
@@ -958,5 +964,6 @@
         }
       ]
     }
-  ]
+  ],
+  "sourcePortfolioLedgerSha256": "29607830f7dfd974d9cd84b53978691a792b3356ee7827e8a0093b25bc82c594"
 }

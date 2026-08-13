@@ -809,6 +809,7 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
         "maxRows": len(rows),
         "closureContract": {
             "path": "CLOSURE.json",
+            "inputBoundaryStatusValues": ["clean", "breach"],
             "exactFields": [
                 "origin",
                 "schemaVersion",
