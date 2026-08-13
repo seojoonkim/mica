@@ -28,6 +28,18 @@ CATEGORIES = (
     "home-utilities",
     "telecom-subscriptions",
 )
+CATEGORY_LABELS_KO = {
+    "email-calendar": "이메일·캘린더",
+    "shopping-delivery": "쇼핑·배송",
+    "travel-accommodation": "여행 계획·숙박",
+    "restaurants-local": "외식·예약",
+    "money-banking-investing": "금융·은행·투자",
+    "mobility-transit": "이동·대중교통",
+    "healthcare-administration": "의료 행정",
+    "government-civic": "행정·공공 서비스",
+    "home-utilities": "주거·공과금",
+    "telecom-subscriptions": "통신·디지털 구독",
+}
 TERMINATION_CLASSES = (
     "completed-final-state",
     "approval-handoff",
@@ -343,6 +355,8 @@ def closed_batch_candidates() -> list[dict[str, object]]:
             candidate_id = frozen.get("candidateId")
             require(isinstance(candidate, dict), f"frozen-candidate-payload:{batch_dir.name}")
             require(isinstance(candidate_id, str), f"frozen-candidate-id:{batch_dir.name}")
+            task_set = candidate.get("taskSet", frozen.get("taskSet", "public"))
+            require(task_set == "public", f"holdout-candidate-export:{candidate_id}")
             collected.append(
                 packet_row(
                     job_id="",
@@ -487,10 +501,32 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
             },
         },
         "annotationEnums": {
-            "categoryId": list(CATEGORIES),
+            "categoryId": [
+                {"value": category, "labelKo": CATEGORY_LABELS_KO[category]}
+                for category in CATEGORIES
+            ],
             "terminationClass": list(TERMINATION_CLASSES),
             "declaredComplexity": list(COMPLEXITIES),
             "targetSurface": list(TARGET_SURFACES),
+        },
+        "guidanceKo": {
+            "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",
+            "terminationClass": {
+                "completed-final-state": "권위 있는 최종 상태에 도달하면 올바르게 종료한다.",
+                "approval-handoff": "승인이 필요한 경계에서 사용자 또는 권한자에게 넘기면 올바르게 종료한다.",
+                "refusal": "범위 밖이거나 금지된 요청을 거절하면 올바르게 종료한다.",
+                "escalation": "에이전트가 완료할 수 없어 사람 또는 권위 기관에 안전하게 인계하면 올바르게 종료한다.",
+            },
+            "declaredComplexity": {
+                "single-step": "하나의 짧은 상태 확인 또는 변경으로 끝난다.",
+                "multi-step": "한 세션 안에서 여러 의존 행동과 확인을 거친다.",
+                "cross-session": "비동기 대기나 후속 확인으로 여러 세션에 걸친다.",
+            },
+            "targetSurface": "실제 플랫폼 확정값이 아니라 계획용 목표값이다. surfaceStatus는 항상 target-only이며 confirmedSurface를 만들지 않는다.",
+            "measurementIntent": "상세 fixture나 oracle을 만들지 말고, 나중에 무엇을 참·거짓으로 확인할지 한 문장으로 쓴다.",
+            "slot": "같은 카테고리 안에서 packet 행끼리 서로 다른 proposedSlotId를 사용한다. 원장의 기존 점유 상태는 추측하지 않는다.",
+            "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
+            "review": "다섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다.",
         },
         "maxRows": len(rows),
         "closureContract": {
@@ -610,7 +646,39 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
     portfolio_root = portfolio_root.resolve()
     job_dir = exchange_root.resolve() / job_id
     receipt_path = portfolio_root / "receipts" / f"apply-{job_id}.json"
-    require(not receipt_path.exists(), f"portfolio-receipt-exists:{job_id}")
+    if receipt_path.exists():
+        receipt = load_json(receipt_path)
+        require(isinstance(receipt, dict), f"portfolio-receipt-object:{job_id}")
+        require(receipt.get("jobId") == job_id, f"portfolio-receipt-job:{job_id}")
+        require(
+            receipt.get("annotationSha256") == sha_file(job_dir / "author-output.staging.jsonl"),
+            f"portfolio-replay-annotation:{job_id}",
+        )
+        require(
+            receipt.get("reviewSha256") == sha_file(job_dir / "review-output.staging.jsonl"),
+            f"portfolio-replay-review:{job_id}",
+        )
+        require(
+            receipt.get("afterPortfolioSha256") == sha_file(portfolio_root / "portfolio-100.json"),
+            f"portfolio-replay-ledger:{job_id}",
+        )
+        require(
+            receipt.get("afterAnnotationLedgerSha256")
+            == sha_file(portfolio_root / "catalog-annotations.jsonl"),
+            f"portfolio-replay-annotation-ledger:{job_id}",
+        )
+        require(
+            receipt.get("afterReviewLedgerSha256")
+            == sha_file(portfolio_root / "catalog-annotation-reviews.jsonl"),
+            f"portfolio-replay-review-ledger:{job_id}",
+        )
+        return {
+            "status": "pass",
+            "jobId": job_id,
+            "applied": receipt.get("appliedCount"),
+            "receipt": str(receipt_path),
+            "replayed": True,
+        }
     closure = load_json(job_dir / "CLOSURE.json")
     require(isinstance(closure, dict), "job-closure")
     ready = load_json(job_dir / "READY.json")
@@ -687,12 +755,14 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
     require(applied == result["accepted"], "portfolio-accepted-apply-count")
     annotation_ledger = portfolio_root / "catalog-annotations.jsonl"
     review_ledger = portfolio_root / "catalog-annotation-reviews.jsonl"
-    annotation_bytes = annotation_ledger.read_bytes() + b"".join(
+    before_annotation_bytes = annotation_ledger.read_bytes()
+    before_review_bytes = review_ledger.read_bytes()
+    annotation_bytes = before_annotation_bytes + b"".join(
         canonical_bytes(row)
         for candidate_id, (row, _) in annotations.items()
         if reviews[candidate_id][0].get("verdict") == "accept"
     )
-    review_bytes = review_ledger.read_bytes() + b"".join(
+    review_bytes = before_review_bytes + b"".join(
         canonical_bytes(row) for row, _ in reviews.values() if row.get("verdict") == "accept"
     )
     portfolio_bytes = pretty_json_bytes(ledger)
@@ -701,14 +771,18 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
         "schemaVersion": "mica.portfolio-apply-receipt/v1",
         "transactionId": f"apply-{job_id}",
         "jobId": job_id,
+        "sourceBatchIds": sorted({str(row[0].get("batchId")) for row in annotations.values()}),
         "sourceCommitSha": ready.get("sourceCommitSha"),
+        "sourceClosureSha256": sha_file(job_dir / "CLOSURE.json"),
         "annotationPath": display_path(job_dir / "author-output.staging.jsonl"),
         "annotationSha256": sha_file(job_dir / "author-output.staging.jsonl"),
         "reviewPath": display_path(job_dir / "review-output.staging.jsonl"),
         "reviewSha256": sha_file(job_dir / "review-output.staging.jsonl"),
         "beforePortfolioSha256": before_portfolio_sha,
         "afterPortfolioSha256": sha_bytes(portfolio_bytes),
+        "beforeAnnotationLedgerSha256": sha_bytes(before_annotation_bytes),
         "afterAnnotationLedgerSha256": sha_bytes(annotation_bytes),
+        "beforeReviewLedgerSha256": sha_bytes(before_review_bytes),
         "afterReviewLedgerSha256": sha_bytes(review_bytes),
         "appliedByContextId": applied_by,
         "appliedCount": applied,

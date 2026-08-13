@@ -113,7 +113,7 @@ class PortfolioTest(unittest.TestCase):
         state = portfolio.validate_portfolio(self.portfolio_root)
         self.assertEqual(state, {"status": "pass", "occupied": 2, "blocked": 0, "empty": 98})
 
-    def test_reapply_is_rejected_without_mutating_ledgers(self) -> None:
+    def test_reapply_is_idempotent_without_mutating_ledgers(self) -> None:
         self.complete_job()
         portfolio.apply_job(
             "core20-test-001",
@@ -129,14 +129,15 @@ class PortfolioTest(unittest.TestCase):
             "portfolio-artifact-ledger.jsonl",
         )
         before = {name: (self.portfolio_root / name).read_bytes() for name in tracked}
-        with self.assertRaisesRegex(portfolio.PortfolioError, "portfolio-receipt-exists"):
-            portfolio.apply_job(
-                "core20-test-001",
-                "codex-controller-001",
-                "2026-08-14T01:21:00Z",
-                self.exchange_root,
-                self.portfolio_root,
-            )
+        replay = portfolio.apply_job(
+            "core20-test-001",
+            "codex-controller-001",
+            "2026-08-14T01:21:00Z",
+            self.exchange_root,
+            self.portfolio_root,
+        )
+        self.assertTrue(replay["replayed"])
+        self.assertEqual(replay["applied"], 2)
         after = {name: (self.portfolio_root / name).read_bytes() for name in tracked}
         self.assertEqual(after, before)
 
