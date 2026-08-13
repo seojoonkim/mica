@@ -304,9 +304,71 @@ class ScenarioProductionCliTest(unittest.TestCase):
                 json.dumps(review, ensure_ascii=False, separators=(",", ":")) + "\n",
                 encoding="utf-8",
             )
+            def write_observation_regression(
+                observation_id: str, failed_check: str
+            ) -> subprocess.CompletedProcess[str]:
+                observation = {
+                    "origin": "kiheon-ideation",
+                    "observationId": observation_id,
+                    "sourceRefs": ["ev-001"],
+                }
+                (batch / "need-observations.jsonl").write_text(
+                    json.dumps(
+                        observation, ensure_ascii=False, separators=(",", ":")
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                checks = {
+                    "evidenceAlignment": "pass",
+                    "needBoundary": "pass",
+                    "nonPrescription": "pass",
+                    "noInventedFacts": "pass",
+                    "stateChangeClarity": "pass",
+                }
+                checks[failed_check] = "fail"
+                review = {
+                    "origin": "kiheon-ideation",
+                    "schemaVersion": "mica.observation-review/v1",
+                    "batchId": "test-v134-meaning",
+                    "reviewId": f"or-{observation_id}",
+                    "observationId": observation_id,
+                    "verdict": "accept",
+                    "checks": checks,
+                    "reasons": [f"std-b11 regression: {failed_check}"],
+                    "nonBlockingNotes": [],
+                    "reviewerContextId": "observation-reviewer-v134",
+                }
+                (batch / "observation-reviews.jsonl").write_text(
+                    json.dumps(
+                        review, ensure_ascii=False, separators=(",", ":")
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                return run_cli("validate-batch", str(batch))
+
+            expanded_need = write_observation_regression(
+                "ob-b11-01", "needBoundary"
+            )
+            self.assertEqual(expanded_need.returncode, 1)
+            self.assertIn(
+                "observation-review:ob-b11-01-verdict-mismatch",
+                expanded_need.stdout,
+            )
+
+            inherited_invention = write_observation_regression(
+                "ob-b11-02", "noInventedFacts"
+            )
+            self.assertEqual(inherited_invention.returncode, 1)
+            self.assertIn(
+                "observation-review:ob-b11-02-verdict-mismatch",
+                inherited_invention.stdout,
+            )
+
             observation = {
                 "origin": "kiheon-ideation",
-                "observationId": "ob-001",
+                "observationId": "ob-v134-accepted",
                 "sourceRefs": ["ev-001"],
             }
             observation_raw = json.dumps(
@@ -319,9 +381,9 @@ class ScenarioProductionCliTest(unittest.TestCase):
                 "origin": "kiheon-ideation",
                 "schemaVersion": "mica.observation-review/v1",
                 "batchId": "test-v134-meaning",
-                "reviewId": "or-001",
-                "observationId": "ob-001",
-                "verdict": "reject",
+                "reviewId": "or-v134-accepted",
+                "observationId": "ob-v134-accepted",
+                "verdict": "accept",
                 "checks": {
                     "evidenceAlignment": "pass",
                     "needBoundary": "pass",
@@ -340,23 +402,9 @@ class ScenarioProductionCliTest(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
-            mismatched = run_cli("validate-batch", str(batch))
-            self.assertEqual(mismatched.returncode, 1)
-            self.assertIn(
-                "observation-review:ob-001-verdict-mismatch", mismatched.stdout
-            )
-
-            observation_review["verdict"] = "accept"
-            (batch / "observation-reviews.jsonl").write_text(
-                json.dumps(
-                    observation_review, ensure_ascii=False, separators=(",", ":")
-                )
-                + "\n",
-                encoding="utf-8",
-            )
             frozen = {
                 "origin": "kiheon-ideation",
-                "observationId": "ob-001",
+                "observationId": "ob-v134-accepted",
                 "frozenRowSha256": hashlib.sha256(
                     observation_raw.encode("utf-8")
                 ).hexdigest(),
