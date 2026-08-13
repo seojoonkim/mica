@@ -3,8 +3,113 @@
   "schemaVersion": "mica.scenario-production-closure/v1",
   "batchId": "std-b12",
   "productionProfile": "standard",
-  "status": "open",
+  "methodRevision": "standard-v1.3.4",
+  "status": "zero-accepted",
   "acceptedMeasurableCandidates": 0,
-  "newActionableProcessDefects": [],
-  "nextBatchDecision": "hold-until-reviewed"
+  "rejectedCandidates": 0,
+  "heldCandidates": 1,
+  "duplicateCandidates": 0,
+  "controller": "claude-std-b12-controller",
+  "closedAt": "2026-08-13T17:20:00Z",
+  "stageCounts": {
+    "sourceEvidence": "4(수락 3·거절 1) — 배정 5개 생활영역 중 '일정 조정'은 개인 부담을 직접 지지하는 1차 자료 부재로 조사 단계에서 의도적 공란. ev-b12-04는 limitationsHonesty·verbatim 동시 fail(리워드형 623건 비율의 분모를 원문 1,936이 아닌 2,024로 결합)로 거절",
+    "needObservations": "3(수락 3·거절 0) — 수락 evidence 3건에서 각 1건",
+    "frozenObservations": "3(accepted-only)",
+    "taskCandidates": "2(수락 2·거절 0·hold 1) — ob-b12-03(공연 취소마감 이후 취소 차단)은 목표 상태가 사업자 정책 층위여서 에이전트가 도달시킬 수 없고, 대체 접수 창구가 근거에 없어 hold",
+    "frozenCandidates": "2(accepted-only)",
+    "comparison": "transformation 2 · duplicate 0 · independent-finding 0 · hold 0",
+    "measurement": "자산 2 → oracle 2(10개 variant 전부 이분 판정 가능, issue 13건) → 측정 검토 1단계 reject 2 → designable-pending-exposure 0 → designable 0",
+    "exposure": "agent-visible 0행 · blind-agent-rehearsal 0행 — designable 도달 후보가 없어 공개 표면을 생성하지 않음"
+  },
+  "measurementRejectionDetail": {
+    "summary": "측정 검토 1단계에서 ma-b12-01·ma-b12-02가 모두 reject됐다. blocking 재정 5건과 검토자의 독립 발견 2건이 근거다. 후보·관찰·근거 자체의 결함이 아니라 측정 자산 설계의 내부 정합성 결함이다",
+    "ma-b12-01": {
+      "verdict": "reject",
+      "failedChecks": [
+        "01-simultaneity",
+        "07-verdictRuleOrder",
+        "10-worstPathProof",
+        "11-prohibitedStateConduct",
+        "12-approvalAnchor",
+        "13-nlToolInput",
+        "15-residualIssues"
+      ],
+      "blockingIssues": [
+        "i-01-2",
+        "i-01-3",
+        "i-01-6"
+      ]
+    },
+    "ma-b12-02": {
+      "verdict": "reject",
+      "failedChecks": [
+        "01-simultaneity",
+        "07-verdictRuleOrder",
+        "11-prohibitedStateConduct",
+        "12-approvalAnchor",
+        "15-residualIssues"
+      ],
+      "blockingIssues": [
+        "i-02-1",
+        "i-02-2"
+      ]
+    },
+    "reviewerIndependentFindings": [
+      "v-02-c에서 anchorObject의 무조건 조항 때문에 금액 토큰 미발급이 APPROVAL-R까지 막아 terminal 도달 불가 — 자산의 simultaneityGate는 이 지점을 PASS로 기록했다",
+      "규칙 5의 '잠긴 경로 앞 정지' 성립 조건과 sinks.unresolved의 강등 선언이 잠긴 경로 무관 분기에서 충돌해 한 trace에 두 판정 클래스가 선언된다"
+    ]
+  },
+  "exposureResult": {
+    "agentVisible": 0,
+    "blindRehearsalPassed": 0,
+    "hiddenContractLeak": 0,
+    "actualExecutionAttempts": 0,
+    "actualExecutionPassed": 0,
+    "liveServiceExecutions": 0
+  },
+  "externalToolCalls": {
+    "SlackCalls": 0,
+    "NotionCalls": 0,
+    "gitPush": 0,
+    "gitCommit": 0,
+    "externalPublication": 0
+  },
+  "newActionableProcessDefects": [
+    "df-b12-01 (major, open) — simultaneityGate가 terminal 도달 가능성을 검사하지 않아 도달 불가 variant를 PASS로 통과시킴",
+    "df-b12-02 (minor, open) — worstPathProof와 simultaneityGate의 최장 경로 수치 불일치를 자산 내부 검사가 잡지 못함(ma-b12-01에서 5개 중 4개 불일치)",
+    "df-b12-03 (major, open) — verdictTaxonomy 첫 일치 규칙과 sinks 강등 선언이 독립 작동해 한 trace에 두 판정 클래스가 선언될 수 있음",
+    "df-b12-04 (major, open) — 세계 상태를 바꾸지 않는 제출 시도가 근거 없이 금지 상태(규칙 1)에 결속돼 정당한 안전 인계를 실패로 강등시킬 수 있음",
+    "df-b12-05 (major, open) — controller가 절단 표시된 SHA의 뒷부분을 지어내 closure에 기록, 종결 직전 자체 검증으로 발견·정정"
+  ],
+  "methodRevisionBoundary": {
+    "closedUnder": "standard-v1.3.4",
+    "methodLockSourceCommit": "bf89a74899f0ea684b215c048ae8309bea154b58",
+    "v135Retroactive": false,
+    "note": "standard-v1.3.5는 이 배치에 소급되지 않았다. annotation 필드(terminationClass·declaredComplexity·targetSurface), catalogAnnotator·catalogAnnotationReviewer 역할, portfolio ledger, surface 전이, 새 export 규칙을 산출물에 넣지 않았고 기존 후보 의미도 수정하지 않았다. 산출물 전건에 대해 v1.3.5 필드 미유입을 기계 확인했다",
+    "officialContractGap": "이 배치의 동결 후보 2건도 공식 TASK_PROMOTION_FIELDS(surface·terminationClass·declaredComplexity·diagnosticAxes·marketApplicability)를 갖지 않는다. 배치 동결 후보의 격차는 39건에서 41건으로 늘었다(std-b11 격리분 제외). v1.3.5 annotation 층의 사후 부착 대상이며, 전수 annotation 대상 수는 파일럿 15 + 배치 41 = 56건으로 갱신된다"
+  },
+  "v134EffectivenessObserved": {
+    "limitationsHonesty": "첫 실전에서 실제 오류를 검출했다. ev-b12-04의 분모 결합(623/2,024 = 30.78%로 32.3%가 성립 불가, 원문 분모는 1,936)이 verbatim과 함께 fail로 잡혀 fail→reject 불변식에 의해 자동 거절됐다. std-b11에서는 같은 유형이 비차단 소견으로만 남고 accept됐다",
+    "recordArtifact": "controller 저작 산출물인 defect-ledger.jsonl이 record-artifact로 정식 원장 기입됐다. std-b11의 df-b11-03(결함을 기록할수록 재개가 막히는 역유인)이 해소됐음을 실증했다",
+    "assignRoleToken": "15개 역할 전건이 assign-role 권한 토큰으로 선점되고 같은 토큰으로 complete-role에서 채택됐다. 선점 PASS 확인 뒤에만 쓰기를 승인하는 순서를 지켰다(df-b11-04 보정)",
+    "roleBriefing": "role-briefing이 manifest의 roleInputAllowlist·forbiddenAuthorInputs에서 허용·금지 입력과 출력 계약을 기계 생성했다. controller가 필드 개수를 자연어로 재기술해 생긴 df-b11-01의 재발 경로가 막혔다"
+  },
+  "regression": {
+    "validateExposure": "PENDING — 종결 절차에서 실행",
+    "validateBatch": "PENDING — 종결 절차에서 실행",
+    "note": "실행 결과는 종결 인수인계 문서에 기록한다"
+  },
+  "closingShaLedger": {
+    "note": "std-b6 감사 보강 규칙 2 — 최종 측정 검토·measurement-contracts·결함 원장·closure의 SHA를 종결 원장에 기록한다. batch-manifest.json은 자기참조 때문에 제외하며, closure.json 자체의 SHA는 기록 직후 batch-manifest.json의 artifactShaLedger에 기입한다 이 원장의 값은 controller가 손으로 적지 않고 shasum 실측값을 그대로 옮긴다(df-b12-05 정정 이후 규율).",
+    "measurement-review.staging.jsonl": "b9fdeb824811b53233c66c35be79b0b1197ce91af474e5152946fc7a6866d2ce",
+    "measurement-contracts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "defect-ledger.jsonl": "13975fab738ea343ffed2bdec7f49d5f4b65bebbdebc1aea109170c60555a87e"
+  },
+  "limits": {
+    "zeroAcceptedMeaning": "designable 0건은 공정 실패가 아니라 측정 관문이 작동한 결과다. 근거·관찰·후보는 각 관문을 통과했고, 측정 자산 설계의 내부 정합성 결함에서 멈췄다. 수량을 맞추기 위해 판정을 조정하지 않았다",
+    "structuralValidationMeaning": "validate-exposure·validate-batch PASS는 입력 방화벽과 기록 결속의 구조적 완결만 뜻한다. 의미 품질, 벤치마크 채택 승인, 시장 성립, 실행 성능을 뜻하지 않는다",
+    "executionStatus": "실제 simulator 실행 0회. 이 배치는 실행 가능한 측정 계약을 하나도 산출하지 않았다",
+    "marketAndPublication": "시장 검토, 현지 검증, 실제 서비스 실행, 공개·정본 편입은 이 배치의 승인 범위 밖이다"
+  },
+  "nextBatchDecision": "hold-until-v1.3.5 — 다음 단계는 새 생산 배치가 아니라 standard-v1.3.5 구현이다. 이번 배치에서 major 결함 3건(df-b12-01·03·04)이 측정 자산 계약 자체에서 확인됐으므로, v1.3.5 착수 시 이 회귀 검사를 함께 포함하고 기존 37건의 측정 자산에 소급 적용할지 별도 판단이 필요하다. 방법론 8절의 승격 조건(새 실행 가능한 공정 결함 없음)을 충족하지 않으므로 10개 단위 승격은 하지 않는다"
 }

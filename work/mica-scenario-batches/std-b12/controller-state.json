@@ -1,0 +1,242 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-controller-state/v1",
+  "batchId": "std-b12",
+  "methodRevision": "standard-v1.3.4",
+  "generation": 2,
+  "status": "closed",
+  "controllerContextId": "claude-std-b12-controller",
+  "sessionId": "claude-c04f7e76-13b9-43a7-b465-bb0ef5fe809b",
+  "acquiredAt": "2026-08-13T15:40:53Z",
+  "renewedAt": "2026-08-13T17:06:40Z",
+  "leaseExpiresAt": "2026-08-13T17:06:40Z",
+  "authorizationRef": "user-message:2026-08-14-close-std-b12-under-v1.3.4",
+  "controllerHistory": [
+    {
+      "controllerContextId": "claude-std-b12-controller",
+      "sessionId": "claude-c04f7e76-13b9-43a7-b465-bb0ef5fe809b",
+      "releasedAt": "2026-08-13T15:40:53Z",
+      "status": "parked"
+    }
+  ],
+  "roleClaims": {
+    "controller": {
+      "contextId": "claude-std-b12-controller",
+      "claimedAt": "2026-08-13T15:40:53Z"
+    },
+    "sourceResearcher": {
+      "contextId": "agent-a05dc339c90aa5e12",
+      "claimedAt": "2026-08-13T13:17:33Z",
+      "generation": 1,
+      "writeAuthorizationToken": "47a4250c7b608c71b81bbc0ecb373a716f50bb0b017d2857dce55deab056d2ca"
+    },
+    "sourceReviewer": {
+      "contextId": "agent-a1e45b8d2cf982381",
+      "claimedAt": "2026-08-13T13:27:45Z",
+      "generation": 1,
+      "writeAuthorizationToken": "18859c6a4b4f0e698d17fdd715d1990bafb368b56c928060f6ad25ea42ea8b43"
+    },
+    "needWriter": {
+      "contextId": "agent-a48d820402ba651b3",
+      "claimedAt": "2026-08-13T13:47:28Z",
+      "generation": 1,
+      "writeAuthorizationToken": "054de95e8265cb49db62c01e4ed542936dd47a8c8ec68b00e526e6d3d2cbbff7"
+    },
+    "observationReviewer": {
+      "contextId": "agent-a472f6e7c9a0d5fe1",
+      "claimedAt": "2026-08-13T13:53:16Z",
+      "generation": 1,
+      "writeAuthorizationToken": "6c901aeae42f1eaabcae3c7d819260540cf156efd816bc9ca0435cabf4a938ab"
+    },
+    "observationCustodian": {
+      "contextId": "agent-a586e0c33c15b0417",
+      "claimedAt": "2026-08-13T14:00:08Z",
+      "generation": 1,
+      "writeAuthorizationToken": "018b428ca0a5ad8d8db2f987c1051c0c262021640d3838aade8b6a236e722784"
+    },
+    "translator": {
+      "contextId": "agent-a95b6e371b72c1bb3",
+      "claimedAt": "2026-08-13T14:08:40Z",
+      "generation": 1,
+      "writeAuthorizationToken": "6cd23b60796a84cc62afef8a0fc45f94a26c422e22609905bcdf66e5c7dbae09"
+    },
+    "candidateReviewer": {
+      "contextId": "agent-a2711e53580fe9789",
+      "claimedAt": "2026-08-13T14:14:18Z",
+      "generation": 1,
+      "writeAuthorizationToken": "7c0b85e87cc2f1352e713a15b405b2c6ef45eaaefe50a96e91b5d95f3af162f5"
+    },
+    "candidateCustodian": {
+      "contextId": "agent-ababd1e8c23537122",
+      "claimedAt": "2026-08-13T14:21:28Z",
+      "generation": 1,
+      "writeAuthorizationToken": "70d44b3a98c14dbc7a3159d219d5cb23528aaa4ac8ee2edb3e53218a8fb9eefd"
+    },
+    "comparator": {
+      "contextId": "agent-a2bb87af81cdf43c5",
+      "claimedAt": "2026-08-13T15:41:29Z",
+      "generation": 2,
+      "writeAuthorizationToken": "07b27f4d1131cbad39ba798ac12e2ed84ae0ffa6e7da6583284848d6032377cf"
+    },
+    "measurementAssetAuthor": {
+      "contextId": "agent-a2227d16f7fd113af",
+      "claimedAt": "2026-08-13T15:49:48Z",
+      "generation": 2,
+      "writeAuthorizationToken": "d58aabf24f9d0e4bf7c74d25a502494ff6dd45d9c76bdcf3d4b290d3721a1a3e"
+    },
+    "oracleReviewer": {
+      "contextId": "agent-a235b7d287dca6d33",
+      "claimedAt": "2026-08-13T16:15:51Z",
+      "generation": 2,
+      "writeAuthorizationToken": "3c4457147d7165495ed63f46f07da3c3a036d7cfbe17b31ca77a66384f37aef4"
+    },
+    "measurementReviewer": {
+      "contextId": "agent-af84a27460f54f091",
+      "claimedAt": "2026-08-13T16:32:07Z",
+      "generation": 2,
+      "writeAuthorizationToken": "27bd3e8ff3ad2383b42337bb049c9bb3a18271b1101d2674102217e3881e12b7"
+    },
+    "exposurePreparer": {
+      "contextId": "agent-ac6aa8b23dd25218a",
+      "claimedAt": "2026-08-13T16:52:36Z",
+      "generation": 2,
+      "writeAuthorizationToken": "b43efe744401fb8430aeda21fb547253c644c990e9e2cf4f631577c4084fc5ea"
+    },
+    "blindAgentRehearsal": {
+      "contextId": "agent-a7ab7b3a0c509076f",
+      "claimedAt": "2026-08-13T16:53:16Z",
+      "generation": 2,
+      "writeAuthorizationToken": "88a76390fecaad08f992b7f266ad3d58a71bcd652bd8f7e5fc4c17bba08ec875"
+    }
+  },
+  "roleCompletions": {
+    "sourceResearcher": {
+      "contextId": "agent-a05dc339c90aa5e12",
+      "completedAt": "2026-08-13T13:25:33Z",
+      "observedAt": "2026-08-13T13:27:06Z",
+      "artifacts": [
+        "source-evidence.jsonl"
+      ],
+      "writeAuthorizationToken": "47a4250c7b608c71b81bbc0ecb373a716f50bb0b017d2857dce55deab056d2ca"
+    },
+    "sourceReviewer": {
+      "contextId": "agent-a1e45b8d2cf982381",
+      "completedAt": "2026-08-13T13:34:39Z",
+      "observedAt": "2026-08-13T13:35:53Z",
+      "artifacts": [
+        "source-reviews.jsonl"
+      ],
+      "writeAuthorizationToken": "18859c6a4b4f0e698d17fdd715d1990bafb368b56c928060f6ad25ea42ea8b43"
+    },
+    "needWriter": {
+      "contextId": "agent-a48d820402ba651b3",
+      "completedAt": "2026-08-13T13:51:27Z",
+      "observedAt": "2026-08-13T13:52:30Z",
+      "artifacts": [
+        "need-observations.jsonl"
+      ],
+      "writeAuthorizationToken": "054de95e8265cb49db62c01e4ed542936dd47a8c8ec68b00e526e6d3d2cbbff7"
+    },
+    "observationReviewer": {
+      "contextId": "agent-a472f6e7c9a0d5fe1",
+      "completedAt": "2026-08-13T13:58:37Z",
+      "observedAt": "2026-08-13T13:59:36Z",
+      "artifacts": [
+        "observation-reviews.jsonl"
+      ],
+      "writeAuthorizationToken": "6c901aeae42f1eaabcae3c7d819260540cf156efd816bc9ca0435cabf4a938ab"
+    },
+    "observationCustodian": {
+      "contextId": "agent-a586e0c33c15b0417",
+      "completedAt": "2026-08-13T14:05:50Z",
+      "observedAt": "2026-08-13T14:07:58Z",
+      "artifacts": [
+        "frozen-observations.jsonl"
+      ],
+      "writeAuthorizationToken": "018b428ca0a5ad8d8db2f987c1051c0c262021640d3838aade8b6a236e722784"
+    },
+    "translator": {
+      "contextId": "agent-a95b6e371b72c1bb3",
+      "completedAt": "2026-08-13T14:12:29Z",
+      "observedAt": "2026-08-13T14:13:37Z",
+      "artifacts": [
+        "task-candidates.jsonl"
+      ],
+      "writeAuthorizationToken": "6cd23b60796a84cc62afef8a0fc45f94a26c422e22609905bcdf66e5c7dbae09"
+    },
+    "candidateReviewer": {
+      "contextId": "agent-a2711e53580fe9789",
+      "completedAt": "2026-08-13T14:19:57Z",
+      "observedAt": "2026-08-13T14:20:56Z",
+      "artifacts": [
+        "candidate-reviews.jsonl"
+      ],
+      "writeAuthorizationToken": "7c0b85e87cc2f1352e713a15b405b2c6ef45eaaefe50a96e91b5d95f3af162f5"
+    },
+    "candidateCustodian": {
+      "contextId": "agent-ababd1e8c23537122",
+      "completedAt": "2026-08-13T14:24:56Z",
+      "observedAt": "2026-08-13T14:28:42Z",
+      "artifacts": [
+        "frozen-candidates.jsonl"
+      ],
+      "writeAuthorizationToken": "70d44b3a98c14dbc7a3159d219d5cb23528aaa4ac8ee2edb3e53218a8fb9eefd"
+    },
+    "comparator": {
+      "contextId": "agent-a2bb87af81cdf43c5",
+      "completedAt": "2026-08-13T15:47:12Z",
+      "observedAt": "2026-08-13T15:49:00Z",
+      "artifacts": [
+        "comparison.jsonl"
+      ],
+      "writeAuthorizationToken": "07b27f4d1131cbad39ba798ac12e2ed84ae0ffa6e7da6583284848d6032377cf"
+    },
+    "measurementAssetAuthor": {
+      "contextId": "agent-a2227d16f7fd113af",
+      "completedAt": "2026-08-13T16:13:35Z",
+      "observedAt": "2026-08-13T16:15:15Z",
+      "artifacts": [
+        "measurement-assets.staging.jsonl"
+      ],
+      "writeAuthorizationToken": "d58aabf24f9d0e4bf7c74d25a502494ff6dd45d9c76bdcf3d4b290d3721a1a3e"
+    },
+    "oracleReviewer": {
+      "contextId": "agent-a235b7d287dca6d33",
+      "completedAt": "2026-08-13T16:29:52Z",
+      "observedAt": "2026-08-13T16:31:25Z",
+      "artifacts": [
+        "oracle-reviews.staging.jsonl"
+      ],
+      "writeAuthorizationToken": "3c4457147d7165495ed63f46f07da3c3a036d7cfbe17b31ca77a66384f37aef4"
+    },
+    "measurementReviewer": {
+      "contextId": "agent-af84a27460f54f091",
+      "completedAt": "2026-08-13T16:46:20Z",
+      "observedAt": "2026-08-13T16:49:12Z",
+      "artifacts": [
+        "measurement-review.staging.jsonl"
+      ],
+      "writeAuthorizationToken": "27bd3e8ff3ad2383b42337bb049c9bb3a18271b1101d2674102217e3881e12b7"
+    },
+    "exposurePreparer": {
+      "contextId": "agent-ac6aa8b23dd25218a",
+      "completedAt": "2026-08-13T12:59:52Z",
+      "observedAt": "2026-08-13T16:52:51Z",
+      "artifacts": [
+        "agent-visible.jsonl"
+      ],
+      "writeAuthorizationToken": "b43efe744401fb8430aeda21fb547253c644c990e9e2cf4f631577c4084fc5ea"
+    },
+    "blindAgentRehearsal": {
+      "contextId": "agent-a7ab7b3a0c509076f",
+      "completedAt": "2026-08-13T12:59:52Z",
+      "observedAt": "2026-08-13T16:53:54Z",
+      "artifacts": [
+        "blind-agent-rehearsal.jsonl"
+      ],
+      "writeAuthorizationToken": "88a76390fecaad08f992b7f266ad3d58a71bcd652bd8f7e5fc4c17bba08ec875"
+    }
+  },
+  "checkpoint": {},
+  "parkReason": "v1.3.5-review-checkpoint: candidate freeze 완료 후 정온 파킹. 미완료 역할 0. 다음 단계는 comparator(사후 대조). v1.3.5는 std-b12에 소급하지 않으며 종결 뒤 첫 빈 배치부터 적용"
+}

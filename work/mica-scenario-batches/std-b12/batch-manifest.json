@@ -2,7 +2,7 @@
   "origin": "kiheon-ideation",
   "schemaVersion": "mica.scenario-production-batch/v5",
   "batchId": "std-b12",
-  "status": "prepared-locked",
+  "status": "completed",
   "productionProfile": "standard",
   "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
   "methodRevision": "standard-v1.3.4",
@@ -254,22 +254,294 @@
     }
   },
   "roles": {
-    "sourceResearcher": null,
-    "sourceReviewer": null,
-    "needWriter": null,
-    "observationReviewer": null,
-    "observationCustodian": null,
-    "translator": null,
-    "candidateReviewer": null,
-    "candidateCustodian": null,
-    "comparator": null,
-    "measurementAssetAuthor": null,
-    "oracleReviewer": null,
-    "exposurePreparer": null,
-    "blindAgentRehearsal": null,
-    "measurementReviewer": null,
-    "controller": null
+    "sourceResearcher": "agent-a05dc339c90aa5e12",
+    "sourceReviewer": "agent-a1e45b8d2cf982381",
+    "needWriter": "agent-a48d820402ba651b3",
+    "observationReviewer": "agent-a472f6e7c9a0d5fe1",
+    "observationCustodian": "agent-a586e0c33c15b0417",
+    "translator": "agent-a95b6e371b72c1bb3",
+    "candidateReviewer": "agent-a2711e53580fe9789",
+    "candidateCustodian": "agent-ababd1e8c23537122",
+    "comparator": "agent-a2bb87af81cdf43c5",
+    "measurementAssetAuthor": "agent-a2227d16f7fd113af",
+    "oracleReviewer": "agent-a235b7d287dca6d33",
+    "exposurePreparer": "agent-ac6aa8b23dd25218a",
+    "blindAgentRehearsal": "agent-a7ab7b3a0c509076f",
+    "measurementReviewer": "agent-af84a27460f54f091",
+    "controller": "claude-std-b12-controller"
   },
-  "modelRecord": [],
-  "externalActionsAuthorized": false
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 4개 영역 1차 원문 직접 확보(download.do 첨부·pdftotext·HWP 추출), 1개 영역 근거 부재로 의도적 공란",
+      "tools": "web+curl 직접 첨부, pdftotext·HWP 본문 추출, 직접 Write(되읽기), 수치 69건 축자 대조",
+      "contextId": "agent-a05dc339c90aa5e12",
+      "executedAt": "2026-08-13T13:25:33Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 원문 4건 전건 재접근·축자 대조, 7키(limitationsHonesty 포함) 판정, 분모 산술 검산",
+      "tools": "web+curl 직접 첨부(kca.go.kr), pdftotext·HWP 대조, 직접 Write(되읽기), 입력 SHA 3회 게이트",
+      "contextId": "agent-a1e45b8d2cf982381",
+      "executedAt": "2026-08-13T13:34:39Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 생활 필요 작성(의미 역할), 인용 비율 전건 분모 명시·원문 미기재 수치 자발 배제",
+      "tools": "로컬 읽기(수락 evidence 3건만)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a48d820402ba651b3",
+      "executedAt": "2026-08-13T13:51:27Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 5개 검사 전건 판정, 분모 산술 재도출·혼합 분모 함정값 부재 확인",
+      "tools": "로컬 읽기(관찰·수락 evidence·계약)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a472f6e7c9a0d5fe1",
+      "executedAt": "2026-08-13T13:58:37Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "observationCustodian",
+      "model": "claude-sonnet (alias 지정 — 정형 운반 역할 medium)",
+      "effortClass": "medium — accepted-only 동결·행 해시 결속, python·shasum 이중 계산 교차검증, 승인 메시지 내용 독립 재검증",
+      "tools": "로컬 읽기(관찰·판정 2파일)+hashlib·shasum 교차 검증+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a586e0c33c15b0417",
+      "executedAt": "2026-08-13T14:05:50Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "translator",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 과업 번역(의미 역할), 제도 층위 관찰 1건 hold 판단",
+      "tools": "로컬 읽기(frozen-observations·계약)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a95b6e371b72c1bb3",
+      "executedAt": "2026-08-13T14:12:29Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 10개 검사 전건 판정, 상대방 이행 의존·접수만으로 완료 여부 엄격 대조",
+      "tools": "로컬 읽기(frozen-observations·task-candidates·계약)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a2711e53580fe9789",
+      "executedAt": "2026-08-13T14:19:57Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "candidateCustodian",
+      "model": "claude-sonnet (alias 지정 — 정형 운반 역할 medium)",
+      "effortClass": "medium — accepted-only 동결·행 해시 결속, python·shasum 교차검증, 승인 메시지 주장 불채택 후 원문 독립 확인",
+      "tools": "로컬 읽기(후보·판정 2파일)+hashlib·shasum 교차 검증+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-ababd1e8c23537122",
+      "executedAt": "2026-08-13T14:24:56Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 5축 사후 대조(카탈로그+파일럿15+과거 배치 13파일, std-b11 제외), duplicate 우선 검토·사후 카테고리 부착",
+      "tools": "로컬 읽기(비교군 read-only, SHA 기록)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a2bb87af81cdf43c5",
+      "executedAt": "2026-08-13T15:47:12Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — fixture·reset·eligibility·variant 5종·합성 시계 설계, simultaneity 충돌 4건 발견·해소, 무응답 variant 종결 판정 설계",
+      "tools": "로컬 읽기(frozen-candidates·comparison+타입 골격)+직접 Write(되읽기), 감사 스크립트 자체 검증, 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a2227d16f7fd113af",
+      "executedAt": "2026-08-13T16:13:35Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 10개 variant 이분 판정 가능성 검토·minimum sufficient oracle 작성, 자산 설계 issue 13건 발견",
+      "tools": "로컬 읽기(frozen-candidates·measurement-assets+타입 골격)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-a235b7d287dca6d33",
+      "executedAt": "2026-08-13T16:29:52Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus-5 (세션 상속)",
+      "effortClass": "high — 15개 검사 전수·issue 13건 재정, 자산 주장 독립 재검증, oracle 미기재 blocking급 2건 추가 발견",
+      "tools": "로컬 읽기(후보·comparison·자산·oracle 4파일+타입 골격)+직접 Write(되읽기), 입력 SHA 3회 게이트, 웹 미사용",
+      "contextId": "agent-af84a27460f54f091",
+      "executedAt": "2026-08-13T16:46:20Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "exposurePreparer",
+      "model": "claude-sonnet (alias 지정 — 정형 확인 역할 medium)",
+      "effortClass": "medium — designable-pending-exposure 0건 독립 확인(verdict 원문·SHA·contracts 3중 대조), 공개 표면 미생성",
+      "tools": "로컬 읽기(measurement-review·frozen-candidates·measurement-contracts)+SHA 검증, 웹 미사용",
+      "contextId": "agent-ac6aa8b23dd25218a",
+      "executedAt": "2026-08-13T12:59:52Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    },
+    {
+      "role": "blindAgentRehearsal",
+      "model": "claude-sonnet (alias 지정 — 정형 확인 역할 medium)",
+      "effortClass": "medium — agent-visible 0행 확인, 리허설 대상 부재 판정, 허용 입력 외 파일 미열람",
+      "tools": "로컬 읽기(agent-visible.jsonl 행수만), 도구 실행·웹 미사용",
+      "contextId": "agent-a7ab7b3a0c509076f",
+      "executedAt": "2026-08-13T12:59:52Z",
+      "timeSource": "latest-artifact-filesystem-mtime"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "activeController": "claude-std-b12-controller (session claude-c04f7e76-13b9-43a7-b465-bb0ef5fe809b, generation 1). 소유권 근거는 controller-state.json의 lease뿐이며 claim/assign-role/complete-role/record-artifact/park/close로만 상태를 바꾼다",
+    "userDirective": "Codex 2026-08-13 전달: std-b12 표준 생산 — SKILL.md 확인 후 HEAD·작업트리·validate-ready 검증, claim 후 시작. std-b11과 codex/std-b11-parked를 생산 입력으로 읽지 않음(회귀 자료로만 격리). 과거 후보·기존 MICA 100·comparison·카테고리·holdout을 작성자·번역자에 비노출. 역할별 독립 컨텍스트, assign-role 토큰과 role-briefing 사용, 같은 토큰으로 complete-role. observation review에서 needBoundary·noInventedFacts 실패 시 반드시 reject. ob-b11-01·02 내용을 작성자 입력으로 사용 금지. 중단 시 abandon-role 후 park. push·Notion·Slack·배포 금지, 로컬 커밋까지 허용",
+    "scopeDecision": "controller 판단(방법론 7절 추상 coverage 차원 — 기존 과제명이 아니라 '탐색·거래'와 '저위험 반복 실행'을 독립 조사 질문으로 사용). 공공·제도·권리 편중을 피하고 서로 다른 5개 생활 영역을 배정: ①여러 사람과의 일정 조정·약속 확정·변경 과정 ②여행·숙박 예약의 변경·취소·환불 과정 ③구매한 물건의 반품·교환과 환불 완료까지의 과정 ④공연·전시 등 예매의 취소·환불 과정 ⑤학원·온라인 강의 등 교육 서비스의 수강료 환불 과정. 영역은 조사 질문일 뿐 과업명이 아니며 근거가 지지하지 않으면 비운다. 수량 미강제(0건 수락도 유효)",
+    "authorFirewall": "role-briefing이 manifest의 roleInputAllowlist·forbiddenAuthorInputs에서 기계 생성한 허용·금지 입력만 각 역할에 전달한다. controller가 자연어로 입력 파일을 덧붙이지 않는다. std-b11 산출물과 codex/std-b11-parked 브랜치는 어느 역할에도 전달하지 않는다. 카테고리는 후보 동결 뒤 comparator 단계에서만 사후 부착",
+    "toolConstraint": "Slack·Notion 호출 0, git push 0, 배포 0. 로컬 커밋까지만 허용. 시각은 complete-role·record-artifact가 파일 mtime·OS 관측에서 파생하며 controller가 추정 기입하지 않는다",
+    "startedAt": "2026-08-13T13:15:45Z (claim, OS 실측)"
+  },
+  "artifactShaLedger": [
+    {
+      "path": "source-evidence.jsonl",
+      "sha256": "03ad5eede3d344862a1b677fe70adbfb0c41c876e1516e06745dbe70da158ba3",
+      "closedBy": "agent-a05dc339c90aa5e12",
+      "verifiedByController": true,
+      "at": "2026-08-13T13:25:33Z",
+      "observedAt": "2026-08-13T13:27:06Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "source-reviews.jsonl",
+      "sha256": "e5900a3a8e96320d3f6d24868fa67f0067139523fcabbee6f23cb17cf6b2aabf",
+      "closedBy": "agent-a1e45b8d2cf982381",
+      "verifiedByController": true,
+      "at": "2026-08-13T13:34:39Z",
+      "observedAt": "2026-08-13T13:35:53Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "need-observations.jsonl",
+      "sha256": "92856c350a15d063d310e5de93c56a2ba0e698ce440804f64029c394294a47b2",
+      "closedBy": "agent-a48d820402ba651b3",
+      "verifiedByController": true,
+      "at": "2026-08-13T13:51:27Z",
+      "observedAt": "2026-08-13T13:52:30Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "observation-reviews.jsonl",
+      "sha256": "afe3322e4d1598f006f0ee9bd487b0b751132409d53eca8984266c99d9b1d6c1",
+      "closedBy": "agent-a472f6e7c9a0d5fe1",
+      "verifiedByController": true,
+      "at": "2026-08-13T13:58:37Z",
+      "observedAt": "2026-08-13T13:59:36Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "frozen-observations.jsonl",
+      "sha256": "705ce444ce6904aed660076449cae270c04b95c1920b5033f920f01b61535a28",
+      "closedBy": "agent-a586e0c33c15b0417",
+      "verifiedByController": true,
+      "at": "2026-08-13T14:05:50Z",
+      "observedAt": "2026-08-13T14:07:58Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "task-candidates.jsonl",
+      "sha256": "1b7e93ceda233514f00e7627e06f6e4a2097c1e25bfdafe08af1891da2c37e5e",
+      "closedBy": "agent-a95b6e371b72c1bb3",
+      "verifiedByController": true,
+      "at": "2026-08-13T14:12:29Z",
+      "observedAt": "2026-08-13T14:13:37Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "candidate-reviews.jsonl",
+      "sha256": "a3862a5c623ecd7c93aaa19cd8e1e69e4d0782993ae415c4720613b0378c7704",
+      "closedBy": "agent-a2711e53580fe9789",
+      "verifiedByController": true,
+      "at": "2026-08-13T14:19:57Z",
+      "observedAt": "2026-08-13T14:20:56Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "frozen-candidates.jsonl",
+      "sha256": "ef2970d95631f3720cf7c5bb31b996fefd50bd68c6ac2c48d28ec91a1b60ad52",
+      "closedBy": "agent-ababd1e8c23537122",
+      "verifiedByController": true,
+      "at": "2026-08-13T14:24:56Z",
+      "observedAt": "2026-08-13T14:28:42Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "comparison.jsonl",
+      "sha256": "d80618084e37f3149e1aad5ba94c3fb9c2f4ff29f915aaedb1b2bfa483ec1260",
+      "closedBy": "agent-a2bb87af81cdf43c5",
+      "verifiedByController": true,
+      "at": "2026-08-13T15:47:12Z",
+      "observedAt": "2026-08-13T15:49:00Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "measurement-assets.staging.jsonl",
+      "sha256": "7ebe85579b78ceabc533a5fd99fe95437bfdaa616dcb9cf168392e076020192e",
+      "closedBy": "agent-a2227d16f7fd113af",
+      "verifiedByController": true,
+      "at": "2026-08-13T16:13:35Z",
+      "observedAt": "2026-08-13T16:15:15Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "oracle-reviews.staging.jsonl",
+      "sha256": "7e4a9601034cb4dce66146e4b09979671cc8c7de4f20b3b6c2e61a908e3edbb2",
+      "closedBy": "agent-a235b7d287dca6d33",
+      "verifiedByController": true,
+      "at": "2026-08-13T16:29:52Z",
+      "observedAt": "2026-08-13T16:31:25Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "measurement-review.staging.jsonl",
+      "sha256": "b9fdeb824811b53233c66c35be79b0b1197ce91af474e5152946fc7a6866d2ce",
+      "closedBy": "agent-af84a27460f54f091",
+      "verifiedByController": true,
+      "at": "2026-08-13T16:46:20Z",
+      "observedAt": "2026-08-13T16:49:12Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "agent-visible.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "closedBy": "agent-ac6aa8b23dd25218a",
+      "verifiedByController": true,
+      "at": "2026-08-13T12:59:52Z",
+      "observedAt": "2026-08-13T16:52:51Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "blind-agent-rehearsal.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "closedBy": "agent-a7ab7b3a0c509076f",
+      "verifiedByController": true,
+      "at": "2026-08-13T12:59:52Z",
+      "observedAt": "2026-08-13T16:53:54Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "defect-ledger.jsonl",
+      "sha256": "13975fab738ea343ffed2bdec7f49d5f4b65bebbdebc1aea109170c60555a87e",
+      "closedBy": "claude-std-b12-controller",
+      "verifiedByController": true,
+      "at": "2026-08-13T17:06:18Z",
+      "observedAt": "2026-08-13T17:06:18Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    }
+  ]
 }
