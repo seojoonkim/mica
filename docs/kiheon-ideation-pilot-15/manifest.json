@@ -80,8 +80,8 @@
     },
     {
       "path": "scripts/test-mica-scenario-production.py",
-      "sha256": "85199d5b24370e329b6e586f85f0e6d6b9ae48d24c97ca08c9754bd2cbf17712",
-      "byteLength": 17271
+      "sha256": "b645cf2d997f1ab2df22fa38b1944799ef9481dd407862467a5dd43b0db3b4eb",
+      "byteLength": 19301
     },
     {
       "path": "scripts/mica-synthetic-execution-pilot.py",
