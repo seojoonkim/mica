@@ -1,0 +1,962 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.research-portfolio/v1",
+  "portfolioId": "kiheon-ideation-100-slot",
+  "displayNameKo": "신기헌 아이데이션 100-slot 연구 포트폴리오",
+  "displayNameEn": "Kiheon Ideation 100-slot Research Portfolio",
+  "relationToCanonical": "parallel-research-portfolio",
+  "canonicalAdoptionStatus": "not-adopted",
+  "targetSlotCount": 100,
+  "categories": [
+    {
+      "categoryId": "email-calendar",
+      "slots": [
+        {
+          "slotId": "email-calendar-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "shopping-delivery",
+      "slots": [
+        {
+          "slotId": "shopping-delivery-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "travel-accommodation",
+      "slots": [
+        {
+          "slotId": "travel-accommodation-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "restaurants-local",
+      "slots": [
+        {
+          "slotId": "restaurants-local-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "money-banking-investing",
+      "slots": [
+        {
+          "slotId": "money-banking-investing-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "mobility-transit",
+      "slots": [
+        {
+          "slotId": "mobility-transit-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "healthcare-administration",
+      "slots": [
+        {
+          "slotId": "healthcare-administration-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "government-civic",
+      "slots": [
+        {
+          "slotId": "government-civic-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "home-utilities",
+      "slots": [
+        {
+          "slotId": "home-utilities-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "telecom-subscriptions",
+      "slots": [
+        {
+          "slotId": "telecom-subscriptions-01",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    }
+  ]
+}
