@@ -40,6 +40,8 @@
 - Lean의 의미 재검토만 새 항목·변경 항목·고위험 항목에 집중한다.
 - 역할별 허용 입력은 `batch-manifest.json`의 `roleInputAllowlist`로 고정하며, controller가 배치 시작 전에 확인한다.
 - 신규 배치는 커밋된 방법 revision과 파일별 SHA-256을 `methodLock`에 기록하고 `validate-ready`를 통과하기 전까지 생산하지 않는다.
+- `validate-ready` 통과 뒤 controller는 `mica-batch-control.py claim`으로 OS 시각 기반 lease를 얻고 만료 전 `renew`한다. 각 역할은 산출물을 쓰기 전에 `assign-role`로 실제 context ID를 선점하고, 종료 시 `complete-role`로 파일 mtime 기반 원장과 모델 기록을 닫는다.
+- 세션을 넘길 때는 `park`가 만든 전수 SHA checkpoint와 사람 지시 참조를 `resume`이 함께 검증한다. 연결된 다른 세션의 요약이나 전달문만으로 controller 소유권을 바꾸지 않는다.
 - 진행 중인 배치에는 방법 변경을 소급하지 않는다. 결함은 원장에 남기고 다음 배치 revision에서만 반영한다.
 - 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. 각 reviewer는 controller가 확정한 입력 SHA-256을 시작 전·쓰기 직전·완료 후 확인한다.
 - 입력 SHA-256이 바뀐 review는 결과 수량에서 제외하고 stale evidence로 격리한다.
@@ -143,10 +145,10 @@ custodian은 controller의 기계적 대행 역할이 아니다. 작성자·revi
 ## 판정
 
 - 수락은 모든 필수 기준이 통과할 때만 가능하다.
-- 거절 원문과 review는 보존한다. 원문을 수정해야 하면 새 ID와 새 검토가 필요하다.
+- 거절 원문과 review는 보존한다. 현재 배치에서 같은 관찰을 새 ID로 재작성하지 않으며, 수락 수가 줄어도 그대로 진행하거나 닫는다. 재시도는 다음 배치에서 새 evidence와 새 ID로 시작한다.
 - 근거 부족, 권한 불명, 완료 readback 부재, 안전한 반복 실행 불가 중 하나라도 있으면 hold 또는 reject다.
 - 목표 수량 때문에 통과시키지 않는다.
-- `userRequest`가 내부 필드명, 정답 상태, 실패 분기, 채점 식별자를 노출하면 reject 또는 새 ID 재작성이다.
+- `userRequest`가 내부 필드명, 정답 상태, 실패 분기, 채점 식별자를 노출하면 reject다. 수정 재시도는 현재 배치 행을 덮지 않고 다음 배치로 넘긴다.
 - oracle은 사용자 결과를 판정하는 최소 조건만 포함한다. 결과와 무관한 특정 문구·클릭 순서·내부 표현을 강제하면 reject다.
 
 ## 모델과 재현성

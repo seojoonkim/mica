@@ -299,6 +299,7 @@
   "externalActionsAuthorized": false,
   "controllerNotes": {
     "activeController": "claude-code-controller-std-b10 (production lane) — 이 배치의 유일한 활성 컨트롤러. 다른 런타임은 이 배치 경로에 쓰기 전 이 선언을 갱신·인수 기록해야 함(std-b8 이중 통제 사건 재발 방지 임시 표식, 정식 장치는 revision 대기)",
+    "controllerStateAtClosure": "closed — activeController는 생산 당시 임시 선언을 보존한 역사 필드이며 현재 활성 lease를 뜻하지 않음. 후속 standard-v1.3.3부터 controller-state.json을 사용",
     "userDirective": "기헌 2026-08-13: std-b10 진행 — HANDOFF.md 경계·순서 그대로 적용, std-b10 신규 산출물만 수정, 방법·스킬·검증기·러너 무수정, 과거 배치 역할 컨텍스트 재사용 금지, validate-ready PASS 후 역할별 새 컨텍스트, 작성자에게 기존 과제·후보·comparison·quota 비노출, 완료/fail-closed 후 결함 원장·closure 포함 보고. git push·Notion·Slack 반영 금지",
     "scopeDecision": "controller 판단(HANDOFF 조사 방향: 상대적으로 적게 다룬 저위험 일상 유지 영역 우선 + 방법론 7절 추상 coverage 차원) — 저위험 반복 일상 유지 생활 영역 3종: ①일상 생필품·식료품의 반복 구매와 수령·반품·교환 과정 유지 부담(쇼핑·배송 가족) ②일상 외식·매장 예약과 이용 과정의 반복 부담(외식·예약 가족) ③일상 이동·대중교통 정기 이용 유지 부담(이동 가족). 충돌 회피 경계(controller 전용 지식, 작성자 비전달): 놓친 배송 후속 조치·통관부호 대조(02 기존), 알레르기 확인 후 승인 주문(04 기존), 분실물 보관단계·취소수수료 구간(06 기존)과 가족 수준 중복 회피. 수락 0건 유효, 최대 초안 3건",
     "startedAt": "2026-08-13T05:14+0900",
@@ -437,10 +438,20 @@
     },
     {
       "path": "closure.json",
-      "sha256": "abd643ab09026e04b5ec1f5822fb7d07fde3c7c4e0c48a0309b36582d9f20541",
+      "sha256": "8e26873c47d07bdaa05217ad4edfe1b007bc55f66f793d0b60f3f48ab927aa8f",
       "closedBy": "claude-code-controller-std-b10",
       "verifiedByController": true,
-      "at": "2026-08-13T11:40+09:00"
+      "at": "2026-08-13T04:10:48Z",
+      "postClosureUpdatedBy": "codex-control-plane-standard-v1.3.3",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "PROCESS-DEFECT-RESOLUTION.md",
+      "sha256": "751586aebc8033e2b3dce0cb5289cab2bc8cc5bfc0a3ebd1aca4bfebd257adb0",
+      "closedBy": "codex-control-plane-standard-v1.3.3",
+      "verifiedByController": true,
+      "at": "2026-08-13T04:07:26Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
     }
   ]
 }

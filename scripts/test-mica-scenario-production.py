@@ -3,11 +3,10 @@ from __future__ import annotations
 
 import hashlib
 import json
-from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "scripts" / "mica-scenario-production.py"
@@ -45,7 +44,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
             locked = run_cli("lock-method", str(batch))
             self.assertEqual(locked.returncode, 0, locked.stdout + locked.stderr)
             self.assertIn("batchId=test-standard-batch", locked.stdout)
-            self.assertIn("methodRevision=standard-v1.3.2", locked.stdout)
+            self.assertIn("methodRevision=standard-v1.3.3", locked.stdout)
 
             ready = run_cli("validate-ready", str(batch))
             self.assertEqual(ready.returncode, 0, ready.stdout + ready.stderr)
@@ -75,6 +74,8 @@ class ScenarioProductionCliTest(unittest.TestCase):
         self.assertEqual(legacy.returncode, 0, legacy.stdout + legacy.stderr)
         v4 = run_cli("validate-batch", str(ROOT / "work" / "mica-scenario-batches" / "std-b8"))
         self.assertEqual(v4.returncode, 0, v4.stdout + v4.stderr)
+        completed_v5 = run_cli("validate-batch", str(ROOT / "work" / "mica-scenario-batches" / "std-b10"))
+        self.assertEqual(completed_v5.returncode, 0, completed_v5.stdout + completed_v5.stderr)
 
         with tempfile.TemporaryDirectory(prefix="mica-exposure-") as temp_dir:
             batch = Path(temp_dir) / "test-exposure-batch"
@@ -92,7 +93,7 @@ class ScenarioProductionCliTest(unittest.TestCase):
             self.assertEqual(created.returncode, 0, created.stdout + created.stderr)
             manifest = json.loads((batch / "batch-manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest["schemaVersion"], "mica.scenario-production-batch/v5")
-            self.assertEqual(manifest["methodRevision"], "standard-v1.3.2")
+            self.assertEqual(manifest["methodRevision"], "standard-v1.3.3")
             self.assertTrue((batch / "agent-visible.jsonl").is_file())
             self.assertTrue((batch / "blind-agent-rehearsal.jsonl").is_file())
             manifest["roles"]["exposurePreparer"] = "exposure-preparer-001"

@@ -72,6 +72,7 @@ PR을 clone 또는 checkout한 뒤 저장소 루트에서 Codex나 Claude Code�
 - Lean 배치: `python3 scripts/mica-scenario-production.py new-batch --profile lean --batch-id <batch-id>`
 - 방법 동결: `python3 scripts/mica-scenario-production.py lock-method work/mica-scenario-batches/<batch-id>`
 - 생산 시작 검사: `python3 scripts/mica-scenario-production.py validate-ready work/mica-scenario-batches/<batch-id>`
+- controller 소유권: 시작은 `python3 scripts/mica-batch-control.py claim ...`, 역할 시작은 `assign-role`, 종료 기록은 `complete-role`, 중단·승계는 `park`·`resume`
 
 첫 에이전트는 표준 5건·6–12시간과 Lean 3건·3–5시간의 역할·모델 자원을 먼저 안내하고, 지정이 없으면 하나를 추천한 뒤 선택을 기다린다. 실행 계약은 [`agent-production-contract.md`](./agent-production-contract.md), 독립 역할별 전달문은 [`role-prompts.md`](./role-prompts.md)에 있다. 작성자·번역자에게 이 15건이나 기존 MICA 과제를 발상 입력으로 제공하지 않는 것이 재현의 핵심이다.
 

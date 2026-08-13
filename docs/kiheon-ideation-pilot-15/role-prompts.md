@@ -1,6 +1,6 @@
 # 역할별 전달 프롬프트
 
-각 블록은 서로 다른 에이전트 컨텍스트에 단독 전달한다. `<...>` 값과 허용 파일 목록은 controller가 채운다. 다른 역할의 대화나 결론을 함께 전달하지 않는다. 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다(Lean v1). producer가 입력 파일의 SHA-256을 확정한 뒤 reviewer에게 전달하며, reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256인지 확인한다. 값이 바뀌면 출력하지 않고 controller에 stale input을 보고한다.
+각 블록은 서로 다른 에이전트 컨텍스트에 단독 전달한다. `<...>` 값과 허용 파일 목록은 controller가 채운다. 다른 역할의 대화나 결론을 함께 전달하지 않는다. 동시에 최대 2개 컨텍스트만 활성화하고, 순서 의존 단계는 병렬화하지 않는다(Lean v1). controller는 역할 시작 전에 `mica-batch-control.py assign-role`로 실제 context ID를 선점한다. producer가 입력 파일의 SHA-256을 확정한 뒤 reviewer에게 전달하며, reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA-256인지 확인한다. 값이 바뀌면 출력하지 않고 controller에 stale input을 보고한다. 역할 종료 시 controller는 `complete-role`로 파일 mtime 기반 시각과 SHA를 기록하며 모델이 시각을 추정하지 않는다.
 
 ## 1. source researcher
 
@@ -17,6 +17,8 @@
 ## 4. observation reviewer
 
 > need writer와 다른 독립 의미 검토자다. 각 관찰을 sourceRefs와 대조해 evidence alignment, need boundary, non-prescription, no invented facts, state-change clarity를 모두 판정한다. 하나라도 실패하면 reject한다. 원문을 수정하지 않고 review JSONL만 작성한다.
+
+거절된 관찰은 같은 배치에서 새 ID로 다시 쓰지 않는다. 수락 수량을 채우지 않고 accepted-only 집합으로 진행하며, 재조사가 필요하면 다음 배치에서 새 evidence와 새 ID로 시작한다.
 
 ## 5. observation custodian
 
@@ -60,4 +62,4 @@
 
 ## 15. controller 종료 보고
 
-> 배치의 원천 수, 관찰 수락·거절, 후보 수락·거절, comparison 분포, `designable-pending-exposure`와 blind-agent rehearsal 통과 `designable` 수, 발견 결함, 회귀 결과, 다음 배치 유지·중단 판단을 한국어로 요약한다. 수락이 0이어도 숨기지 않는다. 외부 공유와 정본 반영은 사람 승인 대기 상태로 남긴다.
+> 배치의 원천 수, 관찰 수락·거절, 후보 수락·거절, comparison 분포, `designable-pending-exposure`와 blind-agent rehearsal 통과 `designable` 수, 발견 결함, 회귀 결과, 다음 배치 유지·중단 판단을 한국어로 요약한다. 수락이 0이어도 숨기지 않는다. controller는 전 역할 `complete-role` 기록과 SHA를 확인하고 manifest·closure를 닫은 뒤 `mica-batch-control.py close`를 실행한다. 외부 공유와 정본 반영은 사람 승인 대기 상태로 남긴다.

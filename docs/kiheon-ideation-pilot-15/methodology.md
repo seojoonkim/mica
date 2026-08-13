@@ -1,7 +1,7 @@
 # 독립 관찰에서 측정 가능 후보까지
 
 - execution profile: `standard`
-- method revision: `standard-v1.3.2` (`standard-v1.3.1` + std-b9 계보·시각 이식성 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
+- method revision: `standard-v1.3.3` (`standard-v1.3.2` + std-b10 컨트롤러 lease·재개·역할 선점·OS 시각 기록 보정. 블라인드 리허설은 입력 충분성·경로 존재성 검사이며 실제 에이전트 성능 표본이 아니다.)
 - batch ceiling: 최대 5건
 - estimated duration: 1회 약 6–12시간
 - relationship: 기존 전체 방법론이며 압축 프로필은 [`methodology-lean-v1.md`](./methodology-lean-v1.md)에서 별도로 정의
@@ -148,6 +148,17 @@ measurement review 뒤 `blind-agent rehearsal`을 수행한다. 별도 컨텍스
 1. RFC 3339의 UTC `Z` 표기와 숫자 오프셋 표기를 모두 유효한 timezone-aware 시각으로 검증한다.
 2. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl`의 해당 후보 원문 한 줄 전체에서 줄바꿈을 제외하고 계산한 SHA-256이다. source evidence나 frozen observation의 hash를 대신 쓰지 않는다.
 3. 완료된 `std-b9` 산출물은 역사 기록으로 보존하며 소급 수정하지 않는다. 새 규칙은 다음 배치의 method lock부터 적용한다.
+
+### standard-v1.3.3 컨트롤러·재개 무결성 보정
+
+`std-b10`에서 배치 내용은 정상 종결됐지만 재개 관문 부재, 이중 컨트롤러와 역할 중복 기동, 거절 관찰 재작성과 초안 상한의 충돌, 세션 간 파킹 지시 검증 공백, 추정 시각 기입이 발견됐다. 다음 빈 배치부터 아래를 적용한다.
+
+1. `validate-ready` 통과 직후 `mica-batch-control.py claim`으로 유일한 controller lease를 만든다. lease에는 controller context, session, 세대, OS 실측 획득·갱신·만료 시각을 기록하며 장시간 역할 중에는 `renew`로 갱신한다.
+2. 모든 역할은 실행 전에 `assign-role`로 실제 context ID를 선점한다. 같은 role의 두 번째 context와 다른 role에서 재사용한 context ID는 차단한다.
+3. 중단 시 controller는 `park`로 배치 파일 전수 SHA checkpoint를 닫는다. 새 세션의 `resume`은 checkpoint 불변, 이전 lease의 parked 또는 만료 상태, 사람 지시를 가리키는 `user-message:` 또는 `operator-approval:` 참조를 모두 확인한다. 다른 세션의 전달문만으로 인수하지 않는다.
+4. 역할 종료와 원장 기록은 `complete-role`을 사용한다. `executedAt`과 원장 `at`은 산출물 파일 mtime에서, `observedAt`은 도구가 읽은 OS 시각에서 파생한다. 모델이 체감 시간이나 예상 시간을 입력하지 않는다.
+5. 거절 원문은 현재 배치에서 재작성하지 않는다. 수락 수가 상한보다 적어도 그대로 진행하거나 0건으로 닫고, 같은 필요를 다시 조사하려면 다음 배치에서 새 evidence와 새 ID로 시작한다. 이로써 원문 불변성과 `maxDrafts` 상한을 동시에 지킨다.
+6. 완료된 `std-b10`의 과거 시각·파킹 기록은 감사 증거로 보존한다. 새 controller state를 소급 생성하지 않고 새 규칙은 `standard-v1.3.3` method lock부터 강제한다.
 
 ### standard-v1.3 확정 사항 (2026-08-11 기헌 채택)
 

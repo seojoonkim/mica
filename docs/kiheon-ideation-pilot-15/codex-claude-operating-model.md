@@ -2,8 +2,8 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.3.2`
-- current compressed revision: `lean-v1.2-b5`
+- current standard revision: `standard-v1.3.3`
+- current compressed revision: `lean-v1.3`
 
 ## 1. 역할 선언
 
@@ -53,7 +53,7 @@ Claude Code가 배치 도중 방법 revision을 바꾸거나 비교 결과를 �
 
 1. `prepared-unlocked`: 빈 배치만 생성된 상태. 생산 금지.
 2. `prepared-locked`: 커밋된 방법 revision과 파일별 SHA-256이 결속된 상태.
-3. `in-progress`: `validate-ready` 통과 후 production lane이 역할 실행을 시작한 상태.
+3. `in-progress`: `validate-ready` 통과 뒤 OS 시각 기반 controller lease를 얻고 production lane이 역할 실행을 시작한 상태.
 
 ```bash
 python3 scripts/mica-scenario-production.py lock-method \
@@ -61,9 +61,16 @@ python3 scripts/mica-scenario-production.py lock-method \
 
 python3 scripts/mica-scenario-production.py validate-ready \
   work/mica-scenario-batches/<batch-id>
+
+python3 scripts/mica-batch-control.py claim \
+  work/mica-scenario-batches/<batch-id> \
+  --controller-context-id <controller-context-id> \
+  --session-id <session-id>
 ```
 
-`validate-ready`는 빈 산출물, 열린 closure, 미할당 역할, 현재 checkout의 방법 파일과 동결 해시 일치를 확인한다. PASS는 생산 시작 조건만 확인하며 의미 품질이나 후보 수락을 승인하지 않는다.
+`validate-ready`는 빈 산출물, 열린 closure, 미할당 역할, 현재 checkout의 방법 파일과 동결 해시 일치를 확인한다. `claim`은 그 PASS 위에서 controller context·session·세대·lease 만료 시각을 `controller-state.json`에 원자적으로 기록한다. PASS는 생산 시작 조건만 확인하며 의미 품질이나 후보 수락을 승인하지 않는다.
+
+각 역할은 쓰기 전에 `assign-role`로 context ID를 선점한다. 역할 종료 시 `complete-role`이 산출물 SHA, 파일 mtime 기반 `at`·`executedAt`, OS 관측 `observedAt`을 기록한다. 중단 시 `park`가 전수 파일 checkpoint를 만들고, 새 세션의 `resume`은 checkpoint 불변·lease 상태·사람 지시 참조를 확인한다. 다른 세션의 전달문만으로 소유권을 바꾸지 않는다.
 
 ## 4. standard-v1.1-b4에 반영된 회귀 규칙
 
@@ -112,16 +119,14 @@ python3 scripts/mica-scenario-production.py validate-ready \
 
 ## 7. 현재 인수인계
 
-`std-b9`은 `standard-v1.3.1`·`v5`로 완료됐다. source 5건 중 3건, observation 4건 중 3건이 수락됐고 후보 3건은 모두 `transformation`·`designable`로 종결됐다. 신기헌 아이데이션의 측정 설계 후보는 누적 50건이다. 이는 실제 에이전트 실행 50회나 성공률, 시장 성립, 공개 적격을 뜻하지 않는다.
+`std-b10`은 `standard-v1.3.2`·`v5`로 완료됐다. source 5건, 관찰 초안 3건 중 수락 2·거절 1, 동결 후보 2건, `transformation` 2건, blind rehearsal 통과 `designable` 2건을 보존했다. 실제 simulator 실행은 0회이며 시장 성립·공개 적격·성공률을 뜻하지 않는다.
 
-같은 시점에 Codex는 `std-b8`의 실행 파일럿에서 OS 경로 격리와 의미 기반 사후 판정을 확인했다. 저장소 전체 preflight와 `std-b9` 검증을 다시 수행하는 과정에서 RFC 3339 UTC `Z` 시각이 일부 Python 환경에서 거부되는 이식성 결함과 `sourceFrozenRowSha256`의 의미 모호성을 확인했고, 이를 `standard-v1.3.2`로 보정한다. 완료된 `std-b9` 산출물은 수정하지 않는다.
+내용 산출물은 정상 종결됐지만 공정 결함 5건이 확인됐다. Codex는 다음 빈 배치부터 controller lease, 역할 선점, checkpoint 기반 재개, OS 시각 기반 원장 기록을 강제하고 거절 원문의 같은 배치 재작성을 금지하는 `standard-v1.3.3`으로 보정한다. 완료된 `std-b10`의 파킹·시각 보정 기록은 감사 증거로 보존하며 새 controller state를 소급 생성하지 않는다.
 
 다음 협업 순서는 아래와 같다.
 
-1. Codex가 `standard-v1.3.2`를 커밋하고 전체 preflight·회귀를 통과시킨다.
-2. 다음 빈 표준 배치는 `std-b10`, 최대 3건으로 준비한다. source research는 상대적으로 적게 다룬 저위험 일상 유지 영역을 우선하되 기존 과제명·후보·카테고리 quota를 author 입력으로 전달하지 않는다.
-3. Claude Code는 동결된 `std-b10` method lock만 사용해 신규 생산을 맡고 방법 파일·실행 러너는 수정하지 않는다.
-4. Codex는 `std-b9` 결함 원장의 simulator 실행 전 정리 항목을 후보별로 닫고, 별도 실행 승격 대상으로 선정된 후보만 OS 격리 합성 실행에 올린다.
-5. 두 런타임은 같은 artifact path를 동시에 수정하지 않는다. Claude Code는 `work/mica-scenario-batches/std-b10/`, Codex는 방법 파일과 별도 execution pilot 경로만 소유한다.
-
-이 인수인계는 신규 후보의 수락 수량을 예약하지 않는다. 0건 수락도 유효하며, 시장 검토·실제 서비스 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.
+1. Codex가 `standard-v1.3.3`과 controller 도구를 커밋하고 전체 preflight·회귀·실사용 재개 시나리오를 통과시킨다.
+2. 다음 빈 표준 배치는 새 method lock을 사용하고, `validate-ready → claim → assign-role → complete-role` 순서를 지킨다.
+3. Claude Code는 동결된 다음 배치만 생산하며, 중단 시 `park`, 새 세션 인계 시 사람 지시 참조가 있는 `resume`을 사용한다.
+4. 거절 초안은 현재 배치 수량을 채우기 위해 다시 쓰지 않는다. 재조사는 다음 배치에서 새 evidence와 새 ID로 시작한다.
+5. 두 런타임은 같은 artifact path를 동시에 수정하지 않는다. 시장 검토·실제 서비스 실행·공개·정본 편입·push는 별도 사람 승인 대상이다.

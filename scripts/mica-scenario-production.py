@@ -2,14 +2,15 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
 import hashlib
 import json
 import re
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
+from mica_batch_control import validate_controller_state
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC_ROOT = ROOT / "docs" / "kiheon-ideation-pilot-15"
@@ -127,7 +128,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 3,
         "reasoning": "의미 역할 전반에 high/xhigh 중심",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
-        "methodRevision": "standard-v1.3.2",
+        "methodRevision": "standard-v1.3.3",
         "recommendedWhen": "첫 재현, 방법론 변경, 고위험 과업, 반복 결함 또는 판정 충돌",
     },
     "lean": {
@@ -138,7 +139,7 @@ PRODUCTION_PROFILES: dict[str, dict[str, object]] = {
         "maxConcurrentContexts": 2,
         "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상",
         "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
-        "methodRevision": "lean-v1.2-b5",
+        "methodRevision": "lean-v1.3",
         "recommendedWhen": "계약과 도구가 안정적이며 빠른 중간 공유가 필요한 후속 배치",
     },
 }
@@ -151,7 +152,13 @@ COMMON_METHOD_FILES = (
     "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
     "scripts/mica-scenario-production.py",
     "scripts/test-mica-scenario-production.py",
+    "scripts/mica_batch_control.py",
+    "scripts/mica_batch_lifecycle.py",
+    "scripts/mica_batch_records.py",
+    "scripts/mica-batch-control.py",
+    "scripts/test-mica-batch-control.py",
 )
+LEGACY_COMMON_METHOD_FILES = COMMON_METHOD_FILES[:8]
 
 
 class CheckError(RuntimeError):
@@ -224,6 +231,11 @@ def portable_files() -> tuple[Path, ...]:
         DOC_ROOT / "role-prompts.md",
         ROOT / "scripts" / "mica-scenario-production.py",
         TEST_SCRIPT,
+        ROOT / "scripts" / "mica_batch_control.py",
+        ROOT / "scripts" / "mica_batch_lifecycle.py",
+        ROOT / "scripts" / "mica_batch_records.py",
+        ROOT / "scripts" / "mica-batch-control.py",
+        ROOT / "scripts" / "test-mica-batch-control.py",
         OPERATING_MODEL,
     )
 
@@ -464,7 +476,14 @@ def validate_method_lock(manifest: dict[str, object], require_current_files: boo
     require(isinstance(commit_sha, str) and re.fullmatch(r"[0-9a-f]{40}", commit_sha) is not None, "method-lock-commit")
     source_files = lock.get("sourceFiles")
     require(isinstance(source_files, list), "method-lock-files")
-    expected_paths = method_files(profile)
+    current_revision = profile_config(profile)["methodRevision"]
+    if revision == current_revision:
+        expected_paths = method_files(profile)
+    else:
+        profile_docs = ("docs/kiheon-ideation-pilot-15/methodology.md",)
+        if profile == "lean":
+            profile_docs += ("docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",)
+        expected_paths = (*profile_docs, *LEGACY_COMMON_METHOD_FILES)
     require(len(source_files) == len(expected_paths), "method-lock-file-count")
     for index, (entry, relative_path) in enumerate(zip(source_files, expected_paths), start=1):
         require(isinstance(entry, dict), f"method-lock-file-{index}")
@@ -764,6 +783,11 @@ def validate_batch(target: Path) -> dict[str, object]:
         require(manifest.get("status") != "prepared-unlocked" or manifest.get("methodLock") is None, "unlocked-batch-has-lock")
         if manifest.get("status") != "prepared-unlocked":
             method_lock = validate_method_lock(manifest, require_current_files=False)
+    if manifest.get("methodRevision") in {"standard-v1.3.3", "lean-v1.3"} and manifest.get("status") in {
+        "in-progress",
+        "completed",
+    }:
+        validate_controller_state(target, manifest)
     row_counts = empty_batch_rows(target, manifest)
     for name in ("need-observations.jsonl", "task-candidates.jsonl", "frozen-candidates.jsonl"):
         require(row_counts[name] <= count, f"row-count-over-max:{name}")

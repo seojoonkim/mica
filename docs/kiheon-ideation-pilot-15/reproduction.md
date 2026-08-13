@@ -33,6 +33,26 @@ python3 scripts/mica-scenario-production.py validate-ready \
 
 `lock-method`는 커밋된 방법 source와 파일별 SHA-256을 배치에 결속한다. `validate-ready`가 빈 산출물·열린 closure·미할당 역할·현재 방법 파일의 일치를 확인한 뒤에만 역할 실행을 시작한다.
 
+시작 검사를 통과한 직후 controller가 다음 명령으로 배치 소유권을 얻는다.
+
+```bash
+python3 scripts/mica-batch-control.py claim \
+  work/mica-scenario-batches/<batch-id> \
+  --controller-context-id <controller-context-id> \
+  --session-id <session-id>
+
+python3 scripts/mica-batch-control.py assign-role \
+  work/mica-scenario-batches/<batch-id> \
+  --controller-context-id <controller-context-id> \
+  --session-id <session-id> \
+  --role <role> \
+  --role-context-id <role-context-id>
+```
+
+역할은 `assign-role` PASS 뒤에만 파일을 쓴다. 90분을 넘길 수 있는 역할은 만료 전에 `renew`로 lease를 갱신한다. 종료 시 `complete-role`에 실제 산출물 경로와 모델·자원 정보를 넘기면 도구가 파일 mtime과 관측 OS 시각으로 `artifactShaLedger`와 `modelRecord`를 기록한다. 시각을 직접 추정해 적지 않는다.
+
+중단 전에는 `park --reason <reason>`을 실행한다. 새 세션은 사람의 정확한 지시를 가리키는 `--authorization-ref user-message:<reference>`와 함께 `resume`을 실행하며, parked checkpoint의 파일 집합과 SHA가 하나라도 달라지면 재개하지 않는다.
+
 그 뒤 Codex에서는 `$mica-scenario-production <batch-id>`, Claude Code에서는 `/mica-scenario-production <batch-id>`로 시작한다. 역할별 새 컨텍스트에는 [`role-prompts.md`](./role-prompts.md)의 해당 블록과 허용 입력만 전달한다.
 
 ## 두 실행 방식
@@ -64,6 +84,8 @@ python3 scripts/mica-scenario-production.py validate-ready \
 16. measurement reviewer가 누출 여부, 최소 충분 oracle, 숨은 경로 차단을 판정한다.
 17. coverage readback과 결함 원장을 작성한다.
 18. typed audit가 건수·역할·해시·역류 금지를 확인한 뒤 배치를 닫는다.
+
+거절된 관찰·후보는 현재 배치 안에서 새 ID로 재작성하지 않는다. 수량을 채우지 않고 accepted-only 집합으로 진행하거나 배치를 닫으며, 재시도는 다음 배치에서 새 evidence와 새 ID로 시작한다.
 
 새 `v5` 배치는 18번 종료 전에 공개 입력과 블라인드 리허설의 집합·원문 SHA·누출 여부를 별도 관문으로 검사한다. 리허설은 입력 충분성·합리적 경로 존재성 검사로만 기록하며 실제 실행이나 모델 성능을 주장하지 않는다.
 
@@ -107,6 +129,9 @@ python3 scripts/mica-scenario-production.py validate-exposure \
 - 요청·접수·문서만으로 외부 상태 완료를 주장함
 - 승인 없는 외부 변경 또는 민감정보 전송이 포함됨
 - 원문과 판정을 사후에 덮어씀
+- 활성 controller lease 없이 역할을 시작하거나 역할 context를 선점 전에 파일을 씀
+- parked checkpoint가 달라졌거나 사람 지시 참조 없이 다른 세션이 재개함
+- 파일 mtime·OS 관측이 아닌 추정 시각을 원장이나 모델 기록에 씀
 - 피측정 에이전트 입력에 최종 상태·금지 상태·fixture·oracle·probe·채점 식별자가 포함됨
 - 특정 문구·내부 레코드·클릭 순서를 따르지 않으면 같은 사용자 결과도 실패하도록 설계됨
 

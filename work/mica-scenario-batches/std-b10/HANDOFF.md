@@ -1,12 +1,15 @@
 # std-b10 교차 런타임 인수인계
 
+> 역사적 시작 인수인계다. 현재 배치는 `completed`로 종결됐으며 이 문서의 `prepared-locked`·`생산 시작: 아직 안 함`은 시작 당시 상태를 보존한 기록이다. 최종 결과는 `closure.json`, 공정 결함의 후속 해소는 `PROCESS-DEFECT-RESOLUTION.md`를 따른다.
+
 - origin: `kiheon-ideation`
-- 상태: `prepared-locked`
+- 시작 당시 상태: `prepared-locked`
+- 현재 상태: `completed`
 - 생산 프로필: `standard`
 - 방법 revision: `standard-v1.3.2`
 - 최대 초안: 3건
 - 예상 작업량: 6–12시간
-- 생산 시작: 아직 안 함
+- 시작 당시 생산 상태: 아직 안 함
 
 ## 이번 배치의 역할 경계
 

@@ -61,9 +61,14 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 
    python3 scripts/mica-scenario-production.py validate-ready \
      work/mica-scenario-batches/<batch-id>
+
+   python3 scripts/mica-batch-control.py claim \
+     work/mica-scenario-batches/<batch-id> \
+     --controller-context-id <controller-context-id> \
+     --session-id <session-id>
    ```
 
-   `validate-ready`가 PASS하기 전에는 production 역할을 시작하지 않는다.
+   `validate-ready`와 controller `claim`이 모두 PASS하기 전에는 production 역할을 시작하지 않는다. 장시간 역할은 만료 전 `renew`하고, 각 역할은 쓰기 전에 `assign-role`, 종료 뒤 `complete-role`을 실행한다. 중단 시 `park`, 새 세션 승계 시 사람 지시 참조가 포함된 `resume`을 사용한다.
 
 ## Codex·Claude Code 분업
 
@@ -99,6 +104,8 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 - 선택한 프로필, 예상 시간과 동시 실행 한도를 `batch-manifest.json`에 기록한다.
 - 방법 revision, source commit과 파일별 SHA-256을 `methodLock`에 기록한다.
 - 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. producer가 입력 SHA-256을 닫기 전 reviewer를 시작하지 않으며 reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA를 확인한다.
+- controller lease와 역할 context 선점은 `controller-state.json`에 기록한다. 중복 controller·role context는 차단하고, 역할 원장 시각은 `complete-role`이 파일 mtime과 OS 관측 시각에서 파생한다.
+- 거절 원문은 같은 배치에서 새 ID로 다시 쓰지 않는다. accepted-only 수량으로 진행하거나 닫고, 재시도는 다음 배치의 새 evidence·새 ID로 시작한다.
 - 입력 SHA가 바뀐 review는 채택하지 않고 `stale-review-evidence/`에 격리한다.
 - Lean도 작성·검토·동결·사후 대조·measurement 관문과 역할 독립성을 생략하지 않는다.
 - 순서 의존 단계는 병렬화하지 않는다. 표준은 동시 최대 2–3개, Lean은 동시 최대 2개 컨텍스트만 활성화한다.
@@ -131,7 +138,7 @@ observation·candidate custodian은 별도 context에서 accepted 원문 행 전
 - 측정 자산은 기록의 원자적 호출 단위와 최악 경로 호출 수를 선언한다. 합성 시계 상한 안에 든다는 증명이 없으면 실제 simulator 실행으로 승격하지 않는다.
 - 열린 비차단 정리 항목이 있는 `designable` 후보는 측정 설계 완료일 뿐 실행 검증 완료가 아니다. 실제 실행 전에 정리 항목을 닫는다.
 - oracle은 사용자 결과, 권위 있는 readback, 승인 경계, 금지 상태, 안전 인계를 이분 판정하는 최소 조건만 포함한다. 특정 문구·클릭 순서·내부 필드명을 강제하지 않는다.
-- measurement review 뒤 `agent-visible`만 받은 별도 컨텍스트의 blind-agent rehearsal을 통과해야 `designable`로 종결한다. 그 전 상태는 `designable-pending-exposure`다. `standard-v1.3.2`의 리허설은 실제 도구 실행이 아니라 공개 입력만으로 합리적인 경로를 설명할 수 있는지 보는 검토다. `assessmentMode=instruction-sufficiency`, `actualExecutionObserved=false`, `performanceInferenceAllowed=false`를 기록하고, 한 번의 서술에서 가능한 단계가 빠졌다는 이유만으로 실패시키거나 특정 모델의 행동 순서를 정답으로 강제하지 않는다.
+- measurement review 뒤 `agent-visible`만 받은 별도 컨텍스트의 blind-agent rehearsal을 통과해야 `designable`로 종결한다. 그 전 상태는 `designable-pending-exposure`다. `standard-v1.3.3`의 리허설은 실제 도구 실행이 아니라 공개 입력만으로 합리적인 경로를 설명할 수 있는지 보는 검토다. `assessmentMode=instruction-sufficiency`, `actualExecutionObserved=false`, `performanceInferenceAllowed=false`를 기록하고, 한 번의 서술에서 가능한 단계가 빠졌다는 이유만으로 실패시키거나 특정 모델의 행동 순서를 정답으로 강제하지 않는다.
 
 ## 모델 기준
 
@@ -154,4 +161,4 @@ python3 scripts/mica-scenario-production.py validate-batch \
   work/mica-scenario-batches/<batch-id>
 ```
 
-`validate-exposure`는 `v4`와 `v5` 배치에서 사용한다. 새 배치는 `standard-v1.3.2`·`v5`를 쓰며, 완료·진행 중인 배치에 새 revision을 소급하지 않는다. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl` 해당 후보의 원문 한 줄 전체(줄바꿈 제외) SHA-256으로만 기록하고 상류 source·observation hash를 대신 쓰지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.
+`validate-exposure`는 `v4`와 `v5` 배치에서 사용한다. 새 표준 배치는 `standard-v1.3.3`·`v5`를 쓰며, 완료·진행 중인 배치에 새 revision을 소급하지 않는다. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl` 해당 후보의 원문 한 줄 전체(줄바꿈 제외) SHA-256으로만 기록하고 상류 source·observation hash를 대신 쓰지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.
