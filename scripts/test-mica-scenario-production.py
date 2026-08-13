@@ -25,6 +25,21 @@ def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
 
 
 class ScenarioProductionCliTest(unittest.TestCase):
+    def test_closing_sha_ledger_is_derived_from_full_file_bytes(self) -> None:
+        batch = ROOT / "work" / "mica-scenario-batches" / "std-b12"
+        result = run_cli("--json", "derive-closing-sha-ledger", str(batch))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        payload = json.loads(result.stdout)
+        closure = json.loads((batch / "closure.json").read_text(encoding="utf-8"))
+        actual = payload["closingShaLedger"]
+        recorded = closure["closingShaLedger"]
+        for name in (
+            "measurement-review.staging.jsonl",
+            "measurement-contracts.jsonl",
+            "defect-ledger.jsonl",
+        ):
+            self.assertEqual(actual[name], recorded[name])
+
     def test_closing_sha_ledger_rejects_mutated_artifact(self) -> None:
         source = ROOT / "work" / "mica-scenario-batches" / "std-b12"
         with tempfile.TemporaryDirectory(prefix="mica-closing-ledger-") as temp_dir:

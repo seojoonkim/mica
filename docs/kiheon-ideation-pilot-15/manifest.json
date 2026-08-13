@@ -75,13 +75,13 @@
     },
     {
       "path": "scripts/mica-scenario-production.py",
-      "sha256": "07461fe2a6c01e5a9a2c7283b3de7110ebd083bfaf5d732a3e1e3b02b17b5798",
-      "byteLength": 52219
+      "sha256": "0fdfd019e8d198b8b9b8030779aed77f582910219e984883662cf485ace0d06a",
+      "byteLength": 53665
     },
     {
       "path": "scripts/test-mica-scenario-production.py",
-      "sha256": "e4c20976e1736f4920e26e2c11366170b4ab2d76cfbd858a0c08b8e9f06b71de",
-      "byteLength": 20049
+      "sha256": "1f9df078459015e22501812d0e7b4ef165017c6cc185b169372226569b8111f5",
+      "byteLength": 20788
     },
     {
       "path": "scripts/mica-synthetic-execution-pilot.py",

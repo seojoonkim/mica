@@ -254,6 +254,34 @@ def validate_closing_sha_ledger(target: Path, closure: dict[str, object]) -> Non
         require(sha256(path) == expected, f"closing-sha-ledger-mismatch:{name}")
 
 
+def derive_closing_sha_ledger(target: Path, artifact_names: list[str] | None) -> dict[str, object]:
+    target = target.resolve()
+    names = artifact_names or [
+        "measurement-review.staging.jsonl",
+        "measurement-contracts.jsonl",
+        "defect-ledger.jsonl",
+    ]
+    require(names, "closing-sha-ledger-artifacts-empty")
+    require(len(names) == len(set(names)), "closing-sha-ledger-artifact-duplicate")
+    ledger: dict[str, str] = {
+        "note": "도구가 종결 대상 파일의 전체 SHA-256을 직접 도출했다. closure.json과 batch-manifest.json은 자기참조 때문에 제외한다.",
+    }
+    for name in names:
+        require(
+            Path(name).name == name and "/" not in name and "\\" not in name,
+            f"closing-sha-ledger-path:{name}",
+        )
+        path = target / name
+        require(path.is_file(), f"closing-sha-ledger-missing:{name}")
+        ledger[name] = sha256(path)
+    validate_closing_sha_ledger(target, {"closingShaLedger": ledger})
+    return {
+        "status": "pass",
+        "batchPath": display_path(target),
+        "closingShaLedger": ledger,
+    }
+
+
 def display_path(path: Path) -> str:
     try:
         return str(path.relative_to(ROOT))
@@ -1147,6 +1175,9 @@ def main() -> int:
     ready.add_argument("path", type=Path)
     exposure = subparsers.add_parser("validate-exposure")
     exposure.add_argument("path", type=Path)
+    derive = subparsers.add_parser("derive-closing-sha-ledger")
+    derive.add_argument("path", type=Path)
+    derive.add_argument("--artifact", action="append", dest="artifacts")
     briefing = subparsers.add_parser("role-briefing")
     briefing.add_argument("path", type=Path)
     briefing.add_argument("--role", required=True)
@@ -1164,6 +1195,8 @@ def main() -> int:
             result = lock_method(args.path)
         elif args.command == "validate-exposure":
             result = validate_exposure(args.path)
+        elif args.command == "derive-closing-sha-ledger":
+            result = derive_closing_sha_ledger(args.path, args.artifacts)
         elif args.command == "role-briefing":
             result = role_briefing(args.path, args.role)
         else:
