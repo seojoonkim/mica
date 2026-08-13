@@ -422,7 +422,12 @@ def portfolio_status(portfolio_root: Path) -> dict[str, object]:
                 "target": 10,
             }
         )
-    annotated = len(parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl"))
+    inventory_ids = {str(row["candidateId"]) for row in all_candidate_rows()}
+    annotated_ids = {
+        str(row.get("candidateId"))
+        for row, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl")
+    }
+    require(annotated_ids <= inventory_ids, "portfolio-annotation-outside-inventory")
     return {
         "status": "pass",
         "portfolioId": ledger.get("portfolioId"),
@@ -433,9 +438,9 @@ def portfolio_status(portfolio_root: Path) -> dict[str, object]:
         "occupiedSlots": state["occupied"],
         "blockedSlots": state["blocked"],
         "emptySlots": state["empty"],
-        "annotationTargets": 56,
-        "annotatedCandidates": annotated,
-        "remainingAnnotationTargets": 56 - annotated,
+        "annotationTargets": len(inventory_ids),
+        "annotatedCandidates": len(annotated_ids),
+        "remainingAnnotationTargets": len(inventory_ids - annotated_ids),
         "categories": category_counts,
     }
 
@@ -590,9 +595,34 @@ def packet_row(
 def all_candidate_rows() -> list[dict[str, object]]:
     rows = [*pilot_candidates(), *closed_batch_candidates()]
     ids = [row["candidateId"] for row in rows]
-    require(len(rows) == 56, f"annotation-target-count:{len(rows)}")
+    require(len(rows) >= 56, f"annotation-target-regression:{len(rows)}")
     require(len(set(ids)) == len(ids), "annotation-target-duplicate-id")
     return rows
+
+
+def exchange_job_index(exchange_root: Path, portfolio_root: Path) -> tuple[set[str], list[str]]:
+    exchange_root = exchange_root.resolve()
+    portfolio_root = portfolio_root.resolve()
+    packet_candidate_ids: set[str] = set()
+    active_job_ids: list[str] = []
+    if not exchange_root.exists():
+        return packet_candidate_ids, active_job_ids
+    for ready_path in sorted(exchange_root.glob("*/READY.json")):
+        ready = load_json(ready_path)
+        require(isinstance(ready, dict), f"exchange-ready-object:{ready_path.parent.name}")
+        job_id = ready.get("jobId")
+        require(job_id == ready_path.parent.name, f"exchange-job-id:{ready_path.parent.name}")
+        require(ready.get("jobType") == "catalog-annotation", f"exchange-job-type:{job_id}")
+        packet_path = ready_path.parent / "packet.jsonl"
+        require(ready.get("packetSha256") == sha_file(packet_path), f"exchange-packet-sha:{job_id}")
+        for row, _ in parse_jsonl_with_hash(packet_path):
+            candidate_id = row.get("candidateId")
+            require(isinstance(candidate_id, str) and candidate_id, f"exchange-packet-candidate:{job_id}")
+            require(candidate_id not in packet_candidate_ids, f"exchange-candidate-reselected:{candidate_id}")
+            packet_candidate_ids.add(candidate_id)
+        if not (portfolio_root / "receipts" / f"apply-{job_id}.json").is_file():
+            active_job_ids.append(str(job_id))
+    return packet_candidate_ids, active_job_ids
 
 
 def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Path) -> dict[str, object]:
@@ -601,11 +631,14 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
     validate_portfolio(portfolio_root)
     job_dir = exchange_root.resolve() / job_id
     require(not job_dir.exists(), f"job-exists:{job_id}")
+    packet_candidate_ids, active_job_ids = exchange_job_index(exchange_root, portfolio_root)
+    require(not active_job_ids, f"active-job-exists:{','.join(active_job_ids)}")
     existing_ids = {
         row.get("candidateId")
         for row, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl")
     }
-    rows = [row for row in all_candidate_rows() if row["candidateId"] not in existing_ids][:limit]
+    excluded_ids = existing_ids | packet_candidate_ids
+    rows = [row for row in all_candidate_rows() if row["candidateId"] not in excluded_ids][:limit]
     require(rows, "no-unannotated-candidates")
     for row in rows:
         row["jobId"] = job_id

@@ -6,6 +6,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 SCRIPT = Path(__file__).with_name("mica-portfolio.py")
 SPEC = importlib.util.spec_from_file_location("mica_portfolio", SCRIPT)
@@ -183,6 +184,37 @@ class PortfolioTest(unittest.TestCase):
         portfolio.write_jsonl(self.portfolio_root / "catalog-annotations.jsonl", [row])
         with self.assertRaisesRegex(portfolio.PortfolioError, "portfolio-annotation-shape"):
             portfolio.validate_portfolio(self.portfolio_root)
+
+    def test_second_job_requires_first_job_to_be_applied(self) -> None:
+        with self.assertRaisesRegex(portfolio.PortfolioError, "active-job-exists:core20-test-001"):
+            portfolio.prepare_job("core20-test-002", 2, self.exchange_root, self.portfolio_root)
+
+    def test_applied_job_candidates_are_not_reselected(self) -> None:
+        first_ids = {str(row["candidateId"]) for row in self.packet}
+        self.complete_job()
+        portfolio.apply_job(
+            "core20-test-001",
+            "codex-controller-001",
+            "2026-08-14T01:20:00Z",
+            self.exchange_root,
+            self.portfolio_root,
+        )
+        portfolio.prepare_job("core20-test-002", 2, self.exchange_root, self.portfolio_root)
+        second_packet = portfolio.parse_jsonl_with_hash(
+            self.exchange_root / "core20-test-002" / "packet.jsonl"
+        )
+        second_ids = {str(row["candidateId"]) for row, _ in second_packet}
+        self.assertTrue(second_ids)
+        self.assertTrue(first_ids.isdisjoint(second_ids))
+
+    def test_status_counts_new_closed_batch_candidates_dynamically(self) -> None:
+        inventory = portfolio.all_candidate_rows()
+        future = dict(inventory[-1])
+        future["candidateId"] = "future-candidate-001"
+        with mock.patch.object(portfolio, "all_candidate_rows", return_value=[*inventory, future]):
+            status = portfolio.portfolio_status(self.portfolio_root)
+        self.assertEqual(status["annotationTargets"], 57)
+        self.assertEqual(status["remainingAnnotationTargets"], 57)
 
 
 if __name__ == "__main__":
