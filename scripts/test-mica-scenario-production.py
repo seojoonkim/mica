@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -24,6 +25,20 @@ def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
 
 
 class ScenarioProductionCliTest(unittest.TestCase):
+    def test_closing_sha_ledger_rejects_mutated_artifact(self) -> None:
+        source = ROOT / "work" / "mica-scenario-batches" / "std-b12"
+        with tempfile.TemporaryDirectory(prefix="mica-closing-ledger-") as temp_dir:
+            batch = Path(temp_dir) / "std-b12-copy"
+            shutil.copytree(source, batch)
+            defect_ledger = batch / "defect-ledger.jsonl"
+            defect_ledger.write_bytes(defect_ledger.read_bytes() + b"\n")
+            result = run_cli("validate-batch", str(batch))
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn(
+                "closing-sha-ledger-mismatch:defect-ledger.jsonl",
+                result.stdout,
+            )
+
     def test_method_lock_and_ready_gate(self) -> None:
         with tempfile.TemporaryDirectory(prefix="mica-method-lock-") as temp_dir:
             batch = Path(temp_dir) / "test-standard-batch"

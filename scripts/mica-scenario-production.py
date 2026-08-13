@@ -231,6 +231,29 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def validate_closing_sha_ledger(target: Path, closure: dict[str, object]) -> None:
+    ledger = closure.get("closingShaLedger")
+    if ledger is None:
+        return
+    require(isinstance(ledger, dict), "closing-sha-ledger-not-object")
+    require(isinstance(ledger.get("note"), str) and ledger["note"].strip(), "closing-sha-ledger-note")
+    artifact_names = [name for name in ledger if name != "note"]
+    require(artifact_names, "closing-sha-ledger-empty")
+    for name in artifact_names:
+        require(
+            isinstance(name, str) and Path(name).name == name and "/" not in name and "\\" not in name,
+            f"closing-sha-ledger-path:{name}",
+        )
+        expected = ledger.get(name)
+        require(
+            isinstance(expected, str) and re.fullmatch(r"[0-9a-f]{64}", expected) is not None,
+            f"closing-sha-ledger-value:{name}",
+        )
+        path = target / name
+        require(path.is_file(), f"closing-sha-ledger-missing:{name}")
+        require(sha256(path) == expected, f"closing-sha-ledger-mismatch:{name}")
+
+
 def display_path(path: Path) -> str:
     try:
         return str(path.relative_to(ROOT))
@@ -991,6 +1014,7 @@ def validate_batch(target: Path) -> dict[str, object]:
     require(manifest.get("origin") == "kiheon-ideation", "batch-origin")
     require(closure.get("origin") == "kiheon-ideation", "closure-origin")
     require(manifest.get("batchId") == closure.get("batchId"), "batch-id-mismatch")
+    validate_closing_sha_ledger(target, closure)
     profile = manifest.get("productionProfile")
     if profile is None and manifest.get("schemaVersion") == "mica.scenario-production-batch/v1":
         profile = "legacy-v1"

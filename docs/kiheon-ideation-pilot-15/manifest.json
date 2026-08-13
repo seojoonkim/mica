@@ -75,13 +75,13 @@
     },
     {
       "path": "scripts/mica-scenario-production.py",
-      "sha256": "91e3673a2337a703e5fd7303dbe9ed22e56c881556d16f0158b2a2ca0801ecc8",
-      "byteLength": 51111
+      "sha256": "07461fe2a6c01e5a9a2c7283b3de7110ebd083bfaf5d732a3e1e3b02b17b5798",
+      "byteLength": 52219
     },
     {
       "path": "scripts/test-mica-scenario-production.py",
-      "sha256": "b645cf2d997f1ab2df22fa38b1944799ef9481dd407862467a5dd43b0db3b4eb",
-      "byteLength": 19301
+      "sha256": "e4c20976e1736f4920e26e2c11366170b4ab2d76cfbd858a0c08b8e9f06b71de",
+      "byteLength": 20049
     },
     {
       "path": "scripts/mica-synthetic-execution-pilot.py",
@@ -127,6 +127,16 @@
       "path": "scripts/test-mica-batch-control.py",
       "sha256": "e94f1b4523d382e59b40c9bfa6bdfc85381f981dd51a2ead5dfe433956b29a7a",
       "byteLength": 15207
+    },
+    {
+      "path": "scripts/mica-portfolio.py",
+      "sha256": "ef1725044565e106a797105aa18637044b4db31bc72989e65d7a33d6a0700a9b",
+      "byteLength": 34885
+    },
+    {
+      "path": "scripts/test-mica-portfolio.py",
+      "sha256": "4211b429fc5ac4026845f1c3aec477c256409a8c42db1a4e6b312bd9a3aaf3d8",
+      "byteLength": 7545
     }
   ]
 }
