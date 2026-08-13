@@ -200,6 +200,17 @@ class PortfolioTest(unittest.TestCase):
             self.portfolio_root,
         )
         portfolio.prepare_job("core20-test-002", 2, self.exchange_root, self.portfolio_root)
+        second_ready = json.loads(
+            (self.exchange_root / "core20-test-002" / "READY.json").read_text(encoding="utf-8")
+        )
+        self.assertNotIn(
+            "email-calendar-01",
+            second_ready["availableSlotIdsByCategory"]["email-calendar"],
+        )
+        self.assertNotIn(
+            "email-calendar-02",
+            second_ready["availableSlotIdsByCategory"]["email-calendar"],
+        )
         second_packet = portfolio.parse_jsonl_with_hash(
             self.exchange_root / "core20-test-002" / "packet.jsonl"
         )
@@ -215,6 +226,94 @@ class PortfolioTest(unittest.TestCase):
             status = portfolio.portfolio_status(self.portfolio_root)
         self.assertEqual(status["annotationTargets"], 57)
         self.assertEqual(status["remainingAnnotationTargets"], 57)
+
+    def test_apply_preserves_original_jsonl_row_bytes(self) -> None:
+        annotations = [
+            self.annotation(self.packet[0], "email-calendar-01"),
+            self.annotation(self.packet[1], "email-calendar-02"),
+        ]
+        author_payload = "".join(
+            json.dumps(row, ensure_ascii=False, separators=(", ", ": ")) + "\n"
+            for row in annotations
+        )
+        (self.job / "author-output.staging.jsonl").write_text(author_payload, encoding="utf-8")
+        annotation_rows = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")
+        reviews = [self.review(row, row_sha) for row, row_sha in annotation_rows]
+        review_payload = "".join(
+            json.dumps(row, ensure_ascii=False, separators=(", ", ": ")) + "\n"
+            for row in reviews
+        )
+        (self.job / "review-output.staging.jsonl").write_text(review_payload, encoding="utf-8")
+        closure = {
+            "origin": "kiheon-ideation",
+            "schemaVersion": "mica.exchange-closure/v1",
+            "jobId": "core20-test-001",
+            "status": "COMPLETED",
+            "SlackCalls": 0,
+            "NotionCalls": 0,
+            "authorContextId": "annotator-001",
+            "reviewerContextId": "reviewer-001",
+            "writtenRows": 2,
+            "acceptedRows": 2,
+            "rejectedRows": 0,
+            "heldRows": 0,
+            "authorOutputSha256": portfolio.sha_file(self.job / "author-output.staging.jsonl"),
+            "reviewOutputSha256": portfolio.sha_file(self.job / "review-output.staging.jsonl"),
+            "closedAt": "2026-08-14T01:10:00Z",
+            "nextStageAutoStarted": False,
+        }
+        write_json(self.job / "CLOSURE.json", closure)
+        portfolio.apply_job(
+            "core20-test-001",
+            "codex-controller-001",
+            "2026-08-14T01:20:00Z",
+            self.exchange_root,
+            self.portfolio_root,
+        )
+        self.assertEqual(
+            (self.portfolio_root / "catalog-annotations.jsonl").read_bytes(),
+            author_payload.encode(),
+        )
+        self.assertEqual(
+            (self.portfolio_root / "catalog-annotation-reviews.jsonl").read_bytes(),
+            review_payload.encode(),
+        )
+        self.assertEqual(portfolio.validate_portfolio(self.portfolio_root)["occupied"], 2)
+
+    def test_failed_post_write_validation_rolls_back_transaction(self) -> None:
+        self.complete_job()
+        tracked = (
+            "portfolio-100.json",
+            "catalog-annotations.jsonl",
+            "catalog-annotation-reviews.jsonl",
+            "portfolio-artifact-ledger.jsonl",
+        )
+        before = {name: (self.portfolio_root / name).read_bytes() for name in tracked}
+        with mock.patch.object(
+            portfolio,
+            "validate_portfolio",
+            side_effect=portfolio.PortfolioError("forced-post-write-failure"),
+        ):
+            with self.assertRaisesRegex(portfolio.PortfolioError, "portfolio-transaction-failed"):
+                portfolio.apply_job(
+                    "core20-test-001",
+                    "codex-controller-001",
+                    "2026-08-14T01:20:00Z",
+                    self.exchange_root,
+                    self.portfolio_root,
+                )
+        after = {name: (self.portfolio_root / name).read_bytes() for name in tracked}
+        self.assertEqual(after, before)
+        self.assertFalse((self.portfolio_root / "receipts" / "apply-core20-test-001.json").exists())
+
+    def test_job_rejects_duplicate_proposed_slot(self) -> None:
+        annotations = [
+            self.annotation(self.packet[0], "email-calendar-01"),
+            self.annotation(self.packet[1], "email-calendar-01"),
+        ]
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", annotations)
+        with self.assertRaisesRegex(portfolio.PortfolioError, "annotation-slot-duplicate:email-calendar-01"):
+            portfolio.validate_job("core20-test-001", self.exchange_root)
 
 
 if __name__ == "__main__":

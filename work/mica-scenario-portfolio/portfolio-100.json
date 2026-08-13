@@ -203,11 +203,11 @@
       "slots": [
         {
           "slotId": "travel-accommodation-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-010",
+          "annotationRowSha256": "8410c1cdc732cfff2c289171726c76c8c63663501c2a4efd96aca7d97fb81e06",
+          "reviewRowSha256": "a609fffd108662a6b9a8c0a5ab0119fab95a69ecd15112a1320f1b6de5c2924c",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
@@ -393,11 +393,11 @@
       "slots": [
         {
           "slotId": "money-banking-investing-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-007",
+          "annotationRowSha256": "9742e72d7a2fd163c68ce96b6d06b852db44200ee534f6afbfbc6c1d4119dc78",
+          "reviewRowSha256": "71941dd8f31731eeba95befb310decbfbea96a57af9e687fb9a1fb86589fdabb",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
@@ -583,11 +583,11 @@
       "slots": [
         {
           "slotId": "healthcare-administration-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-002",
+          "annotationRowSha256": "bf0e3d786b9c52e11586603e508a3b784833c1992e4ecdd9eeb8fd816b2a933b",
+          "reviewRowSha256": "12533931a30de20c54456a0dc48340594e9f5448f8866f480bad1246ba1a5366",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
@@ -678,65 +678,65 @@
       "slots": [
         {
           "slotId": "government-civic-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-001",
+          "annotationRowSha256": "2f3f548523bde49466984e4eba38a393a5a840887a4882ce8c5aea2793403849",
+          "reviewRowSha256": "e5fd04fdeb4eca511b8899c97f522e1204c5d7d3a477256efe4e9e17851493b8",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-003",
+          "annotationRowSha256": "83f504581f6684913a44c98147166f701b420c7f9bd8d4835808dc48ecf77e97",
+          "reviewRowSha256": "e70ed22ac34a6c0e519e5d39501d945fe271cac3d2e7d8e6d98120451a1c8d7e",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-004",
+          "annotationRowSha256": "dac391becfa25c77d5d44cd3f779b8b97990a4511741fc8536d046f8c5f9f809",
+          "reviewRowSha256": "2218ba2b85e02ee19bbeca90249b45aee9ba5d9322e63c26baa6396515e06df1",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-005",
+          "annotationRowSha256": "afb8f79f4511fab12c149563317b7cecba4056922836c292caa87a71195a4b54",
+          "reviewRowSha256": "5e92ece423657f6cc4dea745ac521f732bc8f21c7a5f03c61bc576146f58fc24",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-006",
+          "annotationRowSha256": "b6b8438599633cfa8a96744e5144426e494a15e8bbfec2e30bd4e6916f4d01b7",
+          "reviewRowSha256": "0273d30d155cf8f369b35c77a6866657c60b3065cabfd3cef64538cd6374c859",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-008",
+          "annotationRowSha256": "018910001b93ce509f98f77a1e3253c43fe4f11fd6f6df1fd8f2009e931bd7a4",
+          "reviewRowSha256": "38b7c4c224e67a41e8259893281375da642e4380bacbbc142595297fb8b1cb50",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {
           "slotId": "government-civic-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-P15-009",
+          "annotationRowSha256": "981dc49136865aa7de3ba865ec298d342d09f1762478ca41a765b83fa878d22c",
+          "reviewRowSha256": "2f0117ba45acb6aaf82ac9382cc5a703dcf2f71f3cc5aa677dc2700e97211cb9",
+          "sourceBatchId": "pilot-15",
           "attemptHistory": []
         },
         {

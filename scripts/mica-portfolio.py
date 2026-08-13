@@ -7,6 +7,7 @@ import json
 import re
 import subprocess
 import sys
+from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 
@@ -127,7 +128,11 @@ def write_json(path: Path, value: object) -> None:
     path.write_bytes(pretty_json_bytes(value))
 
 
-def transactional_write(payloads: dict[Path, bytes], transaction_id: str) -> None:
+def transactional_write(
+    payloads: dict[Path, bytes],
+    transaction_id: str,
+    validator: Callable[[], None] | None = None,
+) -> None:
     originals = {path: path.read_bytes() if path.exists() else None for path in payloads}
     temporary: dict[Path, Path] = {}
     try:
@@ -139,6 +144,8 @@ def transactional_write(payloads: dict[Path, bytes], transaction_id: str) -> Non
             temporary[path] = temp
         for path, temp in temporary.items():
             temp.replace(path)
+        if validator is not None:
+            validator()
     except (OSError, PortfolioError) as exc:
         for path, original in originals.items():
             try:
@@ -176,6 +183,27 @@ def write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = b"".join(canonical_bytes(row) for row in rows)
     path.write_bytes(payload)
+
+
+def raw_jsonl_rows_by_candidate(path: Path) -> dict[str, bytes]:
+    rows: dict[str, bytes] = {}
+    try:
+        lines = path.read_bytes().splitlines()
+    except OSError as exc:
+        raise PortfolioError(f"missing:{path}") from exc
+    for index, raw in enumerate(lines, start=1):
+        if not raw.strip():
+            continue
+        try:
+            row = json.loads(raw)
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise PortfolioError(f"invalid-jsonl:{path}:{index}") from exc
+        require(isinstance(row, dict), f"jsonl-row-not-object:{path}:{index}")
+        candidate_id = row.get("candidateId")
+        require(isinstance(candidate_id, str) and candidate_id, f"jsonl-candidate:{path}:{index}")
+        require(candidate_id not in rows, f"jsonl-candidate-duplicate:{path}:{candidate_id}")
+        rows[candidate_id] = raw + b"\n"
+    return rows
 
 
 def timestamp(value: object, detail: str) -> None:
@@ -625,6 +653,27 @@ def exchange_job_index(exchange_root: Path, portfolio_root: Path) -> tuple[set[s
     return packet_candidate_ids, active_job_ids
 
 
+def available_slot_ids(portfolio_root: Path) -> dict[str, list[str]]:
+    ledger = load_json(portfolio_root.resolve() / "portfolio-100.json")
+    require(isinstance(ledger, dict), "portfolio-object")
+    categories = ledger.get("categories")
+    require(isinstance(categories, list), "portfolio-categories")
+    available: dict[str, list[str]] = {}
+    for category in categories:
+        require(isinstance(category, dict), "portfolio-category-object")
+        category_id = category.get("categoryId")
+        require(category_id in CATEGORIES, f"portfolio-category-id:{category_id}")
+        slots = category.get("slots")
+        require(isinstance(slots, list), f"portfolio-category-slots:{category_id}")
+        available[str(category_id)] = [
+            str(slot["slotId"])
+            for slot in slots
+            if isinstance(slot, dict) and slot.get("status") == "empty"
+        ]
+    require(tuple(available) == CATEGORIES, "portfolio-available-category-order")
+    return available
+
+
 def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Path) -> dict[str, object]:
     require(re.fullmatch(r"[a-z0-9][a-z0-9-]{2,63}", job_id) is not None, "job-id")
     require(1 <= limit <= 10, "job-limit-1-to-10")
@@ -671,10 +720,11 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
         "forbiddenInputs": [
             "official MICA task catalogue",
             "private holdout",
-            "portfolio-100.json and slot occupancy",
+            "portfolio-100.json and candidate-to-slot occupancy",
             "prior annotation review results",
             "Notion and Slack",
         ],
+        "availableSlotIdsByCategory": available_slot_ids(portfolio_root),
         "roles": {
             "catalogAnnotator": {
                 "output": "author-output.staging.jsonl",
@@ -712,7 +762,7 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
             },
             "targetSurface": "실제 플랫폼 확정값이 아니라 계획용 목표값이다. surfaceStatus는 항상 target-only이며 confirmedSurface를 만들지 않는다.",
             "measurementIntent": "상세 fixture나 oracle을 만들지 말고, 나중에 무엇을 참·거짓으로 확인할지 한 문장으로 쓴다.",
-            "slot": "같은 카테고리 안에서 packet 행끼리 서로 다른 proposedSlotId를 사용한다. 원장의 기존 점유 상태는 추측하지 않는다.",
+            "slot": "READY의 availableSlotIdsByCategory 안에서만 proposedSlotId를 고르고, 같은 packet 안에서 중복 사용하지 않는다. 기존 후보와 슬롯의 결속은 추측하지 않는다.",
             "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
             "review": "다섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다.",
         },
@@ -747,7 +797,12 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
     return {"status": "READY", "jobId": job_id, "rows": len(rows), "path": str(job_dir)}
 
 
-def validate_annotation(row: dict[str, object], job_id: str, packet: dict[str, dict[str, object]]) -> None:
+def validate_annotation(
+    row: dict[str, object],
+    job_id: str,
+    packet: dict[str, dict[str, object]],
+    available_slots: dict[str, set[str]],
+) -> None:
     require(tuple(row) == ANNOTATION_FIELDS, f"annotation-key-order:{row.get('candidateId')}")
     require(row.get("origin") == "kiheon-ideation", "annotation-origin")
     require(row.get("schemaVersion") == "mica.catalog-annotation/v1", "annotation-schema")
@@ -759,7 +814,7 @@ def validate_annotation(row: dict[str, object], job_id: str, packet: dict[str, d
     require(row.get("sourceFrozenRowSha256") == source.get("sourceFrozenRowSha256"), f"annotation-source-sha:{candidate_id}")
     category = row.get("categoryId")
     require(category in CATEGORIES, f"annotation-category:{candidate_id}")
-    require(row.get("proposedSlotId") in {f"{category}-{index:02d}" for index in range(1, 11)}, f"annotation-slot:{candidate_id}")
+    require(row.get("proposedSlotId") in available_slots[str(category)], f"annotation-slot:{candidate_id}")
     require(row.get("terminationClass") in TERMINATION_CLASSES, f"annotation-termination:{candidate_id}")
     require(row.get("declaredComplexity") in COMPLEXITIES, f"annotation-complexity:{candidate_id}")
     require(row.get("targetSurface") in TARGET_SURFACES, f"annotation-surface:{candidate_id}")
@@ -785,15 +840,36 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
     packet_rows = parse_jsonl_with_hash(packet_path)
     packet = {str(row.get("candidateId")): row for row, _ in packet_rows}
     require(len(packet) == len(packet_rows), "job-packet-duplicate")
+    available_raw = ready.get("availableSlotIdsByCategory")
+    if available_raw is None:
+        available_slots = {
+            category: {f"{category}-{index:02d}" for index in range(1, 11)}
+            for category in CATEGORIES
+        }
+    else:
+        require(isinstance(available_raw, dict), "job-available-slots")
+        require(tuple(available_raw) == CATEGORIES, "job-available-category-order")
+        available_slots: dict[str, set[str]] = {}
+        for category in CATEGORIES:
+            slot_ids = available_raw.get(category)
+            require(isinstance(slot_ids, list), f"job-available-slot-list:{category}")
+            require(len(slot_ids) == len(set(slot_ids)), f"job-available-slot-duplicate:{category}")
+            expected = {f"{category}-{index:02d}" for index in range(1, 11)}
+            require(set(slot_ids) <= expected, f"job-available-slot-id:{category}")
+            available_slots[category] = set(slot_ids)
     annotations = parse_jsonl_with_hash(job_dir / "author-output.staging.jsonl")
     reviews = parse_jsonl_with_hash(job_dir / "review-output.staging.jsonl")
     require(len(annotations) <= int(ready.get("maxRows", 0)), "job-annotation-over-max")
     annotation_by_id: dict[str, tuple[dict[str, object], str]] = {}
     annotator_contexts: set[str] = set()
+    proposed_slots: set[str] = set()
     for row, row_sha in annotations:
-        validate_annotation(row, job_id, packet)
+        validate_annotation(row, job_id, packet, available_slots)
         candidate_id = str(row["candidateId"])
         require(candidate_id not in annotation_by_id, f"annotation-duplicate:{candidate_id}")
+        proposed_slot = str(row["proposedSlotId"])
+        require(proposed_slot not in proposed_slots, f"annotation-slot-duplicate:{proposed_slot}")
+        proposed_slots.add(proposed_slot)
         annotation_by_id[candidate_id] = (row, row_sha)
         annotator_contexts.add(str(row["annotatorContextId"]))
     reviewed_ids: set[str] = set()
@@ -945,13 +1021,17 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
     review_ledger = portfolio_root / "catalog-annotation-reviews.jsonl"
     before_annotation_bytes = annotation_ledger.read_bytes()
     before_review_bytes = review_ledger.read_bytes()
+    annotation_raw_rows = raw_jsonl_rows_by_candidate(job_dir / "author-output.staging.jsonl")
+    review_raw_rows = raw_jsonl_rows_by_candidate(job_dir / "review-output.staging.jsonl")
     annotation_bytes = before_annotation_bytes + b"".join(
-        canonical_bytes(row)
-        for candidate_id, (row, _) in annotations.items()
+        annotation_raw_rows[candidate_id]
+        for candidate_id in annotations
         if reviews[candidate_id][0].get("verdict") == "accept"
     )
     review_bytes = before_review_bytes + b"".join(
-        canonical_bytes(row) for row, _ in reviews.values() if row.get("verdict") == "accept"
+        review_raw_rows[candidate_id]
+        for candidate_id, (row, _) in reviews.items()
+        if row.get("verdict") == "accept"
     )
     portfolio_bytes = pretty_json_bytes(ledger)
     receipt = {
@@ -987,8 +1067,8 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
             artifact_ledger: artifact_bytes,
         },
         transaction_id=f"apply-{job_id}",
+        validator=lambda: validate_portfolio(portfolio_root),
     )
-    validate_portfolio(portfolio_root)
     return {"status": "pass", "jobId": job_id, "applied": applied, "receipt": str(receipt_path)}
 
 
