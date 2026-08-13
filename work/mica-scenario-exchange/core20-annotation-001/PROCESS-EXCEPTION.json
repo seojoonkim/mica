@@ -1,0 +1,16 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.exchange-process-exception/v1",
+  "jobId": "core20-annotation-001",
+  "issueId": "pe-core20-annotation-001-01",
+  "issueType": "forbidden-input-read",
+  "observedInput": "work/mica-scenario-portfolio/portfolio-100.json",
+  "exposureScope": "pre-apply-empty-slot-structure",
+  "semanticCandidateAssignmentsExposed": false,
+  "reportedBy": "claude-self-evaluation",
+  "impact": "입력 방화벽 절차는 위반됐지만 당시 원장은 전 슬롯 empty였고 후보별 정답 결속은 없었다.",
+  "disposition": "retain-with-process-exception",
+  "baselineUse": "not-clean-baseline",
+  "requiredFollowUp": "후속 job은 allowlist 우선 순차 접근, forbiddenInputReads=0, inputBoundaryStatus=clean을 closure로 증명한다.",
+  "recordedAt": "2026-08-14T03:54:11+09:00"
+}

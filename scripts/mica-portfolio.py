@@ -66,7 +66,7 @@ ANNOTATION_FIELDS = (
     "annotatorContextId",
     "annotatedAt",
 )
-REVIEW_FIELDS = (
+REVIEW_FIELDS_V1 = (
     "origin",
     "schemaVersion",
     "jobId",
@@ -82,6 +82,33 @@ REVIEW_FIELDS = (
     "reviewNote",
     "reviewedAt",
 )
+REVIEW_FIELDS_V2 = (
+    "origin",
+    "schemaVersion",
+    "jobId",
+    "candidateId",
+    "annotationRowSha256",
+    "candidateBinding",
+    "categorySlot",
+    "terminationClass",
+    "declaredComplexity",
+    "targetSurfaceProvisional",
+    "confidence",
+    "uncertaintyNote",
+    "reviewerContextId",
+    "verdict",
+    "reviewNote",
+    "reviewedAt",
+)
+REVIEW_CONFIDENCES = ("high", "medium", "low")
+
+
+def review_fields(schema_version: object) -> tuple[str, ...]:
+    if schema_version == "mica.catalog-annotation-review/v1":
+        return REVIEW_FIELDS_V1
+    if schema_version == "mica.catalog-annotation-review/v2":
+        return REVIEW_FIELDS_V2
+    raise PortfolioError(f"review-schema:{schema_version}")
 
 
 class PortfolioError(RuntimeError):
@@ -378,12 +405,16 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
     review_by_id: dict[str, tuple[dict[str, object], str]] = {}
     for review, row_sha in review_rows:
         candidate_id = review.get("candidateId")
-        require(tuple(review) == REVIEW_FIELDS, f"portfolio-review-shape:{candidate_id}")
+        schema_version = review.get("schemaVersion")
+        require(tuple(review) == review_fields(schema_version), f"portfolio-review-shape:{candidate_id}")
         require(review.get("origin") == "kiheon-ideation", f"portfolio-review-origin:{candidate_id}")
-        require(
-            review.get("schemaVersion") == "mica.catalog-annotation-review/v1",
-            f"portfolio-review-schema:{candidate_id}",
-        )
+        if schema_version == "mica.catalog-annotation-review/v2":
+            confidence = review.get("confidence")
+            require(confidence in REVIEW_CONFIDENCES, f"portfolio-review-confidence:{candidate_id}")
+            uncertainty_note = review.get("uncertaintyNote")
+            require(isinstance(uncertainty_note, str), f"portfolio-review-uncertainty:{candidate_id}")
+            require(confidence == "high" or uncertainty_note.strip(), f"portfolio-review-uncertainty-empty:{candidate_id}")
+            require(confidence != "low", f"portfolio-review-low-confidence:{candidate_id}")
         require(isinstance(candidate_id, str) and candidate_id in annotation_by_id, f"portfolio-review-candidate:{candidate_id}")
         require(candidate_id not in review_by_id, f"portfolio-review-duplicate:{candidate_id}")
         require(
@@ -456,6 +487,12 @@ def portfolio_status(portfolio_root: Path) -> dict[str, object]:
         for row, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl")
     }
     require(annotated_ids <= inventory_ids, "portfolio-annotation-outside-inventory")
+    confidence_counts = {"high": 0, "medium": 0, "low": 0, "legacy-unknown": 0}
+    for review, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotation-reviews.jsonl"):
+        if review.get("schemaVersion") == "mica.catalog-annotation-review/v2":
+            confidence_counts[str(review.get("confidence"))] += 1
+        else:
+            confidence_counts["legacy-unknown"] += 1
     return {
         "status": "pass",
         "portfolioId": ledger.get("portfolioId"),
@@ -469,6 +506,7 @@ def portfolio_status(portfolio_root: Path) -> dict[str, object]:
         "annotationTargets": len(inventory_ids),
         "annotatedCandidates": len(annotated_ids),
         "remainingAnnotationTargets": len(inventory_ids - annotated_ids),
+        "reviewConfidence": confidence_counts,
         "categories": category_counts,
     }
 
@@ -733,8 +771,8 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
             },
             "catalogAnnotationReviewer": {
                 "output": "review-output.staging.jsonl",
-                "schemaVersion": "mica.catalog-annotation-review/v1",
-                "exactFields": list(REVIEW_FIELDS),
+                "schemaVersion": "mica.catalog-annotation-review/v2",
+                "exactFields": list(REVIEW_FIELDS_V2),
                 "mustUseDistinctContext": True,
             },
         },
@@ -765,6 +803,8 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
             "slot": "READY의 availableSlotIdsByCategory 안에서만 proposedSlotId를 고르고, 같은 packet 안에서 중복 사용하지 않는다. 기존 후보와 슬롯의 결속은 추측하지 않는다.",
             "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
             "review": "다섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다.",
+            "reviewConfidence": "high·medium·low 중 하나를 기록한다. medium·low는 uncertaintyNote가 필수이며 low는 accept할 수 없다.",
+            "inputAccess": "허용 입력을 순서대로 하나씩 읽는다. 검색·병렬 명령에 금지 경로를 함께 넣지 않으며 금지 입력을 한 번이라도 읽으면 결과를 살리지 않고 INPUT-BOUNDARY-BREACH로 닫는다.",
         },
         "maxRows": len(rows),
         "closureContract": {
@@ -776,6 +816,8 @@ def prepare_job(job_id: str, limit: int, exchange_root: Path, portfolio_root: Pa
                 "status",
                 "SlackCalls",
                 "NotionCalls",
+                "forbiddenInputReads",
+                "inputBoundaryStatus",
                 "authorContextId",
                 "reviewerContextId",
                 "writtenRows",
@@ -859,6 +901,10 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
             available_slots[category] = set(slot_ids)
     annotations = parse_jsonl_with_hash(job_dir / "author-output.staging.jsonl")
     reviews = parse_jsonl_with_hash(job_dir / "review-output.staging.jsonl")
+    reviewer_contract = ready.get("roles", {}).get("catalogAnnotationReviewer") if isinstance(ready.get("roles"), dict) else None
+    require(isinstance(reviewer_contract, dict), "job-reviewer-contract")
+    review_schema = reviewer_contract.get("schemaVersion")
+    expected_review_fields = review_fields(review_schema)
     require(len(annotations) <= int(ready.get("maxRows", 0)), "job-annotation-over-max")
     annotation_by_id: dict[str, tuple[dict[str, object], str]] = {}
     annotator_contexts: set[str] = set()
@@ -876,9 +922,9 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
     accepted = 0
     reviewer_contexts: set[str] = set()
     for row, _ in reviews:
-        require(tuple(row) == REVIEW_FIELDS, f"review-key-order:{row.get('candidateId')}")
+        require(tuple(row) == expected_review_fields, f"review-key-order:{row.get('candidateId')}")
         require(row.get("origin") == "kiheon-ideation", "review-origin")
-        require(row.get("schemaVersion") == "mica.catalog-annotation-review/v1", "review-schema")
+        require(row.get("schemaVersion") == review_schema, "review-schema")
         require(row.get("jobId") == job_id, "review-job")
         candidate_id = row.get("candidateId")
         require(isinstance(candidate_id, str) and candidate_id in annotation_by_id, f"review-candidate:{candidate_id}")
@@ -888,7 +934,13 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
         require(row.get("annotationRowSha256") == annotation_sha, f"review-annotation-sha:{candidate_id}")
         checks = ("candidateBinding", "categorySlot", "terminationClass", "declaredComplexity", "targetSurfaceProvisional")
         require(all(type(row.get(field)) is bool for field in checks), f"review-check-shape:{candidate_id}")
-        expected = all(row[field] for field in checks)
+        confidence = row.get("confidence") if review_schema == "mica.catalog-annotation-review/v2" else "legacy-unknown"
+        if review_schema == "mica.catalog-annotation-review/v2":
+            require(confidence in REVIEW_CONFIDENCES, f"review-confidence:{candidate_id}")
+            uncertainty_note = row.get("uncertaintyNote")
+            require(isinstance(uncertainty_note, str), f"review-uncertainty:{candidate_id}")
+            require(confidence == "high" or uncertainty_note.strip(), f"review-uncertainty-empty:{candidate_id}")
+        expected = all(row[field] for field in checks) and confidence != "low"
         require(row.get("verdict") in {"accept", "reject", "hold"}, f"review-verdict:{candidate_id}")
         require((row.get("verdict") == "accept") == expected, f"review-verdict-mismatch:{candidate_id}")
         reviewer = row.get("reviewerContextId")
@@ -957,6 +1009,9 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
     require(closure.get("jobId") == job_id, "job-closure-id")
     require(closure.get("status") in {"COMPLETED", "ZERO-ACCEPTED"}, "job-closure-status")
     require(closure.get("SlackCalls") == 0 and closure.get("NotionCalls") == 0, "job-external-tool-call")
+    if "forbiddenInputReads" in closure_fields:
+        require(closure.get("forbiddenInputReads") == 0, "job-forbidden-input-read")
+        require(closure.get("inputBoundaryStatus") == "clean", "job-input-boundary-status")
     require(closure.get("nextStageAutoStarted") is False, "job-next-stage-started")
     require(
         closure.get("authorOutputSha256") == sha_file(job_dir / "author-output.staging.jsonl"),

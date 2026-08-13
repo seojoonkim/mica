@@ -55,7 +55,7 @@ class PortfolioTest(unittest.TestCase):
     def review(self, annotation: dict[str, object], annotation_sha: str, context: str = "reviewer-001") -> dict[str, object]:
         return {
             "origin": "kiheon-ideation",
-            "schemaVersion": "mica.catalog-annotation-review/v1",
+            "schemaVersion": "mica.catalog-annotation-review/v2",
             "jobId": "core20-test-001",
             "candidateId": annotation["candidateId"],
             "annotationRowSha256": annotation_sha,
@@ -64,6 +64,8 @@ class PortfolioTest(unittest.TestCase):
             "terminationClass": True,
             "declaredComplexity": True,
             "targetSurfaceProvisional": True,
+            "confidence": "high",
+            "uncertaintyNote": "",
             "reviewerContextId": context,
             "verdict": "accept",
             "reviewNote": "원문 후보와 제안된 annotation이 일치한다.",
@@ -86,6 +88,8 @@ class PortfolioTest(unittest.TestCase):
             "status": "COMPLETED",
             "SlackCalls": 0,
             "NotionCalls": 0,
+            "forbiddenInputReads": 0,
+            "inputBoundaryStatus": "clean",
             "authorContextId": "annotator-001",
             "reviewerContextId": "reviewer-001",
             "writtenRows": 2,
@@ -116,6 +120,7 @@ class PortfolioTest(unittest.TestCase):
         status = portfolio.portfolio_status(self.portfolio_root)
         self.assertEqual(status["occupiedSlots"], 2)
         self.assertEqual(status["remainingAnnotationTargets"], 54)
+        self.assertEqual(status["reviewConfidence"]["high"], 2)
         output = self.root / "public-export" / "portfolio.json"
         exported = portfolio.export_public(self.portfolio_root, output)
         self.assertEqual(exported["occupied"], 2)
@@ -251,6 +256,8 @@ class PortfolioTest(unittest.TestCase):
             "status": "COMPLETED",
             "SlackCalls": 0,
             "NotionCalls": 0,
+            "forbiddenInputReads": 0,
+            "inputBoundaryStatus": "clean",
             "authorContextId": "annotator-001",
             "reviewerContextId": "reviewer-001",
             "writtenRows": 2,
@@ -314,6 +321,33 @@ class PortfolioTest(unittest.TestCase):
         portfolio.write_jsonl(self.job / "author-output.staging.jsonl", annotations)
         with self.assertRaisesRegex(portfolio.PortfolioError, "annotation-slot-duplicate:email-calendar-01"):
             portfolio.validate_job("core20-test-001", self.exchange_root)
+
+    def test_low_confidence_v2_review_cannot_accept(self) -> None:
+        annotation = self.annotation(self.packet[0], "email-calendar-01")
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        row, row_sha = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")[0]
+        review = self.review(row, row_sha)
+        review["confidence"] = "low"
+        review["uncertaintyNote"] = "종료 유형 근거가 충분하지 않다."
+        portfolio.write_jsonl(self.job / "review-output.staging.jsonl", [review])
+        with self.assertRaisesRegex(portfolio.PortfolioError, "review-verdict-mismatch"):
+            portfolio.validate_job("core20-test-001", self.exchange_root)
+
+    def test_apply_rejects_forbidden_input_read(self) -> None:
+        self.complete_job()
+        closure_path = self.job / "CLOSURE.json"
+        closure = json.loads(closure_path.read_text(encoding="utf-8"))
+        closure["forbiddenInputReads"] = 1
+        closure["inputBoundaryStatus"] = "breach"
+        write_json(closure_path, closure)
+        with self.assertRaisesRegex(portfolio.PortfolioError, "job-forbidden-input-read"):
+            portfolio.apply_job(
+                "core20-test-001",
+                "codex-controller-001",
+                "2026-08-14T01:20:00Z",
+                self.exchange_root,
+                self.portfolio_root,
+            )
 
 
 if __name__ == "__main__":
