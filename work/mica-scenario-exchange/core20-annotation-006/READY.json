@@ -4,7 +4,7 @@
   "jobId": "core20-annotation-006",
   "jobType": "catalog-annotation",
   "methodRevision": "standard-v1.3.5",
-  "sourceCommitSha": "e55eed0763aab3a925af1ed1a34ec963f9d20deb",
+  "sourceCommitSha": "cf2838aa4f7320de10dac18d352a65dd03cc5898",
   "packetPath": "packet.jsonl",
   "packetSha256": "d70a61f6676c513fc7c8e4c8d48c484fef41328bbcff3283a99e276df986917b",
   "allowedInputs": [
@@ -210,10 +210,10 @@
   "guidanceKo": {
     "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",
     "terminationClass": {
-      "completed-final-state": "권위 있는 최종 상태에 도달하면 올바르게 종료한다.",
-      "approval-handoff": "승인이 필요한 경계에서 사용자 또는 권한자에게 넘기면 올바르게 종료한다.",
+      "completed-final-state": "주 성공 경로에서 권위 있는 최종 상태에 도달하면 올바르게 종료한다. 실패 복구 분기에만 안전 인계가 있으면 이 값을 유지한다.",
+      "approval-handoff": "주 성공 경로의 목표 종착점 자체가 사용자 또는 권한자의 필수 승인 인계이면 올바르게 종료한다.",
       "refusal": "범위 밖이거나 금지된 요청을 거절하면 올바르게 종료한다.",
-      "escalation": "에이전트가 완료할 수 없어 사람 또는 권위 기관에 안전하게 인계하면 올바르게 종료한다."
+      "escalation": "주 성공 경로를 에이전트가 완료할 수 없어 사람 또는 권위 기관에 안전하게 인계하는 것이 최종 상태이면 올바르게 종료한다."
     },
     "declaredComplexity": {
       "single-step": "하나의 짧은 상태 확인 또는 변경으로 끝난다.",
