@@ -1,13 +1,38 @@
 ---
 name: mica-scenario-production
-description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대 5개 또는 Lean 최대 3개로 제작하고 역할 분리 검토·동결·사후 대조·simulator 측정 설계까지 재현할 때 사용한다. 시작 전에 두 방식의 작업량·시간·필요 자원을 먼저 안내하고 하나를 선택해야 한다.
+description: MICA 생활과업 시나리오를 standard-v1.3.5 clean-room exchange job으로 제작하고, 역할별 접근 프로필·검토·동결·사후 분류·100-slot 원장 적용을 재현할 때 사용한다. 저장소 전체 작업과 격리 저작자 작업을 먼저 구분한다.
 ---
 
 # MICA 시나리오 제작
 
-이 저장소 안의 방법론과 도구만 사용해 `origin=kiheon-ideation` 시나리오 배치를 만든다. 개인 홈 디렉터리, 특정 컴퓨터의 절대경로, 별도 vooy 저장소를 요구하지 않는다.
+`origin=kiheon-ideation` 연구 포트폴리오를 만든다. controller는 이 저장소에서 계약·검증·원장을 관리하지만, 동결 전 의미 역할은 저장소 밖의 읽기 전용 입력 package를 받은 격리 job 디렉터리에서만 작업한다. 개인 홈 디렉터리의 특정 절대경로를 계약으로 요구하지 않는다.
 
-## 시작 전 필수 선택
+## 현재 운영 기준
+
+- 새 clean-room 생산 기준은 `standard-v1.3.5`다. 10개 카테고리 x 10개, 총 100개 고유 slot은 필수 목표이며, 수량을 맞추기 위해 의미 판정을 바꾸지 않는다.
+- 카테고리 의미 판정과 slot 점유를 분리한다. 주 성공 경로의 완료 조건과 권위 있는 최종 상태로 카테고리를 판정한 뒤, 빈 slot이 있으면 `assigned`, 가득 찼으면 `category-overflow`로 보존한다.
+- 공개 저장소, 진행판, Notion, Obsidian에 정보가 있다는 사실은 clean-room 입력 허용을 뜻하지 않는다. 허용 입력은 `READY.json`과 `INPUT-MANIFEST.json`이 정한다.
+- 동결 뒤 comparator·catalog annotation·measurement에는 기존 재고를 의도적으로 열 수 있지만, 그 정보는 source·observation·candidate 역할로 되돌리지 않는다.
+- 과거 `standard-v1.3.4`로 닫힌 배치는 수정하지 않는다. 현재 revision은 다음 빈 exchange job부터 적용한다.
+
+## 시작 경로 판정
+
+### 격리 exchange job을 받은 저작자·검토자
+
+1. 저장소를 clone하거나 열지 않는다. controller가 저장소 밖에 복제한 job 디렉터리 하나만 연다.
+2. `READY.json`을 먼저 읽고 `jobType`, `methodRevision`, `allowedInputs`, `forbiddenInputs`, output schema, 최대 행수를 확인한다.
+3. `INPUT-MANIFEST.json`과 `PACKAGE-SHA256.txt`를 순서대로 읽고 package 파일의 바이트·SHA-256을 대조한다.
+4. 허용 파일은 하나씩 순차로 읽는다. `find`, 재귀 검색, 여러 경로를 묶은 병렬 탐색으로 job 밖을 찾지 않는다.
+5. 지정된 staging 출력과 `CLOSURE.json`만 작성하고 멈춘다. 다음 단계나 새 job을 자동 시작하지 않는다.
+6. 입력 불일치나 금지 입력 접근이 한 번이라도 있으면 결과를 살리지 않고 fail-closed로 닫는다.
+
+### controller·통합자
+
+controller만 저장소에서 preflight, method lock, exchange package 발급, 구조 검증, 원장 적용, GitHub·Vercel·Notion·Obsidian 반영을 수행한다. 기존 batch 도구는 완료 배치 검증과 역사 회귀에 유지한다.
+
+## controller용 기존 배치 프로필 선택
+
+이 절은 저장소 안에서 전체 배치를 준비하는 controller용 보존 경로다. 이미 `READY`인 exchange job의 격리 역할은 프로필을 다시 선택하지 않는다.
 
 1. 저장소 루트에서 다음을 실행한다.
 
@@ -77,6 +102,20 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 - 진행 중인 배치에 방법 변경을 끼워 넣지 않는다. 결함은 현재 배치에 기록하고 다음 배치 경계에서만 새 revision으로 반영한다.
 - 자세한 책임과 교차 검토 주기는 `docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md`를 따른다.
 
+## 역할별 접근 프로필
+
+| 단계 | 필수 접근 프로필 | 기존 후보·원장 노출 |
+|---|---|---|
+| source·observation·candidate 저작 | `job-packet-only` | 금지 |
+| source·observation·candidate 의미 검토 | 별도 `job-packet-only` | 금지 |
+| accepted-only custodian 동결 | producer·reviewer와 다른 컨텍스트 | 의미 판정 금지 |
+| comparator·catalog annotation·annotation review | `post-freeze-catalog-read` | 허용 |
+| measurement 역할 | `harness-maintainer` 또는 계약된 사후 검토 프로필 | 허용 |
+| blind-agent rehearsal | `agent-visible-only` | 후보 명세·평가 계약 금지 |
+| controller·통합·감사 | 전체 노출 | 허용 |
+
+`authorId`, `authorAccessProfile`, `reviewerId`, `reviewerAccessProfile`을 CLOSURE나 역할 산출 계약에 결속한다. 저장소 전체나 기존 재고를 본 세션은 동결 전 의미 역할과 blind-agent rehearsal에 재사용하지 않는다.
+
 ## 절대 경계
 
 - 작성자와 번역자에게 `candidate-specs.json`, 기존 MICA 과제, 웹 과제 목록, 과거 후보, 비교 판정, gap·카테고리 할당을 보여주지 않는다.
@@ -87,6 +126,15 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 - 단순 요청·접수·문서 생성으로 외부 상태 완료를 주장하지 않는다. 권위 있는 readback 또는 명시된 안전한 인계 상태가 있어야 한다.
 - 시장 검토, 실제 실행, 점수 산출, 공개·정본 편입은 이 스킬의 승인 범위가 아니다.
 - Notion·Slack·배포·정본 변경·git push는 사람의 명시 승인을 받은 별도 단계다.
+
+## catalog annotation과 slot 분리
+
+- 카테고리는 요청 소재나 근거 수집처가 아니라 주 성공 경로의 완료 조건과 권위 있는 최종 상태가 성립하는 생활 영역으로 판정한다.
+- 빈 slot이 있으면 `slotDisposition: assigned`와 가용 `proposedSlotId`를 쓴다.
+- 판정 카테고리가 10/10이면 `slotDisposition: category-overflow`, `proposedSlotId: null`로 보존한다. 빈 slot이 있는 다른 카테고리로 밀어 넣지 않는다.
+- `categoryProvisional: true`는 `READY.json`의 controller 승인 목록에 있는 후보만 사용할 수 있다. 잠정 표시는 자동 배정이나 의미 관문 우회가 아니다.
+- `telecom-subscriptions`의 한국어 라벨은 `통신·구독·렌털`이다. 반복 결제라는 이유만으로 자동이체·관리비·정기검진을 포함하지 않는다.
+- 종료 유형은 주 성공 경로의 종착점으로 판정한다. 실패 복구 분기에만 안전 인계가 있으면 `completed-final-state`를 유지하고, 주 경로의 종착점 자체가 승인 인계일 때만 `approval-handoff`다.
 
 ## 피측정 에이전트 노출면
 
@@ -104,7 +152,7 @@ description: MICA 생활과업 시나리오를 독립 근거에서 표준 최대
 - 선택한 프로필, 예상 시간과 동시 실행 한도를 `batch-manifest.json`에 기록한다.
 - 방법 revision, source commit과 파일별 SHA-256을 `methodLock`에 기록한다.
 - 한 활성 배치의 같은 artifact path는 한 런타임만 쓴다. producer가 입력 SHA-256을 닫기 전 reviewer를 시작하지 않으며 reviewer는 시작 전·쓰기 직전·완료 후 같은 SHA를 확인한다.
-- controller lease와 역할 context 선점은 `controller-state.json`에 기록한다. 중복 controller·role context는 차단하고, `standard-v1.3.4` 역할 산출물은 현재 세대의 권한 토큰이 일치할 때만 `complete-role`로 채택한다. 역할 원장 시각은 파일 mtime과 OS 관측 시각에서 파생한다.
+- controller lease와 역할 context 선점은 `controller-state.json`에 기록한다. 중복 controller·role context는 차단하고, batch 역할 산출물은 해당 batch의 동결된 method revision과 현재 세대 권한 토큰이 일치할 때만 `complete-role`로 채택한다. 역할 원장 시각은 파일 mtime과 OS 관측 시각에서 파생한다.
 - 거절 원문은 같은 배치에서 새 ID로 다시 쓰지 않는다. accepted-only 수량으로 진행하거나 닫고, 재시도는 다음 배치의 새 evidence·새 ID로 시작한다.
 - 입력 SHA가 바뀐 review는 채택하지 않고 `stale-review-evidence/`에 격리한다.
 - Lean도 작성·검토·동결·사후 대조·measurement 관문과 역할 독립성을 생략하지 않는다.
@@ -151,6 +199,17 @@ observation·candidate custodian은 별도 context에서 accepted 원문 행 전
 
 ## 완료
 
+exchange job은 controller가 저장소에서 다음을 실행해 검증한다.
+
+```bash
+python3 scripts/mica-portfolio.py validate-job --job-id <job-id>
+python3 scripts/mica-portfolio.py validate
+```
+
+`validate-job` PASS는 구조·SHA·역할·행수·경계를 확인한 것이며 의미 품질이나 원장 적용을 뜻하지 않는다. 의미 검토가 끝난 accepted 행만 별도 apply transaction으로 반영한다.
+
+기존 batch 경로는 다음 명령을 유지한다.
+
 다음을 실행해 구조를 확인한다.
 
 ```bash
@@ -161,4 +220,4 @@ python3 scripts/mica-scenario-production.py validate-batch \
   work/mica-scenario-batches/<batch-id>
 ```
 
-`validate-exposure`는 `v4`와 `v5` 배치에서 사용한다. 새 표준 배치는 `standard-v1.3.4`·`v5`를 쓰며, 완료·진행 중인 배치에 새 revision을 소급하지 않는다. source review의 7개 기준에는 `limitationsHonesty`가 반드시 포함되고, source·observation review는 필수 기준 하나라도 실패하면 reject여야 한다. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl` 해당 후보의 원문 한 줄 전체(줄바꿈 제외) SHA-256으로만 기록하고 상류 source·observation hash를 대신 쓰지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.
+`validate-exposure`는 `v4`와 `v5` 배치에서 사용한다. 완료·진행 중인 배치에 새 revision을 소급하지 않는다. source review의 7개 기준에는 `limitationsHonesty`가 반드시 포함되고, source·observation review는 필수 기준 하나라도 실패하면 reject여야 한다. `sourceFrozenRowSha256`은 `frozen-candidates.jsonl` 해당 후보의 원문 한 줄 전체(줄바꿈 제외) SHA-256으로만 기록하고 상류 source·observation hash를 대신 쓰지 않는다. 구조 검증 PASS는 의미 품질이나 벤치마크 채택 승인이 아니다. 사람에게는 수락·거절·보류, 발견한 결함, 다음 배치 유지·중단 판단을 함께 보고한다.

@@ -60,8 +60,8 @@
     },
     {
       "path": ".agents/skills/mica-scenario-production/SKILL.md",
-      "sha256": "0ed46c74cbf5e72d3aff81993d76eca6334b702a3e06062f41286d510c0ec311",
-      "byteLength": 13976
+      "sha256": "430a6d6843a1b8ee549d6335c7d4c4ba4cc999e1c7f8258abc42dc2d57491615",
+      "byteLength": 18950
     },
     {
       "path": ".agents/skills/mica-scenario-production/agents/openai.yaml",
@@ -70,8 +70,8 @@
     },
     {
       "path": ".claude/skills/mica-scenario-production/SKILL.md",
-      "sha256": "0ed46c74cbf5e72d3aff81993d76eca6334b702a3e06062f41286d510c0ec311",
-      "byteLength": 13976
+      "sha256": "430a6d6843a1b8ee549d6335c7d4c4ba4cc999e1c7f8258abc42dc2d57491615",
+      "byteLength": 18950
     },
     {
       "path": "scripts/mica-scenario-production.py",
