@@ -880,8 +880,9 @@ def prepare_job(
             "measurementIntent": "상세 fixture나 oracle을 만들지 말고, 나중에 무엇을 참·거짓으로 확인할지 한 문장으로 쓴다.",
             "slot": "READY의 availableSlotIdsByCategory 안에서만 proposedSlotId를 고르고, 같은 packet 안에서 중복 사용하지 않는다. 기존 후보와 슬롯의 결속은 추측하지 않는다.",
             "categoryProvisional": (
-                "기본값은 false이며 categoryRationale은 빈 문자열이다. true는 READY의 controllerApprovedProvisionalCandidateIds에 있는 후보가 "
-                "telecom-subscriptions를 선택할 때만 허용한다. 이때 categoryRationale은 정기계약 기제 공유. 분류 체계 개정 시 재배치 대상 으로 정확히 기록한다. "
+                "기본값은 false이며 categoryRationale은 빈 문자열이다. READY의 controllerApprovedProvisionalCandidateIds에 있는 후보가 "
+                "telecom-subscriptions를 선택하면 categoryProvisional은 반드시 true여야 한다. 이때 categoryRationale은 "
+                "정기계약 기제 공유. 분류 체계 개정 시 재배치 대상 으로 정확히 기록한다. 다른 카테고리를 선택하면 false와 빈 문자열을 유지한다. "
                 "이 표시는 카테고리 관문을 우회하는 승인이나 자동 배정이 아니다."
             ),
             "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
@@ -958,6 +959,10 @@ def validate_annotation(
             require(rationale == RENTAL_PROVISIONAL_RATIONALE, f"annotation-provisional-rationale:{candidate_id}")
         else:
             require(not rationale, f"annotation-rationale-without-provisional:{candidate_id}")
+            require(
+                candidate_id not in approved_provisional_ids or category != RENTAL_CATEGORY_ID,
+                f"annotation-provisional-required:{candidate_id}",
+            )
     require(row.get("terminationClass") in TERMINATION_CLASSES, f"annotation-termination:{candidate_id}")
     require(row.get("declaredComplexity") in COMPLEXITIES, f"annotation-complexity:{candidate_id}")
     require(row.get("targetSurface") in TARGET_SURFACES, f"annotation-surface:{candidate_id}")

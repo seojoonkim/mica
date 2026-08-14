@@ -183,6 +183,18 @@ class PortfolioTest(unittest.TestCase):
         result = portfolio.validate_job("core20-test-001", self.exchange_root)
         self.assertEqual(result["accepted"], 1)
 
+    def test_controller_approved_rental_category_requires_provisional_marker(self) -> None:
+        ready_path = self.job / "READY.json"
+        ready = json.loads(ready_path.read_text(encoding="utf-8"))
+        candidate_id = str(self.packet[0]["candidateId"])
+        ready["controllerApprovedProvisionalCandidateIds"] = [candidate_id]
+        write_json(ready_path, ready)
+        annotation = self.annotation(self.packet[0], "telecom-subscriptions-01")
+        annotation["categoryId"] = "telecom-subscriptions"
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        with self.assertRaisesRegex(portfolio.PortfolioError, "annotation-provisional-required"):
+            portfolio.validate_job("core20-test-001", self.exchange_root)
+
     def test_reapply_is_idempotent_without_mutating_ledgers(self) -> None:
         self.complete_job()
         portfolio.apply_job(
