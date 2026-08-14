@@ -36,12 +36,13 @@ class PortfolioTest(unittest.TestCase):
     def annotation(self, source: dict[str, object], slot: str, context: str = "annotator-001") -> dict[str, object]:
         return {
             "origin": "kiheon-ideation",
-            "schemaVersion": "mica.catalog-annotation/v2",
+            "schemaVersion": "mica.catalog-annotation/v3",
             "jobId": "core20-test-001",
             "batchId": source["batchId"],
             "candidateId": source["candidateId"],
             "sourceFrozenRowSha256": source["sourceFrozenRowSha256"],
             "categoryId": "email-calendar",
+            "slotDisposition": "assigned",
             "proposedSlotId": slot,
             "categoryProvisional": False,
             "categoryRationale": "",
@@ -57,12 +58,13 @@ class PortfolioTest(unittest.TestCase):
     def review(self, annotation: dict[str, object], annotation_sha: str, context: str = "reviewer-001") -> dict[str, object]:
         return {
             "origin": "kiheon-ideation",
-            "schemaVersion": "mica.catalog-annotation-review/v2",
+            "schemaVersion": "mica.catalog-annotation-review/v3",
             "jobId": "core20-test-001",
             "candidateId": annotation["candidateId"],
             "annotationRowSha256": annotation_sha,
             "candidateBinding": True,
-            "categorySlot": True,
+            "categoryBinding": True,
+            "slotDisposition": True,
             "terminationClass": True,
             "declaredComplexity": True,
             "targetSurfaceProvisional": True,
@@ -152,8 +154,14 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual(ready["controllerApprovedProvisionalCandidateIds"], [])
         self.assertEqual(
             ready["roles"]["catalogAnnotator"]["schemaVersion"],
-            "mica.catalog-annotation/v2",
+            "mica.catalog-annotation/v3",
         )
+
+    def test_ready_separates_category_from_slot_placement(self) -> None:
+        ready = json.loads((self.job / "READY.json").read_text(encoding="utf-8"))
+        self.assertEqual(ready["annotationEnums"]["slotDisposition"], ["assigned", "category-overflow"])
+        self.assertIn("완료 조건", ready["guidanceKo"]["category"])
+        self.assertIn("카테고리 판정을 바꾸지 않는다", ready["guidanceKo"]["slot"])
 
     def test_provisional_category_requires_controller_approval(self) -> None:
         annotation = self.annotation(self.packet[0], "telecom-subscriptions-01")
@@ -194,6 +202,66 @@ class PortfolioTest(unittest.TestCase):
         portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
         with self.assertRaisesRegex(portfolio.PortfolioError, "annotation-provisional-required"):
             portfolio.validate_job("core20-test-001", self.exchange_root)
+
+    def test_overflow_requires_full_category(self) -> None:
+        annotation = self.annotation(self.packet[0], "email-calendar-01")
+        annotation["slotDisposition"] = "category-overflow"
+        annotation["proposedSlotId"] = None
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        with self.assertRaisesRegex(portfolio.PortfolioError, "annotation-overflow-with-available-slot"):
+            portfolio.validate_job("core20-test-001", self.exchange_root)
+
+    def test_full_category_annotation_is_accepted_without_occupying_slot(self) -> None:
+        ready_path = self.job / "READY.json"
+        ready = json.loads(ready_path.read_text(encoding="utf-8"))
+        ready["availableSlotIdsByCategory"]["email-calendar"] = []
+        write_json(ready_path, ready)
+        annotation = self.annotation(self.packet[0], "email-calendar-01")
+        annotation["slotDisposition"] = "category-overflow"
+        annotation["proposedSlotId"] = None
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        row, row_sha = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")[0]
+        review = self.review(row, row_sha)
+        portfolio.write_jsonl(self.job / "review-output.staging.jsonl", [review])
+        write_json(
+            self.job / "CLOSURE.json",
+            {
+                "origin": "kiheon-ideation",
+                "schemaVersion": "mica.exchange-closure/v1",
+                "jobId": "core20-test-001",
+                "status": "COMPLETED",
+                "SlackCalls": 0,
+                "NotionCalls": 0,
+                "forbiddenInputReads": 0,
+                "inputBoundaryStatus": "clean",
+                "authorContextId": "annotator-001",
+                "reviewerContextId": "reviewer-001",
+                "writtenRows": 1,
+                "acceptedRows": 1,
+                "rejectedRows": 0,
+                "heldRows": 0,
+                "authorOutputSha256": portfolio.sha_file(self.job / "author-output.staging.jsonl"),
+                "reviewOutputSha256": portfolio.sha_file(self.job / "review-output.staging.jsonl"),
+                "closedAt": "2026-08-14T01:10:00Z",
+                "nextStageAutoStarted": False,
+            },
+        )
+
+        applied = portfolio.apply_job(
+            "core20-test-001",
+            "codex-controller-001",
+            "2026-08-14T01:20:00Z",
+            self.exchange_root,
+            self.portfolio_root,
+        )
+
+        self.assertEqual(applied["applied"], 1)
+        self.assertEqual(applied["placed"], 0)
+        self.assertEqual(applied["unplaced"], 1)
+        status = portfolio.portfolio_status(self.portfolio_root)
+        self.assertEqual(status["occupiedSlots"], 0)
+        self.assertEqual(status["annotatedCandidates"], 1)
+        self.assertEqual(status["unplacedAnnotatedCandidates"], 1)
 
     def test_reapply_is_idempotent_without_mutating_ledgers(self) -> None:
         self.complete_job()
@@ -348,7 +416,7 @@ class PortfolioTest(unittest.TestCase):
         portfolio.write_jsonl(self.job / "author-output.staging.jsonl", annotations)
         annotation_rows = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")
         reviews = [self.review(row, row_sha) for row, row_sha in annotation_rows]
-        reviews[1]["categorySlot"] = False
+        reviews[1]["categoryBinding"] = False
         reviews[1]["verdict"] = "reject"
         reviews[1]["reviewNote"] = "후보 본문이 제안된 카테고리를 지지하지 않는다."
         portfolio.write_jsonl(self.job / "review-output.staging.jsonl", reviews)

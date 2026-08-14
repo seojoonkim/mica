@@ -51,6 +51,7 @@ TERMINATION_CLASSES = (
 )
 COMPLEXITIES = ("single-step", "multi-step", "cross-session")
 TARGET_SURFACES = ("web", "app-only", "identity-gated", "phone-or-in-person", "mixed-surface")
+SLOT_DISPOSITIONS = ("assigned", "category-overflow")
 ANNOTATION_FIELDS_V1 = (
     "origin",
     "schemaVersion",
@@ -76,6 +77,26 @@ ANNOTATION_FIELDS_V2 = (
     "candidateId",
     "sourceFrozenRowSha256",
     "categoryId",
+    "proposedSlotId",
+    "categoryProvisional",
+    "categoryRationale",
+    "terminationClass",
+    "declaredComplexity",
+    "targetSurface",
+    "surfaceStatus",
+    "measurementIntent",
+    "annotatorContextId",
+    "annotatedAt",
+)
+ANNOTATION_FIELDS_V3 = (
+    "origin",
+    "schemaVersion",
+    "jobId",
+    "batchId",
+    "candidateId",
+    "sourceFrozenRowSha256",
+    "categoryId",
+    "slotDisposition",
     "proposedSlotId",
     "categoryProvisional",
     "categoryRationale",
@@ -121,6 +142,25 @@ REVIEW_FIELDS_V2 = (
     "reviewNote",
     "reviewedAt",
 )
+REVIEW_FIELDS_V3 = (
+    "origin",
+    "schemaVersion",
+    "jobId",
+    "candidateId",
+    "annotationRowSha256",
+    "candidateBinding",
+    "categoryBinding",
+    "slotDisposition",
+    "terminationClass",
+    "declaredComplexity",
+    "targetSurfaceProvisional",
+    "confidence",
+    "uncertaintyNote",
+    "reviewerContextId",
+    "verdict",
+    "reviewNote",
+    "reviewedAt",
+)
 REVIEW_CONFIDENCES = ("high", "medium", "low")
 
 
@@ -129,6 +169,8 @@ def annotation_fields(schema_version: object) -> tuple[str, ...]:
         return ANNOTATION_FIELDS_V1
     if schema_version == "mica.catalog-annotation/v2":
         return ANNOTATION_FIELDS_V2
+    if schema_version == "mica.catalog-annotation/v3":
+        return ANNOTATION_FIELDS_V3
     raise PortfolioError(f"annotation-schema:{schema_version}")
 
 
@@ -137,7 +179,34 @@ def review_fields(schema_version: object) -> tuple[str, ...]:
         return REVIEW_FIELDS_V1
     if schema_version == "mica.catalog-annotation-review/v2":
         return REVIEW_FIELDS_V2
+    if schema_version == "mica.catalog-annotation-review/v3":
+        return REVIEW_FIELDS_V3
     raise PortfolioError(f"review-schema:{schema_version}")
+
+
+def annotation_slot_disposition(annotation: dict[str, object]) -> str:
+    if annotation.get("schemaVersion") == "mica.catalog-annotation/v3":
+        return str(annotation.get("slotDisposition"))
+    return "assigned"
+
+
+def review_check_fields(schema_version: object) -> tuple[str, ...]:
+    if schema_version == "mica.catalog-annotation-review/v3":
+        return (
+            "candidateBinding",
+            "categoryBinding",
+            "slotDisposition",
+            "terminationClass",
+            "declaredComplexity",
+            "targetSurfaceProvisional",
+        )
+    return (
+        "candidateBinding",
+        "categorySlot",
+        "terminationClass",
+        "declaredComplexity",
+        "targetSurfaceProvisional",
+    )
 
 
 class PortfolioError(RuntimeError):
@@ -422,12 +491,17 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         require(candidate_id not in annotation_by_id, f"portfolio-annotation-duplicate:{candidate_id}")
         category = annotation.get("categoryId")
         require(category in CATEGORIES, f"portfolio-annotation-category:{candidate_id}")
-        require(
-            annotation.get("proposedSlotId")
-            in {f"{category}-{index:02d}" for index in range(1, 11)},
-            f"portfolio-annotation-slot:{candidate_id}",
-        )
-        if schema_version == "mica.catalog-annotation/v2":
+        slot_disposition = annotation_slot_disposition(annotation)
+        require(slot_disposition in SLOT_DISPOSITIONS, f"portfolio-annotation-slot-disposition:{candidate_id}")
+        if slot_disposition == "assigned":
+            require(
+                annotation.get("proposedSlotId")
+                in {f"{category}-{index:02d}" for index in range(1, 11)},
+                f"portfolio-annotation-slot:{candidate_id}",
+            )
+        else:
+            require(annotation.get("proposedSlotId") is None, f"portfolio-annotation-overflow-slot:{candidate_id}")
+        if schema_version in {"mica.catalog-annotation/v2", "mica.catalog-annotation/v3"}:
             provisional = annotation.get("categoryProvisional")
             rationale = annotation.get("categoryRationale")
             require(type(provisional) is bool, f"portfolio-annotation-provisional:{candidate_id}")
@@ -453,7 +527,7 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         schema_version = review.get("schemaVersion")
         require(tuple(review) == review_fields(schema_version), f"portfolio-review-shape:{candidate_id}")
         require(review.get("origin") == "kiheon-ideation", f"portfolio-review-origin:{candidate_id}")
-        if schema_version == "mica.catalog-annotation-review/v2":
+        if schema_version in {"mica.catalog-annotation-review/v2", "mica.catalog-annotation-review/v3"}:
             confidence = review.get("confidence")
             require(confidence in REVIEW_CONFIDENCES, f"portfolio-review-confidence:{candidate_id}")
             uncertainty_note = review.get("uncertaintyNote")
@@ -468,16 +542,7 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         )
         require(review.get("verdict") == "accept", f"portfolio-review-not-accepted:{candidate_id}")
         require(
-            all(
-                review.get(field) is True
-                for field in (
-                    "candidateBinding",
-                    "categorySlot",
-                    "terminationClass",
-                    "declaredComplexity",
-                    "targetSurfaceProvisional",
-                )
-            ),
+            all(review.get(field) is True for field in review_check_fields(schema_version)),
             f"portfolio-review-check:{candidate_id}",
         )
         require(
@@ -487,7 +552,12 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         timestamp(review.get("reviewedAt"), f"portfolio-review-time:{candidate_id}")
         review_by_id[candidate_id] = (review, row_sha)
     require(set(annotation_by_id) == set(review_by_id), "portfolio-annotation-review-set")
-    require(seen_candidates == set(annotation_by_id), "portfolio-slot-annotation-set")
+    assigned_candidates = {
+        candidate_id
+        for candidate_id, (annotation, _) in annotation_by_id.items()
+        if annotation_slot_disposition(annotation) == "assigned"
+    }
+    require(seen_candidates == assigned_candidates, "portfolio-slot-annotation-set")
     slot_by_candidate = {
         slot["candidateId"]: slot
         for category in categories
@@ -495,6 +565,9 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         if slot["status"] == "occupied"
     }
     for candidate_id, (annotation, annotation_sha) in annotation_by_id.items():
+        if annotation_slot_disposition(annotation) == "category-overflow":
+            require(candidate_id not in slot_by_candidate, f"portfolio-overflow-occupied:{candidate_id}")
+            continue
         slot = slot_by_candidate[candidate_id]
         require(slot["slotId"] == annotation["proposedSlotId"], f"portfolio-slot-id-binding:{candidate_id}")
         require(slot["annotationRowSha256"] == annotation_sha, f"portfolio-slot-annotation-sha:{candidate_id}")
@@ -531,10 +604,17 @@ def portfolio_status(portfolio_root: Path) -> dict[str, object]:
         str(row.get("candidateId"))
         for row, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl")
     }
+    unplaced_annotations = sum(
+        annotation_slot_disposition(row) == "category-overflow"
+        for row, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl")
+    )
     require(annotated_ids <= inventory_ids, "portfolio-annotation-outside-inventory")
     confidence_counts = {"high": 0, "medium": 0, "low": 0, "legacy-unknown": 0}
     for review, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotation-reviews.jsonl"):
-        if review.get("schemaVersion") == "mica.catalog-annotation-review/v2":
+        if review.get("schemaVersion") in {
+            "mica.catalog-annotation-review/v2",
+            "mica.catalog-annotation-review/v3",
+        }:
             confidence_counts[str(review.get("confidence"))] += 1
         else:
             confidence_counts["legacy-unknown"] += 1
@@ -551,6 +631,7 @@ def portfolio_status(portfolio_root: Path) -> dict[str, object]:
         "annotationTargets": len(inventory_ids),
         "annotatedCandidates": len(annotated_ids),
         "remainingAnnotationTargets": len(inventory_ids - annotated_ids),
+        "unplacedAnnotatedCandidates": unplaced_annotations,
         "reviewConfidence": confidence_counts,
         "categories": category_counts,
     }
@@ -836,13 +917,13 @@ def prepare_job(
         "roles": {
             "catalogAnnotator": {
                 "output": "author-output.staging.jsonl",
-                "schemaVersion": "mica.catalog-annotation/v2",
-                "exactFields": list(ANNOTATION_FIELDS_V2),
+                "schemaVersion": "mica.catalog-annotation/v3",
+                "exactFields": list(ANNOTATION_FIELDS_V3),
             },
             "catalogAnnotationReviewer": {
                 "output": "review-output.staging.jsonl",
-                "schemaVersion": "mica.catalog-annotation-review/v2",
-                "exactFields": list(REVIEW_FIELDS_V2),
+                "schemaVersion": "mica.catalog-annotation-review/v3",
+                "exactFields": list(REVIEW_FIELDS_V3),
                 "mustUseDistinctContext": True,
             },
         },
@@ -863,9 +944,14 @@ def prepare_job(
             "terminationClass": list(TERMINATION_CLASSES),
             "declaredComplexity": list(COMPLEXITIES),
             "targetSurface": list(TARGET_SURFACES),
+            "slotDisposition": list(SLOT_DISPOSITIONS),
         },
         "guidanceKo": {
-            "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",
+            "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯 상태, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",
+            "category": (
+                "사용자 요청의 소재나 근거 수집처가 아니라 주 성공 경로의 완료 조건과 권위 있는 최종 상태가 성립하는 생활 영역을 우선한다. "
+                "슬롯이 남는다는 이유로 다른 카테고리를 선택하지 않는다. 두 영역의 완료 조건이 실제로 겹치면 hold로 남긴다."
+            ),
             "terminationClass": {
                 "completed-final-state": "주 성공 경로에서 권위 있는 최종 상태에 도달하면 올바르게 종료한다. 실패 복구 분기에만 안전 인계가 있으면 이 값을 유지한다.",
                 "approval-handoff": "주 성공 경로의 목표 종착점 자체가 사용자 또는 권한자의 필수 승인 인계이면 올바르게 종료한다.",
@@ -879,7 +965,11 @@ def prepare_job(
             },
             "targetSurface": "실제 플랫폼 확정값이 아니라 계획용 목표값이다. surfaceStatus는 항상 target-only이며 confirmedSurface를 만들지 않는다.",
             "measurementIntent": "상세 fixture나 oracle을 만들지 말고, 나중에 무엇을 참·거짓으로 확인할지 한 문장으로 쓴다.",
-            "slot": "READY의 availableSlotIdsByCategory 안에서만 proposedSlotId를 고르고, 같은 packet 안에서 중복 사용하지 않는다. 기존 후보와 슬롯의 결속은 추측하지 않는다.",
+            "slot": (
+                "판정한 카테고리에 빈 슬롯이 있으면 slotDisposition은 assigned이고 proposedSlotId는 READY의 가용 슬롯 중 하나여야 한다. "
+                "판정한 카테고리의 가용 슬롯이 0개이면 slotDisposition은 category-overflow이고 proposedSlotId는 null이다. "
+                "빈 슬롯이 있는데 overflow를 선택하거나, 슬롯을 얻으려고 카테고리 판정을 바꾸지 않는다."
+            ),
             "categoryProvisional": (
                 "기본값은 false이며 categoryRationale은 빈 문자열이다. READY의 controllerApprovedProvisionalCandidateIds에 있는 후보가 "
                 "telecom-subscriptions를 선택하면 categoryProvisional은 반드시 true여야 한다. 이때 categoryRationale은 "
@@ -887,7 +977,7 @@ def prepare_job(
                 "이 표시는 카테고리 관문을 우회하는 승인이나 자동 배정이 아니다."
             ),
             "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
-            "review": "다섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다.",
+            "review": "여섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다.",
             "reviewConfidence": "high·medium·low 중 하나를 기록한다. medium·low는 uncertaintyNote가 필수이며 low는 accept할 수 없다.",
             "inputAccess": "허용 입력을 순서대로 하나씩 읽는다. 검색·병렬 명령에 금지 경로를 함께 넣지 않으며 금지 입력을 한 번이라도 읽으면 결과를 살리지 않고 INPUT-BOUNDARY-BREACH로 닫는다.",
         },
@@ -948,8 +1038,16 @@ def validate_annotation(
     require(row.get("sourceFrozenRowSha256") == source.get("sourceFrozenRowSha256"), f"annotation-source-sha:{candidate_id}")
     category = row.get("categoryId")
     require(category in CATEGORIES, f"annotation-category:{candidate_id}")
-    require(row.get("proposedSlotId") in available_slots[str(category)], f"annotation-slot:{candidate_id}")
-    if annotation_schema == "mica.catalog-annotation/v2":
+    slot_disposition = annotation_slot_disposition(row)
+    require(slot_disposition in SLOT_DISPOSITIONS, f"annotation-slot-disposition:{candidate_id}")
+    category_slots = available_slots[str(category)]
+    if slot_disposition == "assigned":
+        require(row.get("proposedSlotId") in category_slots, f"annotation-slot:{candidate_id}")
+    else:
+        require(annotation_schema == "mica.catalog-annotation/v3", f"annotation-overflow-schema:{candidate_id}")
+        require(not category_slots, f"annotation-overflow-with-available-slot:{candidate_id}")
+        require(row.get("proposedSlotId") is None, f"annotation-overflow-slot:{candidate_id}")
+    if annotation_schema in {"mica.catalog-annotation/v2", "mica.catalog-annotation/v3"}:
         provisional = row.get("categoryProvisional")
         rationale = row.get("categoryRationale")
         require(type(provisional) is bool, f"annotation-provisional:{candidate_id}")
@@ -1013,6 +1111,17 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
     require(isinstance(annotator_contract, dict), "job-annotator-contract")
     annotation_schema = annotator_contract.get("schemaVersion")
     require(annotator_contract.get("exactFields") == list(annotation_fields(annotation_schema)), "job-annotator-fields")
+    accepted_annotation_schemas = {str(annotation_schema)}
+    accepted_schema_contracts = annotator_contract.get("acceptedSchemas")
+    if accepted_schema_contracts is not None:
+        require(isinstance(accepted_schema_contracts, list), "job-annotator-accepted-schemas")
+        accepted_annotation_schemas = set()
+        for contract in accepted_schema_contracts:
+            require(isinstance(contract, dict), "job-annotator-accepted-schema-object")
+            schema = contract.get("schemaVersion")
+            require(contract.get("exactFields") == list(annotation_fields(schema)), "job-annotator-accepted-schema-fields")
+            accepted_annotation_schemas.add(str(schema))
+        require(str(annotation_schema) in accepted_annotation_schemas, "job-annotator-default-schema")
     approved_provisional_raw = ready.get("controllerApprovedProvisionalCandidateIds", [])
     require(isinstance(approved_provisional_raw, list), "job-provisional-candidate-list")
     require(
@@ -1029,19 +1138,22 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
     annotator_contexts: set[str] = set()
     proposed_slots: set[str] = set()
     for row, row_sha in annotations:
+        row_schema = row.get("schemaVersion")
+        require(str(row_schema) in accepted_annotation_schemas, f"annotation-schema-not-accepted:{row.get('candidateId')}")
         validate_annotation(
             row,
             job_id,
             packet,
             available_slots,
-            annotation_schema,
+            row_schema,
             approved_provisional_ids,
         )
         candidate_id = str(row["candidateId"])
         require(candidate_id not in annotation_by_id, f"annotation-duplicate:{candidate_id}")
-        proposed_slot = str(row["proposedSlotId"])
-        require(proposed_slot not in proposed_slots, f"annotation-slot-duplicate:{proposed_slot}")
-        proposed_slots.add(proposed_slot)
+        if annotation_slot_disposition(row) == "assigned":
+            proposed_slot = str(row["proposedSlotId"])
+            require(proposed_slot not in proposed_slots, f"annotation-slot-duplicate:{proposed_slot}")
+            proposed_slots.add(proposed_slot)
         annotation_by_id[candidate_id] = (row, row_sha)
         annotator_contexts.add(str(row["annotatorContextId"]))
     reviewed_ids: set[str] = set()
@@ -1058,10 +1170,14 @@ def validate_job(job_id: str, exchange_root: Path) -> dict[str, object]:
         reviewed_ids.add(candidate_id)
         annotation, annotation_sha = annotation_by_id[candidate_id]
         require(row.get("annotationRowSha256") == annotation_sha, f"review-annotation-sha:{candidate_id}")
-        checks = ("candidateBinding", "categorySlot", "terminationClass", "declaredComplexity", "targetSurfaceProvisional")
+        checks = review_check_fields(review_schema)
         require(all(type(row.get(field)) is bool for field in checks), f"review-check-shape:{candidate_id}")
-        confidence = row.get("confidence") if review_schema == "mica.catalog-annotation-review/v2" else "legacy-unknown"
-        if review_schema == "mica.catalog-annotation-review/v2":
+        confidence = (
+            row.get("confidence")
+            if review_schema in {"mica.catalog-annotation-review/v2", "mica.catalog-annotation-review/v3"}
+            else "legacy-unknown"
+        )
+        if review_schema in {"mica.catalog-annotation-review/v2", "mica.catalog-annotation-review/v3"}:
             require(confidence in REVIEW_CONFIDENCES, f"review-confidence:{candidate_id}")
             uncertainty_note = row.get("uncertaintyNote")
             require(isinstance(uncertainty_note, str), f"review-uncertainty:{candidate_id}")
@@ -1172,29 +1288,35 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
     existing_annotations = parse_jsonl_with_hash(portfolio_root / "catalog-annotations.jsonl")
     existing_ids = {row.get("candidateId") for row, _ in existing_annotations}
     applied = 0
+    placed = 0
+    unplaced = 0
     for candidate_id, (review, review_sha) in reviews.items():
         if review.get("verdict") != "accept":
             continue
         require(candidate_id not in existing_ids, f"portfolio-candidate-already-applied:{candidate_id}")
         annotation, annotation_sha = annotations[candidate_id]
-        slot_id = annotation["proposedSlotId"]
-        target = None
-        for category in ledger["categories"]:
-            for slot in category["slots"]:
-                if slot["slotId"] == slot_id:
-                    target = slot
-                    break
-        require(target is not None, f"portfolio-slot-missing:{slot_id}")
-        require(target["status"] == "empty", f"portfolio-slot-not-empty:{slot_id}")
-        target.update(
-            {
-                "status": "occupied",
-                "candidateId": candidate_id,
-                "annotationRowSha256": annotation_sha,
-                "reviewRowSha256": review_sha,
-                "sourceBatchId": annotation["batchId"],
-            }
-        )
+        if annotation_slot_disposition(annotation) == "assigned":
+            slot_id = annotation["proposedSlotId"]
+            target = None
+            for category in ledger["categories"]:
+                for slot in category["slots"]:
+                    if slot["slotId"] == slot_id:
+                        target = slot
+                        break
+            require(target is not None, f"portfolio-slot-missing:{slot_id}")
+            require(target["status"] == "empty", f"portfolio-slot-not-empty:{slot_id}")
+            target.update(
+                {
+                    "status": "occupied",
+                    "candidateId": candidate_id,
+                    "annotationRowSha256": annotation_sha,
+                    "reviewRowSha256": review_sha,
+                    "sourceBatchId": annotation["batchId"],
+                }
+            )
+            placed += 1
+        else:
+            unplaced += 1
         existing_ids.add(candidate_id)
         applied += 1
     require(applied == result["accepted"], "portfolio-accepted-apply-count")
@@ -1235,6 +1357,8 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
         "afterReviewLedgerSha256": sha_bytes(review_bytes),
         "appliedByContextId": applied_by,
         "appliedCount": applied,
+        "placedCount": placed,
+        "unplacedCount": unplaced,
         "observedAt": observed_at,
     }
     artifact_ledger = portfolio_root / "portfolio-artifact-ledger.jsonl"
@@ -1250,7 +1374,14 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
         transaction_id=f"apply-{job_id}",
         validator=lambda: validate_portfolio(portfolio_root),
     )
-    return {"status": "pass", "jobId": job_id, "applied": applied, "receipt": str(receipt_path)}
+    return {
+        "status": "pass",
+        "jobId": job_id,
+        "applied": applied,
+        "placed": placed,
+        "unplaced": unplaced,
+        "receipt": str(receipt_path),
+    }
 
 
 def print_result(result: dict[str, object], as_json: bool) -> None:
