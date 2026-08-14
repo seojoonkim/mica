@@ -950,20 +950,20 @@
         },
         {
           "slotId": "telecom-subscriptions-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b9-01",
+          "annotationRowSha256": "ea098ecb09c3c37c9123c34f8c5006fa6758b7b6c6b079901f8d04260dd0771e",
+          "reviewRowSha256": "4b5b18935149a176a2fc7d0365f318837d98cd251e172ccd008fb6699013dd54",
+          "sourceBatchId": "std-b9",
           "attemptHistory": []
         },
         {
           "slotId": "telecom-subscriptions-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b9-03",
+          "annotationRowSha256": "342cb7d29a32744fd0139f0b5338c11cc605d829053810acd5daf7c9f7f50b90",
+          "reviewRowSha256": "c27a95f70e8e1e712093961598eb4f30bdd5c0c57fc98c453e5a870b079cef3f",
+          "sourceBatchId": "std-b9",
           "attemptHistory": []
         }
       ]
