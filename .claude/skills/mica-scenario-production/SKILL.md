@@ -199,14 +199,21 @@ observation·candidate custodian은 별도 context에서 accepted 원문 행 전
 
 ## 완료
 
-exchange job은 controller가 저장소에서 다음을 실행해 검증한다.
+격리 역할은 job 디렉터리에서 package를 먼저 검증한다.
 
 ```bash
+shasum -a 256 -c PACKAGE-SHA256.txt
+```
+
+controller는 `READY.json`의 `jobType`을 확인한 뒤 유형에 맞는 검증만 실행한다. `mica-portfolio.py validate-job`은 `catalog-annotation` job 전용이며 `clean-room-production` source research에 사용하지 않는다.
+
+```bash
+# catalog-annotation job만
 python3 scripts/mica-portfolio.py validate-job --job-id <job-id>
 python3 scripts/mica-portfolio.py validate
 ```
 
-`validate-job` PASS는 구조·SHA·역할·행수·경계를 확인한 것이며 의미 품질이나 원장 적용을 뜻하지 않는다. 의미 검토가 끝난 accepted 행만 별도 apply transaction으로 반영한다.
+`validate-job` PASS는 구조·SHA·역할·행수·경계를 확인한 것이며 의미 품질이나 원장 적용을 뜻하지 않는다. clean-room production 산출물은 해당 `READY.json`의 output schema와 `CLOSURE.template.json`에 맞춰 controller가 단계별로 검사한 뒤 다음 job을 준비한다. 의미 검토가 끝난 accepted 행만 별도 apply transaction으로 반영한다.
 
 기존 batch 경로는 다음 명령을 유지한다.
 
