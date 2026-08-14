@@ -260,6 +260,28 @@ class PortfolioTest(unittest.TestCase):
         with self.assertRaisesRegex(portfolio.PortfolioError, "active-job-exists:core20-test-001"):
             portfolio.prepare_job("core20-test-002", 2, self.exchange_root, self.portfolio_root)
 
+    def test_applied_retry_packets_do_not_block_a_new_job(self) -> None:
+        receipts = self.portfolio_root / "receipts"
+        write_json(receipts / "apply-core20-test-001.json", {})
+        retry = self.exchange_root / "core20-test-002"
+        retry.mkdir()
+        packet_path = retry / "packet.jsonl"
+        portfolio.write_jsonl(packet_path, [self.packet[0]])
+        write_json(
+            retry / "READY.json",
+            {
+                "jobId": "core20-test-002",
+                "jobType": "catalog-annotation",
+                "packetSha256": portfolio.sha_file(packet_path),
+            },
+        )
+        write_json(receipts / "apply-core20-test-002.json", {})
+
+        selected, active = portfolio.exchange_job_index(self.exchange_root, self.portfolio_root)
+
+        self.assertEqual(selected, set())
+        self.assertEqual(active, [])
+
     def test_applied_job_candidates_are_not_reselected(self) -> None:
         first_ids = {str(row["candidateId"]) for row in self.packet}
         self.complete_job()

@@ -726,13 +726,14 @@ def exchange_job_index(exchange_root: Path, portfolio_root: Path) -> tuple[set[s
         require(ready.get("jobType") == "catalog-annotation", f"exchange-job-type:{job_id}")
         packet_path = ready_path.parent / "packet.jsonl"
         require(ready.get("packetSha256") == sha_file(packet_path), f"exchange-packet-sha:{job_id}")
+        if (portfolio_root / "receipts" / f"apply-{job_id}.json").is_file():
+            continue
         for row, _ in parse_jsonl_with_hash(packet_path):
             candidate_id = row.get("candidateId")
             require(isinstance(candidate_id, str) and candidate_id, f"exchange-packet-candidate:{job_id}")
             require(candidate_id not in packet_candidate_ids, f"exchange-candidate-reselected:{candidate_id}")
             packet_candidate_ids.add(candidate_id)
-        if not (portfolio_root / "receipts" / f"apply-{job_id}.json").is_file():
-            active_job_ids.append(str(job_id))
+        active_job_ids.append(str(job_id))
     return packet_candidate_ids, active_job_ids
 
 
