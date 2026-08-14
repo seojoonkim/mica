@@ -38,6 +38,23 @@ adoptionNote: Codex가 채택하면 docs/kiheon-ideation-pilot-15/ 로 승격한
 
 **의미 관문의 검토자는 저작자와 다른 사람이어야 한다.** 한 사람이 에이전트 컨텍스트 두 개를 돌리는 것보다 독립성이 실제로 높다. 팀 확대가 무결성에 기여하는 유일한 지점이므로 여기를 살린다.
 
+### 1.1 검토자 적격성은 단계별로 다르다
+
+`저작자와 다른 컨텍스트`만으로 모든 검토자가 적격해지는 것은 아니다. 후보 동결 전에는 기존 재고가 판정에 역류하지 않아야 하고, 후보 동결 뒤에는 비교와 측정을 위해 기존 재고 또는 비공개 평가 계약을 의도적으로 열어야 한다.
+
+| 단계 | 적격한 컨텍스트 | 기존 후보·원장 노출 | 이유 |
+|---|---|---|---|
+| 근거 조사·관찰·후보 저작 | 신규 `job-packet-only` 저작자 | 금지 | 기존 답이나 빈 슬롯에 맞춘 역설계를 막는다 |
+| source·observation·candidate 의미 검토 | 저작자와 다른 신규 `job-packet-only` 검토자 | 금지 | packet과 해당 producer 산출물만으로 근거·의미·실행 단위를 판정한다 |
+| custodian 동결 | producer·reviewer와 다른 컨텍스트 | 의미 판정에 사용 금지 | 수락 행의 바이트와 SHA만 보존한다 |
+| comparator | 별도 사후 비교자 | 필요 | 후보가 동결된 뒤에만 기존 MICA와 이전 후보를 대조한다 |
+| catalog annotation·annotation review | 서로 다른 사후 분류 컨텍스트 | 허용 | 동결 후보를 카테고리와 슬롯 원장에 결속하는 단계다 |
+| measurement asset·oracle·measurement review | 역할별 서로 다른 평가 컨텍스트 | 허용 | 동결 후보와 비공개 평가 계약의 실행 가능성을 검증한다 |
+| blind-agent rehearsal | 신규 `agent-visible-only` 컨텍스트 | 후보 명세·평가 계약 금지 | 공개 요청만으로 합리적 경로가 존재하는지 확인한다 |
+| controller·통합자·감사자 | 전체 노출 컨텍스트 | 허용 | 계약 발급, 검증, 적용, 회귀 감사를 수행한다 |
+
+따라서 저장소 전체, 기존 후보 본문, 포트폴리오 원장, 슬롯 잔량을 본 세션은 신규 저작자뿐 아니라 source reviewer, observation reviewer, candidate reviewer, blind-agent rehearsal 역할도 맡지 않는다. 이 세션은 controller, comparator, catalog annotation, measurement review, 통합, 감사 역할에만 재사용할 수 있다. 사후 역할의 결론은 동결 전 역할에 되돌려 보내지 않는다.
+
 ---
 
 ## 2. 노출면과 저장 경계
@@ -173,7 +190,7 @@ status: "READY"
 
 ## 5. 검토자 절차
 
-1. 저작자와 **다른 사람·다른 컨텍스트**여야 한다.
+1. 저작자와 **다른 사람·다른 컨텍스트**여야 한다. source·observation·candidate 의미 검토자는 기존 후보·포트폴리오·슬롯 원장에 노출되지 않은 신규 `job-packet-only` 컨텍스트여야 한다.
 2. **저작자의 근거·대안값·고민을 전달받지 않는다.** packet 원문과 저작자 산출물만 본다.
 3. 입력 SHA를 직접 대조한다.
 4. 각 행의 다섯 항목을 **독립적으로** 판정한다: 후보 결속, 카테고리·슬롯, 종료 유형, 복잡도, 목표 접점.
@@ -213,8 +230,9 @@ status: "READY"
 | `authorId` | 사람·런타임 식별자 |
 | `authorAccessProfile` | `job-packet-only` / `public-core-read` / `harness-maintainer` |
 | `reviewerId` | 검토자 식별자 |
+| `reviewerAccessProfile` | `job-packet-only` / `post-freeze-catalog-read` / `harness-maintainer` / `agent-visible-only` |
 
-CLOSURE의 읽은 입력 실측 SHA 목록은 이미 있다. 위 세 필드를 더하면 **오염 여부가 가정이 아니라 기록이 된다.**
+CLOSURE의 읽은 입력 실측 SHA 목록은 이미 있다. 위 네 필드를 더하면 **오염 여부가 가정이 아니라 기록이 된다.**
 
 ---
 
