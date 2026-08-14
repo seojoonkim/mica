@@ -135,11 +135,11 @@
         },
         {
           "slotId": "shopping-delivery-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b4-04",
+          "annotationRowSha256": "48db80b8a4149cb1a7ec166a781dc076704b08faa6ed43183c81a1a7b07a1771",
+          "reviewRowSha256": "757d4859e1f9843f140439ad4bff8dee0e425f8bee3c70f29610d47affd8b759",
+          "sourceBatchId": "std-b4",
           "attemptHistory": []
         },
         {
@@ -221,11 +221,11 @@
         },
         {
           "slotId": "travel-accommodation-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b4-01",
+          "annotationRowSha256": "66e5f5367ca9509b3f838a8399a3ba2f4eef9f0543b274b33a57991f051f6cd9",
+          "reviewRowSha256": "2f22a128ad7db59f302538e6425da40b28fa094b704269f0bdb1908fb6026190",
+          "sourceBatchId": "std-b4",
           "attemptHistory": []
         },
         {
@@ -420,29 +420,29 @@
         },
         {
           "slotId": "money-banking-investing-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b4-02",
+          "annotationRowSha256": "7197326eeeef6cd73b72324a14e7e754988fc4d30dd46ae4708b4cc325b64253",
+          "reviewRowSha256": "66ad8c39d14fa08669a76c632339884da3b27eec62d7f9f9244d4941d01b9adf",
+          "sourceBatchId": "std-b4",
           "attemptHistory": []
         },
         {
           "slotId": "money-banking-investing-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b4-03",
+          "annotationRowSha256": "86a20b0040c719e7f146f874f93909ea6b7e6001371e7c614b1078222f6104b8",
+          "reviewRowSha256": "c20199bdc106381862c91f5eb51edb29619f18f08bd68a6104d659c7912c46fc",
+          "sourceBatchId": "std-b4",
           "attemptHistory": []
         },
         {
           "slotId": "money-banking-investing-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b5-02",
+          "annotationRowSha256": "c769f5dd29db5f3d89a9e8a7df25de0882672c755d96a12eee101cb34d0a10fc",
+          "reviewRowSha256": "9e70e651d7fcd8124c568ec8fc4fd3aa9df740c574cc0f4332cc5349e9ab565e",
+          "sourceBatchId": "std-b5",
           "attemptHistory": []
         },
         {
@@ -488,20 +488,20 @@
       "slots": [
         {
           "slotId": "mobility-transit-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b3-01",
+          "annotationRowSha256": "0bbc348c70dc78f8b16086ce0c22de4e820f70fd313ad87a700056dbeac313e8",
+          "reviewRowSha256": "18a90fc29930df4788578906291045ccad3d21a1b029d659625046afd5d4e091",
+          "sourceBatchId": "std-b3",
           "attemptHistory": []
         },
         {
           "slotId": "mobility-transit-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b3-02",
+          "annotationRowSha256": "945c29f7e570d299ae8af3eae0617e3979cdd8d0a90c3c13d5eb2eaa2260d5a6",
+          "reviewRowSha256": "d1fe25773dd5dc2632028494df127c21c7ff166f1c6c7654ae5c32f1721e15a3",
+          "sourceBatchId": "std-b3",
           "attemptHistory": []
         },
         {
@@ -868,20 +868,20 @@
       "slots": [
         {
           "slotId": "telecom-subscriptions-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b2-01",
+          "annotationRowSha256": "d500e973cd518924db0a8f48f52eb2ade255cb920df51b0ca20aed7541cf3dcb",
+          "reviewRowSha256": "712bb756ef20e0e381018ecef5318b277a96158bea04eb05a6664d84bae2c6e1",
+          "sourceBatchId": "std-b2",
           "attemptHistory": []
         },
         {
           "slotId": "telecom-subscriptions-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b2-02",
+          "annotationRowSha256": "52fbbab187537ae3ff1aed8df98e535bb87078322d8d833413afeaecad3d9582",
+          "reviewRowSha256": "900df94ab2b1aa96d15e2998d462ffdde53101c9c53d1109502246f342cecbc5",
+          "sourceBatchId": "std-b2",
           "attemptHistory": []
         },
         {
