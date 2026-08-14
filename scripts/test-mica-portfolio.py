@@ -36,13 +36,15 @@ class PortfolioTest(unittest.TestCase):
     def annotation(self, source: dict[str, object], slot: str, context: str = "annotator-001") -> dict[str, object]:
         return {
             "origin": "kiheon-ideation",
-            "schemaVersion": "mica.catalog-annotation/v1",
+            "schemaVersion": "mica.catalog-annotation/v2",
             "jobId": "core20-test-001",
             "batchId": source["batchId"],
             "candidateId": source["candidateId"],
             "sourceFrozenRowSha256": source["sourceFrozenRowSha256"],
             "categoryId": "email-calendar",
             "proposedSlotId": slot,
+            "categoryProvisional": False,
+            "categoryRationale": "",
             "terminationClass": "completed-final-state",
             "declaredComplexity": "multi-step",
             "targetSurface": "web",
@@ -137,6 +139,50 @@ class PortfolioTest(unittest.TestCase):
         self.assertIn("목표 종착점 자체", guidance["approval-handoff"])
         self.assertIn("최종 상태", guidance["escalation"])
 
+    def test_ready_expands_rental_category_without_auto_assignment(self) -> None:
+        ready = json.loads((self.job / "READY.json").read_text(encoding="utf-8"))
+        telecom = next(
+            row
+            for row in ready["annotationEnums"]["categoryId"]
+            if row["value"] == "telecom-subscriptions"
+        )
+        self.assertEqual(telecom["labelKo"], "통신·구독·렌털")
+        self.assertIn("월 단위 요금", telecom["guidanceKo"])
+        self.assertIn("구매·배송", telecom["guidanceKo"])
+        self.assertEqual(ready["controllerApprovedProvisionalCandidateIds"], [])
+        self.assertEqual(
+            ready["roles"]["catalogAnnotator"]["schemaVersion"],
+            "mica.catalog-annotation/v2",
+        )
+
+    def test_provisional_category_requires_controller_approval(self) -> None:
+        annotation = self.annotation(self.packet[0], "telecom-subscriptions-01")
+        annotation["categoryId"] = "telecom-subscriptions"
+        annotation["categoryProvisional"] = True
+        annotation["categoryRationale"] = portfolio.RENTAL_PROVISIONAL_RATIONALE
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        with self.assertRaisesRegex(portfolio.PortfolioError, "annotation-provisional-not-approved"):
+            portfolio.validate_job("core20-test-001", self.exchange_root)
+
+    def test_controller_approved_provisional_category_is_reviewable(self) -> None:
+        ready_path = self.job / "READY.json"
+        ready = json.loads(ready_path.read_text(encoding="utf-8"))
+        candidate_id = str(self.packet[0]["candidateId"])
+        ready["controllerApprovedProvisionalCandidateIds"] = [candidate_id]
+        write_json(ready_path, ready)
+        annotation = self.annotation(self.packet[0], "telecom-subscriptions-01")
+        annotation["categoryId"] = "telecom-subscriptions"
+        annotation["categoryProvisional"] = True
+        annotation["categoryRationale"] = portfolio.RENTAL_PROVISIONAL_RATIONALE
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        row, row_sha = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")[0]
+        portfolio.write_jsonl(
+            self.job / "review-output.staging.jsonl",
+            [self.review(row, row_sha)],
+        )
+        result = portfolio.validate_job("core20-test-001", self.exchange_root)
+        self.assertEqual(result["accepted"], 1)
+
     def test_reapply_is_idempotent_without_mutating_ledgers(self) -> None:
         self.complete_job()
         portfolio.apply_job(
@@ -230,6 +276,35 @@ class PortfolioTest(unittest.TestCase):
         second_ids = {str(row["candidateId"]) for row, _ in second_packet}
         self.assertTrue(second_ids)
         self.assertTrue(first_ids.isdisjoint(second_ids))
+
+    def test_prepare_job_can_target_controller_approved_candidates(self) -> None:
+        self.complete_job()
+        portfolio.apply_job(
+            "core20-test-001",
+            "codex-controller-001",
+            "2026-08-14T01:20:00Z",
+            self.exchange_root,
+            self.portfolio_root,
+        )
+        applied_ids = {str(row["candidateId"]) for row in self.packet}
+        target_id = next(
+            str(row["candidateId"])
+            for row in portfolio.all_candidate_rows()
+            if str(row["candidateId"]) not in applied_ids
+        )
+        portfolio.prepare_job(
+            "core20-test-002",
+            2,
+            self.exchange_root,
+            self.portfolio_root,
+            candidate_ids=(target_id,),
+            provisional_candidate_ids=(target_id,),
+        )
+        job = self.exchange_root / "core20-test-002"
+        ready = json.loads((job / "READY.json").read_text(encoding="utf-8"))
+        packet = portfolio.parse_jsonl_with_hash(job / "packet.jsonl")
+        self.assertEqual([row["candidateId"] for row, _ in packet], [target_id])
+        self.assertEqual(ready["controllerApprovedProvisionalCandidateIds"], [target_id])
 
     def test_status_counts_new_closed_batch_candidates_dynamically(self) -> None:
         inventory = portfolio.all_candidate_rows()

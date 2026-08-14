@@ -11,11 +11,12 @@
   "taskSet": "public",
   "holdoutIncluded": false,
   "targetSlotCount": 100,
-  "occupiedSlotCount": 41,
+  "occupiedSlotCount": 45,
   "blockedSlotCount": 0,
   "categories": [
     {
       "categoryId": "email-calendar",
+      "labelKo": "이메일·캘린더",
       "slots": [
         {
           "slotId": "email-calendar-01",
@@ -111,6 +112,7 @@
     },
     {
       "categoryId": "shopping-delivery",
+      "labelKo": "쇼핑·배송",
       "slots": [
         {
           "slotId": "shopping-delivery-01",
@@ -206,6 +208,7 @@
     },
     {
       "categoryId": "travel-accommodation",
+      "labelKo": "여행 계획·숙박",
       "slots": [
         {
           "slotId": "travel-accommodation-01",
@@ -301,6 +304,7 @@
     },
     {
       "categoryId": "restaurants-local",
+      "labelKo": "외식·예약",
       "slots": [
         {
           "slotId": "restaurants-local-01",
@@ -396,6 +400,7 @@
     },
     {
       "categoryId": "money-banking-investing",
+      "labelKo": "금융·은행·투자",
       "slots": [
         {
           "slotId": "money-banking-investing-01",
@@ -491,6 +496,7 @@
     },
     {
       "categoryId": "mobility-transit",
+      "labelKo": "이동·대중교통",
       "slots": [
         {
           "slotId": "mobility-transit-01",
@@ -586,6 +592,7 @@
     },
     {
       "categoryId": "healthcare-administration",
+      "labelKo": "의료 행정",
       "slots": [
         {
           "slotId": "healthcare-administration-01",
@@ -681,6 +688,7 @@
     },
     {
       "categoryId": "government-civic",
+      "labelKo": "행정·공공 서비스",
       "slots": [
         {
           "slotId": "government-civic-01",
@@ -776,6 +784,7 @@
     },
     {
       "categoryId": "home-utilities",
+      "labelKo": "주거·공과금",
       "slots": [
         {
           "slotId": "home-utilities-01",
@@ -871,6 +880,7 @@
     },
     {
       "categoryId": "telecom-subscriptions",
+      "labelKo": "통신·구독·렌털",
       "slots": [
         {
           "slotId": "telecom-subscriptions-01",
@@ -901,20 +911,20 @@
         },
         {
           "slotId": "telecom-subscriptions-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b7-05",
+          "annotationRowSha256": "79a652a6361a0a6e1f0db0d0a7a37e020409ef9e27aecfac2fa5612cd7d28e14",
+          "reviewRowSha256": "f4a738af3098cc4189b6d29285843ad19d1981ebbaed0c6fad1d3476bfcbbbaa",
+          "sourceBatchId": "std-b7",
           "attemptHistory": []
         },
         {
           "slotId": "telecom-subscriptions-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b8-02",
+          "annotationRowSha256": "1dce063c041f19703bb673d04614d4066de98647ec3194b7395bdf07d5c5e6a5",
+          "reviewRowSha256": "1ba14bbd523bfce89352c879e4365725bf9296659443ca31747877ef5b0a6552",
+          "sourceBatchId": "std-b8",
           "attemptHistory": []
         },
         {
@@ -928,20 +938,20 @@
         },
         {
           "slotId": "telecom-subscriptions-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b8-03",
+          "annotationRowSha256": "248f2ed1b8780b3cde04583c4762bdf06a936eb36c3c0ad5aaf9b47116a85489",
+          "reviewRowSha256": "4ef7e7d8e53f769f572e62b194bad906d78500112b20f8887358d3d788e12889",
+          "sourceBatchId": "std-b8",
           "attemptHistory": []
         },
         {
           "slotId": "telecom-subscriptions-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b9-02",
+          "annotationRowSha256": "20cc59098a8fb98dfc0d37568e352ab69519c24857531fb8160d92d3a96bf2f7",
+          "reviewRowSha256": "02a952f28b16a965f4a888a058cdeae40ad731dbfb480c9d26a20ec617bc1ef9",
+          "sourceBatchId": "std-b9",
           "attemptHistory": []
         },
         {
@@ -965,5 +975,5 @@
       ]
     }
   ],
-  "sourcePortfolioLedgerSha256": "57564c000802ea6af26b0d7910529a8067ac3b870bb8959699116d44ade918ef"
+  "sourcePortfolioLedgerSha256": "e410f010e6d3e3fdc725f6ab726053dc6458f7766d308bc06cc8dfeba6135396"
 }
