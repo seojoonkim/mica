@@ -31,20 +31,20 @@
         },
         {
           "slotId": "email-calendar-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b6-01",
+          "annotationRowSha256": "81b1179e611b32e8d238708ea42ae84c1bb24c9cf0d3757e12c728b07d3351a0",
+          "reviewRowSha256": "9f94d8eb6da44939990b4a08e35b7ffca81126bd6953d0100bc6cc9a5e72f8fd",
+          "sourceBatchId": "std-b6",
           "attemptHistory": []
         },
         {
           "slotId": "email-calendar-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b6-02",
+          "annotationRowSha256": "2c28f6e4387033c42cbb031314af6c5f3b0c21e81e604be0cfe99e19154cea1f",
+          "reviewRowSha256": "9721aeaad468b51db40f6cb86c7b36239c503ee3cf0ea17571b27247b86c8f99",
+          "sourceBatchId": "std-b6",
           "attemptHistory": []
         },
         {
@@ -773,29 +773,29 @@
       "slots": [
         {
           "slotId": "home-utilities-01",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b5-03",
+          "annotationRowSha256": "1df3463f36524e68aef9ab7c2df3790500fa24430aa2755c2b43cbb4f5bf728d",
+          "reviewRowSha256": "52d9c9cb22c368d6939f8fa911819f1821f9493f361476034ec00584bb4da331",
+          "sourceBatchId": "std-b5",
           "attemptHistory": []
         },
         {
           "slotId": "home-utilities-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b5-04",
+          "annotationRowSha256": "7170a9be54cab4985173a07b525ebdcb415943813c39dbb8cda15476e351abda",
+          "reviewRowSha256": "265b971772e594905787d9ae37c815bf51ffaf42418f7cfff6aad246dd9590f7",
+          "sourceBatchId": "std-b5",
           "attemptHistory": []
         },
         {
           "slotId": "home-utilities-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b7-04",
+          "annotationRowSha256": "3295f583026a61429d0e617dbdde7084ab64f8f127dbb9e820fa764ddf4cfe22",
+          "reviewRowSha256": "16040e3c925da30b0bc433e60bd407c909607c8396833439945a193087ca1516",
+          "sourceBatchId": "std-b7",
           "attemptHistory": []
         },
         {
@@ -886,11 +886,11 @@
         },
         {
           "slotId": "telecom-subscriptions-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b6-04",
+          "annotationRowSha256": "e608dccda3819220ab42f38a5806922e871288741098fba74355afce0bb8b4d9",
+          "reviewRowSha256": "bc77b1f0496c2d41e45ce0740a0e37e61dcc095fdccc3b2763805b12cb092bdb",
+          "sourceBatchId": "std-b6",
           "attemptHistory": []
         },
         {
@@ -913,11 +913,11 @@
         },
         {
           "slotId": "telecom-subscriptions-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b7-03",
+          "annotationRowSha256": "26b7792b7769f5ab81a98349898daf83e2126a6e4b65c844a59a08eddba21336",
+          "reviewRowSha256": "29eca3be4ad4da6f7d660fc73f8cfa666e6472de2d872de5ffb6beadb0f4e8f4",
+          "sourceBatchId": "std-b7",
           "attemptHistory": []
         },
         {
