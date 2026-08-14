@@ -1,0 +1,20 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.exchange-closure/v1",
+  "jobId": "core20-annotation-007",
+  "status": "COMPLETED",
+  "SlackCalls": 0,
+  "NotionCalls": 0,
+  "forbiddenInputReads": 0,
+  "inputBoundaryStatus": "clean",
+  "authorContextId": "catalogAnnotator-core20-annotation-007-codex-20260814",
+  "reviewerContextId": "catalogAnnotationReviewer-core20-annotation-007-codex-review-20260814T133740",
+  "writtenRows": 2,
+  "acceptedRows": 2,
+  "rejectedRows": 0,
+  "heldRows": 0,
+  "authorOutputSha256": "fa5e12dcc2359d1e8d0e2d8c452814e5bbf33f4adc2ca6a7e74ca7dba5a8fb08",
+  "reviewOutputSha256": "1d4da71ae5989d0e36581fb3daae58f3876ff2482dfa95fb883b24679f9fe2b8",
+  "closedAt": "2026-08-14T04:39:47Z",
+  "nextStageAutoStarted": false
+}
