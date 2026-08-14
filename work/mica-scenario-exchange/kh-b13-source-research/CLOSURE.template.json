@@ -1,0 +1,37 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-source-closure/v1",
+  "jobId": "kh-b13-source-research",
+  "status": "COMPLETED | ZERO-EVIDENCE | INPUT-BOUNDARY-BREACH | BLOCKED",
+  "authorContextId": "<actual-context-id>",
+  "authorAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean | breach",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsWritten": 0,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "SLOT-BRIEF.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "<actual-sha256>"
+    }
+  ],
+  "outputPath": "source-evidence.staging.jsonl",
+  "outputSha256": "<actual-sha256-or-empty-file-sha256>",
+  "outputBytes": 0,
+  "observedAt": "<actual-utc-iso8601>",
+  "nextStageAutoStarted": false,
+  "notes": []
+}

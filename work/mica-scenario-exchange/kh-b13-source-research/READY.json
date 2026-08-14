@@ -1,0 +1,79 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b13-source-research",
+  "jobType": "clean-room-production",
+  "phase": "source-research",
+  "methodRevision": "standard-v1.3.5",
+  "sourceCommitSha": "c5a93508a55ad3c92571bd878a42d5cde6b7fdc6",
+  "status": "READY",
+  "inputManifest": {
+    "path": "INPUT-MANIFEST.json",
+    "sha256": "2cde8745f7956b0cb166d32ba5ffcaf50d945f83e7f48655d9a6ea516f00b3a8",
+    "byteLength": 614
+  },
+  "slotBrief": {
+    "path": "SLOT-BRIEF.json",
+    "sha256": "6620a8e3f76afef45d767270f8905d7fa7dedc49f4cf183354753d3131868b5d",
+    "requestedTotal": 5
+  },
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "SLOT-BRIEF.json",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "allowedExternalResearch": "공개된 권위 있는 1차 자료의 원문 페이지와 직접 첨부 문서",
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 로컬 파일과 상위 디렉터리",
+    "GitHub MICA 저장소와 기존 PR",
+    "기존 MICA 100개 과제와 기존 후보",
+    "portfolio, comparison, annotation, holdout 산출물",
+    "Notion, Slack, Obsidian"
+  ],
+  "role": {
+    "name": "sourceResearcher",
+    "accessProfile": "job-packet-only",
+    "mustUseFreshContext": true,
+    "mustNotCloneRepository": true,
+    "output": "source-evidence.staging.jsonl",
+    "schemaVersion": "mica.source-evidence/v2",
+    "exactFields": [
+      "origin",
+      "schemaVersion",
+      "batchId",
+      "researchCategoryId",
+      "evidenceId",
+      "evidenceType",
+      "sourceTitle",
+      "publisher",
+      "sourceUrl",
+      "retrievedAt",
+      "sourceLocation",
+      "boundedObservation",
+      "populationAndScope",
+      "knownLimits",
+      "researcherContextId"
+    ]
+  },
+  "researchCategoryIds": [
+    "restaurants-local",
+    "mobility-transit",
+    "travel-accommodation"
+  ],
+  "maxRows": 5,
+  "quantityIsQuota": false,
+  "nextStageAutoStart": false,
+  "closureContract": {
+    "template": "CLOSURE.template.json",
+    "output": "CLOSURE.json",
+    "validStatuses": [
+      "COMPLETED",
+      "ZERO-EVIDENCE",
+      "INPUT-BOUNDARY-BREACH",
+      "BLOCKED"
+    ],
+    "stopAfterClosure": true
+  }
+}
