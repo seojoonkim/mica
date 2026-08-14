@@ -306,6 +306,60 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual([row["candidateId"] for row, _ in packet], [target_id])
         self.assertEqual(ready["controllerApprovedProvisionalCandidateIds"], [target_id])
 
+    def test_targeted_job_can_retry_a_previously_rejected_candidate(self) -> None:
+        annotations = [
+            self.annotation(self.packet[0], "email-calendar-01"),
+            self.annotation(self.packet[1], "email-calendar-02"),
+        ]
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", annotations)
+        annotation_rows = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")
+        reviews = [self.review(row, row_sha) for row, row_sha in annotation_rows]
+        reviews[1]["categorySlot"] = False
+        reviews[1]["verdict"] = "reject"
+        reviews[1]["reviewNote"] = "후보 본문이 제안된 카테고리를 지지하지 않는다."
+        portfolio.write_jsonl(self.job / "review-output.staging.jsonl", reviews)
+        closure = {
+            "origin": "kiheon-ideation",
+            "schemaVersion": "mica.exchange-closure/v1",
+            "jobId": "core20-test-001",
+            "status": "COMPLETED",
+            "SlackCalls": 0,
+            "NotionCalls": 0,
+            "forbiddenInputReads": 0,
+            "inputBoundaryStatus": "clean",
+            "authorContextId": "annotator-001",
+            "reviewerContextId": "reviewer-001",
+            "writtenRows": 2,
+            "acceptedRows": 1,
+            "rejectedRows": 1,
+            "heldRows": 0,
+            "authorOutputSha256": portfolio.sha_file(self.job / "author-output.staging.jsonl"),
+            "reviewOutputSha256": portfolio.sha_file(self.job / "review-output.staging.jsonl"),
+            "closedAt": "2026-08-14T01:10:00Z",
+            "nextStageAutoStarted": False,
+        }
+        write_json(self.job / "CLOSURE.json", closure)
+        portfolio.apply_job(
+            "core20-test-001",
+            "codex-controller-001",
+            "2026-08-14T01:20:00Z",
+            self.exchange_root,
+            self.portfolio_root,
+        )
+        rejected_id = str(self.packet[1]["candidateId"])
+        portfolio.prepare_job(
+            "core20-test-002",
+            1,
+            self.exchange_root,
+            self.portfolio_root,
+            candidate_ids=(rejected_id,),
+            provisional_candidate_ids=(rejected_id,),
+        )
+        packet = portfolio.parse_jsonl_with_hash(
+            self.exchange_root / "core20-test-002" / "packet.jsonl"
+        )
+        self.assertEqual([row["candidateId"] for row, _ in packet], [rejected_id])
+
     def test_status_counts_new_closed_batch_candidates_dynamically(self) -> None:
         inventory = portfolio.all_candidate_rows()
         future = dict(inventory[-1])

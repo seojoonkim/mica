@@ -777,7 +777,10 @@ def prepare_job(
         for row, _ in parse_jsonl_with_hash(portfolio_root.resolve() / "catalog-annotations.jsonl")
     }
     excluded_ids = existing_ids | packet_candidate_ids
-    inventory = [row for row in all_candidate_rows() if row["candidateId"] not in excluded_ids]
+    if candidate_ids:
+        inventory = [row for row in all_candidate_rows() if row["candidateId"] not in existing_ids]
+    else:
+        inventory = [row for row in all_candidate_rows() if row["candidateId"] not in excluded_ids]
     inventory_by_id = {str(row["candidateId"]): row for row in inventory}
     require(len(candidate_ids) == len(set(candidate_ids)), "job-candidate-id-duplicate")
     if candidate_ids:
