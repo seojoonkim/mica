@@ -129,6 +129,14 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual(payload["canonicalAdoptionStatus"], "not-adopted")
         self.assertFalse(payload["holdoutIncluded"])
 
+    def test_ready_defines_primary_path_termination_rule(self) -> None:
+        ready = json.loads((self.job / "READY.json").read_text(encoding="utf-8"))
+        guidance = ready["guidanceKo"]["terminationClass"]
+        self.assertIn("주 성공 경로", guidance["completed-final-state"])
+        self.assertIn("실패 복구 분기", guidance["completed-final-state"])
+        self.assertIn("목표 종착점 자체", guidance["approval-handoff"])
+        self.assertIn("최종 상태", guidance["escalation"])
+
     def test_reapply_is_idempotent_without_mutating_ledgers(self) -> None:
         self.complete_job()
         portfolio.apply_job(
