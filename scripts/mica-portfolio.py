@@ -905,7 +905,12 @@ def prepare_job(
         "sourceCommitSha": git_head(),
         "packetPath": "packet.jsonl",
         "packetSha256": sha_file(packet_path),
-        "allowedInputs": ["READY.json", "INPUT-MANIFEST.json", "packet.jsonl"],
+        "allowedInputs": [
+            "READY.json",
+            "INPUT-MANIFEST.json",
+            "packet.jsonl",
+            "author-output.staging.jsonl",
+        ],
         "forbiddenInputs": [
             "official MICA task catalogue",
             "private holdout",

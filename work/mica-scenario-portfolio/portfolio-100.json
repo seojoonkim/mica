@@ -311,11 +311,11 @@
         },
         {
           "slotId": "restaurants-local-02",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "KI-L4-001",
+          "annotationRowSha256": "4323e2bf3d3bfe5257a58672e42b8df8833c47d764a98a25d6cd41a7d7a91b59",
+          "reviewRowSha256": "c853f27f95d024dd09db0b3f76c0966a71c60140fbf20f0f2dab8eedb9b820a6",
+          "sourceBatchId": "cat04-lean-001",
           "attemptHistory": []
         },
         {
