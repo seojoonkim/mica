@@ -1,0 +1,97 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b13-observation-write",
+  "jobType": "clean-room-production",
+  "phase": "observation-writing",
+  "methodRevision": "standard-v1.3.5",
+  "sourceCommitSha": "d88e31cb2b2961bde05334512dc9530fa23cd05b",
+  "status": "READY",
+  "inputManifest": {
+    "path": "INPUT-MANIFEST.json",
+    "sha256": "fb2968d3e86f59ea34280dcf4dc6b9fa5ada2a74ec677ef5196c611dae7da25c",
+    "byteLength": 633
+  },
+  "sourceEvidence": {
+    "path": "source-evidence.staging.jsonl",
+    "sha256": "730745b4f9fda570808845140fc53cd1788e0a2a547b8cc12ef687dcbf8ad57c",
+    "byteLength": 10869,
+    "rows": 5,
+    "sourceBatchId": "kh-b13"
+  },
+  "sourceReviewReceipt": {
+    "commitSha": "d88e31cb2b2961bde05334512dc9530fa23cd05b",
+    "reviewOutputSha256": "d8adfce47c21fdd9c55579f71e8238908d08b844115d73d7874a26aaf599e99c",
+    "closureSha256": "a67c3b157cfaf6aa14e74e4cfa9c9e2e0dab6e6d07f79920740f2c821c60ec23",
+    "acceptedEvidenceIds": [
+      "ev-kh-b13-01",
+      "ev-kh-b13-02",
+      "ev-kh-b13-03",
+      "ev-kh-b13-04",
+      "ev-kh-b13-05"
+    ]
+  },
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "source-evidence.staging.jsonl",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "allowedExternalResearch": "none",
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 로컬 파일과 상위 디렉터리",
+    "GitHub MICA 저장소와 기존 PR",
+    "source researcher·source reviewer 세션의 대화·자기평가·완료 보고·review 판정 사유",
+    "sourceUrl 재조사와 외부 검색·웹 탐색",
+    "기존 MICA 100개 과제와 기존 후보",
+    "portfolio, comparison, annotation, holdout 산출물",
+    "Notion, Slack, Obsidian"
+  ],
+  "role": {
+    "name": "needWriter",
+    "accessProfile": "job-packet-only",
+    "mustUseFreshContext": true,
+    "mustUseDistinctContextFromSourceResearcher": true,
+    "mustUseDistinctContextFromSourceReviewer": true,
+    "mustNotCloneRepository": true,
+    "output": "need-observations.staging.jsonl",
+    "schemaVersion": "mica.need-observation/v1",
+    "exactFields": [
+      "origin",
+      "observationId",
+      "sourceRefs",
+      "burdenBearer",
+      "affectedParty",
+      "contextOrTrigger",
+      "currentState",
+      "desiredStateChange",
+      "unresolvedConsequence",
+      "evidenceStatus",
+      "marketScope",
+      "authorContextId"
+    ]
+  },
+  "allowedEvidenceIds": [
+    "ev-kh-b13-01",
+    "ev-kh-b13-02",
+    "ev-kh-b13-03",
+    "ev-kh-b13-04",
+    "ev-kh-b13-05"
+  ],
+  "maxRows": 5,
+  "zeroRowsValid": true,
+  "sourceRefReuseAcrossRows": false,
+  "nextStageAutoStart": false,
+  "closureContract": {
+    "template": "CLOSURE.template.json",
+    "output": "CLOSURE.json",
+    "validStatuses": [
+      "COMPLETED",
+      "ZERO-OBSERVATION",
+      "INPUT-BOUNDARY-BREACH",
+      "BLOCKED"
+    ],
+    "stopAfterClosure": true
+  }
+}

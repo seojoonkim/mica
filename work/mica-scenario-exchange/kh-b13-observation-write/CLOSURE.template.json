@@ -1,0 +1,38 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-observation-closure/v1",
+  "jobId": "kh-b13-observation-write",
+  "status": "COMPLETED | ZERO-OBSERVATION | INPUT-BOUNDARY-BREACH | BLOCKED",
+  "authorContextId": "<actual-context-id>",
+  "authorAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean | breach",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsWritten": 0,
+  "sourceEvidenceRowsUsed": 0,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "<actual-sha256>"
+    }
+  ],
+  "outputPath": "need-observations.staging.jsonl",
+  "outputSha256": "<actual-sha256-or-empty-file-sha256>",
+  "outputBytes": 0,
+  "observedAt": "<actual-utc-iso8601>",
+  "nextStageAutoStarted": false,
+  "notes": []
+}
