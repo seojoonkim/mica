@@ -21,6 +21,8 @@ description: MICA 생활과업 시나리오를 standard-v1.3.5 clean-room exchan
 - linked worktree는 저장소의 `.worktrees/<worktree-name>`에 만들고 `.git/info/exclude`로 로컬에서 제외한다.
 - clean-room package 정본은 `work/mica-scenario-exchange/<job-id>`에 둔다. controller용 로컬 보관본이 필요하면 `.clean-room-jobs/<job-id>`를 사용한다. 이 두 위치는 `.git` 조상이 있으므로 격리 저작자의 작업 폴더로 사용하지 않는다.
 - 격리 역할을 시작할 때만 package를 `${TMPDIR%/}/mica-clean-room-jobs/<job-id>`에 임시 복제한다. 자체와 상위에 `.git`이 없고 package SHA가 일치하는지 확인한 뒤 전달하며, 산출물을 controller가 회수·검증한 뒤 임시 복제본을 제거한다.
+- controller는 저장소 루트의 숨김이 아닌 `Clean Room Current` 바로가기를 현재 임시 실행본에 연결한다. 작업자는 파일 선택기에서 MICA 저장소를 연 뒤 이 항목만 선택한다. 바로가기 자체는 정본이나 산출물이 아니며 Git에 기록하지 않는다.
+- job을 바꿀 때 controller가 `Clean Room Current`의 대상을 새 임시 실행본으로 갱신한다. 산출물을 회수한 뒤에는 임시 실행본과 바로가기를 함께 제거한다.
 - 임시 실행본은 격리 경계를 위한 수명 제한 복사본이다. 영구 작업물이나 별도 MICA 프로젝트 폴더로 취급하지 않는다.
 
 ## 시작 경로 판정
