@@ -15,11 +15,19 @@ description: MICA 생활과업 시나리오를 standard-v1.3.5 clean-room exchan
 - 동결 뒤 comparator·catalog annotation·measurement에는 기존 재고를 의도적으로 열 수 있지만, 그 정보는 source·observation·candidate 역할로 되돌리지 않는다.
 - 과거 `standard-v1.3.4`로 닫힌 배치는 수정하지 않는다. 현재 revision은 다음 빈 exchange job부터 적용한다.
 
+## 로컬 작업공간 배치
+
+- MICA의 영구 파일과 Git worktree는 모두 MICA 저장소 루트 아래에 둔다. 저장소 상위 디렉터리 바로 아래에 `mica-*` 형제 폴더를 새로 만들지 않는다.
+- linked worktree는 저장소의 `.worktrees/<worktree-name>`에 만들고 `.git/info/exclude`로 로컬에서 제외한다.
+- clean-room package 정본은 `work/mica-scenario-exchange/<job-id>`에 둔다. controller용 로컬 보관본이 필요하면 `.clean-room-jobs/<job-id>`를 사용한다. 이 두 위치는 `.git` 조상이 있으므로 격리 저작자의 작업 폴더로 사용하지 않는다.
+- 격리 역할을 시작할 때만 package를 `${TMPDIR%/}/mica-clean-room-jobs/<job-id>`에 임시 복제한다. 자체와 상위에 `.git`이 없고 package SHA가 일치하는지 확인한 뒤 전달하며, 산출물을 controller가 회수·검증한 뒤 임시 복제본을 제거한다.
+- 임시 실행본은 격리 경계를 위한 수명 제한 복사본이다. 영구 작업물이나 별도 MICA 프로젝트 폴더로 취급하지 않는다.
+
 ## 시작 경로 판정
 
 ### 격리 exchange job을 받은 저작자·검토자
 
-1. 저장소를 clone하거나 열지 않는다. controller가 저장소 밖에 복제한 job 디렉터리 하나만 연다.
+1. 저장소를 clone하거나 열지 않는다. controller가 시스템 임시 경로에 복제한 job 디렉터리 하나만 연다.
 2. `READY.json`을 먼저 읽고 `jobType`, `methodRevision`, `allowedInputs`, `forbiddenInputs`, output schema, 최대 행수를 확인한다.
 3. `INPUT-MANIFEST.json`과 `PACKAGE-SHA256.txt`를 순서대로 읽고 package 파일의 바이트·SHA-256을 대조한다.
 4. 허용 파일은 하나씩 순차로 읽는다. `find`, 재귀 검색, 여러 경로를 묶은 병렬 탐색으로 job 밖을 찾지 않는다.
