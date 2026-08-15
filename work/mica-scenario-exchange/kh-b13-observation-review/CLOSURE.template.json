@@ -1,0 +1,43 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-observation-review-closure/v1",
+  "jobId": "kh-b13-observation-review",
+  "status": "COMPLETED | INPUT-BOUNDARY-BREACH | BLOCKED",
+  "reviewerContextId": "<actual-context-id>",
+  "reviewerAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean | breach",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsReviewed": 0,
+  "acceptedRows": 0,
+  "rejectedRows": 0,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "need-observations.staging.jsonl",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "<actual-sha256>"
+    }
+  ],
+  "outputPath": "observation-reviews.staging.jsonl",
+  "outputSha256": "<actual-sha256>",
+  "outputBytes": 0,
+  "reviewedAt": "<actual-utc-iso8601>",
+  "nextStageAutoStarted": false,
+  "notes": []
+}
