@@ -12,6 +12,7 @@
   "rowsSeen": 4,
   "acceptedRows": null,
   "rejectedRowsExcluded": null,
+  "reviewClosureReceiptVerified": null,
   "frozenRows": null,
   "inputsRead": [
     {
@@ -29,6 +30,10 @@
     {
       "path": "observation-reviews.staging.jsonl",
       "sha256": "ffc5df8fb304eed070d4ff9cc9b0b4c8c2e1c2adfb22007cbdcec2288322a01a"
+    },
+    {
+      "path": "observation-review-closure.json",
+      "sha256": "e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c"
     },
     {
       "path": "ROLE-CONTRACT.md",

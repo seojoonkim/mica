@@ -9,8 +9,8 @@
   "status": "READY",
   "inputManifest": {
     "path": "INPUT-MANIFEST.json",
-    "sha256": "62a8fc91981e22d67797dbfe98d1afcadcb6db0e378cdb90d03393a4c52e9f87",
-    "byteLength": 810
+    "sha256": "d8335422867a577b0371d36800bfdd7084c3f821398f97c88a1102c6cd1250cd",
+    "byteLength": 981
   },
   "needObservations": {
     "path": "need-observations.staging.jsonl",
@@ -30,11 +30,16 @@
     "byteLength": 13957,
     "rows": 4
   },
+  "observationReviewClosure": {
+    "path": "observation-review-closure.json",
+    "sha256": "e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c",
+    "byteLength": 3023
+  },
   "observationReviewReceipt": {
     "commitSha": "6abd0dcba95f40f951ba8571c16be32eb9fa5554",
     "reviewerContextId": "913ff582-0dfe-4ab0-96ad-42c379853a71",
     "outputSha256": "ffc5df8fb304eed070d4ff9cc9b0b4c8c2e1c2adfb22007cbdcec2288322a01a",
-    "closureSha256": "e98a35fb1b45ea90076f2c171c64d52d1d1cd3b256409b037cf2b75fee9d2c",
+    "closureSha256": "e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c",
     "inputBoundaryStatus": "clean"
   },
   "forbiddenPriorContextIds": [
@@ -48,6 +53,7 @@
     "INPUT-MANIFEST.json",
     "need-observations.staging.jsonl",
     "observation-reviews.staging.jsonl",
+    "observation-review-closure.json",
     "ROLE-CONTRACT.md",
     "CLOSURE.template.json"
   ],

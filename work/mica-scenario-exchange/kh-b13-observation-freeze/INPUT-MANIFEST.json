@@ -14,14 +14,19 @@
       "byteLength": 13957
     },
     {
+      "path": "observation-review-closure.json",
+      "sha256": "e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c",
+      "byteLength": 3023
+    },
+    {
       "path": "ROLE-CONTRACT.md",
-      "sha256": "f695bc629ec56eb9cb9bf175ac3068fe0e6f33bdb769eeeda167c15948a469f9",
-      "byteLength": 4362
+      "sha256": "bc6e2e2e87bbb79856c43137a9b46dfbd62110e5cb32b6a0a36bc6b5d7f639c7",
+      "byteLength": 5127
     },
     {
       "path": "CLOSURE.template.json",
-      "sha256": "56dead34e34ccc340fde980353b12d3989234d2042134d9fa54257c33ee050e8",
-      "byteLength": 1318
+      "sha256": "3c5b914ad1a0cb700186784f79e6c318b64d1d3bd5898c68002d94114ea7d069",
+      "byteLength": 1503
     }
   ]
 }
