@@ -1,0 +1,45 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-observation-freeze-closure/v1",
+  "jobId": "kh-b13-observation-freeze",
+  "status": "PENDING",
+  "custodianContextId": "REPLACE_WITH_ACTUAL_CONTEXT_ID",
+  "custodianAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "pending",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsSeen": 4,
+  "acceptedRows": null,
+  "rejectedRowsExcluded": null,
+  "frozenRows": null,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "REPLACE_WITH_READY_SHA256"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "REPLACE_WITH_INPUT_MANIFEST_SHA256"
+    },
+    {
+      "path": "need-observations.staging.jsonl",
+      "sha256": "1ca7f5713722c69d0a312530402c0dd933c665a3ed115da2dce736c7d8e6acda"
+    },
+    {
+      "path": "observation-reviews.staging.jsonl",
+      "sha256": "ffc5df8fb304eed070d4ff9cc9b0b4c8c2e1c2adfb22007cbdcec2288322a01a"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "REPLACE_WITH_ROLE_CONTRACT_SHA256"
+    }
+  ],
+  "outputPath": "frozen-observations.staging.jsonl",
+  "outputSha256": "REPLACE_WITH_OUTPUT_SHA256",
+  "outputBytes": null,
+  "frozenObservationIds": [],
+  "completedAt": "REPLACE_WITH_UTC_TIMESTAMP",
+  "nextStageAutoStarted": false,
+  "notes": []
+}
