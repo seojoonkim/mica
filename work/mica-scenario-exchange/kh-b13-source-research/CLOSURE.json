@@ -1,0 +1,43 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-source-closure/v1",
+  "jobId": "kh-b13-source-research",
+  "status": "COMPLETED",
+  "authorContextId": "1ef8863e-485f-42bf-a439-d3ec28b90a59",
+  "authorAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsWritten": 5,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "89bcae3830bf4830561fbb5ff7524d7d720588c617b7105ad64e776f5416b2e5"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "2cde8745f7956b0cb166d32ba5ffcaf50d945f83e7f48655d9a6ea516f00b3a8"
+    },
+    {
+      "path": "SLOT-BRIEF.json",
+      "sha256": "6620a8e3f76afef45d767270f8905d7fa7dedc49f4cf183354753d3131868b5d"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "446986b3e71cd820834e2dc14d61fc104dec57ebc6b159f1ecfe653426a8e0d0"
+    }
+  ],
+  "outputPath": "source-evidence.staging.jsonl",
+  "outputSha256": "730745b4f9fda570808845140fc53cd1788e0a2a547b8cc12ef687dcbf8ad57c",
+  "outputBytes": 10869,
+  "observedAt": "2026-08-15T02:24:36Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "shasum -a 256 -c PACKAGE-SHA256.txt 결과 5개 파일 모두 OK로 무결성 검증을 통과한 뒤 작업을 시작했다.",
+    "CLOSURE.template.json(sha256 5f4aff61767d02bc308cf6c0980608b30de3d465d7dd3079ae3eb0cccff9c243)도 허용 입력으로 읽어 이 파일의 구조에 사용했다.",
+    "외부 조사는 공개된 정부, 공공기관 보도자료 원문 페이지와 직접 첨부 PDF만 사용했다. 검색은 원문 위치 탐색 용도로만 사용했고 근거 본문은 원문에서 확인했다.",
+    "카테고리별 작성 행수: restaurants-local 2행, mobility-transit 2행, travel-accommodation 1행으로 SLOT-BRIEF의 requestedEvidenceRows를 초과하지 않았다.",
+    "동일 sourceUrl의 재사용은 없다. 관찰, 후보, 비교, annotation, 측정 단계는 시작하지 않았다."
+  ]
+}
