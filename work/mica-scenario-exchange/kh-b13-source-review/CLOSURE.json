@@ -1,0 +1,45 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-source-review-closure/v1",
+  "jobId": "kh-b13-source-review",
+  "status": "COMPLETED",
+  "reviewerContextId": "7f907f3c-d81c-4f59-b8af-ef4c4cf9109d",
+  "reviewerAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsReviewed": 5,
+  "acceptedRows": 5,
+  "rejectedRows": 0,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "9aa5a94b1a9aa8775af4c6a47bec54f1d1bd3a48b8d31183c0227eca378d59dd"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "eadaa62ad6c93ba0aa285f2fe47e13ad259bd3b73bf716e5e095a6dbdaf2860a"
+    },
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "730745b4f9fda570808845140fc53cd1788e0a2a547b8cc12ef687dcbf8ad57c"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "e77190cb9af1825f6da6124d3ee50cb46abbf898eb92d64394b55d50a2e0763d"
+    }
+  ],
+  "outputPath": "source-reviews.staging.jsonl",
+  "outputSha256": "d8adfce47c21fdd9c55579f71e8238908d08b844115d73d7874a26aaf599e99c",
+  "outputBytes": 10728,
+  "observedAt": "2026-08-15T02:57:11Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "shasum -a 256 -c PACKAGE-SHA256.txt 결과 package 5개 파일 모두 OK.",
+    "허용 입력으로 CLOSURE.template.json(sha256 67a76fb86fdbf8b4c1a2eafb25852a905ffa9c429367b05a29106d7a1dcf5243)도 읽음. 템플릿 구조 준수 목적.",
+    "5개 sourceUrl 공식 페이지를 모두 직접 열어 확인했고, ev-01·ev-02·ev-04·ev-05는 게시물 첨부 공식 PDF 원문을 직접 내려받아 대조함. ev-03은 sourceLocation이 지정한 게시 본문을 직접 대조함.",
+    "저장소, 기존 후보, 원장, PR, Notion, Slack, Obsidian, source researcher 세션 산출물은 열지 않음. 검색 결과 요약을 판정 근거로 사용하지 않음.",
+    "molit.go.kr는 쿠키 기반 리다이렉트로 최초 요청이 실패해 쿠키 저장 후 재시도로 원문을 수신함."
+  ]
+}
