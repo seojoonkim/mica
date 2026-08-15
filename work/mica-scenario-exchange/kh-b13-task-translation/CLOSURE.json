@@ -1,0 +1,72 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-task-translation-closure/v1",
+  "jobId": "kh-b13-task-translation",
+  "status": "COMPLETED",
+  "translatorContextId": "03472bb9-854a-4ceb-86bb-c7c0e5af9fa7",
+  "translatorAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "webCalls": 0,
+  "frozenRowsSeen": 2,
+  "freezeReceiptVerified": true,
+  "candidateRows": 1,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "5abb2fdd2af6606ec84c1b7a58b07cb5924d92ca5139b13c6a0966c2cffc4f23"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "1e81794a2a01ed09e5f0fa31e99b4b455e01482ab07e42cd5eab403252709a85"
+    },
+    {
+      "path": "frozen-observations.staging.jsonl",
+      "sha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb"
+    },
+    {
+      "path": "observation-freeze-closure.json",
+      "sha256": "71f74c3ba94a0789df471779ed86c319a64c1be012e8b73a91335bc27a1ebf88"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "eaf667198747834b2f7edd4edb1384d574ec53676ce916094e83349b2ffb040f"
+    },
+    {
+      "path": "CLOSURE.template.json",
+      "sha256": "645a242fd38ac6829b819e0b4f2807bfc8190b8d05f7347b4b7d491a2f0e8862"
+    }
+  ],
+  "outputPath": "task-candidates.staging.jsonl",
+  "outputSha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba",
+  "outputBytes": 5539,
+  "candidateIds": [
+    "ki-b13-02"
+  ],
+  "sourceObservationIdsUsed": [
+    "ob-kh-b13-04"
+  ],
+  "unusedFrozenObservationIds": [
+    "ob-kh-b13-03"
+  ],
+  "completedAt": "2026-08-15T15:21:24Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "pwd -P는 /private/tmp/mica-clean-room-jobs/kh-b13-task-translation으로 controller가 지정한 물리 경로와 일치했다. shasum -a 256 -c PACKAGE-SHA256.txt 결과 6개 파일 모두 OK였다.",
+    "결속 검증: observation-freeze-closure.json의 실제 SHA-256 71f74c3ba94a0789df471779ed86c319a64c1be012e8b73a91335bc27a1ebf88이 READY.json.observationFreezeClosure.sha256과 일치했다. frozen-observations.staging.jsonl의 실제 SHA-256 f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb이 READY.json.frozenObservationPacket.sha256, READY.json.observationFreezeClosure.outputSha256, closure의 outputSha256 세 값과 모두 일치했다. 바이트 수도 각각 4868, 5650으로 선언과 같았고 freeze closure 상태는 COMPLETED였다. 따라서 freezeReceiptVerified를 true로 기록했다.",
+    "현재 context ID 03472bb9-854a-4ceb-86bb-c7c0e5af9fa7는 READY.json.forbiddenPriorContextIds의 여섯 값 어느 것과도 다르다. 이전 역할 세션의 대화, 자기평가, 완료 보고를 읽지 않았고 이번 실행은 이 package의 허용 입력 6개만으로 수행했다.",
+    "작업 시작 시 job 디렉터리에 이전 실행이 남긴 task-candidates.staging.jsonl과 CLOSURE.json이 존재했다. 두 파일은 이 역할의 출력 경로이고 허용 입력이 아니므로 열지 않았으며, 내용을 참고하거나 재사용하지 않고 이번 컨텍스트의 번역 결과로 덮어썼다. 이전 후보와의 비교도 하지 않았다.",
+    "동결 관찰 2행을 READY.json.candidateIdAllocations의 결속대로 검토했다. ob-kh-b13-04는 ki-b13-02로 번역해 1행을 작성했고, ob-kh-b13-03은 후보를 만들지 않고 생략했다.",
+    "ob-kh-b13-03 생략 이유: 이 관찰의 currentState와 desiredStateChange는 통근 근로자 집단의 평균 통근시간 73.9분과 이동거리 17.3km, 미취학 자녀 가구의 통근시간 격차라는 집단 통계로만 구성되어 있다. 계약상 집단 통계는 필요의 근거일 뿐 개별 사용자의 완료 조건이 아니므로 평균보다 짧아진 상태를 성공 기준으로 옮길 수 없다. 또한 관찰과 근거는 개별 사용자의 통근 수단, 경로, 근무 조건, 권한, 이용 가능한 절차를 지지하지 않아, 에이전트가 확인할 시작 상태도, 승인 뒤 바꿀 권위 있는 외부 상태도, 다시 읽어 확인할 readback 대상도 도출되지 않는다. 과업 계약을 만들려면 관찰에 없는 사업자, 절차, 권한, 수치를 발명해야 하므로 정직하게 번역할 수 없다고 판단해 후보를 만들지 않았다.",
+    "ki-b13-02는 예약 취소와 환불 요청이라는 개별 사용자의 실행 시점 행동으로 닫힌다. 실행 시점에 예약 상태와 적용 약관을 권위 있는 자료에서 확인하고, 환불 금액과 공제 금액을 사용자에게 제시한 뒤 승인받아 정식 경로로 요청하며, 사업자 기록을 다시 읽어 취소와 환불 처리 상태를 확인한다. 사업자가 거부하거나 조건이 충돌해 완료할 수 없으면 확인 내용과 남은 선택지를 정리해 사용자에게 넘기는 안전 인계 상태로 닫도록 썼다.",
+    "관찰의 통계 수치를 성공 기준으로 옮기지 않았다. 6,224건, 38.7%, 72.8%, 65.5%, 44.3%, 54.2%, 45.8%, 21.6% 같은 값은 필요의 근거로만 두고 후보 필드에 완료 조건으로 넣지 않았다. 특정 플랫폼명, 위약금 비율, 환불 기한, 처리 기간처럼 입력이 지지하지 않는 값은 만들지 않고 unknowns로 보존했다.",
+    "출력 검증: 1행이 계약이 정한 13개 필드를 정확한 순서로 가지며, origin은 kiheon-ideation, candidateId는 READY 결속대로 ki-b13-02, sourceObservationIds는 ob-kh-b13-04 하나만 가진 배열이다. prohibitedStates 6개, failureRecoveryEvents 5개, unknowns 6개로 모두 계약 범위 안이고 빈 문자열이 없다. translatorContextId는 현재 실제 context ID다. 출력 순서는 동결 관찰 순서를 따랐다.",
+    "카테고리, 슬롯, 종료 유형, 복잡도, 목표 접점, 표면 annotation, 기존 후보 비교, comparison verdict, measurement asset, fixture, reset, eligibility, oracle, probe, 채점 내부 장치는 작성하지 않았다.",
+    "U+2014 EM DASH는 출력과 이 closure에 0회다.",
+    "저장소 clone, GitHub MICA 저장소와 PR 접근, 기존 후보와 포트폴리오 원장 열람, 상위 디렉터리와 다른 로컬 경로 접근, source evidence 원문 재조사, 전역 mica-scenario-production 스킬 읽기 및 실행은 없었다.",
+    "웹 도구, 외부 조사, Notion, Slack, Obsidian 호출은 0회다. commit, push, 배포, 외부 반영도 하지 않았다.",
+    "candidate review, candidate freeze, comparison, annotation, measurement 등 다음 단계는 시작하지 않았다."
+  ]
+}
