@@ -1,0 +1,98 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b13-candidate-freeze",
+  "batchId": "kh-b13",
+  "jobType": "clean-room-production",
+  "stage": "candidate-freeze",
+  "methodRevision": "standard-v1.3.5",
+  "status": "READY",
+  "role": "candidateCustodian",
+  "requiredAccessProfile": "job-packet-only",
+  "generatedAt": "2026-08-15T16:50:38Z",
+  "candidateRows": 1,
+  "reviewRows": 1,
+  "acceptedCandidateIds": [
+    "ki-b13-02"
+  ],
+  "forbiddenPriorContextIds": [
+    "1ef8863e-485f-42bf-a439-d3ec28b90a59",
+    "7f907f3c-d81c-4f59-b8af-ef4c4cf9109d",
+    "4a1507bf-1c32-42de-90db-da1ec0691102",
+    "913ff582-0dfe-4ab0-96ad-42c379853a71",
+    "7a3eeb06-5aa3-4dc2-8ca7-79de4ef42456",
+    "efd61526-3cbf-4a5e-91ba-1998471fa584",
+    "03472bb9-854a-4ceb-86bb-c7c0e5af9fa7",
+    "791687fa-7033-43cf-bd1e-24a6d2fe6118"
+  ],
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "task-candidates.staging.jsonl",
+    "candidate-reviews.staging.jsonl",
+    "candidate-review-closure.json",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 모든 로컬 파일과 상위 디렉터리",
+    "MICA 저장소, GitHub 저장소, PR, 브랜치와 커밋 기록",
+    "기존 MICA 100개 과제, 기존 후보, 이전 배치, comparison, portfolio와 slot 원장",
+    "source evidence, observation, source URL과 앞선 역할의 대화 또는 완료 보고",
+    "카테고리, 종료 유형, 복잡도, surface와 measurement asset",
+    "Notion, Slack, Obsidian, 진행 웹과 외부 작업 기록",
+    "전역 mica-scenario-production 스킬과 다른 에이전트 메모리"
+  ],
+  "candidatePacket": {
+    "path": "task-candidates.staging.jsonl",
+    "sha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba",
+    "byteLength": 5539,
+    "rowCount": 1,
+    "rawRowSha256ByCandidateId": {
+      "ki-b13-02": "ff20128dea46d694bda717fe5b84db4d3d0be391482f3e4fcf5451ee125374a5"
+    }
+  },
+  "candidateReviewPacket": {
+    "path": "candidate-reviews.staging.jsonl",
+    "sha256": "5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c",
+    "byteLength": 6407,
+    "rowCount": 1,
+    "rawRowSha256ByCandidateId": {
+      "ki-b13-02": "1405c80c6ae95455680fe5d72fedf62a7622403e53d84435b3171e1bf5e3fc0c"
+    }
+  },
+  "candidateReviewClosure": {
+    "path": "candidate-review-closure.json",
+    "sha256": "90884f472359fa327e6131e17b1ee3d96ea23fc7f6faf0d22a8459e25784f7e0",
+    "byteLength": 5884,
+    "status": "COMPLETED",
+    "reviewerContextId": "791687fa-7033-43cf-bd1e-24a6d2fe6118",
+    "outputSha256": "5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c"
+  },
+  "candidateReviewReceipt": {
+    "closureSha256": "90884f472359fa327e6131e17b1ee3d96ea23fc7f6faf0d22a8459e25784f7e0",
+    "outputSha256": "5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c",
+    "acceptedRows": 1,
+    "rejectedRows": 0,
+    "heldRows": 0,
+    "inputBoundaryStatus": "clean"
+  },
+  "output": {
+    "path": "frozen-candidates.staging.jsonl",
+    "schemaVersion": "mica.frozen-task-candidate/v1",
+    "rowCount": 1,
+    "exactFieldOrder": [
+      "origin",
+      "schemaVersion",
+      "batchId",
+      "candidateId",
+      "candidate",
+      "candidateRowSha256",
+      "reviewRowSha256",
+      "taskReceiptSha256",
+      "custodianContextId",
+      "frozenAt"
+    ]
+  },
+  "nextStageAutoStartAllowed": false
+}

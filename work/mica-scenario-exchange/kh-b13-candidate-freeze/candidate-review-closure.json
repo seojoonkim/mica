@@ -1,0 +1,75 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-candidate-review-closure/v1",
+  "jobId": "kh-b13-candidate-review",
+  "status": "COMPLETED",
+  "reviewerContextId": "791687fa-7033-43cf-bd1e-24a6d2fe6118",
+  "reviewerAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "webCalls": 0,
+  "candidateRowsSeen": 1,
+  "translationReceiptVerified": true,
+  "reviewRows": 1,
+  "acceptedRows": 1,
+  "rejectedRows": 0,
+  "heldRows": 0,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "d90bd3e6f4cec81ac0800463a1790cda03225cc00d3eaf1833f8a2304c0e47e9"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "9b91b5d284ea6d79cf39b8de743e6f528eb44f8459461eae3e381e5c17af038f"
+    },
+    {
+      "path": "task-candidates.staging.jsonl",
+      "sha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba"
+    },
+    {
+      "path": "task-translation-closure.json",
+      "sha256": "4f65097e89d395f5f0c52bc012a176e807588af6939949eced796c6cb0a298f2"
+    },
+    {
+      "path": "frozen-observations.staging.jsonl",
+      "sha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "fcccb17c9952ca1151b8f6014ed3cd4e0c9c4d34efcf766b85e3205ab431bc54"
+    },
+    {
+      "path": "CLOSURE.template.json",
+      "sha256": "f5ae0b0e2bf646a6330d22d0fd22778d2f7defe109d880da1e86dd2cc6c0d9f5"
+    }
+  ],
+  "outputPath": "candidate-reviews.staging.jsonl",
+  "outputSha256": "5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c",
+  "outputBytes": 6407,
+  "candidateIdsReviewed": [
+    "ki-b13-02"
+  ],
+  "completedAt": "2026-08-15T16:11:26Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "pwd -P는 /private/tmp/mica-clean-room-jobs/kh-b13-candidate-review로 controller가 지정한 물리 경로와 일치했다. shasum -a 256 -c PACKAGE-SHA256.txt 결과 7개 파일 모두 OK였다.",
+    "translation 결속: task-translation-closure.json의 실제 SHA-256 4f65097e89d395f5f0c52bc012a176e807588af6939949eced796c6cb0a298f2가 READY.json.taskTranslationClosure.sha256과 일치했고 바이트 수 6619, 상태 COMPLETED로 선언과 같았다. 따라서 translationReceiptVerified를 true로 기록했다.",
+    "candidate packet 결속: task-candidates.staging.jsonl의 실제 SHA-256 c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba가 READY.json.candidatePacket.sha256, READY.json.taskTranslationClosure.outputSha256, task-translation-closure.json의 outputSha256, INPUT-MANIFEST.json의 선언값 네 곳과 모두 일치했다. 바이트 수 5539와 행수 1도 선언과 같았다.",
+    "raw row 결속: ki-b13-02 행에서 LF를 제외한 5538바이트의 SHA-256 ff20128dea46d694bda717fe5b84db4d3d0be391482f3e4fcf5451ee125374a5가 READY.json.candidatePacket.rawRowSha256ByCandidateId의 값과 일치했다.",
+    "관찰 결속: frozen-observations.staging.jsonl의 실제 SHA-256 f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb가 READY 선언과 일치했고 바이트 수 5650, 행수 2도 같았다. ki-b13-02의 sourceObservationIds는 ob-kh-b13-04 하나이며 READY.json.frozenObservationPacket.allowedSourceObservationIds에 속하고 동결 관찰 패킷 안에 실재한다.",
+    "현재 context ID 791687fa-7033-43cf-bd1e-24a6d2fe6118은 READY.json.forbiddenPriorContextIds의 일곱 값 어느 것과도 다르다. translator를 포함한 이전 역할 세션의 대화, 자기평가, 완료 보고를 읽지 않았고 이번 판정은 이 package의 허용 입력 7개만으로 수행했다.",
+    "허용 입력 7개를 READY.json.allowedInputs 목록 순서대로 하나씩 읽었다. 재귀 검색, 병렬 경로 탐색, 상위 디렉터리 접근은 하지 않았다. 작업 시작 시 job 디렉터리에는 이 역할의 출력 파일이 존재하지 않았다.",
+    "ki-b13-02를 10개 열 기준으로 독립 판정한 결과 traceability, executionUnit, startState, finalState, authoritativeOracle, confirmationBoundary, prohibitedStates, failureRecovery, nonFabrication, userRequestExposure가 모두 pass였다. fail과 hold가 없으므로 verdict는 accept다. 수량 목표를 전제하지 않고 각 열의 계약 문언에만 대조했다.",
+    "traceability 판정 근거 요약: 후보의 사실 성분이 ob-kh-b13-04 범위를 넘지 않고, 피해구제 6,224건과 38.7%, 72.8%, 65.5%, 44.3%, 54.2%, 45.8% 같은 집단 통계가 개별 완료 조건이나 성공 기준으로 전환되지 않았다.",
+    "비차단 소견 3건을 기록했다. 환불 금액이 결제 수단에 도달하는 시점을 unknowns에 남긴 종착점 경계, startState의 서술 비중, allowedSourceObservationIds 두 값 중 하나에만 결속된 점이며 어느 것도 판정을 바꾸지 않는다.",
+    "후보 본문을 수정하지 않았고 대체 문안을 쓰지 않았다. reject나 hold가 없으므로 역류시킬 수정 방향도 없다.",
+    "카테고리, 슬롯, 종료 유형, 복잡도, surface, 목표 접점 annotation, 기존 후보 중복 여부, comparison verdict, measurement asset, fixture, reset, eligibility, oracle, probe, 채점 내부 장치는 판정하지도 작성하지도 않았다.",
+    "U+2014 EM DASH는 출력과 이 closure에 0회다.",
+    "저장소 clone, GitHub MICA 저장소와 PR 접근, 기존 후보와 포트폴리오 원장 열람, 상위 디렉터리와 다른 로컬 경로 접근, source evidence 원문 재조사, 전역 mica-scenario-production 스킬 읽기 및 실행은 없었다.",
+    "웹 도구, 외부 조사, Notion, Slack, Obsidian 호출은 0회다. commit, push, 배포, 외부 반영도 하지 않았다.",
+    "candidate freeze, comparison, annotation, measurement 등 다음 단계는 시작하지 않았다."
+  ]
+}
