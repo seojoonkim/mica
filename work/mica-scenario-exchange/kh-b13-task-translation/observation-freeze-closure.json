@@ -1,0 +1,67 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-observation-freeze-closure/v1",
+  "jobId": "kh-b13-observation-freeze",
+  "status": "COMPLETED",
+  "custodianContextId": "efd61526-3cbf-4a5e-91ba-1998471fa584",
+  "custodianAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsSeen": 4,
+  "acceptedRows": 2,
+  "rejectedRowsExcluded": 2,
+  "reviewClosureReceiptVerified": true,
+  "frozenRows": 2,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "96d7458caecb410cea22d17c8dced1499698a0b4e67c536ef35d3f85ba03f7d1"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "d8335422867a577b0371d36800bfdd7084c3f821398f97c88a1102c6cd1250cd"
+    },
+    {
+      "path": "need-observations.staging.jsonl",
+      "sha256": "1ca7f5713722c69d0a312530402c0dd933c665a3ed115da2dce736c7d8e6acda"
+    },
+    {
+      "path": "observation-reviews.staging.jsonl",
+      "sha256": "ffc5df8fb304eed070d4ff9cc9b0b4c8c2e1c2adfb22007cbdcec2288322a01a"
+    },
+    {
+      "path": "observation-review-closure.json",
+      "sha256": "e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "bc6e2e2e87bbb79856c43137a9b46dfbd62110e5cb32b6a0a36bc6b5d7f639c7"
+    }
+  ],
+  "outputPath": "frozen-observations.staging.jsonl",
+  "outputSha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb",
+  "outputBytes": 5650,
+  "frozenObservationIds": [
+    "ob-kh-b13-03",
+    "ob-kh-b13-04"
+  ],
+  "completedAt": "2026-08-15T12:26:42Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "shasum -a 256 -c PACKAGE-SHA256.txt 결과 7개 파일 모두 OK였다. 이번 실행은 이전 custodian 실행을 재사용하거나 복원하지 않았고, 이 package의 파일만으로 새 컨텍스트에서 수행했다. job 디렉터리에는 이전 실행의 frozen-observations.staging.jsonl이나 CLOSURE.json이 남아 있지 않았다.",
+    "review closure receipt 대조: observation-review-closure.json의 실제 SHA-256, READY.json.observationReviewClosure.sha256, READY.json.observationReviewReceipt.closureSha256 세 값이 모두 e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c로 정확히 일치했고 소문자 64자리 형식을 만족했다. 따라서 reviewClosureReceiptVerified를 true로 기록했다.",
+    "INPUT-MANIFEST.json이 선언한 need-observations.staging.jsonl, observation-reviews.staging.jsonl, observation-review-closure.json, ROLE-CONTRACT.md, CLOSURE.template.json의 SHA-256도 실제 파일과 일치했다.",
+    "observation 4행과 review 4행이 ob-kh-b13-01부터 ob-kh-b13-04까지 같은 순서로 1:1 대응했고 observationId 중복이 없었다.",
+    "verdict와 다섯 checks를 기계적으로만 읽어 accept이면서 전원 pass인 행을 선별했다. ob-kh-b13-01은 reject(needBoundary fail, stateChangeClarity fail), ob-kh-b13-02는 reject(needBoundary fail)로 제외했고, ob-kh-b13-03과 ob-kh-b13-04를 동결했다. verdict나 checks를 다시 판단하거나 바꾸지 않았다.",
+    "원본 12개 필드의 바이트 결속을 지키기 위해 need-observations.staging.jsonl의 원본 JSON 한 줄을 그대로 이어받아 마지막 중괄호 앞에 frozenRowSha256, reviewRowSha256, frozenBy 세 필드만 덧붙였다. 재직렬화를 하지 않아 값, 배열 순서, 공백, 이스케이프가 원본과 동일하다.",
+    "frozenRowSha256은 need-observations.staging.jsonl 원본 줄에서 줄바꿈을 제외한 SHA-256이고, reviewRowSha256은 같은 observationId를 가진 observation-reviews.staging.jsonl 원본 줄에서 줄바꿈을 제외한 SHA-256이다. 네 값 모두 소문자 64자리다.",
+    "출력 검증: 각 행이 계약이 정한 15개 필드를 정확한 순서로 가지고, 재파싱한 12개 필드의 값과 배열 순서가 원본과 완전히 일치하며, 출력 순서는 원본 observation 순서를 유지했다.",
+    "U+2014 EM DASH는 출력에 0회이며 원본 observation에도 0회였다. 새로 사용하지 않았다.",
+    "저장소 clone, GitHub 저장소 및 PR 접근, 상위 디렉터리 접근, 다른 로컬 경로 접근, source evidence와 sourceUrl 재조사, 전역 mica-scenario-production 스킬 읽기 및 실행은 없었다. 앞선 역할 세션의 대화, 자기평가, 완료 보고도 읽지 않았다.",
+    "웹 도구, 외부 조사, Notion, Slack, Obsidian 호출은 0회다. commit, push, 배포, 외부 반영도 하지 않았다.",
+    "observation 문구를 수정하거나 대체 관찰을 작성하지 않았고, solution, task candidate, success criteria, oracle을 설계하지 않았다.",
+    "candidate, 후보 번역, comparison, annotation, measurement 등 다음 단계는 시작하지 않았다."
+  ]
+}
