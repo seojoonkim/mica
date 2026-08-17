@@ -88,7 +88,16 @@
           "annotationRowSha256": "55796ba2ae9edc9ea7baa1f1892178b1223c9ac1c89075cf6c4cc6b0e8a7c31d",
           "reviewRowSha256": "0bf523affaaa824f7a2feb7585beefd75c068ec3022a0f8ca99ab6d51ac69158",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "known-defect-unresolved",
+              "auditVerdict": "DEFECT-MAJOR",
+              "remediationAttempts": 3,
+              "note": "6항목 rubric 감사에서 DEFECT-MAJOR 확인. 3라운드 연속 대체 시도 실패(원 조사 evidenceReal/categoryMatch 실패, 보충 재조사 3건 전원 reject, 최종 교정 3건 전원 실패). 재검토자는 이 소재의 완료조건이 email-calendar가 아니라 government-civic에서 성립할 수 있다고 지적.",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md#4",
+              "flaggedAt": "2026-08-17T19:00:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -479,7 +488,16 @@
           "annotationRowSha256": "dcdaf6a2021e67e6280834066a16ff0d20ded493482c14952ab01fe8e4588628",
           "reviewRowSha256": "b448524d7a6009c14bb38e543f6b780b870b5dd67b71e55e40e67896748036f9",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "known-defect-unresolved",
+              "auditVerdict": "DEFECT-MAJOR",
+              "remediationAttempts": 1,
+              "note": "6항목 rubric 감사에서 DEFECT-MAJOR 확인. 대체 후보 생산 시도(5건 생산, 3건만 성공)에서 이 슬롯까지는 성공작이 배정되지 못함. 순수 생산량 부족.",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md#4",
+              "flaggedAt": "2026-08-17T19:00:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -508,7 +526,16 @@
           "annotationRowSha256": "5ae4583715d7a24a5d8e54d76f10753aa79a4dff13336ee2f5a3872b533406df",
           "reviewRowSha256": "bcecb000858ea9daecac1a71769fb47b1ee90c636b4badfc597e63885531758c",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "known-defect-unresolved",
+              "auditVerdict": "DEFECT-MAJOR",
+              "remediationAttempts": 1,
+              "note": "6항목 rubric 감사에서 DEFECT-MAJOR 확인. 대체 후보 생산 시도(5건 생산, 3건만 성공)에서 이 슬롯까지는 성공작이 배정되지 못함. 순수 생산량 부족.",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md#4",
+              "flaggedAt": "2026-08-17T19:00:00Z"
+            }
+          ],
           "tier": "draft-r1"
         }
       ]
