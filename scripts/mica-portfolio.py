@@ -51,7 +51,7 @@ TERMINATION_CLASSES = (
 )
 COMPLEXITIES = ("single-step", "multi-step", "cross-session")
 TARGET_SURFACES = ("web", "app-only", "identity-gated", "phone-or-in-person", "mixed-surface")
-SLOT_DISPOSITIONS = ("assigned", "category-overflow")
+SLOT_DISPOSITIONS = ("assigned", "category-overflow", "retracted-defect")
 TIER_VALUES = ("verified", "draft-r1")
 DEFAULT_TIER = "verified"
 ANNOTATION_FIELDS_V1 = (
@@ -601,7 +601,7 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         if slot["status"] == "occupied"
     }
     for candidate_id, (annotation, annotation_sha) in annotation_by_id.items():
-        if annotation_slot_disposition(annotation) == "category-overflow":
+        if annotation_slot_disposition(annotation) != "assigned":
             require(candidate_id not in slot_by_candidate, f"portfolio-overflow-occupied:{candidate_id}")
             continue
         slot = slot_by_candidate[candidate_id]
@@ -1051,7 +1051,7 @@ def prepare_job(
             "terminationClass": list(TERMINATION_CLASSES),
             "declaredComplexity": list(COMPLEXITIES),
             "targetSurface": list(TARGET_SURFACES),
-            "slotDisposition": list(SLOT_DISPOSITIONS),
+            "slotDisposition": ["assigned", "category-overflow"],
         },
         "guidanceKo": {
             "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯 상태, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",

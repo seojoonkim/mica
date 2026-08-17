@@ -696,6 +696,60 @@ class PortfolioTest(unittest.TestCase):
                 self.portfolio_root,
             )
 
+    def test_retracted_defect_disposition_does_not_occupy_a_slot_or_count_as_overflow(self) -> None:
+        placeholder_sha = "0" * 64
+        annotation = {
+            "origin": "kiheon-ideation",
+            "schemaVersion": "mica.catalog-annotation/v4",
+            "jobId": "draft-r1-annotate-01",
+            "batchId": "draft-r1",
+            "candidateId": "eml-draft-01",
+            "sourceFrozenRowSha256": placeholder_sha,
+            "categoryId": "email-calendar",
+            "slotDisposition": "retracted-defect",
+            "proposedSlotId": None,
+            "categoryProvisional": False,
+            "categoryRationale": "",
+            "terminationClass": "completed-final-state",
+            "declaredComplexity": "multi-step",
+            "targetSurface": "web",
+            "surfaceStatus": "target-only",
+            "measurementIntent": "완료 상태를 권위 있는 readback으로 확인한다.",
+            "annotatorContextId": "draft-r1-classify-batch1-annotator",
+            "annotatedAt": "2026-08-17T16:00:00Z",
+            "tier": "draft-r1",
+        }
+        annotation_path = self.portfolio_root / "catalog-annotations.jsonl"
+        portfolio.write_jsonl(annotation_path, [annotation])
+        annotation_sha = portfolio.parse_jsonl_with_hash(annotation_path)[0][1]
+        review = {
+            "origin": "kiheon-ideation",
+            "schemaVersion": "mica.catalog-annotation-review/v4",
+            "jobId": "draft-r1-annotate-01",
+            "candidateId": "eml-draft-01",
+            "annotationRowSha256": annotation_sha,
+            "candidateBinding": True,
+            "categoryBinding": True,
+            "slotDisposition": True,
+            "terminationClass": True,
+            "declaredComplexity": True,
+            "targetSurfaceProvisional": True,
+            "confidence": "high",
+            "uncertaintyNote": "",
+            "reviewerContextId": "draft-r1-classify-batch1-reviewer",
+            "verdict": "accept",
+            "reviewNote": "당시 4항목 rubric 기준 accept. 이후 6항목 rubric 감사에서 DEFECT-MAJOR 발견, 슬롯에서 회수됨.",
+            "reviewedAt": "2026-08-17T16:05:00Z",
+            "tier": "draft-r1",
+        }
+        portfolio.write_jsonl(self.portfolio_root / "catalog-annotation-reviews.jsonl", [review])
+
+        state = portfolio.validate_portfolio(self.portfolio_root)
+        self.assertEqual(state, {"status": "pass", "occupied": 0, "blocked": 0, "empty": 100})
+        status = portfolio.portfolio_status(self.portfolio_root)
+        self.assertEqual(status["annotatedCandidates"], 1)
+        self.assertEqual(status["unplacedAnnotatedCandidates"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
