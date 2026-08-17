@@ -1,0 +1,63 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-source-review-closure/v1",
+  "jobId": "kh-b14-source-review",
+  "status": "COMPLETED",
+  "reviewerContextId": "a3a5cfbd99c1b046b",
+  "reviewerAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsSeen": 3,
+  "rowsReviewed": 3,
+  "acceptedRows": 0,
+  "rejectedRows": 3,
+  "failedCheckCounts": {
+    "publisher": 0,
+    "scope": 2,
+    "verbatim": 0,
+    "directSupport": 0,
+    "typeAccuracy": 0,
+    "recency": 0,
+    "limitationsHonesty": 1,
+    "lifeNeedSupport": 1
+  },
+  "sourceUrlsReopened": 4,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "9103f38217600a814fd44d41ef2987ef18cb9c18a9700484367362e6540d1031"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "9b022cc87c7e781e0f8c2db7e22f9a3521bb9d8354f1173ee88a85df85d15835"
+    },
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "3895a9a8ea83bbd3105adc5ca9900c32467e9aed4754d7b50578b4b65686dcc4"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "2bd6d5a099ed594cb93d8ec66eec581084eb99af9a2d2c7e3afa51c4adfe3664"
+    }
+  ],
+  "outputPath": "source-reviews.staging.jsonl",
+  "outputSha256": "c60b38738bfa6210f034370af0e30c85051e267bc5249cd5130b26f6f48e9264",
+  "outputBytes": 22779,
+  "reviewedAt": "2026-08-17T11:17:14Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "INPUT-MANIFEST.json이 선언한 네 파일의 SHA-256을 실제로 계산해 전부 일치함을 확인했다. READY.json의 inputManifest.sha256(9b022cc8...)도 실제 INPUT-MANIFEST.json 해시와 일치했고, sourceEvidence.sha256/byteLength(3895a9a8..., 8047)와 sourceResearchClosure.sha256(bb9b2827...)도 실제 파일과 일치했다. 불일치가 없어 BLOCKED 사유가 발생하지 않았다.",
+    "이 job 패킷 안에서 추가로 읽은 두 파일의 실제 SHA-256도 계산해 대조했다. source-research-closure.json = bb9b282735b1a7cf3db997c1d54840a2be0955de473a832a046457af3607516f, CLOSURE.template.json = 7e2bc5c0166439504c01d382a058c4b35eb6244c9961ea05de52b8d337e1c3ae. 둘 다 매니페스트 선언값과 일치한다. inputsRead 배열은 템플릿 구조를 그대로 유지했다.",
+    "source-research-closure.json은 입력 경계와 SHA 결속 확인 용도로만 읽었다. 그 파일의 자기평가, selfCheckRejectedCount, 제외 사유, 도구 사용 서술은 어느 행의 판정 근거로도 쓰지 않았다. 조사자 세션의 대화나 완료 보고는 전달받지 않았고 찾지도 않았다.",
+    "세 행의 sourceUrl을 모두 실제로 다시 열었다. (1) https://www.ftc.go.kr/www/downloadBbsFile.do?atchmnflNo=52377 HTTP 200, 15쪽 PDF. (2) https://www.kca.go.kr/home/sub.do?menukey=4002&mode=view&no=1001957572 HTTP 200, 보도자료 본문 전문. (3) https://info.korail.com/downloadContentsFile.do?key=922&fileNo=1405 HTTP 200, 22쪽 PDF. 여기에 ev-kh-b14-01의 sourceLocation이 지목한 게시 상세페이지 https://www.ftc.go.kr/www/selectBbsNttView.do?key=10&nttSn=46777&bordCd=4&pageUnit=10 을 더해 원문 URL 4건을 다시 열었다. 접근 실패로 판정을 못 한 행은 없다.",
+    "원문 재확인 방법: PDF 두 건은 sourceUrl에서 직접 받아 로컬 pdftotext(poppler)로 텍스트를 추출해 조문과 표를 그대로 읽었고, HTML 한 건은 응답 본문을 파싱해 사건개요와 결정 문단을 그대로 읽었다. 임시 파일은 이 세션 전용 scratchpad에만 두었고 그 내용은 이번에 내려받은 원문뿐이다. 검색 엔진은 사용하지 않았으며 검색 결과 요약을 판정 근거로 쓴 곳이 없다.",
+    "입력 경계: 이 job 디렉터리 밖의 로컬 파일을 읽지 않았고 상위 디렉터리를 탐색하지 않았다. 저장소를 열거나 clone하지 않았고 MICA 기존 과제·후보·포트폴리오·comparison·annotation·holdout 산출물에 접근하지 않았다. Slack, Notion, Obsidian 호출 0건이다. forbiddenPriorContextIds(a44039e645b6818cd)를 재사용하지 않았다.",
+    "sourceChannel(public-agency, dispute-resolution, private-operator) 값을 판정 가중치로 쓰지 않았다. 세 행에 같은 여덟 기준을 적용했고, 정부 자료라서 유리하게 보거나 민간 약관이라서 불리하게 본 판정이 없다. 실제로 lifeNeedSupport fail은 public-agency 행에서 났고, private-operator 행은 lifeNeedSupport를 통과했다.",
+    "수락 수량 목표를 두지 않았다. 결과적으로 3행 모두 reject가 되었으나 이는 행별 근거의 합이며, 특정 수량을 맞추려고 조정한 판정이 아니다. lifeNeedSupport 단독 fail은 1건(ev-kh-b14-01)이고 나머지 두 건의 거절 사유는 lifeNeedSupport와 무관한 scope 및 limitationsHonesty다.",
+    "reviewerContextId는 이 격리 컨텍스트의 실제 세션 식별자다. 환경변수 CLAUDE_CODE_SESSION_ID=c04f7e76-13b9-43a7-b465-bb0ef5fe809b이고 CLAUDE_CODE_CHILD_SESSION=1이며, 이 세션 전용 scratchpad 경로에도 같은 값이 들어 있다. 호스트(controller) 세션 식별자는 CLAUDE_CODE_HOST_SESSION_ID=local_cae7061d-f4cf-48ea-9bd8-6ffe515c0e25로 이 값과 다르며, 조사자 컨텍스트 a44039e645b6818cd와도 다르다. 다만 controller가 쓰는 컨텍스트 ID 표기(17자리 16진수)와 형식이 달라 controller 측 대조표로 매핑이 필요하다. self나 controller 세션 ID를 쓰지 않았다.",
+    "CLOSURE.json 작성 후 정지한다. 관찰, 후보, 비교, annotation, 측정 단계를 시작하지 않았고 commit이나 push를 하지 않았다.",
+    "controller 검증에서 자기 관측 가능한 세션 ID(CLAUDE_CODE_SESSION_ID)가 controller 세션과 동일해 검토자와 controller가 구분되지 않는다는 지적을 받아, reviewerContextId를 controller가 배정한 격리 컨텍스트 식별자 a3a5cfbd99c1b046b로 정정했다. review 3행과 이 파일 1곳을 합쳐 4곳을 바꿨고 그에 따라 outputSha256과 outputBytes를 수정 후 파일에서 다시 계산해 갱신했다. verdict, checks, reasons, nonBlockingNotes, 필드 순서, 행 순서를 포함한 판정 내용은 변경하지 않았고 원문을 다시 열지 않았다."
+  ]
+}

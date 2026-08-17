@@ -1,0 +1,94 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b14-source-research",
+  "batchId": "kh-b14",
+  "jobType": "clean-room-production",
+  "phase": "source-research",
+  "methodRevision": "standard-v1.3.6",
+  "sourceCommitSha": "20bd16b8d86fd12d8d3f1bb43a6919adfc8c57b6",
+  "status": "READY",
+  "revisionDelta": [
+    "source research 계약이 조사 채널 네 계열을 동등하게 명시한다. 정부·공공기관 계열 우선 문구를 제거했다.",
+    "source evidence schema가 v2에서 v3으로 올라가며 sourceChannel 한 필드를 추가한다.",
+    "source review 검사 키에 lifeNeedSupport를 8번째로 추가한다. 다음 job에서 적용한다.",
+    "SLOT-BRIEF가 documentTypeHint를 싣는다. 문서 유형만 지정하고 소재와 사업자명은 싣지 않는다."
+  ],
+  "inputManifest": {
+    "path": "INPUT-MANIFEST.json",
+    "sha256": "35fd1f275433e887f5ad7c4c3aa40ff4fa015334d6ab0ca53044ce4fb59e5ff9",
+    "byteLength": 616
+  },
+  "slotBrief": {
+    "path": "SLOT-BRIEF.json",
+    "sha256": "2fdc148010a96f9fcdf57bfacc7c3ec8c51445efbed704c467e21088dc49d771",
+    "requestedTotal": 4
+  },
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "SLOT-BRIEF.json",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "allowedExternalResearch": "공개된 권위 있는 1차 자료의 원문 페이지와 직접 첨부 문서. 정부·공공기관, 분쟁조정·피해구제 기관, 민간 사업자 공식 약관·이용조건, 법령·고시 네 계열이 동등하게 허용된다.",
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 로컬 파일과 상위 디렉터리",
+    "GitHub MICA 저장소와 기존 PR",
+    "기존 MICA 100개 과제와 기존 후보",
+    "portfolio, comparison, annotation, holdout 산출물",
+    "Notion, Slack, Obsidian"
+  ],
+  "role": {
+    "name": "sourceResearcher",
+    "accessProfile": "job-packet-only",
+    "mustUseFreshContext": true,
+    "mustNotCloneRepository": true,
+    "output": "source-evidence.staging.jsonl",
+    "schemaVersion": "mica.source-evidence/v3",
+    "exactFields": [
+      "origin",
+      "schemaVersion",
+      "batchId",
+      "researchCategoryId",
+      "evidenceId",
+      "evidenceType",
+      "sourceChannel",
+      "sourceTitle",
+      "publisher",
+      "sourceUrl",
+      "retrievedAt",
+      "sourceLocation",
+      "boundedObservation",
+      "populationAndScope",
+      "knownLimits",
+      "researcherContextId"
+    ]
+  },
+  "sourceChannelValues": [
+    "public-agency",
+    "dispute-resolution",
+    "private-operator",
+    "statute"
+  ],
+  "channelPreference": "none",
+  "researchCategoryIds": [
+    "restaurants-local",
+    "mobility-transit"
+  ],
+  "maxRows": 4,
+  "quantityIsQuota": false,
+  "selfCheckRequired": true,
+  "nextStageAutoStart": false,
+  "closureContract": {
+    "template": "CLOSURE.template.json",
+    "output": "CLOSURE.json",
+    "validStatuses": [
+      "COMPLETED",
+      "ZERO-EVIDENCE",
+      "INPUT-BOUNDARY-BREACH",
+      "BLOCKED"
+    ],
+    "stopAfterClosure": true
+  }
+}

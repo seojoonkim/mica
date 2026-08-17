@@ -1,0 +1,32 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-slot-brief/v2",
+  "jobId": "kh-b14-source-research",
+  "marketScope": "KR",
+  "requestedTotal": 4,
+  "categories": [
+    {
+      "categoryId": "restaurants-local",
+      "labelKo": "외식·예약",
+      "requestedEvidenceRows": 2,
+      "documentTypeHint": [
+        "예약 취소와 노쇼에 적용되는 사업자 공식 약관 또는 이용조건",
+        "예약 부도 위약금 또는 취소수수료를 규정한 공식 기준표",
+        "외식·예약 분야 소비자 분쟁조정 결정문 또는 피해구제 사례집"
+      ]
+    },
+    {
+      "categoryId": "mobility-transit",
+      "labelKo": "이동·대중교통",
+      "requestedEvidenceRows": 2,
+      "documentTypeHint": [
+        "운송 사업자의 공식 운송약관 중 개인 이용자의 환불·변경·취소 조건",
+        "지연·미탑승·분실물에 적용되는 사업자 공식 처리 절차 안내",
+        "이동·교통 분야 소비자 분쟁조정 결정문 또는 피해구제 사례집"
+      ]
+    }
+  ],
+  "documentTypeRule": "documentTypeHint는 어떤 종류의 문서를 찾을지에 대한 조사 지점이다. 소재, 사업자명, 과업 형태, 슬롯별 정답이 아니다. 힌트에 없는 문서 유형이라도 발행 주체와 범위를 확인할 수 있는 1차 자료면 사용할 수 있다.",
+  "interpretation": "카테고리와 수량은 조사 범위일 뿐 기존 답, 소재, 해결 방식 또는 슬롯별 정답이 아니다.",
+  "quantityRule": "근거가 직접 지지하는 행만 작성한다. 적합한 근거가 부족하면 4건을 채우지 않고 더 적은 행으로 종결한다. 0행도 유효하다."
+}

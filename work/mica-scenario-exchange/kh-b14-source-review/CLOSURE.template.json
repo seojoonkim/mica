@@ -1,0 +1,51 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-source-review-closure/v1",
+  "jobId": "kh-b14-source-review",
+  "status": "COMPLETED | INPUT-BOUNDARY-BREACH | BLOCKED",
+  "reviewerContextId": "<actual-context-id>",
+  "reviewerAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean | breach",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsSeen": 0,
+  "rowsReviewed": 0,
+  "acceptedRows": 0,
+  "rejectedRows": 0,
+  "failedCheckCounts": {
+    "publisher": 0,
+    "scope": 0,
+    "verbatim": 0,
+    "directSupport": 0,
+    "typeAccuracy": 0,
+    "recency": 0,
+    "limitationsHonesty": 0,
+    "lifeNeedSupport": 0
+  },
+  "sourceUrlsReopened": 0,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "<actual-sha256>"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "<actual-sha256>"
+    }
+  ],
+  "outputPath": "source-reviews.staging.jsonl",
+  "outputSha256": "<actual-sha256>",
+  "outputBytes": 0,
+  "reviewedAt": "<actual-utc-iso8601>",
+  "nextStageAutoStarted": false,
+  "notes": []
+}
