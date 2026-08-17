@@ -4,8 +4,8 @@
   "batchId": "draft-r1",
   "tier": "draft-r1",
   "status": "completed",
-  "frozenCandidatesSha256": "5b9b23cddc1799f936abdd3f3ed0a10457378edd0c95c18733ada73e0eb5c6b9",
-  "frozenCandidatesBytes": 215903,
+  "frozenCandidatesSha256": "20526bd2a2b426d171001efff5b9881b42bce4279d9c543e503bd20ab5461bf9",
+  "frozenCandidatesBytes": 217858,
   "acceptedMeasurableCandidates": 63,
   "knownGaps": [
     "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. held-no-category.jsonl 에 보존.",
@@ -13,5 +13,20 @@
   ],
   "closedAt": "2026-08-17T13:00:00Z",
   "slotFillCount": 51,
-  "categoryOverflowCount": 12
+  "categoryOverflowCount": 12,
+  "correctionRound": {
+    "trigger": "12건 표본 심층 감사(Opus 5 xhigh, 격리 컨텍스트)에서 3/12 DEFECT-MAJOR 발견",
+    "corrected": [
+      "res2-draft-03",
+      "mbi-draft-05",
+      "mob2-draft-05"
+    ],
+    "method": "결함 3건 모두 격리된 새 컨텍스트가 원문을 재확인해 지적된 필드만 최소 수정, 또 다른 격리 컨텍스트가 전체 rubric으로 재검토",
+    "outcome": {
+      "res2-draft-03": "CONFIRM",
+      "mbi-draft-05": "CONFIRM",
+      "mob2-draft-05": "DEFECT-MINOR(5항목 전부 pass, 잔여 흠은 비차단)"
+    },
+    "correctedAt": "2026-08-18T01:00:00Z"
+  }
 }

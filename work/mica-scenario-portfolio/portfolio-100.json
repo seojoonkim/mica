@@ -384,8 +384,8 @@
           "slotId": "restaurants-local-06",
           "status": "occupied",
           "candidateId": "res2-draft-03",
-          "annotationRowSha256": "97be2526d478740c3b0a137ebeb999c19e931869a264ab8f18ea151214387ec6",
-          "reviewRowSha256": "dce6ff07005084d77c69a59fca2489ed56112b0d70d6418fdf71bac4e10769d2",
+          "annotationRowSha256": "1d89fe82546ccd86d888549fae3aa04290cb796c0b30e1a7d123626dde874b00",
+          "reviewRowSha256": "5142eda3f03ee8d02a19538b3f4658c42966099746ba04645b12f50c76d5ed02",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [],
           "tier": "draft-r1"
