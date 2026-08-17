@@ -384,8 +384,8 @@
           "slotId": "restaurants-local-06",
           "status": "occupied",
           "candidateId": "res2-draft-03",
-          "annotationRowSha256": "1d89fe82546ccd86d888549fae3aa04290cb796c0b30e1a7d123626dde874b00",
-          "reviewRowSha256": "5142eda3f03ee8d02a19538b3f4658c42966099746ba04645b12f50c76d5ed02",
+          "annotationRowSha256": "817acb4357f0da0d19906c257dd7e57bb33c0ef815e5f518d2446e9b8055b222",
+          "reviewRowSha256": "fe3cbd3cc50bc33e41046def2adbaf15598afce450cda76c43452fdac293dd17",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [],
           "tier": "draft-r1"
@@ -530,8 +530,8 @@
           "slotId": "money-banking-investing-10",
           "status": "occupied",
           "candidateId": "mbi-draft-04",
-          "annotationRowSha256": "086e5ebe09a2e46f3e21dcf0a0dcb30ae69192df2f75e3ea37c3b651af71540b",
-          "reviewRowSha256": "1acf0996c9fe4fa0e61d4c2b915e5c8994da12049836e2007f33c63b24fe2f7c",
+          "annotationRowSha256": "b4603be13c4f944f829b236d4f6831059a2ead2412f8f3994dff86e046072616",
+          "reviewRowSha256": "e6d587e47d42aad3e661ba37dfc25728299362bc195941578ab85217de22168e",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [],
           "tier": "draft-r1"
@@ -626,8 +626,8 @@
           "slotId": "mobility-transit-09",
           "status": "occupied",
           "candidateId": "mob2-draft-02",
-          "annotationRowSha256": "c33a8db3d0336258fc0742abb0601f74ea3111e8370e85240b397d636071be72",
-          "reviewRowSha256": "b0fe753c8c7a8fceafb3d36413145a5dc0642d83f35f75d80c282ce32d9a968f",
+          "annotationRowSha256": "45461064cc4c19d70f966de0ccd499a423fca619348242f30cb59bf03f71012c",
+          "reviewRowSha256": "e958c73390bbabe1f319eb74ee7e46ddce1d0b39e2467d034678bddc629806a7",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [],
           "tier": "draft-r1"
@@ -954,8 +954,8 @@
           "slotId": "home-utilities-10",
           "status": "occupied",
           "candidateId": "hut2-draft-05",
-          "annotationRowSha256": "0ae23692cd64a0967633ff6ab268329b8815b91206daecc16af1770aef0058b6",
-          "reviewRowSha256": "7aa742df3477005c9ccc036a5d18060e7aa5f3a123df92e44da45a956d63bea5",
+          "annotationRowSha256": "5b1d265eff6081ed8f9326a7e86018d5e5f419945eb12c22460672b69ab9236e",
+          "reviewRowSha256": "270be3b33e1e7b5665f7af626308097b83000cbff0684d0dc4126b10874fa367",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [],
           "tier": "draft-r1"
