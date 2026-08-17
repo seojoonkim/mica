@@ -2,34 +2,46 @@
 
 - origin: `kiheon-ideation`
 - status: `active-production-contract`
-- current standard revision: `standard-v1.3.4`
+- current standard revision: `standard-v1.3.5`
 - current compressed revision: `lean-v1.3`
+- controller 소유권 정정: 2026-08-17
+
+> **역할 배정 정본**은 `work/method-reviews/2026-08-17-claude-primary-controller-handoff.md`다. 이 문서의 2절 이하는 배치 경계·자동 관문·회귀 규칙·교차 점검 이력을 보존한다. 아래 1절은 그 정본에 맞춰 갱신했다.
 
 ## 1. 역할 선언
 
-### Codex: 공정 관리와 품질 고도화
+### Claude Code: 주 컨트롤러
 
-Codex는 생산 공정의 control plane을 맡는다.
+Claude Code 메인 세션이 control plane과 production lane을 함께 맡는다.
 
-- 완료 배치의 결함 원장과 거절·수정 이력을 분석한다.
-- 방법론, 역할 계약, 검증 도구와 회귀 검사를 보완한다.
-- 다음 배치가 사용할 방법 revision과 원문 파일 해시를 동결한다.
-- 완료 배치가 역할 분리, accepted-only 동결, 사후 대조, 측정 결속을 지켰는지 통합 감사한다.
-- 결함 수정은 진행 중인 배치에 끼워 넣지 않고 다음 배치 revision으로만 승격한다.
+- exchange job 계약을 발급하고 `READY`·`INPUT-MANIFEST`·package SHA를 동결한다.
+- 저장소 상태, preflight, 원장 검증을 재계산해 확인한다.
+- 의미 역할마다 신규 컨텍스트를 직접 생성하고 산출물을 수거한다. 사용자가 단계마다 메시지를 중계하도록 요구하지 않는다.
+- `validate-job` PASS와 독립 검토가 확인된 accepted 행만 원장에 적용한다.
+- 로컬 commit과 외부 기록 초안을 준비한다.
+
+주 컨트롤러가 의미 저작과 의미 심사를 같은 컨텍스트에서 겸하지 않는다. 저장소 전체와 기존 재고를 본 세션은 동결 전 의미 역할과 blind-agent rehearsal에 재사용하지 않는다.
+
+### clean-room 의미 역할: 신규 job-packet-only 컨텍스트
+
+- 주 컨트롤러가 발급한 job package 하나만 받는다. 저장소를 clone하거나 열지 않는다.
+- 각 역할의 출력 원문을 수정하지 않고 수락된 행만 다음 단계로 동결한다.
+- 발견한 결함은 `CLOSURE`와 결함 원장에 기록하되 방법 파일을 직접 바꾸지 않는다.
+- 비교 결과와 기존 재고 정보를 동결 전 역할로 되돌리지 않는다.
+
+### Codex: 필요 시 호출
+
+Codex는 필수 상시 단계가 아니다. 다음이 필요할 때 호출한다.
+
+- 방법론 감사와 역할 계약 검토
+- 복잡 결함 분석과 검증기 보완
+- UI 보조
 
 Codex가 신규 생활 필요를 대신 작성하거나, 생산 중인 후보를 의미 수정해 통과시키지 않는다.
 
-### Claude Code: 동결된 공정으로 신규 배치 생산
+### 승인 경계
 
-Claude Code는 production lane을 맡는다.
-
-- `batch-manifest.json`에 동결된 revision과 파일 해시만 사용한다.
-- 독립 1차 자료 조사부터 관찰·후보·측정 계약까지 역할을 분리해 실행한다.
-- 각 역할의 출력 원문을 수정하지 않고 수락된 행만 다음 단계로 동결한다.
-- 실행 중 발견한 결함은 `defect-ledger.jsonl`에 기록하되 방법 파일을 직접 바꾸지 않는다.
-- 배치를 완료하거나 fail-closed로 닫은 뒤 Codex에 결함과 회귀 결과를 돌려준다.
-
-Claude Code가 배치 도중 방법 revision을 바꾸거나 비교 결과를 작성자에게 되돌리지 않는다.
+로컬 commit은 주 컨트롤러가 수행한다. `git push`, 배포, Notion·Slack 반영, 공식 정본 변경, public core / private holdout 거버넌스는 사용자 승인 대상이다.
 
 ## 2. 배치 경계
 

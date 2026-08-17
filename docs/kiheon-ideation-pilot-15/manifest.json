@@ -40,8 +40,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
-      "sha256": "b7b8da42242e98b98426bdf0d234916bd0227e121c9c17aea3687690bd751bbf",
-      "byteLength": 11008
+      "sha256": "3a585d236988a667c2ab5731e01dc9038dfc7ef0d508e0dea6a083f13afc4a19",
+      "byteLength": 11757
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/synthetic-execution-protocol.md",
@@ -60,8 +60,8 @@
     },
     {
       "path": ".agents/skills/mica-scenario-production/SKILL.md",
-      "sha256": "e5d8eeb42aa3524996ce7c8534fce8f970e3a7347ac50e3f301143c4ec0301cd",
-      "byteLength": 21041
+      "sha256": "92379d3ff1d6fbd065c8a35a1a9d4736a98dac0404e92ec5d09e627f49c7e48b",
+      "byteLength": 21541
     },
     {
       "path": ".agents/skills/mica-scenario-production/agents/openai.yaml",
@@ -70,8 +70,8 @@
     },
     {
       "path": ".claude/skills/mica-scenario-production/SKILL.md",
-      "sha256": "e5d8eeb42aa3524996ce7c8534fce8f970e3a7347ac50e3f301143c4ec0301cd",
-      "byteLength": 21041
+      "sha256": "92379d3ff1d6fbd065c8a35a1a9d4736a98dac0404e92ec5d09e627f49c7e48b",
+      "byteLength": 21541
     },
     {
       "path": "scripts/mica-scenario-production.py",

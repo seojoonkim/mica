@@ -105,12 +105,14 @@ controller만 저장소에서 preflight, method lock, exchange package 발급, �
 
    `validate-ready`와 controller `claim`이 모두 PASS하기 전에는 production 역할을 시작하지 않는다. 기본 lease는 180분이다. 각 역할은 쓰기 전에 `--json assign-role`로 권한 토큰을 받고, 종료 뒤 같은 토큰을 `complete-role --write-authorization-token`에 제출해야 산출물이 채택된다. `role-briefing`으로 manifest 허용 입력과 출력 계약을 그대로 전달한다. 중단 시 미완료 역할을 `--abandon-role`로 명시한 뒤 `park`, 새 세션 승계 시 사람 지시 참조가 포함된 `resume`을 사용한다.
 
-## Codex·Claude Code 분업
+## 런타임 분업
 
-- Codex는 완료 배치의 결함 분석, 방법론·검증기 수정, 회귀 검사, revision 커밋과 다음 빈 배치 동결을 맡는다.
-- Claude Code는 동결된 revision으로 신규 자료 조사·관찰·후보·측정 산출물을 생산하고 결함 원장과 closure를 반환한다.
-- 진행 중인 배치에 방법 변경을 끼워 넣지 않는다. 결함은 현재 배치에 기록하고 다음 배치 경계에서만 새 revision으로 반영한다.
-- 자세한 책임과 교차 검토 주기는 `docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md`를 따른다.
+- **Claude Code 주 컨트롤러**가 job 발급, 상태 검증, 역할 컨텍스트 분리, 원장 적용, 로컬 commit, 기록 준비를 맡는다.
+- **clean-room 의미 역할**은 주 컨트롤러가 생성·수거하는 신규 `job-packet-only` 컨텍스트에서 실행한다. 사용자가 단계마다 메시지를 중계하도록 요구하지 않는다.
+- **Codex**는 필수 상시 단계가 아니다. 방법론 감사, 복잡 결함 검토, UI 보조가 필요할 때 호출한다.
+- 진행 중 job의 schema와 입력 계약은 바꾸지 않는다. 결함은 현재 job에 기록하고 다음 job 경계에서만 새 revision으로 반영한다.
+- `git push`, 배포, Notion·Slack 반영, 공식 정본 변경, public core / private holdout 거버넌스는 사용자 승인 대상이다. 로컬 commit은 주 컨트롤러가 할 수 있다.
+- 현재 역할 배정과 실행 순서의 정본은 `work/method-reviews/2026-08-17-claude-primary-controller-handoff.md`다. 배치 경계와 교차 점검 이력은 `docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md`를 참고한다.
 
 ## 역할별 접근 프로필
 
