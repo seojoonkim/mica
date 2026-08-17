@@ -4,15 +4,14 @@
   "batchId": "draft-r1",
   "tier": "draft-r1",
   "status": "completed",
-  "frozenCandidatesSha256": "b6aa7ca449b8da6ed80c83237005be00b6a602de9fba20cef0ff1f836645a884",
-  "frozenCandidatesBytes": 193122,
-  "acceptedMeasurableCandidates": 57,
+  "frozenCandidatesSha256": "5b9b23cddc1799f936abdd3f3ed0a10457378edd0c95c18733ada73e0eb5c6b9",
+  "frozenCandidatesBytes": 215903,
+  "acceptedMeasurableCandidates": 63,
   "knownGaps": [
-    "restaurants-local: need 8, 확정 4. 3파도 연속 최저 수율(wave1 1/4, wave1.5 3/7). 구조적 어려움으로 판단, wave-2에서 전용 소재 지침으로 4차 시도 중.",
-    "email-calendar: need 6, 확정 5. wave-2에서 1건 보충 시도 중.",
-    "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. work/mica-scenario-batches/draft-r1/held-no-category.jsonl 에 보존."
+    "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. held-no-category.jsonl 에 보존.",
+    "restaurants-local은 3차 시도에서 완전히 회복됨(1/4 -> 3/7 -> 4/4). 소재 유형이 조건표 중심에서 분쟁조정 결정례·신고 절차 중심으로 바뀐 것이 원인으로 추정됨."
   ],
   "closedAt": "2026-08-17T13:00:00Z",
-  "slotFillCount": 46,
-  "categoryOverflowCount": 11
+  "slotFillCount": 51,
+  "categoryOverflowCount": 12
 }
