@@ -133,6 +133,92 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual(payload["canonicalAdoptionStatus"], "not-adopted")
         self.assertFalse(payload["holdoutIncluded"])
 
+    def test_draft_tier_v4_round_trip_sets_slot_tier(self) -> None:
+        ready_path = self.job / "READY.json"
+        ready = json.loads(ready_path.read_text(encoding="utf-8"))
+        ready["roles"]["catalogAnnotator"]["schemaVersion"] = "mica.catalog-annotation/v4"
+        ready["roles"]["catalogAnnotator"]["exactFields"] = list(portfolio.ANNOTATION_FIELDS_V4)
+        ready["roles"]["catalogAnnotationReviewer"]["schemaVersion"] = "mica.catalog-annotation-review/v4"
+        ready["roles"]["catalogAnnotationReviewer"]["exactFields"] = list(portfolio.REVIEW_FIELDS_V4)
+        write_json(ready_path, ready)
+        annotation = dict(self.annotation(self.packet[0], "email-calendar-01"), **{
+            "schemaVersion": "mica.catalog-annotation/v4",
+            "tier": "draft-r1",
+        })
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        row, row_sha = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")[0]
+        review = dict(self.review(row, row_sha), **{
+            "schemaVersion": "mica.catalog-annotation-review/v4",
+            "tier": "draft-r1",
+        })
+        portfolio.write_jsonl(self.job / "review-output.staging.jsonl", [review])
+        closure = {
+            "origin": "kiheon-ideation",
+            "schemaVersion": "mica.exchange-closure/v1",
+            "jobId": "core20-test-001",
+            "status": "COMPLETED",
+            "SlackCalls": 0,
+            "NotionCalls": 0,
+            "forbiddenInputReads": 0,
+            "inputBoundaryStatus": "clean",
+            "authorContextId": "annotator-001",
+            "reviewerContextId": "reviewer-001",
+            "writtenRows": 1,
+            "acceptedRows": 1,
+            "rejectedRows": 0,
+            "heldRows": 0,
+            "authorOutputSha256": portfolio.sha_file(self.job / "author-output.staging.jsonl"),
+            "reviewOutputSha256": portfolio.sha_file(self.job / "review-output.staging.jsonl"),
+            "closedAt": "2026-08-17T01:10:00Z",
+            "nextStageAutoStarted": False,
+        }
+        write_json(self.job / "CLOSURE.json", closure)
+        result = portfolio.validate_job("core20-test-001", self.exchange_root)
+        self.assertEqual(result["accepted"], 1)
+        applied = portfolio.apply_job(
+            "core20-test-001", "codex-controller-001", "2026-08-17T01:20:00Z",
+            self.exchange_root, self.portfolio_root,
+        )
+        self.assertEqual(applied["applied"], 1)
+        ledger = json.loads((self.portfolio_root / "portfolio-100.json").read_text(encoding="utf-8"))
+        slot = next(
+            slot
+            for category in ledger["categories"]
+            for slot in category["slots"]
+            if slot["slotId"] == "email-calendar-01"
+        )
+        self.assertEqual(slot["tier"], "draft-r1")
+        state = portfolio.validate_portfolio(self.portfolio_root)
+        self.assertEqual(state["status"], "pass")
+
+    def test_draft_tier_review_tier_mismatch_is_rejected(self) -> None:
+        ready_path = self.job / "READY.json"
+        ready = json.loads(ready_path.read_text(encoding="utf-8"))
+        ready["roles"]["catalogAnnotator"]["schemaVersion"] = "mica.catalog-annotation/v4"
+        ready["roles"]["catalogAnnotator"]["exactFields"] = list(portfolio.ANNOTATION_FIELDS_V4)
+        ready["roles"]["catalogAnnotationReviewer"]["schemaVersion"] = "mica.catalog-annotation-review/v4"
+        ready["roles"]["catalogAnnotationReviewer"]["exactFields"] = list(portfolio.REVIEW_FIELDS_V4)
+        write_json(ready_path, ready)
+        annotation = dict(self.annotation(self.packet[0], "email-calendar-01"), **{
+            "schemaVersion": "mica.catalog-annotation/v4",
+            "tier": "draft-r1",
+        })
+        portfolio.write_jsonl(self.job / "author-output.staging.jsonl", [annotation])
+        row, row_sha = portfolio.parse_jsonl_with_hash(self.job / "author-output.staging.jsonl")[0]
+        review = dict(self.review(row, row_sha), **{
+            "schemaVersion": "mica.catalog-annotation-review/v4",
+            "tier": "verified",
+        })
+        portfolio.write_jsonl(self.job / "review-output.staging.jsonl", [review])
+        # tier mismatch is a portfolio-ledger-level check, not a job-level one, so
+        # exercise it directly against validate_portfolio using hand-built ledger files.
+        annotation_ledger = self.portfolio_root / "catalog-annotations.jsonl"
+        review_ledger = self.portfolio_root / "catalog-annotation-reviews.jsonl"
+        portfolio.write_jsonl(annotation_ledger, [annotation])
+        portfolio.write_jsonl(review_ledger, [review])
+        with self.assertRaisesRegex(portfolio.PortfolioError, "portfolio-review-tier"):
+            portfolio.validate_portfolio(self.portfolio_root)
+
     def test_completed_clean_room_freeze_enters_inventory(self) -> None:
         inventory = portfolio.all_candidate_rows()
         candidate = next(row for row in inventory if row["candidateId"] == "ki-b13-02")

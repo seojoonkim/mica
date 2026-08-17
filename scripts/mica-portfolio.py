@@ -52,6 +52,8 @@ TERMINATION_CLASSES = (
 COMPLEXITIES = ("single-step", "multi-step", "cross-session")
 TARGET_SURFACES = ("web", "app-only", "identity-gated", "phone-or-in-person", "mixed-surface")
 SLOT_DISPOSITIONS = ("assigned", "category-overflow")
+TIER_VALUES = ("verified", "draft-r1")
+DEFAULT_TIER = "verified"
 ANNOTATION_FIELDS_V1 = (
     "origin",
     "schemaVersion",
@@ -108,6 +110,7 @@ ANNOTATION_FIELDS_V3 = (
     "annotatorContextId",
     "annotatedAt",
 )
+ANNOTATION_FIELDS_V4 = ANNOTATION_FIELDS_V3 + ("tier",)
 REVIEW_FIELDS_V1 = (
     "origin",
     "schemaVersion",
@@ -161,6 +164,7 @@ REVIEW_FIELDS_V3 = (
     "reviewNote",
     "reviewedAt",
 )
+REVIEW_FIELDS_V4 = REVIEW_FIELDS_V3 + ("tier",)
 REVIEW_CONFIDENCES = ("high", "medium", "low")
 
 
@@ -171,6 +175,8 @@ def annotation_fields(schema_version: object) -> tuple[str, ...]:
         return ANNOTATION_FIELDS_V2
     if schema_version == "mica.catalog-annotation/v3":
         return ANNOTATION_FIELDS_V3
+    if schema_version == "mica.catalog-annotation/v4":
+        return ANNOTATION_FIELDS_V4
     raise PortfolioError(f"annotation-schema:{schema_version}")
 
 
@@ -181,17 +187,25 @@ def review_fields(schema_version: object) -> tuple[str, ...]:
         return REVIEW_FIELDS_V2
     if schema_version == "mica.catalog-annotation-review/v3":
         return REVIEW_FIELDS_V3
+    if schema_version == "mica.catalog-annotation-review/v4":
+        return REVIEW_FIELDS_V4
     raise PortfolioError(f"review-schema:{schema_version}")
 
 
 def annotation_slot_disposition(annotation: dict[str, object]) -> str:
-    if annotation.get("schemaVersion") == "mica.catalog-annotation/v3":
+    if annotation.get("schemaVersion") in {"mica.catalog-annotation/v3", "mica.catalog-annotation/v4"}:
         return str(annotation.get("slotDisposition"))
     return "assigned"
 
 
+def annotation_tier(annotation: dict[str, object]) -> str:
+    if annotation.get("schemaVersion") == "mica.catalog-annotation/v4":
+        return str(annotation.get("tier"))
+    return DEFAULT_TIER
+
+
 def review_check_fields(schema_version: object) -> tuple[str, ...]:
-    if schema_version == "mica.catalog-annotation-review/v3":
+    if schema_version in {"mica.catalog-annotation-review/v3", "mica.catalog-annotation-review/v4"}:
         return (
             "candidateBinding",
             "categoryBinding",
@@ -368,6 +382,7 @@ def empty_portfolio() -> dict[str, object]:
                         "annotationRowSha256": None,
                         "reviewRowSha256": None,
                         "sourceBatchId": None,
+                        "tier": None,
                         "attemptHistory": [],
                     }
                     for index in range(1, 11)
@@ -411,6 +426,7 @@ def validate_slot(slot: object, category: str, seen_candidates: set[str]) -> Non
         "annotationRowSha256",
         "reviewRowSha256",
         "sourceBatchId",
+        "tier",
         "attemptHistory",
     }
     require(set(slot) == expected, f"slot-shape:{category}")
@@ -422,12 +438,16 @@ def validate_slot(slot: object, category: str, seen_candidates: set[str]) -> Non
     require(isinstance(history, list), f"slot-history:{slot_id}")
     if status == "empty":
         require(
-            all(slot.get(field) is None for field in ("candidateId", "annotationRowSha256", "reviewRowSha256", "sourceBatchId")),
+            all(
+                slot.get(field) is None
+                for field in ("candidateId", "annotationRowSha256", "reviewRowSha256", "sourceBatchId", "tier")
+            ),
             f"empty-slot-binding:{slot_id}",
         )
     elif status == "blocked":
         require(len(history) > 0, f"blocked-slot-history:{slot_id}")
         require(slot.get("candidateId") is None, f"blocked-slot-candidate:{slot_id}")
+        require(slot.get("tier") is None, f"blocked-slot-tier:{slot_id}")
         seen_briefs: set[str] = set()
         for attempt in history:
             require(isinstance(attempt, dict), f"blocked-attempt:{slot_id}")
@@ -444,6 +464,7 @@ def validate_slot(slot: object, category: str, seen_candidates: set[str]) -> Non
             value = slot.get(field)
             require(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value), f"occupied-{field}:{slot_id}")
         require(isinstance(slot.get("sourceBatchId"), str), f"occupied-source-batch:{slot_id}")
+        require(slot.get("tier") in TIER_VALUES, f"occupied-tier:{slot_id}")
 
 
 def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
@@ -501,7 +522,11 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
             )
         else:
             require(annotation.get("proposedSlotId") is None, f"portfolio-annotation-overflow-slot:{candidate_id}")
-        if schema_version in {"mica.catalog-annotation/v2", "mica.catalog-annotation/v3"}:
+        if schema_version in {
+            "mica.catalog-annotation/v2",
+            "mica.catalog-annotation/v3",
+            "mica.catalog-annotation/v4",
+        }:
             provisional = annotation.get("categoryProvisional")
             rationale = annotation.get("categoryRationale")
             require(type(provisional) is bool, f"portfolio-annotation-provisional:{candidate_id}")
@@ -515,6 +540,8 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
                 ),
                 f"portfolio-annotation-provisional-binding:{candidate_id}",
             )
+        if schema_version == "mica.catalog-annotation/v4":
+            require(annotation.get("tier") in TIER_VALUES, f"portfolio-annotation-tier:{candidate_id}")
         require(annotation.get("terminationClass") in TERMINATION_CLASSES, f"portfolio-annotation-termination:{candidate_id}")
         require(annotation.get("declaredComplexity") in COMPLEXITIES, f"portfolio-annotation-complexity:{candidate_id}")
         require(annotation.get("targetSurface") in TARGET_SURFACES, f"portfolio-annotation-surface:{candidate_id}")
@@ -527,7 +554,11 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         schema_version = review.get("schemaVersion")
         require(tuple(review) == review_fields(schema_version), f"portfolio-review-shape:{candidate_id}")
         require(review.get("origin") == "kiheon-ideation", f"portfolio-review-origin:{candidate_id}")
-        if schema_version in {"mica.catalog-annotation-review/v2", "mica.catalog-annotation-review/v3"}:
+        if schema_version in {
+            "mica.catalog-annotation-review/v2",
+            "mica.catalog-annotation-review/v3",
+            "mica.catalog-annotation-review/v4",
+        }:
             confidence = review.get("confidence")
             require(confidence in REVIEW_CONFIDENCES, f"portfolio-review-confidence:{candidate_id}")
             uncertainty_note = review.get("uncertaintyNote")
@@ -545,6 +576,11 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
             all(review.get(field) is True for field in review_check_fields(schema_version)),
             f"portfolio-review-check:{candidate_id}",
         )
+        if schema_version == "mica.catalog-annotation-review/v4":
+            require(
+                review.get("tier") == annotation_tier(annotation_by_id[candidate_id][0]),
+                f"portfolio-review-tier:{candidate_id}",
+            )
         require(
             review.get("reviewerContextId") != annotation_by_id[candidate_id][0].get("annotatorContextId"),
             f"portfolio-role-context-collision:{candidate_id}",
@@ -573,6 +609,7 @@ def validate_portfolio(portfolio_root: Path) -> dict[str, object]:
         require(slot["annotationRowSha256"] == annotation_sha, f"portfolio-slot-annotation-sha:{candidate_id}")
         require(slot["reviewRowSha256"] == review_by_id[candidate_id][1], f"portfolio-slot-review-sha:{candidate_id}")
         require(slot["sourceBatchId"] == annotation["batchId"], f"portfolio-slot-batch:{candidate_id}")
+        require(slot["tier"] == annotation_tier(annotation), f"portfolio-slot-tier:{candidate_id}")
     parse_jsonl_with_hash(portfolio_root / "portfolio-artifact-ledger.jsonl")
     receipts = portfolio_root / "receipts"
     require(receipts.is_dir(), "portfolio-receipts")
@@ -1114,10 +1151,17 @@ def validate_annotation(
     if slot_disposition == "assigned":
         require(row.get("proposedSlotId") in category_slots, f"annotation-slot:{candidate_id}")
     else:
-        require(annotation_schema == "mica.catalog-annotation/v3", f"annotation-overflow-schema:{candidate_id}")
+        require(
+            annotation_schema in {"mica.catalog-annotation/v3", "mica.catalog-annotation/v4"},
+            f"annotation-overflow-schema:{candidate_id}",
+        )
         require(not category_slots, f"annotation-overflow-with-available-slot:{candidate_id}")
         require(row.get("proposedSlotId") is None, f"annotation-overflow-slot:{candidate_id}")
-    if annotation_schema in {"mica.catalog-annotation/v2", "mica.catalog-annotation/v3"}:
+    if annotation_schema in {
+        "mica.catalog-annotation/v2",
+        "mica.catalog-annotation/v3",
+        "mica.catalog-annotation/v4",
+    }:
         provisional = row.get("categoryProvisional")
         rationale = row.get("categoryRationale")
         require(type(provisional) is bool, f"annotation-provisional:{candidate_id}")
@@ -1132,6 +1176,8 @@ def validate_annotation(
                 candidate_id not in approved_provisional_ids or category != RENTAL_CATEGORY_ID,
                 f"annotation-provisional-required:{candidate_id}",
             )
+    if annotation_schema == "mica.catalog-annotation/v4":
+        require(row.get("tier") in TIER_VALUES, f"annotation-tier:{candidate_id}")
     require(row.get("terminationClass") in TERMINATION_CLASSES, f"annotation-termination:{candidate_id}")
     require(row.get("declaredComplexity") in COMPLEXITIES, f"annotation-complexity:{candidate_id}")
     require(row.get("targetSurface") in TARGET_SURFACES, f"annotation-surface:{candidate_id}")
@@ -1382,6 +1428,7 @@ def apply_job(job_id: str, applied_by: str, observed_at: str, exchange_root: Pat
                     "annotationRowSha256": annotation_sha,
                     "reviewRowSha256": review_sha,
                     "sourceBatchId": annotation["batchId"],
+                    "tier": annotation_tier(annotation),
                 }
             )
             placed += 1

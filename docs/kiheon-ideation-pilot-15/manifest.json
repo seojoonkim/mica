@@ -130,8 +130,8 @@
     },
     {
       "path": "scripts/mica-portfolio.py",
-      "sha256": "68e3d8f44d94856a1d16291788d3d97fbda4d06bb656ff87dcd20e612d66618a",
-      "byteLength": 72881
+      "sha256": "d8e696c3e173f686f3fcbc32f52d39c6fb6008c538e2a58b0de04a4486215d8a",
+      "byteLength": 74494
     },
     {
       "path": "scripts/test-mica-portfolio.py",
