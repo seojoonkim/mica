@@ -92,6 +92,69 @@ class VerifyTest(unittest.TestCase):
         self.assertNotIn("sourceCommitSha", result.stdout)
 
 
+class PrepareTest(unittest.TestCase):
+    """packet 생성. controller가 SHA를 손으로 옮겨 적지 않게 한다."""
+
+    SOURCE_RESEARCH = EXCHANGE / "kh-b13-source-research"
+
+    def _blank_package(self, job: Path) -> None:
+        ready_path = job / "READY.json"
+        ready = json.loads(ready_path.read_text(encoding="utf-8"))
+        for key in ("inputManifest", "slotBrief"):
+            pointer = ready[key]
+            if "sha256" in pointer:
+                pointer["sha256"] = ""
+            if "byteLength" in pointer:
+                pointer["byteLength"] = 0
+        ready_path.write_text(
+            json.dumps(ready, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        (job / "INPUT-MANIFEST.json").unlink()
+        (job / "PACKAGE-SHA256.txt").unlink()
+
+    def test_regenerates_existing_package_byte_for_byte(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="mica-cleanroom-") as temp_dir:
+            job = Path(temp_dir) / self.SOURCE_RESEARCH.name
+            shutil.copytree(self.SOURCE_RESEARCH, job)
+            self._blank_package(job)
+            result = run_cli("prepare", str(job))
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            for name in (
+                "INPUT-MANIFEST.json",
+                "READY.json",
+                "PACKAGE-SHA256.txt",
+            ):
+                with self.subTest(file=name):
+                    self.assertEqual(
+                        (job / name).read_bytes(),
+                        (self.SOURCE_RESEARCH / name).read_bytes(),
+                    )
+
+    def test_prepared_package_verifies(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="mica-cleanroom-") as temp_dir:
+            job = Path(temp_dir) / self.SOURCE_RESEARCH.name
+            shutil.copytree(self.SOURCE_RESEARCH, job)
+            self._blank_package(job)
+            self.assertEqual(run_cli("prepare", str(job)).returncode, 0)
+            self.assertEqual(run_cli("verify", str(job)).returncode, 0)
+
+    def test_missing_content_file_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="mica-cleanroom-") as temp_dir:
+            job = Path(temp_dir) / self.SOURCE_RESEARCH.name
+            shutil.copytree(self.SOURCE_RESEARCH, job)
+            self._blank_package(job)
+            (job / "SLOT-BRIEF.json").unlink()
+            result = run_cli("prepare", str(job))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("prepare-missing", result.stdout)
+
+    def test_annotation_job_type_is_refused(self) -> None:
+        annotation = EXCHANGE / "core20-annotation-009"
+        result = run_cli("prepare", str(annotation))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("job-type", result.stdout)
+
+
 class FreezeReproductionTest(unittest.TestCase):
     """사람과 모델이 만든 기존 동결 산출물을 바이트 단위로 재현한다."""
 

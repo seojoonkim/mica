@@ -227,6 +227,97 @@ def verify(job: Path) -> int:
     return 0
 
 
+# ---------------------------------------------------------------- prepare
+
+
+def write_json(path: Path, payload: object) -> None:
+    path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+
+def fill_pointers(job: Path, node: object) -> list[str]:
+    """{path} 포인터의 digest를 디스크에서 채운다.
+
+    저자가 선언한 필드만 채운다. `byteLength`를 쓰지 않은 포인터에 임의로
+    추가하지 않는다. packet의 형태를 정하는 것은 저자이고 이 함수는 값만 채운다.
+    """
+    filled = []
+    if isinstance(node, dict):
+        path_value = node.get("path")
+        if isinstance(path_value, str):
+            target = job / path_value
+            if not target.is_file():
+                raise Fail(f"prepare-missing: {path_value}")
+            had_bytes = "byteLength" in node
+            node["sha256"] = sha256_file(target)
+            if had_bytes:
+                node["byteLength"] = target.stat().st_size
+            filled.append(path_value)
+        for value in node.values():
+            filled += fill_pointers(job, value)
+    elif isinstance(node, list):
+        for value in node:
+            filled += fill_pointers(job, value)
+    return filled
+
+
+def prepare(job: Path) -> int:
+    """controller가 손으로 옮겨 적던 SHA 결속을 계산으로 대체한다.
+
+    READY.json은 의미 내용만 저자가 쓰고, 모든 digest는 이 명령이 채운다.
+    kh-b13 한 배치에서 controller가 손으로 적은 SHA-256 리터럴은 111개였고
+    그중 하나의 전사 오류가 custodian 역할 전체를 다시 실행하게 만들었다.
+    """
+    ready_path = job / "READY.json"
+    if not ready_path.is_file():
+        raise Fail(f"prepare-ready: {ready_path} 없음")
+    ready = json.loads(ready_path.read_text(encoding="utf-8"))
+    if ready.get("jobType") != SUPPORTED_JOB_TYPE:
+        raise Fail(f"job-type: prepare는 '{SUPPORTED_JOB_TYPE}'만 다룬다")
+
+    allowed = ready.get("allowedInputs")
+    if not isinstance(allowed, list) or not allowed:
+        raise Fail("prepare-allowed: READY.allowedInputs 가 필요하다")
+    generated = {"READY.json", "INPUT-MANIFEST.json", "PACKAGE-SHA256.txt"}
+    contents = [name for name in allowed if name not in generated]
+    for name in contents:
+        if not (job / name).is_file():
+            raise Fail(f"prepare-missing: {name}")
+
+    # 1. INPUT-MANIFEST.json 을 내용 파일에서 생성한다.
+    manifest = {
+        "origin": ready.get("origin", "kiheon-ideation"),
+        "schemaVersion": "mica.clean-room-input-manifest/v1",
+        "jobId": ready.get("jobId"),
+        "files": [
+            {
+                "path": name,
+                "sha256": sha256_file(job / name),
+                "byteLength": (job / name).stat().st_size,
+            }
+            for name in contents
+        ],
+    }
+    write_json(job / "INPUT-MANIFEST.json", manifest)
+
+    # 2. READY.json 의 모든 포인터를 디스크에서 채운다.
+    filled = fill_pointers(job, ready)
+    write_json(ready_path, ready)
+
+    # 3. PACKAGE-SHA256.txt 는 READY.json 을 포함하므로 마지막이다.
+    package_files = sorted(set(contents) | {"READY.json", "INPUT-MANIFEST.json"})
+    lines = [f"{sha256_file(job / name)}  {name}" for name in package_files]
+    (job / "PACKAGE-SHA256.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    print(f"job: {ready.get('jobId')}")
+    print(f"내용 파일 {len(contents)}개에서 digest {len(filled) + len(package_files)}개를 계산했다")
+    for name in package_files:
+        print(f"  {name}")
+    print()
+    return verify(job)
+
+
 # ---------------------------------------------------------------- freeze
 
 
@@ -448,6 +539,9 @@ def main() -> int:
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
+    p = sub.add_parser("prepare", help="내용 파일에서 INPUT-MANIFEST·READY digest·PACKAGE를 계산")
+    p.add_argument("job")
+
     v = sub.add_parser("verify", help="packet의 모든 SHA-256을 재계산해 대조 (읽기 전용)")
     v.add_argument("job")
 
@@ -464,6 +558,8 @@ def main() -> int:
         return 1
 
     try:
+        if args.command == "prepare":
+            return prepare(job)
         if args.command == "verify":
             return verify(job)
         return freeze(job, args.context_id, args.at, args.check)
