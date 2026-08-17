@@ -54,63 +54,63 @@
         },
         {
           "slotId": "email-calendar-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml-draft-01",
+          "annotationRowSha256": "ce20ad2e9ff639f11f8f1e39ee0292ad6dba96bd937da1c93571765adbd38c76",
+          "reviewRowSha256": "b4911a83638f7c4a94025193efbf662b27e060a88d032e2f9e1b17ffa4fa1d53",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "email-calendar-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml2-draft-01",
+          "annotationRowSha256": "b62f51ff38e27af2054e3908a6bc1186e3b674ea002d91855d1e9f734c86b53f",
+          "reviewRowSha256": "269b3c39a13cc32a73fbefa8dbd001852a8b807655bbeec1f487349e29bc535a",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "email-calendar-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml2-draft-02",
+          "annotationRowSha256": "55796ba2ae9edc9ea7baa1f1892178b1223c9ac1c89075cf6c4cc6b0e8a7c31d",
+          "reviewRowSha256": "0bf523affaaa824f7a2feb7585beefd75c068ec3022a0f8ca99ab6d51ac69158",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "email-calendar-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml2-draft-04",
+          "annotationRowSha256": "4558186a2cad2a7475ef22e8f22e40ce98837f5f1419d8c446c700085ed562e4",
+          "reviewRowSha256": "09561589e839d153016e7d4894c644d1dbb80f2b279732c7e4a4b2d4a0ab4320",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "email-calendar-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml2-draft-05",
+          "annotationRowSha256": "7ec6c0ed1d554c41d1c78cdb1b1eb4c4faed94b134051b74810e421a2bf0b791",
+          "reviewRowSha256": "9cf4d0531da1c52047d4c890261eedc8244e0893e28272d23a856b48948a243d",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "email-calendar-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml3-draft-01",
+          "annotationRowSha256": "c204eea075254d46a6b3b81c75fe4ac76c2613d0095137c630eb501e01d27ab8",
+          "reviewRowSha256": "38b26b01d789b7ad8cbc1b5e9ac4815501f117c8e120c12a3b4f05f011524da1",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -160,63 +160,63 @@
         },
         {
           "slotId": "shopping-delivery-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "shp-draft-01",
+          "annotationRowSha256": "2f967d83d26993a14022dae2839ee37b7df3f177a591c02bd811c40a1110aa73",
+          "reviewRowSha256": "2f89b8644069d2839a18180ddc1fd4a64c5d5a109d9e09ee544427594f642f8c",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "shp-draft-02",
+          "annotationRowSha256": "a2863c3b7c345602c7d1f2dd0a1ed67edce90cdeb55a4c2ee5ce7b17d727a134",
+          "reviewRowSha256": "08008d1ebb76f3efe27fe884f5e5813448a49d1cd53beb21a48a046f297c559d",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "shp-draft-03",
+          "annotationRowSha256": "64a4e5969c215f9f613d24b78f5102103477fd9d996f9baaf853c59388d20724",
+          "reviewRowSha256": "a9326f43ef902e1b392551fa9b782fe22a9ed0255e58c75f6a74914de1f407c0",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "shp-draft-05",
+          "annotationRowSha256": "8f3732b5f2554ef728d1387a5c0b3297b2c6026f14766407ff70d35b152a26b9",
+          "reviewRowSha256": "2117cae890d569745e2dcf2fd47987d9cdd67efff443f45a1100eae01c897280",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "shp-draft-07",
+          "annotationRowSha256": "ec19b7fbc132379efde9a57f126208a7fd4281e26000d9cd65cf2b2c6a942485",
+          "reviewRowSha256": "35d6cee3c3cd98fa95d78c100d611d380dd391dfb9c159a4fd5f390410f126f9",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "shp-draft-08",
+          "annotationRowSha256": "63f04d8befe94f8aab964a7096a6593e1aa2dc3ce9d2fa98663e8ee326bdad12",
+          "reviewRowSha256": "20ce17e43c3a9bf36f7849dc9384fb81fd3de897dd92b1e79eb153081e7d8b63",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -266,63 +266,63 @@
         },
         {
           "slotId": "travel-accommodation-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "trv-draft-01",
+          "annotationRowSha256": "200034abd38ec2958cbe513af9d388ddf2ae708c3625272ecd76016c012faff5",
+          "reviewRowSha256": "f3b0ec52b73cb8c9805f2aea7fd4b848561a593aab81af4a9ebefcf36b6f921a",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "travel-accommodation-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "trv-draft-04",
+          "annotationRowSha256": "c855c0cb13a71bd0ee2c75fdaa4aaa23d8e3243a3fa588c748645b70e27e6120",
+          "reviewRowSha256": "3535c3d891fdc7a4c445ff798ebf5dbc8d150fed1bbf88520ce620bc32ee717a",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "travel-accommodation-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "trv2-draft-01",
+          "annotationRowSha256": "23b73844b7363c05b9fb006e495c01a94c856c1e9d2708584bd04e77f5ec1aea",
+          "reviewRowSha256": "6a35e0b99d14d7e24b304a92ed387e576c821e23da97edc51d3291b761511fe0",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "travel-accommodation-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "trv2-draft-03",
+          "annotationRowSha256": "3d9255cc36ac46d9e4f8da17e163e45ab1daea943a1f3e5d8d1ab53f2048417d",
+          "reviewRowSha256": "04a4b89af055298866048547c581b1c065c104abebc6c9669f7437eed5831ae9",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "travel-accommodation-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "trv2-draft-04",
+          "annotationRowSha256": "51cf655284c6a7f35c4e171f142ad1e8042857d1d7d59bf1dc6732b5dd6a5674",
+          "reviewRowSha256": "5f4e997aa3699be32249ecddf7b026a970b93ba39e19a01d922efb94cd73800e",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "travel-accommodation-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "trv2-draft-05",
+          "annotationRowSha256": "376a222b273b22c6cbf61d871c1a6803e9ef183d26617ed54e12a728db55b307",
+          "reviewRowSha256": "639158385a42d4f93bffc9d61d390aba5fdf75ab776803241efcf62208c68ca7",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -352,83 +352,83 @@
         },
         {
           "slotId": "restaurants-local-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res-draft-04",
+          "annotationRowSha256": "f62fbd7d6fd2b5186774521a304d058e7d78e82098540d9ed3c23527f4fe15e1",
+          "reviewRowSha256": "41b7d34d5d00f1eb6ae34a61d83dddaf9ce34c23957de7ef425506a3c348ebff",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res2-draft-01",
+          "annotationRowSha256": "9acb77229d67ec674da5709a10fd922ac05a5baa361346011fc7e9710f10a5f7",
+          "reviewRowSha256": "02dacbc19af28dfb3979d5447783fc882de2bb5ad0acf0dd2949c1eab7aceb40",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res2-draft-02",
+          "annotationRowSha256": "1a8b54e5a764fa526855808ce018d66b2b3baf8b83849e046565694f4b2df940",
+          "reviewRowSha256": "b7666e3ad70c1a2771d3825c6c091be5bbcab72a67bf34fa8eccdb665aae90aa",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res2-draft-03",
+          "annotationRowSha256": "97be2526d478740c3b0a137ebeb999c19e931869a264ab8f18ea151214387ec6",
+          "reviewRowSha256": "dce6ff07005084d77c69a59fca2489ed56112b0d70d6418fdf71bac4e10769d2",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res3-draft-01",
+          "annotationRowSha256": "aedd4bcbbaff6afb28c13b18531a9cadf904a40211f237daee88c3052ff0af36",
+          "reviewRowSha256": "07a92e1d1afc44b41be4577764f6c78662511f940c3af9b191f3ce34d96f859a",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res3-draft-02",
+          "annotationRowSha256": "dcdaf6a2021e67e6280834066a16ff0d20ded493482c14952ab01fe8e4588628",
+          "reviewRowSha256": "b448524d7a6009c14bb38e543f6b780b870b5dd67b71e55e40e67896748036f9",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res3-draft-03",
+          "annotationRowSha256": "78a77504dca9d0ae42fece795c0a00acedecf46f5064f293fb2ed8c70a45d091",
+          "reviewRowSha256": "d7b548db4b69b8f8986dab6dd14fdf4834cb1d512050f94ccb56a8637135b2a4",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "restaurants-local-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "res3-draft-04",
+          "annotationRowSha256": "5ae4583715d7a24a5d8e54d76f10753aa79a4dff13336ee2f5a3872b533406df",
+          "reviewRowSha256": "bcecb000858ea9daecac1a71769fb47b1ee90c636b4badfc597e63885531758c",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -498,43 +498,43 @@
         },
         {
           "slotId": "money-banking-investing-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mbi-draft-01",
+          "annotationRowSha256": "6c8dce0c75517cfda2b46fbe86f8bcddb3ca26c301c7ea6f14bb5a2a9a435bcb",
+          "reviewRowSha256": "a25955123fff4bba8141f9a6df432007856bd5d9ada8de19c00c5d1897e4fb1d",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "money-banking-investing-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mbi-draft-02",
+          "annotationRowSha256": "fb390097a6e1c9466f2738659f295c94a6ecd59bb7a0e359fc8bc6116e23c68d",
+          "reviewRowSha256": "3441068daa4146e85fdea8afb677f2bf86f9c92ce60be64f8db73eb551f76472",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "money-banking-investing-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mbi-draft-03",
+          "annotationRowSha256": "acf5dc4c6991ae0d7df6ddca4e1fa3345b576fc97f8e9b283644c7e42ebfea5a",
+          "reviewRowSha256": "d0a3e97d89c4d1afc77598e2d105be304267cbab4491623e149c18f7d02edf3b",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "money-banking-investing-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mbi-draft-04",
+          "annotationRowSha256": "086e5ebe09a2e46f3e21dcf0a0dcb30ae69192df2f75e3ea37c3b651af71540b",
+          "reviewRowSha256": "1acf0996c9fe4fa0e61d4c2b915e5c8994da12049836e2007f33c63b24fe2f7c",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -564,83 +564,83 @@
         },
         {
           "slotId": "mobility-transit-03",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob-draft-01",
+          "annotationRowSha256": "70b0135da10fec5d79fe812b8eab2f2720a0729fa7a9817da9ed79f916735198",
+          "reviewRowSha256": "6698b4c65864c5e72d3c78a879ff626daa9beec8afe48a236ed5cedb743f3fbc",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob-draft-02",
+          "annotationRowSha256": "9b7542846078cb6a99c8f3b80a0000257e5346c73caa917d10cbead3be3997a5",
+          "reviewRowSha256": "a8bad35c5ef2aff1f3b4e14c9221969fce4023664c5eed8814c82f8d89c14485",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob-draft-03",
+          "annotationRowSha256": "799d604eb6ac7702dd98038a87b389799e38d3a1542c66c38e0ba6c59e57a076",
+          "reviewRowSha256": "b846646f5e60e1797b757b95eec70e5da4d30ae996af41f607176499639e9cbc",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob-draft-04",
+          "annotationRowSha256": "d44f1087ec77fdce35254bb4a76e589c98e648c659a8666bed9ae64257299cb6",
+          "reviewRowSha256": "709517e132f812c70a82880871fe56ba04b0506ffc39d67da8d6d59940e33bd2",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob-draft-05",
+          "annotationRowSha256": "b129989d30fb5b5730e94265736d39b22588726bbd97c358c0e052f5bff36ed4",
+          "reviewRowSha256": "c678ba71de572a329a50bb6cb0ea13c7c79beac825cd9f23f3240c929655b371",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob2-draft-01",
+          "annotationRowSha256": "7b79c785fc30c5dfa6d03c9220e8fe11ec586bd769a081deeab5a3682fb45ba7",
+          "reviewRowSha256": "282abc6a8f6bc33390da8c1b7970f3ed48b278aea958f62dc4b2fca269f94d75",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob2-draft-02",
+          "annotationRowSha256": "c33a8db3d0336258fc0742abb0601f74ea3111e8370e85240b397d636071be72",
+          "reviewRowSha256": "b0fe753c8c7a8fceafb3d36413145a5dc0642d83f35f75d80c282ce32d9a968f",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "mob2-draft-03",
+          "annotationRowSha256": "2dae087299b6f8f0701d3eda5ecbada4b63ef293fc9f4d19ef5306eeb121a6e3",
+          "reviewRowSha256": "4672c3347341ae9254d02e8c065cee64d4306ae2aef69fe096de62da2ff26b2e",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -690,63 +690,63 @@
         },
         {
           "slotId": "healthcare-administration-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "eml-draft-05",
+          "annotationRowSha256": "c41320eeddb0add72539ab8b809f76923609a2ce9cef96bad0bee9aa29438030",
+          "reviewRowSha256": "c6888367908a721396bbc95a0fab8cf3cd0350982d1aa7fbe6bb856b60d0e9ae",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "healthcare-administration-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hca-draft-01",
+          "annotationRowSha256": "946794e9104dff1c9718e9adebb36aae567e9319855ef27742f2c06385915340",
+          "reviewRowSha256": "196141cad2be9fbba9ee4315b53acaba082585fe796d25d2d121d79c753994a1",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "healthcare-administration-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hca-draft-02",
+          "annotationRowSha256": "429d33922c66f5c46aa90e1b9aee189568ce2e8b9ec1852fc77c6624146eec44",
+          "reviewRowSha256": "b65950c9e369cdbf8299cd05250650814c7aa2b58a036744d5686f77727469ef",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "healthcare-administration-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hca-draft-03",
+          "annotationRowSha256": "0f19c2500dc1867b8bb13c1355e0f1d350132efea387d24e31f7d7c455022da4",
+          "reviewRowSha256": "c9a6aa9d9e151599c9f248bdcdce73a729cc3404ed0a151ced26818740312798",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "healthcare-administration-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hca-draft-04",
+          "annotationRowSha256": "6508f0c873a011f93c1dc976563368f6a3092a18ebbbeeb8f50523271a221b27",
+          "reviewRowSha256": "e70056d9d60032319689053769573fccb5bd330d4bb9a3d548c0a880fc49161a",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "healthcare-administration-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hca-draft-05",
+          "annotationRowSha256": "287f778cb68b31e193dd73ca5a0971331f8c25440ca45c3964ce3cc1f3067c87",
+          "reviewRowSha256": "69577cf10aceb9901cbfca0b66b0eef775df05122407b11a5ad9b1614f104877",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },
@@ -892,73 +892,73 @@
         },
         {
           "slotId": "home-utilities-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut-draft-05",
+          "annotationRowSha256": "fdce2c04c30d1caaeb1639f3b93f7866a97ff8e621c4f0c34c35888b8d7a8ca4",
+          "reviewRowSha256": "873211b3c9406d24091534ea5f6bab6c90db703c4868f9b73dda767db96bd5e4",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-05",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut-draft-06",
+          "annotationRowSha256": "4ad11ab41b6447a4815f6d8a667fb50687f11ecf38df74daf7b8f5e59101df40",
+          "reviewRowSha256": "610e6729a2c405f56aa8517ef3501f80be4671b08196152ec021b269b9a37560",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-06",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut2-draft-01",
+          "annotationRowSha256": "9afe2e0f501d6dd801d8da19df0ec31a157039b76e88db2c0e385b3dc6bea9e6",
+          "reviewRowSha256": "304f81b1e0ec847c9b1f082dcbb7c5acbab8f85109d8d23998ff4f3c0babe417",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-07",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut2-draft-02",
+          "annotationRowSha256": "304c0c8ac17c6ef0a4263a1d060f13f36b971cfabe169cbec5898cd4b2a523fc",
+          "reviewRowSha256": "24215a20194f8695ddea28d29f2a4956b5ba0d1fbb878584a0281f86fdd18a9c",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-08",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut2-draft-03",
+          "annotationRowSha256": "18c0fd82dac135bd4326304acd0b1ff4676479b5acb78b5ff5aca0bab7a9195d",
+          "reviewRowSha256": "1659a7b9e99b200cfb5a9ab93ae5e75bbd9c190982d3b1e12408a429cfce8158",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-09",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut2-draft-04",
+          "annotationRowSha256": "1b36929f3790f0c10a96ee1e79f9c40a457a2599b9a3d3b1a55c3496b96bb39f",
+          "reviewRowSha256": "aaea2371eeda5ba7120ee301bd1a07d960b43986e6a68c2d9f35038e1a03b45f",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-10",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "hut2-draft-05",
+          "annotationRowSha256": "0ae23692cd64a0967633ff6ab268329b8815b91206daecc16af1770aef0058b6",
+          "reviewRowSha256": "7aa742df3477005c9ccc036a5d18060e7aa5f3a123df92e44da45a956d63bea5",
+          "sourceBatchId": "draft-r1",
           "attemptHistory": [],
-          "tier": null
+          "tier": "draft-r1"
         }
       ]
     },

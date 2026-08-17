@@ -1,0 +1,20 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.exchange-closure/v1",
+  "jobId": "draft-r1-annotate-01",
+  "status": "COMPLETED",
+  "SlackCalls": 0,
+  "NotionCalls": 0,
+  "forbiddenInputReads": 0,
+  "inputBoundaryStatus": "clean",
+  "authorContextId": "draft-r1-classify-batch1-annotator",
+  "reviewerContextId": "draft-r1-classify-batch1-reviewer",
+  "writtenRows": 9,
+  "acceptedRows": 9,
+  "rejectedRows": 0,
+  "heldRows": 0,
+  "authorOutputSha256": "8416ccb7f2cffc8fc98cede4e74ecc1eec04e14975843c25bd911bbf085b0441",
+  "reviewOutputSha256": "e5ab9d1c91f5ad659f9b7b67e0a6c5134324791814a97be1a0f926e919534327",
+  "closedAt": "2026-08-17T16:05:00Z",
+  "nextStageAutoStarted": false
+}

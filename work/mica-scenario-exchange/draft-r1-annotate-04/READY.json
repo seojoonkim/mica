@@ -1,0 +1,260 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.exchange-ready/v1",
+  "jobId": "draft-r1-annotate-04",
+  "jobType": "catalog-annotation",
+  "methodRevision": "standard-v1.3.5",
+  "sourceCommitSha": "a591e4b1e6105455d67657a139d71892d9602754",
+  "packetPath": "packet.jsonl",
+  "packetSha256": "85e0fb352b20c1235f9d9a47a41a9b018167db7f6010910ea013de74c61a2e49",
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "packet.jsonl",
+    "author-output.staging.jsonl"
+  ],
+  "forbiddenInputs": [
+    "official MICA task catalogue",
+    "private holdout",
+    "portfolio-100.json and candidate-to-slot occupancy",
+    "prior annotation review results",
+    "Notion and Slack"
+  ],
+  "availableSlotIdsByCategory": {
+    "email-calendar": [
+      "email-calendar-06",
+      "email-calendar-07",
+      "email-calendar-09",
+      "email-calendar-10"
+    ],
+    "shopping-delivery": [
+      "shopping-delivery-05",
+      "shopping-delivery-06",
+      "shopping-delivery-09",
+      "shopping-delivery-10"
+    ],
+    "travel-accommodation": [
+      "travel-accommodation-09",
+      "travel-accommodation-10"
+    ],
+    "restaurants-local": [
+      "restaurants-local-05",
+      "restaurants-local-06",
+      "restaurants-local-07",
+      "restaurants-local-08",
+      "restaurants-local-09",
+      "restaurants-local-10"
+    ],
+    "money-banking-investing": [
+      "money-banking-investing-07",
+      "money-banking-investing-10"
+    ],
+    "mobility-transit": [
+      "mobility-transit-03",
+      "mobility-transit-04",
+      "mobility-transit-07",
+      "mobility-transit-09",
+      "mobility-transit-10"
+    ],
+    "healthcare-administration": [
+      "healthcare-administration-05",
+      "healthcare-administration-06",
+      "healthcare-administration-09",
+      "healthcare-administration-10"
+    ],
+    "government-civic": [],
+    "home-utilities": [
+      "home-utilities-06",
+      "home-utilities-09",
+      "home-utilities-10"
+    ],
+    "telecom-subscriptions": []
+  },
+  "roles": {
+    "catalogAnnotator": {
+      "output": "author-output.staging.jsonl",
+      "schemaVersion": "mica.catalog-annotation/v4",
+      "exactFields": [
+        "origin",
+        "schemaVersion",
+        "jobId",
+        "batchId",
+        "candidateId",
+        "sourceFrozenRowSha256",
+        "categoryId",
+        "slotDisposition",
+        "proposedSlotId",
+        "categoryProvisional",
+        "categoryRationale",
+        "terminationClass",
+        "declaredComplexity",
+        "targetSurface",
+        "surfaceStatus",
+        "measurementIntent",
+        "annotatorContextId",
+        "annotatedAt",
+        "tier"
+      ]
+    },
+    "catalogAnnotationReviewer": {
+      "output": "review-output.staging.jsonl",
+      "schemaVersion": "mica.catalog-annotation-review/v4",
+      "exactFields": [
+        "origin",
+        "schemaVersion",
+        "jobId",
+        "candidateId",
+        "annotationRowSha256",
+        "candidateBinding",
+        "categoryBinding",
+        "slotDisposition",
+        "terminationClass",
+        "declaredComplexity",
+        "targetSurfaceProvisional",
+        "confidence",
+        "uncertaintyNote",
+        "reviewerContextId",
+        "verdict",
+        "reviewNote",
+        "reviewedAt",
+        "tier"
+      ],
+      "mustUseDistinctContext": true
+    }
+  },
+  "annotationEnums": {
+    "categoryId": [
+      {
+        "value": "email-calendar",
+        "labelKo": "이메일·캘린더",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "shopping-delivery",
+        "labelKo": "쇼핑·배송",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "travel-accommodation",
+        "labelKo": "여행 계획·숙박",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "restaurants-local",
+        "labelKo": "외식·예약",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "money-banking-investing",
+        "labelKo": "금융·은행·투자",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "mobility-transit",
+        "labelKo": "이동·대중교통",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "healthcare-administration",
+        "labelKo": "의료 행정",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "government-civic",
+        "labelKo": "행정·공공 서비스",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "home-utilities",
+        "labelKo": "주거·공과금",
+        "guidanceKo": "후보 원문이 이 생활 영역을 직접 지지할 때만 선택한다."
+      },
+      {
+        "value": "telecom-subscriptions",
+        "labelKo": "통신·구독·렌털",
+        "guidanceKo": "계속적 이용계약에서 월 단위 요금, 의무사용기간·위약금, 해지 절차가 계약의 축인 통신, 디지털 구독, 물품 렌털을 포함한다. 납부·정산이 핵심이면 주거·공과금, 자금 이동이 핵심이면 금융·은행·투자, 구매·배송이 핵심이면 쇼핑·배송으로 분류한다."
+      }
+    ],
+    "terminationClass": [
+      "completed-final-state",
+      "approval-handoff",
+      "refusal",
+      "escalation"
+    ],
+    "declaredComplexity": [
+      "single-step",
+      "multi-step",
+      "cross-session"
+    ],
+    "targetSurface": [
+      "web",
+      "app-only",
+      "identity-gated",
+      "phone-or-in-person",
+      "mixed-surface"
+    ],
+    "slotDisposition": [
+      "assigned",
+      "category-overflow"
+    ]
+  },
+  "guidanceKo": {
+    "task": "packet의 동결 후보 의미를 바꾸지 않고 카테고리, 슬롯 상태, 종료 유형, 구조 복잡도, 목표 접점을 사후 annotation한다.",
+    "category": "사용자 요청의 소재나 근거 수집처가 아니라 주 성공 경로의 완료 조건과 권위 있는 최종 상태가 성립하는 생활 영역을 우선한다. 슬롯이 남는다는 이유로 다른 카테고리를 선택하지 않는다. 두 영역의 완료 조건이 실제로 겹치면 hold로 남긴다.",
+    "terminationClass": {
+      "completed-final-state": "주 성공 경로에서 권위 있는 최종 상태에 도달하면 올바르게 종료한다. 실패 복구 분기에만 안전 인계가 있으면 이 값을 유지한다.",
+      "approval-handoff": "주 성공 경로의 목표 종착점 자체가 사용자 또는 권한자의 필수 승인 인계이면 올바르게 종료한다.",
+      "refusal": "범위 밖이거나 금지된 요청을 거절하면 올바르게 종료한다.",
+      "escalation": "주 성공 경로를 에이전트가 완료할 수 없어 사람 또는 권위 기관에 안전하게 인계하는 것이 최종 상태이면 올바르게 종료한다."
+    },
+    "declaredComplexity": {
+      "single-step": "하나의 짧은 상태 확인 또는 변경으로 끝난다.",
+      "multi-step": "한 세션 안에서 여러 의존 행동과 확인을 거친다.",
+      "cross-session": "비동기 대기나 후속 확인으로 여러 세션에 걸친다."
+    },
+    "targetSurface": "실제 플랫폼 확정값이 아니라 계획용 목표값이다. surfaceStatus는 항상 target-only이며 confirmedSurface를 만들지 않는다.",
+    "measurementIntent": "상세 fixture나 oracle을 만들지 말고, 나중에 무엇을 참·거짓으로 확인할지 한 문장으로 쓴다.",
+    "slot": "판정한 카테고리에 빈 슬롯이 있으면 slotDisposition은 assigned이고 proposedSlotId는 READY의 가용 슬롯 중 하나여야 한다. 판정한 카테고리의 가용 슬롯이 0개이면 slotDisposition은 category-overflow이고 proposedSlotId는 null이다. 빈 슬롯이 있는데 overflow를 선택하거나, 슬롯을 얻으려고 카테고리 판정을 바꾸지 않는다.",
+    "categoryProvisional": "기본값은 false이며 categoryRationale은 빈 문자열이다. READY의 controllerApprovedProvisionalCandidateIds에 있는 후보가 telecom-subscriptions를 선택하면 categoryProvisional은 반드시 true여야 한다. 이때 categoryRationale은 정기계약 기제 공유. 분류 체계 개정 시 재배치 대상 으로 정확히 기록한다. 다른 카테고리를 선택하면 false와 빈 문자열을 유지한다. 이 표시는 카테고리 관문을 우회하는 승인이나 자동 배정이 아니다.",
+    "evidence": "후보 원문이 지지하지 않는 사업자명, 시장 수치, 표본수, 제약을 만들지 않는다.",
+    "review": "여섯 boolean 판정을 모두 독립적으로 확인한다. 모두 true일 때만 accept하며, 근거가 부족하면 hold, 잘못된 결속이면 reject한다.",
+    "reviewConfidence": "high·medium·low 중 하나를 기록한다. medium·low는 uncertaintyNote가 필수이며 low는 accept할 수 없다.",
+    "inputAccess": "허용 입력을 순서대로 하나씩 읽는다. 검색·병렬 명령에 금지 경로를 함께 넣지 않으며 금지 입력을 한 번이라도 읽으면 결과를 살리지 않고 INPUT-BOUNDARY-BREACH로 닫는다."
+  },
+  "controllerApprovedProvisionalCandidateIds": [],
+  "maxRows": 9,
+  "closureContract": {
+    "path": "CLOSURE.json",
+    "inputBoundaryStatusValues": [
+      "clean",
+      "breach"
+    ],
+    "exactFields": [
+      "origin",
+      "schemaVersion",
+      "jobId",
+      "status",
+      "SlackCalls",
+      "NotionCalls",
+      "forbiddenInputReads",
+      "inputBoundaryStatus",
+      "authorContextId",
+      "reviewerContextId",
+      "writtenRows",
+      "acceptedRows",
+      "rejectedRows",
+      "heldRows",
+      "authorOutputSha256",
+      "reviewOutputSha256",
+      "closedAt",
+      "nextStageAutoStarted"
+    ]
+  },
+  "completionStatuses": [
+    "COMPLETED",
+    "ZERO-ACCEPTED",
+    "INPUT-BOUNDARY-BREACH",
+    "BLOCKED"
+  ],
+  "status": "READY"
+}
