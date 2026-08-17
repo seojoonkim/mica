@@ -1,0 +1,15 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.draft-batch-closure/v1",
+  "batchId": "draft-r1",
+  "tier": "draft-r1",
+  "status": "completed",
+  "frozenCandidatesSha256": "5cdd0663fbf05c6600075c8efa6623dc1ce79382fcac918126c017fcc5edeb29",
+  "frozenCandidatesBytes": 110474,
+  "acceptedMeasurableCandidates": 34,
+  "knownGaps": [
+    "restaurants-local: 요청 대비 산출 낮음. wave-1 3건 lifeNeedSupport-fail(조건표뿐, 절차 없음), wave-1.5 결과는 annotation 단계에서 최종 반영.",
+    "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. 강제 배치하지 않고 work/mica-scenario-batches/draft-r1/held-no-category.jsonl 에 보존."
+  ],
+  "closedAt": "2026-08-17T13:00:00Z"
+}

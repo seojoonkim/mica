@@ -1,0 +1,52 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.draft-batch-manifest/v1",
+  "batchId": "draft-r1",
+  "tier": "draft-r1",
+  "status": "completed",
+  "productionMethod": "workflow-pipeline",
+  "description": "Day-1 초안 채움. 카테고리당 producer+reviewer 2단 파이프라인을 병렬로 실행했다. 표준/lean 8단계 clean-room 공정(observation write/review, translation, custodian freeze, comparison, measurement, exposure)을 생략한 압축 공정이며, 그래서 productionProfile을 standard/lean으로 표기하지 않는다.",
+  "waves": [
+    {
+      "waveId": "wave-1",
+      "categories": [
+        "email-calendar",
+        "healthcare-administration",
+        "home-utilities",
+        "mobility-transit",
+        "money-banking-investing",
+        "restaurants-local",
+        "shopping-delivery",
+        "travel-accommodation"
+      ],
+      "note": "1차 자가 점검 4문항. §2.5 경계 사례 지침 누락으로 조건표+절차 유형이 과도 거절됨(사후 확인)."
+    },
+    {
+      "waveId": "wave-1.5",
+      "categories": [
+        "email-calendar",
+        "home-utilities",
+        "mobility-transit",
+        "restaurants-local",
+        "travel-accommodation"
+      ],
+      "note": "§2.5 경계 사례 지침과 유효 10-카테고리 목록을 보강해 wave-1 부족분을 재생산. wave-1의 기존 판정은 건드리지 않았다."
+    }
+  ],
+  "modelRecord": {
+    "producer": {
+      "model": "claude-sonnet-5",
+      "effort": "high"
+    },
+    "reviewer": {
+      "model": "claude-sonnet-5",
+      "effort": "medium"
+    },
+    "orchestration": "Claude Agent SDK Workflow (pipeline, no barrier between categories)"
+  },
+  "isolation": "카테고리별 producer/reviewer는 서로 다른 Workflow subagent 컨텍스트. 저장소 파일 접근과 'MICA' 관련 검색을 프롬프트 수준에서 금지했다. clean-room job-packet-only 디렉터리 격리는 쓰지 않았다(초안 tier의 의도적 완화, work/method-reviews/2026-08-17-draft-tier-day1-plan.md 참조).",
+  "acceptedCandidateCount": 34,
+  "heldNoCategoryCount": 1,
+  "categoryOverflowCount": 2,
+  "createdAt": "2026-08-17T13:00:00Z"
+}
