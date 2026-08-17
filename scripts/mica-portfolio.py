@@ -784,8 +784,72 @@ def packet_row(
     }
 
 
-def all_candidate_rows() -> list[dict[str, object]]:
-    rows = [*pilot_candidates(), *closed_batch_candidates()]
+def completed_clean_room_candidates(exchange_root: Path) -> list[dict[str, object]]:
+    collected: list[dict[str, object]] = []
+    exchange_root = exchange_root.resolve()
+    if not exchange_root.exists():
+        return collected
+    for ready_path in sorted(exchange_root.glob("*/READY.json")):
+        ready = load_json(ready_path)
+        require(isinstance(ready, dict), f"clean-room-ready-object:{ready_path.parent.name}")
+        if ready.get("jobType") != "clean-room-production" or ready.get("stage") != "candidate-freeze":
+            continue
+        closure_path = ready_path.parent / "CLOSURE.json"
+        if not closure_path.is_file():
+            continue
+        closure = load_json(closure_path)
+        require(isinstance(closure, dict), f"clean-room-closure-object:{ready_path.parent.name}")
+        if closure.get("status") != "COMPLETED":
+            continue
+        require(closure.get("inputBoundaryStatus") == "clean", f"clean-room-boundary:{ready_path.parent.name}")
+        require(closure.get("nextStageAutoStarted") is False, f"clean-room-next-stage:{ready_path.parent.name}")
+        output = ready.get("output")
+        require(isinstance(output, dict), f"clean-room-output-contract:{ready_path.parent.name}")
+        output_path_value = output.get("path")
+        require(isinstance(output_path_value, str), f"clean-room-output-path:{ready_path.parent.name}")
+        output_path = ready_path.parent / output_path_value
+        require(output_path.is_file(), f"clean-room-output-missing:{ready_path.parent.name}")
+        require(closure.get("outputPath") == output_path_value, f"clean-room-output-binding:{ready_path.parent.name}")
+        require(closure.get("outputSha256") == sha_file(output_path), f"clean-room-output-sha:{ready_path.parent.name}")
+        require(closure.get("outputBytes") == output_path.stat().st_size, f"clean-room-output-size:{ready_path.parent.name}")
+        rows = parse_jsonl_with_hash(output_path)
+        require(len(rows) == output.get("rowCount"), f"clean-room-output-count:{ready_path.parent.name}")
+        frozen_ids = closure.get("frozenCandidateIds")
+        require(isinstance(frozen_ids, list), f"clean-room-frozen-ids:{ready_path.parent.name}")
+        require(
+            frozen_ids == [row.get("candidateId") for row, _ in rows],
+            f"clean-room-frozen-id-binding:{ready_path.parent.name}",
+        )
+        batch_id = ready.get("batchId")
+        require(isinstance(batch_id, str) and batch_id, f"clean-room-batch-id:{ready_path.parent.name}")
+        for frozen, raw_sha in rows:
+            candidate = frozen.get("candidate")
+            candidate_id = frozen.get("candidateId")
+            require(isinstance(candidate, dict), f"clean-room-candidate-payload:{ready_path.parent.name}")
+            require(isinstance(candidate_id, str), f"clean-room-candidate-id:{ready_path.parent.name}")
+            require(candidate.get("candidateId") == candidate_id, f"clean-room-candidate-binding:{candidate_id}")
+            require(candidate.get("origin") == "kiheon-ideation", f"clean-room-candidate-origin:{candidate_id}")
+            collected.append(
+                packet_row(
+                    job_id="",
+                    source_kind="clean-room-frozen-row",
+                    source_path=str(output_path.relative_to(ROOT)),
+                    batch_id=batch_id,
+                    candidate_id=candidate_id,
+                    source_sha=raw_sha,
+                    candidate=candidate,
+                    category_hint=None,
+                )
+            )
+    return collected
+
+
+def all_candidate_rows(exchange_root: Path = DEFAULT_EXCHANGE_ROOT) -> list[dict[str, object]]:
+    rows = [
+        *pilot_candidates(),
+        *closed_batch_candidates(),
+        *completed_clean_room_candidates(exchange_root),
+    ]
     ids = [row["candidateId"] for row in rows]
     require(len(rows) >= 56, f"annotation-target-regression:{len(rows)}")
     require(len(set(ids)) == len(ids), "annotation-target-duplicate-id")
@@ -804,7 +868,8 @@ def exchange_job_index(exchange_root: Path, portfolio_root: Path) -> tuple[set[s
         require(isinstance(ready, dict), f"exchange-ready-object:{ready_path.parent.name}")
         job_id = ready.get("jobId")
         require(job_id == ready_path.parent.name, f"exchange-job-id:{ready_path.parent.name}")
-        require(ready.get("jobType") == "catalog-annotation", f"exchange-job-type:{job_id}")
+        if ready.get("jobType") != "catalog-annotation":
+            continue
         packet_path = ready_path.parent / "packet.jsonl"
         require(ready.get("packetSha256") == sha_file(packet_path), f"exchange-packet-sha:{job_id}")
         if (portfolio_root / "receipts" / f"apply-{job_id}.json").is_file():
@@ -860,9 +925,9 @@ def prepare_job(
     }
     excluded_ids = existing_ids | packet_candidate_ids
     if candidate_ids:
-        inventory = [row for row in all_candidate_rows() if row["candidateId"] not in existing_ids]
+        inventory = [row for row in all_candidate_rows(exchange_root) if row["candidateId"] not in existing_ids]
     else:
-        inventory = [row for row in all_candidate_rows() if row["candidateId"] not in excluded_ids]
+        inventory = [row for row in all_candidate_rows(exchange_root) if row["candidateId"] not in excluded_ids]
     inventory_by_id = {str(row["candidateId"]): row for row in inventory}
     require(len(candidate_ids) == len(set(candidate_ids)), "job-candidate-id-duplicate")
     if candidate_ids:

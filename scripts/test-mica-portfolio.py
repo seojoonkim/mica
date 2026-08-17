@@ -123,7 +123,7 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual(state, {"status": "pass", "occupied": 2, "blocked": 0, "empty": 98})
         status = portfolio.portfolio_status(self.portfolio_root)
         self.assertEqual(status["occupiedSlots"], 2)
-        self.assertEqual(status["remainingAnnotationTargets"], 54)
+        self.assertEqual(status["remainingAnnotationTargets"], len(portfolio.all_candidate_rows()) - 2)
         self.assertEqual(status["reviewConfidence"]["high"], 2)
         output = self.root / "public-export" / "portfolio.json"
         exported = portfolio.export_public(self.portfolio_root, output)
@@ -132,6 +132,28 @@ class PortfolioTest(unittest.TestCase):
         self.assertEqual(payload["namespace"], "kiheon-ideation-research-portfolio")
         self.assertEqual(payload["canonicalAdoptionStatus"], "not-adopted")
         self.assertFalse(payload["holdoutIncluded"])
+
+    def test_completed_clean_room_freeze_enters_inventory(self) -> None:
+        inventory = portfolio.all_candidate_rows()
+        candidate = next(row for row in inventory if row["candidateId"] == "ki-b13-02")
+        self.assertEqual(candidate["sourceKind"], "clean-room-frozen-row")
+        self.assertEqual(candidate["batchId"], "kh-b13")
+        self.assertEqual(candidate["sourceFrozenRowSha256"], "db708a9c9b23c1d19a44af96d2019653dca8c7ece8c5c340fc39d095dec5ea87")
+
+    def test_exchange_index_ignores_non_annotation_jobs(self) -> None:
+        clean_room_job = self.exchange_root / "clean-room-test"
+        clean_room_job.mkdir()
+        write_json(
+            clean_room_job / "READY.json",
+            {
+                "jobId": "clean-room-test",
+                "jobType": "clean-room-production",
+                "stage": "candidate-freeze",
+            },
+        )
+        selected, active = portfolio.exchange_job_index(self.exchange_root, self.portfolio_root)
+        self.assertEqual(len(selected), 2)
+        self.assertEqual(active, ["core20-test-001"])
 
     def test_ready_defines_primary_path_termination_rule(self) -> None:
         ready = json.loads((self.job / "READY.json").read_text(encoding="utf-8"))
@@ -468,8 +490,8 @@ class PortfolioTest(unittest.TestCase):
         future["candidateId"] = "future-candidate-001"
         with mock.patch.object(portfolio, "all_candidate_rows", return_value=[*inventory, future]):
             status = portfolio.portfolio_status(self.portfolio_root)
-        self.assertEqual(status["annotationTargets"], 57)
-        self.assertEqual(status["remainingAnnotationTargets"], 57)
+        self.assertEqual(status["annotationTargets"], len(inventory) + 1)
+        self.assertEqual(status["remainingAnnotationTargets"], len(inventory) + 1)
 
     def test_apply_preserves_original_jsonl_row_bytes(self) -> None:
         annotations = [
