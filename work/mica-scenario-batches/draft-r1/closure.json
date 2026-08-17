@@ -4,12 +4,15 @@
   "batchId": "draft-r1",
   "tier": "draft-r1",
   "status": "completed",
-  "frozenCandidatesSha256": "5cdd0663fbf05c6600075c8efa6623dc1ce79382fcac918126c017fcc5edeb29",
-  "frozenCandidatesBytes": 110474,
-  "acceptedMeasurableCandidates": 34,
+  "frozenCandidatesSha256": "b6aa7ca449b8da6ed80c83237005be00b6a602de9fba20cef0ff1f836645a884",
+  "frozenCandidatesBytes": 193122,
+  "acceptedMeasurableCandidates": 57,
   "knownGaps": [
-    "restaurants-local: 요청 대비 산출 낮음. wave-1 3건 lifeNeedSupport-fail(조건표뿐, 절차 없음), wave-1.5 결과는 annotation 단계에서 최종 반영.",
-    "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. 강제 배치하지 않고 work/mica-scenario-batches/draft-r1/held-no-category.jsonl 에 보존."
+    "restaurants-local: need 8, 확정 4. 3파도 연속 최저 수율(wave1 1/4, wave1.5 3/7). 구조적 어려움으로 판단, wave-2에서 전용 소재 지침으로 4차 시도 중.",
+    "email-calendar: need 6, 확정 5. wave-2에서 1건 보충 시도 중.",
+    "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. work/mica-scenario-batches/draft-r1/held-no-category.jsonl 에 보존."
   ],
-  "closedAt": "2026-08-17T13:00:00Z"
+  "closedAt": "2026-08-17T13:00:00Z",
+  "slotFillCount": 46,
+  "categoryOverflowCount": 11
 }

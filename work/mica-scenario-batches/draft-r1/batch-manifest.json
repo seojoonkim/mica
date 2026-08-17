@@ -31,6 +31,14 @@
         "travel-accommodation"
       ],
       "note": "§2.5 경계 사례 지침과 유효 10-카테고리 목록을 보강해 wave-1 부족분을 재생산. wave-1의 기존 판정은 건드리지 않았다."
+    },
+    {
+      "waveId": "wave-2",
+      "categories": [
+        "restaurants-local",
+        "email-calendar"
+      ],
+      "note": "restaurants-local 3차 시도(전용 소재 지침 추가), email-calendar 1건 보충. 이 파일에는 아직 미반영 -- wave-2 완료 후 추가."
     }
   ],
   "modelRecord": {
@@ -45,8 +53,9 @@
     "orchestration": "Claude Agent SDK Workflow (pipeline, no barrier between categories)"
   },
   "isolation": "카테고리별 producer/reviewer는 서로 다른 Workflow subagent 컨텍스트. 저장소 파일 접근과 'MICA' 관련 검색을 프롬프트 수준에서 금지했다. clean-room job-packet-only 디렉터리 격리는 쓰지 않았다(초안 tier의 의도적 완화, work/method-reviews/2026-08-17-draft-tier-day1-plan.md 참조).",
-  "acceptedCandidateCount": 34,
+  "acceptedCandidateCount": 57,
   "heldNoCategoryCount": 1,
-  "categoryOverflowCount": 2,
-  "createdAt": "2026-08-17T13:00:00Z"
+  "categoryOverflowCount": 11,
+  "createdAt": "2026-08-17T13:00:00Z",
+  "slotFillCount": 46
 }
