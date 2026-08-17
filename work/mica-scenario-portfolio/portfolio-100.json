@@ -55,11 +55,20 @@
         {
           "slotId": "email-calendar-05",
           "status": "occupied",
-          "candidateId": "eml-draft-01",
-          "annotationRowSha256": "ce20ad2e9ff639f11f8f1e39ee0292ad6dba96bd937da1c93571765adbd38c76",
-          "reviewRowSha256": "b4911a83638f7c4a94025193efbf662b27e060a88d032e2f9e1b17ffa4fa1d53",
+          "candidateId": "ema-r2-03",
+          "annotationRowSha256": "88b4efa4a892d6123acd9293475efad0fe6cd235b8f40417d14693eccbd1df4c",
+          "reviewRowSha256": "722aafbfb007b12d5f57f15113a7b514cd298f4f3ded2f1a46b0def894de531c",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "eml-draft-01",
+              "supersededAnnotationRowSha256": "5260b0a582ae889b109d6e7c5f26a4c844a567bf9554eee2104bb379bf8bd3b3",
+              "replacementCandidateId": "ema-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -418,11 +427,20 @@
         {
           "slotId": "restaurants-local-05",
           "status": "occupied",
-          "candidateId": "res2-draft-02",
-          "annotationRowSha256": "1a8b54e5a764fa526855808ce018d66b2b3baf8b83849e046565694f4b2df940",
-          "reviewRowSha256": "b7666e3ad70c1a2771d3825c6c091be5bbcab72a67bf34fa8eccdb665aae90aa",
+          "candidateId": "res-r2-01",
+          "annotationRowSha256": "17afcfdbbb75b7e7ab5975e1854ef2686e89e51e2a9dc7169b697a3e8b2f16b2",
+          "reviewRowSha256": "912e2dff238752d0fcaa0870e3d2a5cd6d23d20ccca8b153ac4480aabce20e16",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res2-draft-02",
+              "supersededAnnotationRowSha256": "3c3f523f685928ae10cbbf5a1627d42543c036b6208bb2e45375e6886b8cd22d",
+              "replacementCandidateId": "res-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -438,11 +456,20 @@
         {
           "slotId": "restaurants-local-07",
           "status": "occupied",
-          "candidateId": "res3-draft-01",
-          "annotationRowSha256": "aedd4bcbbaff6afb28c13b18531a9cadf904a40211f237daee88c3052ff0af36",
-          "reviewRowSha256": "07a92e1d1afc44b41be4577764f6c78662511f940c3af9b191f3ce34d96f859a",
+          "candidateId": "res-r2-04",
+          "annotationRowSha256": "f2086f324de36bae2c50c1cac1795b2f57e5127ed541689727c0220f94211915",
+          "reviewRowSha256": "b2760d6b0a8332330a3f95bd2b46fbf9daf0764cf519beb4e4cf71d5094d622f",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-01",
+              "supersededAnnotationRowSha256": "9f7a52edbe7dfb2d669591152a8fc1dc6bf054bdbd34292f1e845a3f3329266a",
+              "replacementCandidateId": "res-r2-04",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -705,11 +732,20 @@
         {
           "slotId": "mobility-transit-08",
           "status": "occupied",
-          "candidateId": "mob2-draft-01",
-          "annotationRowSha256": "7b79c785fc30c5dfa6d03c9220e8fe11ec586bd769a081deeab5a3682fb45ba7",
-          "reviewRowSha256": "282abc6a8f6bc33390da8c1b7970f3ed48b278aea958f62dc4b2fca269f94d75",
+          "candidateId": "mob-r2-05",
+          "annotationRowSha256": "ed3ede1f922b06facba52ee4f4c511f7fa6900ff45490ea3101e58775f72cbac",
+          "reviewRowSha256": "c7fcc2573766277f722b4362b64c5823ac0ae2db8e66033824e1a881639d5edd",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob2-draft-01",
+              "supersededAnnotationRowSha256": "d44ee9d7234ca41e2c8d606ffde9d1e554a3572e570e2d7b844aa4a86de36c3d",
+              "replacementCandidateId": "mob-r2-05",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -821,21 +857,39 @@
         {
           "slotId": "healthcare-administration-09",
           "status": "occupied",
-          "candidateId": "hca-draft-04",
-          "annotationRowSha256": "6508f0c873a011f93c1dc976563368f6a3092a18ebbbeeb8f50523271a221b27",
-          "reviewRowSha256": "e70056d9d60032319689053769573fccb5bd330d4bb9a3d548c0a880fc49161a",
+          "candidateId": "hea-r2-02",
+          "annotationRowSha256": "1872b0ab144c4aa843bc739eefd26bc9e939bb288731a8f89fbe5d9be2471f41",
+          "reviewRowSha256": "a6ba834343ccd03c57bd94c878ca8c7729e7123f34c649c06bebcfbb70870d72",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hca-draft-04",
+              "supersededAnnotationRowSha256": "a7a03113e6ab792d802d57a7d11c11a4de43754ef8ffd54cfff740ce1bd459ab",
+              "replacementCandidateId": "hea-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
           "slotId": "healthcare-administration-10",
           "status": "occupied",
-          "candidateId": "hca-draft-05",
-          "annotationRowSha256": "287f778cb68b31e193dd73ca5a0971331f8c25440ca45c3964ce3cc1f3067c87",
-          "reviewRowSha256": "69577cf10aceb9901cbfca0b66b0eef775df05122407b11a5ad9b1614f104877",
+          "candidateId": "hea-r2-03",
+          "annotationRowSha256": "665d4200984a4f12a1fcf932c4b18817a8e9c78f5f0a51caf39337c0fb00d6d4",
+          "reviewRowSha256": "5f3d7f4396a5e8723b8b07e383565d9806a7d5f20c9837a9cec96b0bbd439be0",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hca-draft-05",
+              "supersededAnnotationRowSha256": "2b8b4c785c58671cd05665112d6fbb9c2a5ad72991b01ffc6ce3a10d2d9f1306",
+              "replacementCandidateId": "hea-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         }
       ]
