@@ -175,7 +175,7 @@
     "exposurePreparer": null,
     "blindAgentRehearsal": null,
     "measurementReviewer": null,
-    "controller": "codex-std-b11-preparer"
+    "controller": "claude-std-b11-controller"
   },
   "modelRecord": [],
   "externalActionsAuthorized": false
