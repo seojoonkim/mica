@@ -148,6 +148,44 @@ class PrepareTest(unittest.TestCase):
             self.assertEqual(result.returncode, 1)
             self.assertIn("prepare-missing", result.stdout)
 
+    def test_digest_bindings_are_resolved(self) -> None:
+        """영수증 digest는 명시 바인딩으로 채운다. controller가 손으로 옮기지 않는다."""
+        with tempfile.TemporaryDirectory(prefix="mica-cleanroom-") as temp_dir:
+            job = Path(temp_dir) / self.SOURCE_RESEARCH.name
+            shutil.copytree(self.SOURCE_RESEARCH, job)
+            self._blank_package(job)
+            ready_path = job / "READY.json"
+            ready = json.loads(ready_path.read_text(encoding="utf-8"))
+            ready["priorReceipt"] = {"outputSha256": ""}
+            ready["digestBindings"] = {"priorReceipt.outputSha256": "SLOT-BRIEF.json"}
+            ready_path.write_text(
+                json.dumps(ready, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(run_cli("prepare", str(job)).returncode, 0)
+            filled = json.loads(ready_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                filled["priorReceipt"]["outputSha256"],
+                filled["slotBrief"]["sha256"],
+            )
+
+    def test_digest_binding_to_missing_file_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="mica-cleanroom-") as temp_dir:
+            job = Path(temp_dir) / self.SOURCE_RESEARCH.name
+            shutil.copytree(self.SOURCE_RESEARCH, job)
+            self._blank_package(job)
+            ready_path = job / "READY.json"
+            ready = json.loads(ready_path.read_text(encoding="utf-8"))
+            ready["priorReceipt"] = {"outputSha256": ""}
+            ready["digestBindings"] = {"priorReceipt.outputSha256": "nope.json"}
+            ready_path.write_text(
+                json.dumps(ready, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = run_cli("prepare", str(job))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("prepare-binding-missing", result.stdout)
+
     def test_annotation_job_type_is_refused(self) -> None:
         annotation = EXCHANGE / "core20-annotation-009"
         result = run_cli("prepare", str(annotation))

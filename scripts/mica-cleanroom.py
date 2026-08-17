@@ -303,9 +303,31 @@ def prepare(job: Path) -> int:
 
     # 2. READY.json 의 모든 포인터를 디스크에서 채운다.
     filled = fill_pointers(job, ready)
+
+    # 3. 영수증 digest를 명시 바인딩으로 채운다. 포인터가 아니라 리터럴이므로
+    #    저자가 어느 파일을 가리키는지 declaration 으로 밝힌다. 추론하지 않는다.
+    bindings = ready.get("digestBindings")
+    if bindings is not None:
+        if not isinstance(bindings, dict):
+            raise Fail("prepare-bindings: digestBindings 는 객체여야 한다")
+        for dotted, filename in sorted(bindings.items()):
+            target = job / str(filename)
+            if not target.is_file():
+                raise Fail(f"prepare-binding-missing: {dotted} -> {filename}")
+            node = ready
+            parts = dotted.split(".")
+            for part in parts[:-1]:
+                if not isinstance(node, dict) or part not in node:
+                    raise Fail(f"prepare-binding-path: {dotted} 를 READY에서 찾을 수 없다")
+                node = node[part]
+            if not isinstance(node, dict) or parts[-1] not in node:
+                raise Fail(f"prepare-binding-path: {dotted} 를 READY에서 찾을 수 없다")
+            node[parts[-1]] = sha256_file(target)
+            filled.append(dotted)
+
     write_json(ready_path, ready)
 
-    # 3. PACKAGE-SHA256.txt 는 READY.json 을 포함하므로 마지막이다.
+    # 4. PACKAGE-SHA256.txt 는 READY.json 을 포함하므로 마지막이다.
     package_files = sorted(set(contents) | {"READY.json", "INPUT-MANIFEST.json"})
     lines = [f"{sha256_file(job / name)}  {name}" for name in package_files]
     (job / "PACKAGE-SHA256.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
