@@ -10,6 +10,22 @@
 
 > source researcher와 다른 독립 검토자다. 제공된 원문 위치에서 `publisher`, `scope`, `verbatim`, `directSupport`, `typeAccuracy`, `recency`, `limitationsHonesty`의 정확히 7개 기준을 모두 pass/fail로 확인한다. 전부 pass일 때만 accept이며 하나라도 fail이면 reject다. 자료가 생활 필요를 직접 지지하지 않거나 2차 요약만 있거나 범위를 넘는 주장 또는 한계를 약화한 표현이 있으면 reject한다. 원문 행이나 기존 review를 고치지 않는다.
 
+### 2.1 clean-room lane의 8번째 기준 `lifeNeedSupport`
+
+`clean-room-production` job의 source review는 위 7개에 `lifeNeedSupport`를 더한 **8개 기준**을 사용한다. 구 in-repo 배치 lane은 7개를 유지한다. 근거와 실측은 `work/method-reviews/2026-08-17-source-eligibility-check-restoration.md`에 있다.
+
+`directSupport`가 "원문이 그 주장을 지지하는가"를 묻는다면, `lifeNeedSupport`는 "그 원문이 개인의 생활 필요를 지지하는가"를 묻는다. 원문을 정확히 인용해도 그 원문이 제도 조문이거나 집단 통계이면 개인 생활과업으로 번역할 수 없다.
+
+세 항목을 모두 만족해야 `pass`다.
+
+1. 원문에 개인이 자기 이름의 계약·신청·거래·이용 건에서 지는 **잔존 부담의 서술 또는 개별 사례 서사**가 최소 하나 실재한다.
+2. 부담의 귀속처가 **사업자 영업 손익·기관 집행 성과·정책 목표가 아니다.**
+3. 그 개별 국면에서 개인이 외부 상태를 바꾸려고 접근할 **공식 상대방·창구·절차가 원문 안에서 식별된다.** 원문이 제시하는 변화가 법령 개정·제도 확대·사업자 약관 변경뿐이면 `fail`이다.
+
+다음은 `fail`이다. 제도 도입 사실과 의무·시한 기술만으로 구성된 자료, 규범 조문의 재현, 제도 변경 설명과 배경 문구, 법리 설명에 개인 서사 한 문장만 붙은 자료, 집계 통계와 제도개선 제언만으로 구성된 자료.
+
+수량을 채우려고 이 기준을 완화하지 않는다. 원천 거절이 늘어 조사량이 1.3~2배가 되는 것은 설계된 비용이며, 하류 관문에서 죽을 근거를 앞에서 거르는 대가다.
+
 ## 3. need writer
 
 > 제공된 accepted source evidence만 읽는다. 기존 과제·후보·비교 결과는 금지 입력이다. 해결책이나 에이전트 행동을 쓰지 말고, 누가 어떤 맥락에서 어떤 현재 상태에 있으며 어떤 상태 변화가 필요하고 미해결 시 어떤 결과가 남는지를 need observation 기본 필드 JSONL로 쓴다. 근거에 없는 당사자·수치·기간·시장 사실을 만들지 않는다.
