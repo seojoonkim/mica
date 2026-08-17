@@ -233,11 +233,11 @@
         },
         {
           "slotId": "travel-accommodation-04",
-          "status": "empty",
-          "candidateId": null,
-          "annotationRowSha256": null,
-          "reviewRowSha256": null,
-          "sourceBatchId": null,
+          "status": "occupied",
+          "candidateId": "ki-b13-02",
+          "annotationRowSha256": "b79c58484319f313241cd9118b8fac377e95c43337bab9505143eadacbab6bdc",
+          "reviewRowSha256": "243103088edbc6ce7d9c97d8e26441cfaaaa80c4d3fb6bee87a6b84335082592",
+          "sourceBatchId": "kh-b13",
           "attemptHistory": []
         },
         {
