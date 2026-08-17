@@ -48,6 +48,19 @@
 
 수량을 채우려고 이 기준을 완화하지 않는다. 원천 거절이 늘어 조사량이 1.3~2배가 되는 것은 설계된 비용이며, 하류 관문에서 죽을 근거를 앞에서 거르는 대가다.
 
+### 2.2 draft tier 검토자의 6항목 rubric
+
+draft tier(producer가 source·observation·translation을 한 번에 수행하는 압축 공정)의 reviewer는 아래 6항목을 전부 pass/fail로 판정한다. 하나라도 fail이면 reject다. 근거와 실측은 `work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md`에 있다.
+
+1. `evidenceReal` — boundedObservation이 원문과 일치하는가
+2. `categoryMatch` — 주 성공 경로 기준으로 카테고리가 맞는가
+3. `lifeNeedSupport` — 2.1의 3항목
+4. `authorityRoleCompliant` — 실제 사업자·기관 실명이 evidence 밖(후보 본문)에 노출되지 않았는가
+5. **`evidencePrecision`** — boundedObservation만이 아니라 `taskAction`, `canonicalFinalState`, `confirmationBoundary`, `failureRecoveryEvents`, `prohibitedStates` 전체를 원문과 **문장 단위로** 대조한다. 시간 순서·인과관계가 원문과 같은 방향인가, 사건 당사자(누가 무엇을 했는지)가 정확한가, 원문에 없는 법률·기관·절차·수치·전달수단을 사실처럼 서술하지 않았는가, 원문이 명시적으로 부정·배제한 것을 반대로 쓰지 않았는가.
+6. **`internalConsistency`** — 후보 자신의 필드끼리 모순되지 않는가. `startState`가 확정한 사실을 `unknowns`가 다시 미상으로 선언하거나, `taskAction`이 이미 확정된 사실의 재확인을 지시하거나, 근거 없는 성공 사례·통계를 확정 서술하면서 같은 후보의 다른 필드가 그 사실을 원문에 없다고 스스로 인정하는 경우가 여기 해당한다.
+
+5·6번은 2026-08-18 63건 전수 감사에서 처음 도입됐다. 그 전 4항목 rubric으로 생산된 51건 중 63%가 이 두 축에서 걸렸다(evidencePrecision 43%, internalConsistency 56% 실패, 반면 나머지 네 항목은 90%대 후반 통과). `boundedObservation`은 원문 인용이라 상대적으로 깨끗했고, 결함은 번역·구성 단계에서 새로 쓰는 필드(`taskAction` 등)에 몰렸다. 이 두 항목이 없으면 그 필드들을 아무도 원문과 대조하지 않는다.
+
 ## 3. need writer
 
 > 제공된 accepted source evidence만 읽는다. 기존 과제·후보·비교 결과는 금지 입력이다. 해결책이나 에이전트 행동을 쓰지 말고, 누가 어떤 맥락에서 어떤 현재 상태에 있으며 어떤 상태 변화가 필요하고 미해결 시 어떤 결과가 남는지를 need observation 기본 필드 JSONL로 쓴다. 근거에 없는 당사자·수치·기간·시장 사실을 만들지 않는다.
