@@ -161,11 +161,20 @@
         {
           "slotId": "shopping-delivery-05",
           "status": "occupied",
-          "candidateId": "shp-draft-01",
-          "annotationRowSha256": "2f967d83d26993a14022dae2839ee37b7df3f177a591c02bd811c40a1110aa73",
-          "reviewRowSha256": "2f89b8644069d2839a18180ddc1fd4a64c5d5a109d9e09ee544427594f642f8c",
+          "candidateId": "sho-r2-01",
+          "annotationRowSha256": "82b7f7b06744cdc5b2be46630fe9b35f99e53d54cfd5d3b64ac253af2c7fa8ce",
+          "reviewRowSha256": "24cf77adff1a870b36d02288665dcb90c5e7263a93a6cc555ab2e2d979f61090",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-01",
+              "supersededAnnotationRowSha256": "eacfa0fd765dcbf33f2c2fbcffd500777fced6126f1c131b3b27227085e4d84b",
+              "replacementCandidateId": "sho-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -191,31 +200,58 @@
         {
           "slotId": "shopping-delivery-08",
           "status": "occupied",
-          "candidateId": "shp-draft-05",
-          "annotationRowSha256": "8f3732b5f2554ef728d1387a5c0b3297b2c6026f14766407ff70d35b152a26b9",
-          "reviewRowSha256": "2117cae890d569745e2dcf2fd47987d9cdd67efff443f45a1100eae01c897280",
+          "candidateId": "sho-r2-02",
+          "annotationRowSha256": "d112b077f42d38a85d0b72216f90d216b61ba14c32a1f8527d27eb732d50bbe6",
+          "reviewRowSha256": "778e718f2781f7d483da97f1e348b54ebce697bd1edc9823ace340126c494824",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-05",
+              "supersededAnnotationRowSha256": "443e42c7bd8e3766f2da49260aea4a431fc9dbb62975f7e6c8bdbdac7ee9c6a5",
+              "replacementCandidateId": "sho-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-09",
           "status": "occupied",
-          "candidateId": "shp-draft-07",
-          "annotationRowSha256": "ec19b7fbc132379efde9a57f126208a7fd4281e26000d9cd65cf2b2c6a942485",
-          "reviewRowSha256": "35d6cee3c3cd98fa95d78c100d611d380dd391dfb9c159a4fd5f390410f126f9",
+          "candidateId": "sho-r2-03",
+          "annotationRowSha256": "589db441310688d8276d4e955d90798e5fc1e6146500bca844def1a385976410",
+          "reviewRowSha256": "8dd423b6379ae7d648c52f7b98f3e304318a12d7cbf1e71310649025d9d0bfcd",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-07",
+              "supersededAnnotationRowSha256": "31fe9bffd2e17b15add5afff81f01b52ffd2ed9a46c7dc5c792182d10ce8d9ff",
+              "replacementCandidateId": "sho-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
           "slotId": "shopping-delivery-10",
           "status": "occupied",
-          "candidateId": "shp-draft-08",
-          "annotationRowSha256": "63f04d8befe94f8aab964a7096a6593e1aa2dc3ce9d2fa98663e8ee326bdad12",
-          "reviewRowSha256": "20ce17e43c3a9bf36f7849dc9384fb81fd3de897dd92b1e79eb153081e7d8b63",
+          "candidateId": "sho-r2-04",
+          "annotationRowSha256": "e1d829e6d32cf71625b58fad1dea3ac4ae1b4fb5c87c048944051e2d61c9d773",
+          "reviewRowSha256": "54ef3099652235f944796b43bc67e3e392b7576ba9043cee46eeb94864dec7a9",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-08",
+              "supersededAnnotationRowSha256": "037438c96ebb379f02fee144a6431c37f0865175a76a5e0e6f4889ee535599db",
+              "replacementCandidateId": "sho-r2-04",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         }
       ]
@@ -267,11 +303,20 @@
         {
           "slotId": "travel-accommodation-05",
           "status": "occupied",
-          "candidateId": "trv-draft-01",
-          "annotationRowSha256": "200034abd38ec2958cbe513af9d388ddf2ae708c3625272ecd76016c012faff5",
-          "reviewRowSha256": "f3b0ec52b73cb8c9805f2aea7fd4b848561a593aab81af4a9ebefcf36b6f921a",
+          "candidateId": "tra-r2-01",
+          "annotationRowSha256": "5d1d62ad0fa9932502da1a091bae876fb0cbab2223262e970bf3fb6f5c67b8bc",
+          "reviewRowSha256": "c2d2ef1c4c41c21d0bf754c350c0e300fe8874788d4de9356172d80c4fb14c04",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "trv-draft-01",
+              "supersededAnnotationRowSha256": "e8cdf26e2d075cd6ffbf0ae660cb2d02033543fded9d68bd8bf0ba2383dcbbe1",
+              "replacementCandidateId": "tra-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -413,11 +458,20 @@
         {
           "slotId": "restaurants-local-09",
           "status": "occupied",
-          "candidateId": "res3-draft-03",
-          "annotationRowSha256": "78a77504dca9d0ae42fece795c0a00acedecf46f5064f293fb2ed8c70a45d091",
-          "reviewRowSha256": "d7b548db4b69b8f8986dab6dd14fdf4834cb1d512050f94ccb56a8637135b2a4",
+          "candidateId": "res-r2-03",
+          "annotationRowSha256": "72d587573002233f68bbf056d30b39d40c1ee75eb0393f4d74db4ba77203290b",
+          "reviewRowSha256": "34876ed373f6ee429aedd286dba6adc553e6eb24ff8180b0cba07c586cdb2109",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-03",
+              "supersededAnnotationRowSha256": "a3c965f2213e510168fc26cafe1700d43f5eda51ec294ea4fc13265f29cc29bf",
+              "replacementCandidateId": "res-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -499,11 +553,20 @@
         {
           "slotId": "money-banking-investing-07",
           "status": "occupied",
-          "candidateId": "mbi-draft-01",
-          "annotationRowSha256": "6c8dce0c75517cfda2b46fbe86f8bcddb3ca26c301c7ea6f14bb5a2a9a435bcb",
-          "reviewRowSha256": "a25955123fff4bba8141f9a6df432007856bd5d9ada8de19c00c5d1897e4fb1d",
+          "candidateId": "mon-r2-04",
+          "annotationRowSha256": "80a106117f2749e6683d9b5230305fc507f5e77e3ef6a286f261969206ee5ba3",
+          "reviewRowSha256": "67e856522a5af3fe05d6d1c4f607e9ae409419908e557f57716d7760028f5e53",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mbi-draft-01",
+              "supersededAnnotationRowSha256": "3ca2ab13fe09ec258a1441686484a297bef8f798d7e6ba192bceb3d0247d1962",
+              "replacementCandidateId": "mon-r2-04",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -565,11 +628,20 @@
         {
           "slotId": "mobility-transit-03",
           "status": "occupied",
-          "candidateId": "mob-draft-01",
-          "annotationRowSha256": "70b0135da10fec5d79fe812b8eab2f2720a0729fa7a9817da9ed79f916735198",
-          "reviewRowSha256": "6698b4c65864c5e72d3c78a879ff626daa9beec8afe48a236ed5cedb743f3fbc",
+          "candidateId": "mob-r2-01",
+          "annotationRowSha256": "f03f5a921964d292067565d26717a1ab6aaa924a904ed20449beecbba1a3bad8",
+          "reviewRowSha256": "b38ccbd0e7c12545ee2ad4cb0692b5af2c332f71e46147ba6e9602bebbf29ec3",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob-draft-01",
+              "supersededAnnotationRowSha256": "5fac570483e78a421536571364d8be60800fac6b13a5fff5b16b8713934ccc3a",
+              "replacementCandidateId": "mob-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -595,21 +667,39 @@
         {
           "slotId": "mobility-transit-06",
           "status": "occupied",
-          "candidateId": "mob-draft-04",
-          "annotationRowSha256": "d44f1087ec77fdce35254bb4a76e589c98e648c659a8666bed9ae64257299cb6",
-          "reviewRowSha256": "709517e132f812c70a82880871fe56ba04b0506ffc39d67da8d6d59940e33bd2",
+          "candidateId": "mob-r2-02",
+          "annotationRowSha256": "d7948a01b443a3bc96ce764735c687915413dab590423f0aa4c838443cda1b6c",
+          "reviewRowSha256": "f30a17f108c39ff9864d83548e7a29561e72cd3ec286be7b1529465db180c3fa",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob-draft-04",
+              "supersededAnnotationRowSha256": "83cfe44afac216df899beccc8f36e2dda7f9425738878b9415934aaa7701d44a",
+              "replacementCandidateId": "mob-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
           "slotId": "mobility-transit-07",
           "status": "occupied",
-          "candidateId": "mob-draft-05",
-          "annotationRowSha256": "b129989d30fb5b5730e94265736d39b22588726bbd97c358c0e052f5bff36ed4",
-          "reviewRowSha256": "c678ba71de572a329a50bb6cb0ea13c7c79beac825cd9f23f3240c929655b371",
+          "candidateId": "mob-r2-03",
+          "annotationRowSha256": "3c746344126b3d1bcb31c60d99376549cd061d9d1e299cc83505626a810977bf",
+          "reviewRowSha256": "a88b3b5068fbb8d89a96aff589974337265a0b2781d5e48017469d5297b88cc1",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob-draft-05",
+              "supersededAnnotationRowSha256": "b9051f00ba63c81a3528d2d3fc021dbeac370253d388ce53c538685dccbd6d93",
+              "replacementCandidateId": "mob-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
@@ -893,31 +983,58 @@
         {
           "slotId": "home-utilities-04",
           "status": "occupied",
-          "candidateId": "hut-draft-05",
-          "annotationRowSha256": "fdce2c04c30d1caaeb1639f3b93f7866a97ff8e621c4f0c34c35888b8d7a8ca4",
-          "reviewRowSha256": "873211b3c9406d24091534ea5f6bab6c90db703c4868f9b73dda767db96bd5e4",
+          "candidateId": "hom-r2-01",
+          "annotationRowSha256": "899d0a941409b998d20b1023aa87eebb5a282d40d245b2a565b8a43659f7bb83",
+          "reviewRowSha256": "d131357d9b71304a6ca465df7cfa9eda1c95b2c58b9e9591b66a4916d6443be1",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hut-draft-05",
+              "supersededAnnotationRowSha256": "2e755bb85f51dc64111a265e4e17b8d819cc04de2378bffb7f45d80fc9aabf6d",
+              "replacementCandidateId": "hom-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-05",
           "status": "occupied",
-          "candidateId": "hut-draft-06",
-          "annotationRowSha256": "4ad11ab41b6447a4815f6d8a667fb50687f11ecf38df74daf7b8f5e59101df40",
-          "reviewRowSha256": "610e6729a2c405f56aa8517ef3501f80be4671b08196152ec021b269b9a37560",
+          "candidateId": "hom-r2-02",
+          "annotationRowSha256": "9f67f43f38efa89010ef414845be4001311bb1102b1bbfd5020b127bcf6a95d2",
+          "reviewRowSha256": "995f79b8a8c95aaafb409bb54a79d4e72062a900dddf21c258f179ad95228242",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hut-draft-06",
+              "supersededAnnotationRowSha256": "383df13885fa4a529a43a72755fb1be8b50c302fa0071b037429219b7f67c2d7",
+              "replacementCandidateId": "hom-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
           "slotId": "home-utilities-06",
           "status": "occupied",
-          "candidateId": "hut2-draft-01",
-          "annotationRowSha256": "9afe2e0f501d6dd801d8da19df0ec31a157039b76e88db2c0e385b3dc6bea9e6",
-          "reviewRowSha256": "304f81b1e0ec847c9b1f082dcbb7c5acbab8f85109d8d23998ff4f3c0babe417",
+          "candidateId": "hom-r2-03",
+          "annotationRowSha256": "1345795f5798fe770509b9a417fbc85456235a7e2f69a14ec89c0ce031a55e56",
+          "reviewRowSha256": "10989820cc8301fcf2be9d82aea8c138d98faa4b2b12d4444f25a8de06ce3185",
           "sourceBatchId": "draft-r1",
-          "attemptHistory": [],
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hut2-draft-01",
+              "supersededAnnotationRowSha256": "83fea30b23e0ae98f8b898a11e11c178cdd1cd662be219df91d5cab301ffeea5",
+              "replacementCandidateId": "hom-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
           "tier": "draft-r1"
         },
         {
