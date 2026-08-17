@@ -130,13 +130,13 @@
     },
     {
       "path": "scripts/mica-portfolio.py",
-      "sha256": "78249f30053169aafa6b13dc831a1f4c56354383a7d1068300d5c255177447bb",
-      "byteLength": 69159
+      "sha256": "68e3d8f44d94856a1d16291788d3d97fbda4d06bb656ff87dcd20e612d66618a",
+      "byteLength": 72881
     },
     {
       "path": "scripts/test-mica-portfolio.py",
-      "sha256": "077b5a3de657dfee7b8e6459b267e5b3a45e1bb1c6d6efa86f33b24dadde6849",
-      "byteLength": 28001
+      "sha256": "60ebd1ba560ef1d619da9632f279643cfd7312d9febb2a2a0a404646e1044959",
+      "byteLength": 29148
     }
   ]
 }
