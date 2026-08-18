@@ -39,6 +39,43 @@
         "email-calendar"
       ],
       "note": "restaurants-local 3차 시도(전용 소재 지침: 분쟁조정 결정례+신고 절차 페이지)로 4/4 전건 통과. email-calendar 2/3 통과. 51/51 슬롯 전부 채움."
+    },
+    {
+      "waveId": "wave-3-remediation",
+      "categories": [
+        "money-banking-investing",
+        "mobility-transit",
+        "restaurants-local",
+        "email-calendar",
+        "telecom-subscriptions",
+        "healthcare-administration",
+        "home-utilities",
+        "shopping-delivery",
+        "travel-accommodation"
+      ],
+      "note": "6항목 rubric 전수 감사(32건 MAJOR) 재작업 1차 반영. 완전 재조사 + 교정 산출물 19건 동결 추가, 13개 슬롯 교체, 구 후보 17건 retracted-defect 처리. 기록: work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md, 커밋 ef0d218."
+    },
+    {
+      "waveId": "wave-4-remediation",
+      "categories": [
+        "mobility-transit",
+        "restaurants-local",
+        "email-calendar",
+        "healthcare-administration"
+      ],
+      "note": "재작업 2차 반영. 교정 산출물 8건 동결 추가, 6개 슬롯 교체, 구 후보 6건 retracted-defect 처리. 커밋 779186a."
+    },
+    {
+      "waveId": "field-fill-1",
+      "categories": [
+        "home-utilities",
+        "shopping-delivery",
+        "telecom-subscriptions",
+        "email-calendar",
+        "healthcare-administration",
+        "money-banking-investing"
+      ],
+      "note": "Fable 검수에서 발견한 결측 보완. 재작업 투입 27건 중 9건의 failureRecoveryEvents가 빈 배열(원본 63건은 100% 충전)이어서 격리 producer+reviewer로 원문 근거 사건을 작성, 수락분만 반영(전량 수락 3건, 검토자 항목별 승인 부분 수락 4건, 정당한 0건 유지 1건, 카테고리 이견 보류 1건). em dash 3곳 구두점 치환 포함."
     }
   ],
   "modelRecord": {
@@ -53,9 +90,10 @@
     "orchestration": "Claude Agent SDK Workflow (pipeline, no barrier between categories)"
   },
   "isolation": "카테고리별 producer/reviewer는 서로 다른 Workflow subagent 컨텍스트. 저장소 파일 접근과 'MICA' 관련 검색을 프롬프트 수준에서 금지했다. clean-room job-packet-only 디렉터리 격리는 쓰지 않았다(초안 tier의 의도적 완화, work/method-reviews/2026-08-17-draft-tier-day1-plan.md 참조).",
-  "acceptedCandidateCount": 63,
+  "acceptedCandidateCount": 90,
   "heldNoCategoryCount": 1,
   "categoryOverflowCount": 12,
   "createdAt": "2026-08-17T13:00:00Z",
-  "slotFillCount": 51
+  "slotFillCount": 51,
+  "remediationNote": "63건 원 생산 + 재작업(wave-3 19건, wave-4 8건) = 90건. 구 결함 후보 23건은 원장에서 retracted-defect로 표시되나 동결 파일에서는 삭제하지 않는다(이력 보존)."
 }

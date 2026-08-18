@@ -4,8 +4,8 @@
   "batchId": "draft-r1",
   "tier": "draft-r1",
   "status": "completed",
-  "frozenCandidatesSha256": "20526bd2a2b426d171001efff5b9881b42bce4279d9c543e503bd20ab5461bf9",
-  "frozenCandidatesBytes": 217858,
+  "frozenCandidatesSha256": "0c98e9dc8538bd6a00f21eae9b82663a9a2f87dcee7a457d35cc94091aced3af",
+  "frozenCandidatesBytes": 320713,
   "acceptedMeasurableCandidates": 63,
   "knownGaps": [
     "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. held-no-category.jsonl 에 보존.",
@@ -28,5 +28,11 @@
       "mob2-draft-05": "DEFECT-MINOR(5항목 전부 pass, 잔여 흠은 비차단)"
     },
     "correctedAt": "2026-08-18T01:00:00Z"
+  },
+  "remediationRounds": {
+    "summary": "2026-08-18 6항목 rubric 전수 감사 후 재작업 6라운드. 32건 MAJOR 중 29건 해소, 3건 결함 유지(사용자 결정). 이후 Fable 검수에서 failureRecoveryEvents 결측 9건 발견, 7건 보완 반영.",
+    "detailRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md",
+    "fableReviewRef": "work/method-reviews/2026-08-18-fable-review-supplement.md",
+    "finalFrozenRowCount": 90
   }
 }

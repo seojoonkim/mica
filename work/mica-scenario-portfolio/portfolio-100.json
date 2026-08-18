@@ -56,8 +56,8 @@
           "slotId": "email-calendar-05",
           "status": "occupied",
           "candidateId": "ema-r2-03",
-          "annotationRowSha256": "88b4efa4a892d6123acd9293475efad0fe6cd235b8f40417d14693eccbd1df4c",
-          "reviewRowSha256": "722aafbfb007b12d5f57f15113a7b514cd298f4f3ded2f1a46b0def894de531c",
+          "annotationRowSha256": "018156743e29ba73734e522ed405751cbd751caaf5acbedce7c45c4ef78e57d0",
+          "reviewRowSha256": "7ec6dfeea6cea58633bce087dad23c8c1e41150e5ba8653e94ad946103eaa3f5",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
@@ -257,8 +257,8 @@
           "slotId": "shopping-delivery-10",
           "status": "occupied",
           "candidateId": "sho-r2-04",
-          "annotationRowSha256": "e1d829e6d32cf71625b58fad1dea3ac4ae1b4fb5c87c048944051e2d61c9d773",
-          "reviewRowSha256": "54ef3099652235f944796b43bc67e3e392b7576ba9043cee46eeb94864dec7a9",
+          "annotationRowSha256": "616a286b3dbbaa4c50f2998623f409e04229e5cfd18e252cb1b42c0ed2ceece2",
+          "reviewRowSha256": "e11b44de8a2b686e305ee4e35292a137a7e321c0da285ccc03b969781eaee0bf",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
@@ -608,8 +608,8 @@
           "slotId": "money-banking-investing-07",
           "status": "occupied",
           "candidateId": "mon-r2-04",
-          "annotationRowSha256": "80a106117f2749e6683d9b5230305fc507f5e77e3ef6a286f261969206ee5ba3",
-          "reviewRowSha256": "67e856522a5af3fe05d6d1c4f607e9ae409419908e557f57716d7760028f5e53",
+          "annotationRowSha256": "29ac1d5b87bf293df67d758712689af30aee81de6f058b2c5ed63f1c07f7cadc",
+          "reviewRowSha256": "602719f395f613f2088190ba4d6fb123cb6006b4ecce06d47b6d7a043f995fd8",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
@@ -885,8 +885,8 @@
           "slotId": "healthcare-administration-09",
           "status": "occupied",
           "candidateId": "hea-r2-02",
-          "annotationRowSha256": "1872b0ab144c4aa843bc739eefd26bc9e939bb288731a8f89fbe5d9be2471f41",
-          "reviewRowSha256": "a6ba834343ccd03c57bd94c878ca8c7729e7123f34c649c06bebcfbb70870d72",
+          "annotationRowSha256": "d4a5874dbe653f4016738f7fc8cfb6265a22521d0e48f6b9ca28fb9543f45846",
+          "reviewRowSha256": "efda3b0cdac407e69520df7541c3fe7eef68e09266d52858cd8f24bc3792b60a",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
@@ -1084,8 +1084,8 @@
           "slotId": "home-utilities-05",
           "status": "occupied",
           "candidateId": "hom-r2-02",
-          "annotationRowSha256": "9f67f43f38efa89010ef414845be4001311bb1102b1bbfd5020b127bcf6a95d2",
-          "reviewRowSha256": "995f79b8a8c95aaafb409bb54a79d4e72062a900dddf21c258f179ad95228242",
+          "annotationRowSha256": "451a4c13533b345d129ae7f6794ba135ddec4f578bd646ce2e1b6c4f49f3d378",
+          "reviewRowSha256": "a3919191d043cedd5512168a310a3d8db81e10b9966630e426b941f4325fa32b",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {

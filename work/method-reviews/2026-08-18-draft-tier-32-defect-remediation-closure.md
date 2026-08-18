@@ -40,13 +40,13 @@ relatedDocs:
 | 라운드 | 대상 | 방식 | 결과 | 커밋 |
 |---|---|---|---|---|
 | 1 | Group A 7건 | 격리 교정+재검토 | 5건 CONFIRM/MINOR, 2건 여전히 MAJOR | `41a4878` |
-| 2 | Group B 24건 (9개 카테고리) | 완전 재조사 (producer+reviewer) | 12/24 1차 수락 | — |
-| 3 | Group A 실패 2건 대체 | 완전 재조사 (전용 배치) | `trv2-draft-06` 대체 성공, `eml2-draft-02` 대체 실패 | — |
-| 4 | Group B reject 중 authorityRoleCompliant 단독 실패 7건 | 격리 교정 | 6/7 성공 | — |
-| — | wave-3 적용 | 라운드 2·3·4 산출물 원장 반영 (13 슬롯 + 6 overflow) | — | `ef0d218` |
-| 5 | Group B reject 중 evidenceReal=true 미처리 11건 | 격리 교정 | 8/11 성공 (mobility-transit 완전 해소) | — |
-| — | wave-4 적용 | 라운드 5 산출물 원장 반영 (6 슬롯 + 2 overflow) | — | `779186a` |
-| 6 (최종) | `eml2-draft-02` 대체 마지막 시도 3건 | 격리 교정 | 3/3 실패 | — |
+| 2 | Group B 24건 (9개 카테고리) | 완전 재조사 (producer+reviewer) | 12/24 1차 수락 | - |
+| 3 | Group A 실패 2건 대체 | 완전 재조사 (전용 배치) | `trv2-draft-06` 대체 성공, `eml2-draft-02` 대체 실패 | - |
+| 4 | Group B reject 중 authorityRoleCompliant 단독 실패 7건 | 격리 교정 | 6/7 성공 | - |
+| - | wave-3 적용 | 라운드 2·3·4 산출물 원장 반영 (13 슬롯 + 6 overflow) | - | `ef0d218` |
+| 5 | Group B reject 중 evidenceReal=true 미처리 11건 | 격리 교정 | 8/11 성공 (mobility-transit 완전 해소) | - |
+| - | wave-4 적용 | 라운드 5 산출물 원장 반영 (6 슬롯 + 2 overflow) | - | `779186a` |
+| 6 (최종) | `eml2-draft-02` 대체 마지막 시도 3건 | 격리 교정 | 3/3 실패 | - |
 
 각 "성공" 판정은 원 producer/reviewer와 무관한 신규 격리 컨텍스트가 evidence.sourceUrl을 WebFetch로 직접 재확인한 뒤 6항목(evidenceReal, categoryMatch, lifeNeedSupport, authorityRoleCompliant, evidencePrecision, internalConsistency) 전부에 대해 내린 것이다.
 

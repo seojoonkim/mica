@@ -16,12 +16,12 @@ baseCommit: c97cf0b
 
 draft tier의 `reviewer` 역할이 지금까지 쓴 4항목 rubric(evidenceReal, lifeNeedSupport, noInventedFacts, categoryMatch)에 **두 항목을 추가**한다.
 
-5. **evidencePrecision** — boundedObservation뿐 아니라 후보 본문 전체(taskAction, canonicalFinalState, confirmationBoundary, failureRecoveryEvents, prohibitedStates)를 원문과 **문장 단위로** 대조한다.
-6. **internalConsistency** — 후보 자신의 필드끼리 서로 모순되지 않는지 확인한다.
+5. **evidencePrecision**: boundedObservation뿐 아니라 후보 본문 전체(taskAction, canonicalFinalState, confirmationBoundary, failureRecoveryEvents, prohibitedStates)를 원문과 **문장 단위로** 대조한다.
+6. **internalConsistency**: 후보 자신의 필드끼리 서로 모순되지 않는지 확인한다.
 
 이후 모든 draft tier producer+reviewer job은 이 6항목 rubric을 쓴다. 이미 원장에 적용된 51건 중 결함이 없는 31건(CONFIRM 2 + MINOR 29)은 재작업하지 않는다. 결함 32건은 별도 재작업 절차(§4)를 밟는다.
 
-## 1. 왜 지금 고치는가 — 실측
+## 1. 왜 지금 고치는가: 실측
 
 63건(100%) 전수 심층 감사 결과다. 방법: 3개 독립 라운드(1차 12건, 2차 12건, 3차 39건, 서로 중복 없음), 각 건마다 격리된 신규 컨텍스트가 원문을 실제로 다시 열어 재검증했다.
 
@@ -46,7 +46,7 @@ draft tier의 `reviewer` 역할이 지금까지 쓴 4항목 rubric(evidenceReal,
 
 카테고리 판정, 생활 필요 적격성, 실명 처리는 90%대 후반으로 버텼다. `2026-08-17-source-channel-widening.md`와 `2026-08-17-source-eligibility-check-restoration.md`가 세운 관문은 대체로 작동했다는 뜻이다. 완전히 새는 곳은 근거 정밀도와 내적 정합성, 이 둘뿐이다. **기존 4항목 rubric에는 이 둘을 검사하는 항목이 애초에 없었다.**
 
-### 1.2 실패 유형 — 실제 사례
+### 1.2 실패 유형: 실제 사례
 
 - **시간 순서·인과관계 역전**: `mbi-draft-05`는 은행 상계가 반환청구 **전**이라고 썼으나 실제로는 **7주 후**였다. 이 순서 자체가 조정위원회가 "부당하다"고 판단한 논거였다.
 - **당사자 오귀속**: `trv-draft-01`은 입원한 사람을 신청인 본인으로 썼으나 원문은 신청인의 배우자다. 적용 법조항(국외여행 표준약관 제15조 ② 라)은 배우자 입원에만 성립하므로, 이 오귀속 하나로 법적 근거 경로 자체가 무너진다.
@@ -56,7 +56,7 @@ draft tier의 `reviewer` 역할이 지금까지 쓴 4항목 rubric(evidenceReal,
 - **근거 없는 성공 사례 확정**: `trv2-draft-06`은 "신고 이후 환급 전환 사례가 다수 보고됨"이라는, 과업의 성공 가능성을 떠받치는 핵심 주장을 원문 없이 만들었고, 같은 후보의 `unknowns`가 스스로 이를 부정했다.
 - **실명 노출**: `mob2-draft-02`는 실제 사업자명 "버스타고"가 `startState`와 `taskAction`에 그대로 노출됐다. 1·2차 24건에서는 이 항목이 24/24 만점이었는데, 그 만점 자체가 표본 운이었다.
 
-### 1.3 카테고리별 분포 — 조달이 어려웠던 곳이 결함도 많다
+### 1.3 카테고리별 분포: 조달이 어려웠던 곳이 결함도 많다
 
 | 카테고리 | MAJOR | 전체 |
 |---|---:|---:|
