@@ -115,6 +115,35 @@ describe("plain-language public copy", () => {
     expect(ko.chrome.colophonNote).not.toContain("publicationEligible");
   });
 
+  it("uses formal and consistent Korean terminology across public copy", () => {
+    const publicCopy = JSON.stringify(ko);
+
+    expect(ko.home.stackEyebrow).toBe("측정 단위는 개별 모델이 아니라 에이전트 시스템입니다");
+    expect(ko.home.frameworkFieldDetail).toContain("100개 표준 과제");
+    expect(ko.home.frameworkFieldDetail).not.toContain("canonical task");
+
+    for (const colloquialOrOpaqueTerm of [
+      "재는 대상",
+      "일상 볼일",
+      "볼일 하나",
+      "결과를 실은",
+      "아직 실은 결과",
+      "잰 제출물",
+      "다시 돌린 시스템",
+      "집계를 가리키는 손잡이",
+      "없는 것을 가리키는 손잡이",
+      "지금 어디까지 왔는가",
+      "안은 비었습니다",
+      "임의로 지어내지",
+      "canonical task",
+      "canonical 과제",
+    ]) {
+      expect(publicCopy, `formal Korean copy still contains: ${colloquialOrOpaqueTerm}`).not.toContain(
+        colloquialOrOpaqueTerm,
+      );
+    }
+  });
+
   it("removes the unlabeled mixed-purpose edition strip from the home hero", async () => {
     render(await HomePage({ params: Promise.resolve({ lang: "ko" }) }));
     expect(document.querySelector(".mica-strip")).toBeNull();
@@ -147,7 +176,7 @@ describe("plain-language public copy", () => {
         lang === "en" ? /10 everyday task domains/i : /10개 생활 과제 영역/,
       );
       expect(framework).toHaveTextContent(
-        lang === "en" ? /100 canonical tasks/i : /100개 canonical task/,
+        lang === "en" ? /100 canonical tasks/i : /100개 표준 과제/,
       );
       expect(framework).toHaveTextContent(
         lang === "en"
@@ -156,9 +185,12 @@ describe("plain-language public copy", () => {
       );
       expect(framework!.querySelector(".mica-framework-formula")).toHaveTextContent(
         lang === "en"
-          ? "Accuracy × Speed × Cost"
-          : "정확도 × 속도 × 비용",
+          ? "MICA score = 100 × normalized Accuracy × normalized Speed × normalized Cost"
+          : "MICA 점수 = 100 × 정규화 정확도 × 정규화 속도 × 정규화 비용",
       );
+      for (const axis of Object.values(dict.diagnosticAxes)) {
+        expect(framework).toHaveTextContent(axis.description);
+      }
       expect(
         framework!.compareDocumentPosition(publication!) & Node.DOCUMENT_POSITION_FOLLOWING,
       ).toBeTruthy();

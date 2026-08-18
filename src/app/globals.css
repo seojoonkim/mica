@@ -2914,6 +2914,33 @@ footer.border-t {
   border: 1px solid var(--color-border-strong);
 }
 
+.mica-framework-diagnostics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.mica-framework-diagnostics > li {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mica-framework-diagnostics .mica-stack-term {
+  color: var(--color-accent);
+}
+
+.mica-framework-diagnostics .mica-body-sm {
+  margin: 0;
+  color: var(--color-ink-muted);
+}
+
 @media (min-width: 48rem) {
   .mica-framework-stages {
     grid-template-columns: repeat(3, minmax(0, 1fr));

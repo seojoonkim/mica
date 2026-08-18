@@ -211,10 +211,11 @@ export default async function HomePage({
               <p className="mica-eyebrow">{dict.home.frameworkFieldTitle}</p>
               <p className="mica-body-sm mt-2 mb-0">{dict.home.frameworkFieldDetail}</p>
             </div>
-            <ul className="mica-stack" aria-label={dict.home.stackEyebrow}>
+            <ul className="mica-framework-diagnostics" aria-label={dict.home.stackEyebrow}>
               {DIAGNOSTIC_AXES.map((axis) => (
                 <li key={axis.id}>
                   <span className="mica-stack-term">{dict.diagnosticAxes[axis.id].label}</span>
+                  <span className="mica-body-sm">{dict.diagnosticAxes[axis.id].description}</span>
                 </li>
               ))}
             </ul>

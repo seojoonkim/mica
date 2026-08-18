@@ -215,9 +215,9 @@ export const en = {
       { label: "Explain", title: "Diagnose why the system succeeded or failed", detail: "Trace outcomes across seven system-capability axes without folding diagnosis into the score." },
     ],
     frameworkFieldTitle: "10 everyday task domains are the proving ground",
-    frameworkFormulaLabel: "MICA Score · Accuracy × Speed × Cost",
+    frameworkFormulaLabel: "MICA score = 100 × normalized Accuracy × normalized Speed × normalized Cost",
     frameworkFieldDetail:
-      "100 canonical tasks across 6 localized markets form MICA’s current observation environment. They make broad agent capability concrete and comparable; they are not 10 isolated API suites.",
+      "100 canonical tasks across 6 localized markets form MICA’s current observation environment. The 10 domains define real errands such as reservations, orders, changes and administration across multiple services, each with a declared final state and confirmation boundary. The agent system is evaluated through one end-to-end execution, from input interpretation and planning through model and tool selection, state retention, localization, safe handoff and recovery. MICA derives Accuracy from the confirmed final state, Speed from elapsed time for successful runs and Cost from evaluation cost per success, then connects call lineage and state transitions to 7 diagnostic axes. These are proving grounds for the complete agent system, not 10 isolated API suites.",
     bandEyebrow: `${COUNTRIES.length} market editions`,
     disclosureDetail:
       "The interface is ready; the index is empty. MICA has published no verified system results.",
