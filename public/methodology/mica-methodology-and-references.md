@@ -81,6 +81,7 @@ How a task becomes a MICA task, and what makes it local rather than translated.
 - **[Open question] The current translation limit.** Canonical task text exists in en and ko. Reaching locally authored text and local review in every market edition is required before any market's results could be published, and it is not done.
 - **[External evidence] Documentation per edition.** Each catalogue edition carries a datasheet-style record of motivation, composition, collection, intended uses, distribution and maintenance, plus a data-statement record of language variety and reviewer context at role level. (see: datasheets, data-statements)
 - **[External evidence] Parameterized instances.** One definition should yield many checkable instances rather than a single memorizable script, following parameterized-task practice from business and mobile agent environments. (see: workarena, androidworld)
+- **[Current rule] Generalization beyond known templates.** MICA reports performance on familiar task families separately from transfer to an unseen task family or unseen service. A system that succeeds only on parameter variants of known templates is not described as generally capable, and no aggregate may hide the transfer result.
 
 ## Access parity and market integration conditions
 
@@ -131,6 +132,7 @@ How a result would be produced, how confident anyone could be in it, and what MI
 - **[Current rule] Three tracks.** Simulator runs against deterministic local replicas; live shadow runs stop at the confirmation boundary against real services; limited verified live covers a small number of end-to-end runs on MICA-held test accounts. All three are design intent, not an implemented harness.
 - **[Current rule] No live integration exists.** There is no vendor integration, no live account and no measured run on any track. The track vocabulary describes what a future run would be, not what has happened.
 - **[External evidence] Repetition before comparison.** Single-run point estimates mislead, especially on small cells near 0 or 1. Repeated attempts, interval estimates and reliability across repeats are required before any comparison between systems is published. (see: agarwal-statistical, tau-bench)
+- **[Current rule] Submission and attempt control.** The evaluation budget, number of attempts and publication rule are pre-registered for each system snapshot. Every eligible attempt is retained and reported; a submitter cannot repeat the same snapshot until a favorable run appears, cherry-pick the best score, or replace a declared snapshot after seeing holdout feedback.
 - **[Open question] Uncertainty for binary hierarchical outcomes.** MICA's outcomes are binary and nested inside task, family and market. Which interval and resampling procedure is correct for a product score over that structure is not settled, and the choice will be published with its justification before any interval appears. (see: agarwal-statistical)
 - **[Current rule] Absence is not zero.** A task that was not attempted, was not eligible, or has no pre-registered reference has no score and remains listed with a reason. If the pre-registered canonical task set is incomplete, the family and market aggregate is withheld rather than computed over a shrinking denominator. A missing market likewise withholds any cross-market figure.
 - **[Current rule] Compatible secondary reporting.** MICA reports raw success rates, latency distributions and metered evaluation cost as the primary record, with reliability across repeats when available. The per-attempt product is a derived audit view of that record during the pilot, not a competing headline score. (see: helm, agarwal-statistical)
@@ -153,6 +155,8 @@ A benchmark that is fully public becomes a training target. One that is fully pr
 - **[Current rule] Item provenance.** Each item records when it was created, when and where it was exposed, its version and its provenance, so exposure can be reasoned about instead of guessed at. (see: magar-schwartz, gpt3-contamination)
 - **[Current rule] Stable core, rotating challenge.** The intended shape is a stable longitudinal core that supports comparison over time, plus a rotating challenge and holdout portion that limits how long exposure stays valuable. It is a design, and it is labelled planned until it is implemented. (see: livebench, dynabench, gaia)
 - **[Current rule] No claim of contamination freedom.** MICA will not claim a set is uncontaminated. It controls exposure, records provenance, refreshes items and reports residual risk, and distinguishes exposure from memorization and from score exploitation. (see: magar-schwartz, livebench, gpt3-contamination)
+- **[Current rule] Contamination is classified, not reduced to a label.** Every item and result records separately whether there is evidence of exposure, memorization, or score exploitation. Exposure alone does not prove memorization, and memorization alone does not establish score exploitation; unknown status remains unknown rather than being reported as clean.
+- **[Current rule] Clean-subset comparison.** When exposure risk differs across items, MICA publishes the full result beside a clean-subset result restricted to items with no known exposure evidence. A material gap is reported as a limitation and blocks claims of broad generalization; the subset is never selected after inspecting which choice favors a system.
 - **[Open question] Suite dependence.** Which tasks are in the suite changes which system looks best. MICA publishes task-level results and requires sensitivity analysis, but how to choose a suite that is not itself a hidden preference is unresolved. (see: benchmark-lottery)
 
 ## Governance, independence and disclosure
@@ -161,6 +165,7 @@ An index that measures systems whose makers can fund it has to say who decides w
 
 - **[Current rule] Neutrality requirement.** MICA must be neutral. vooy may be an originator and may be measured as a challenger system, and holds no privileged position as benchmark owner in the normative public design.
 - **[Current rule] What must be disclosed.** The operator, who holds decision rights, funding and its terms, paid task-author relationships, vendor relationships, conflicts of interest, the publication process, and the corrections and appeals procedure. (see: nist-ai-rmf)
+- **[Current rule] Role-level conflicts and holdout access.** Before results are published, MICA discloses the task author, reviewer, evaluator and funder roles, each role's financial or organizational relationship to evaluated parties, and every person's holdout access. A person with a material conflict or unauthorized holdout access is excluded from scoring and publication decisions for the affected system.
 - **[Open question] Structural independence.** Decision rights over method changes, verification outcomes and publication must rest with a body no evaluated party controls. No such body has been constituted, so this is an open risk and not a solved claim.
 - **[Current rule] No paid placement.** MICA does not accept payment for placement, for inclusion, or for the timing of a result, and does not accept a submitter's own score or weighting in place of a measurement.
 
@@ -539,7 +544,7 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 - **정확도 성분.** 확인된 성공이면 1, 그 밖의 모든 결과는 0입니다. 부분 점수가 없으므로 더 빠르거나 더 저렴한 실패도 영점입니다. 곱셈 구조상 어느 한 성분의 영점이 최종 점수를 영점으로 만들기 때문입니다.
 - **속도 성분.** min(1, 속도 기준값 ÷ 관측 초)입니다. 기준값은 실행 가능한 검증 과제 버전마다 사전에 등록하며 채점 대상 집단에서 다시 도출하지 않습니다. 그래서 느린 집단이 느린 시스템을 빨라 보이게 만들 수 없습니다. 기준값을 앞질러도 1에서 멈춥니다.
 - **비용 성분.** min(1, 비용 기준값 ÷ 계측된 평가 실행 비용(USD))입니다. 비용이 영이거나 계측되지 않았으면 만점을 주지 않고 미측정으로 기록합니다.
-- **계열 점수와 국가 점수.** 해당 계열 또는 시장의 적격 실행에서 파생한 과제 점수의 산술평균입니다. 사전 등록한 표준 과제 집합이 완결되지 않으면 비공표합니다. 제외 항목은 분모에서 조용히 사라지지 않고 사유와 함께 남깁니다.
+- **계열 점수와 국가 점수.** 해당 계열 또는 시장의 적격 실행에서 파생한 과제 점수의 산술평균입니다. 사전 등록한 표준 과제 집합이 완결되지 않으면 비공표합니다. 제외 항목은 분모에서 제외된 사유와 함께 기록합니다.
 - **시장과 항목을 가로지르는 종합.** 정의되어 있지 않습니다. 단일 종합 수치를 내려면 시장과 항목에 걸친 가중치가 필요한데 MICA는 그것을 합의하지 않았습니다. 그래서 공개하지 않으며, 리더보드 구조가 그런 수치를 암시하지도 않습니다.
 - **점수가 없는 과제.** 시도되지 않았거나 유효하지 않거나 사전 등록된 기준값이 없는 과제에는 점수 자체가 없습니다. 사유와 함께 평균에서 제외하며 0으로 세지 않습니다.
 - **원값 공개.** 성공 여부 원값, 실제 경과 시간 원값, 평가 실행 비용 원값은 모든 점수 옆에 고유 단위 그대로 공개되며, 점수와 무관하게 검증할 수 있습니다.
@@ -564,12 +569,12 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 ### 일곱 개의 진단 축
 
 - **오케스트레이션.** 분해, 순서 배치, 재시도, 그리고 멈추기로 하는 판단. 같은 기반 모델을 쓰는 시스템들 사이의 격차를 만드는 가장 큰 관측 원인입니다.
-- **모델 라우팅.** 각 하위 단계를 적절한 모델로 보내는지, 그리고 경로를 쓸 수 없을 때 무너지지 않고 완만하게 성능을 낮추는지.
+- **모델 라우팅.** 각 하위 단계를 적절한 모델로 라우팅하고, 경로를 사용할 수 없을 때 통제된 방식으로 성능을 저하시키는 역량.
 - **메모리.** 페르소나 사실, 앞선 제약, 과제 진행 상태를 단계 사이에 유지하면서 사용자에게 다시 묻거나 스스로 모순되지 않는 능력.
 - **도구·API 사용.** 시스템이 선언한 도구를 정확하고 최소한으로, 형식에 맞게 사용하는지. 부분 응답과 오류 응답의 처리도 포함합니다.
 - **현지화.** 언어, 주소와 이름 형식, 현지 결제·신원 인프라, 공휴일, 그리고 시장별 서비스 관행.
 - **안전.** 확인 경계를 지키고, 동의 없이 되돌릴 수 없는 행위를 피하며, 범위를 벗어난 자격 증명 사용을 거부하는지.
-- **복구.** 단계가 실패한 뒤의 행동. 탐지, 진단, 대체 경로, 또는 상태를 깨끗이 남긴 채 정직하게 멈추기.
+- **복구.** 단계 실패를 탐지·진단하고 대체 경로를 적용하거나, 일관된 상태를 유지한 채 실행을 중단하는 역량.
 
 ### 검증 상태와 결과 트랙
 
@@ -590,7 +595,7 @@ The terms this wiki uses in a specific sense. Where a word could mean two things
 
 - **측정.** 실행 기록에서 직접 읽은 값. 추론 없음.
 - **MICA 해석.** 측정값이 무엇을 뜻하는지에 대한 MICA의 읽기. 반박 가능하며, 에디션의 이름으로 서명됩니다.
-- **권고.** 만드는 사람과 사는 사람을 위한 조언. 결코 측정의 주장이 아닙니다.
+- **권고.** 개발자와 소비자를 위한 권고이며 측정 결과와 구분됩니다.
 
 ### 국가별 대표 플랫폼은 실행 전에 고정합니다
 

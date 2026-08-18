@@ -137,6 +137,17 @@ describe("plain-language public copy", () => {
       "임의로 지어내지",
       "canonical task",
       "canonical 과제",
+      "일상 용무",
+      "실제 용무",
+      "같은 용무",
+      "하나의 용무",
+      "시험장",
+      "깔끔하게 멈추는",
+      "부딪혀도 살아남는",
+      "결코 자체 보고",
+      "결코 다루지",
+      "결코 측정의 주장",
+      "한눈에 보기",
     ]) {
       expect(publicCopy, `formal Korean copy still contains: ${colloquialOrOpaqueTerm}`).not.toContain(
         colloquialOrOpaqueTerm,
@@ -173,7 +184,7 @@ describe("plain-language public copy", () => {
         lang === "en" ? /not an API integration test/i : /API 연동 테스트가 아닙니다/,
       );
       expect(framework).toHaveTextContent(
-        lang === "en" ? /10 everyday task domains/i : /10개 생활 과제 영역/,
+        lang === "en" ? /10 everyday task domains/i : /10개 소비자 과제 영역/,
       );
       expect(framework).toHaveTextContent(
         lang === "en" ? /100 canonical tasks/i : /100개 표준 과제/,
@@ -421,8 +432,8 @@ describe("Korean detail routes", () => {
       });
     }
     expect(ko.rankings.metaDescription).toMatch(/공개된 검증 결과가 없습니다/);
-    expect(ko.agents.metaDescription).toMatch(/등록부는 비어 있습니다/);
-    expect(ko.evidence.metaDescription).toMatch(/등록부는 비어 있습니다/);
+    expect(ko.agents.metaDescription).toMatch(/등록부에는 아직 .*시스템 버전이 없습니다/);
+    expect(ko.evidence.metaDescription).toMatch(/등록부에는 아직 평가 결과 묶음이 없습니다/);
   });
 
   it("keeps English index metadata factual and language-specific", async () => {

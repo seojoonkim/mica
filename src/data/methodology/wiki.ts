@@ -1607,6 +1607,15 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         },
         refs: ["workarena", "androidworld"],
       },
+      {
+        id: "unseen-generalization",
+        badge: "current-rule",
+        term: { en: "Generalization beyond known templates", ko: "알려진 템플릿 밖의 일반화" },
+        detail: {
+          en: "MICA reports performance on familiar task families separately from transfer to an unseen task family or unseen service. A system that succeeds only on parameter variants of known templates is not described as generally capable, and no aggregate may hide the transfer result.",
+          ko: "MICA는 익숙한 과제 계열의 성능과 처음 보는 과제 계열 또는 처음 보는 서비스로의 전이 성능을 별도로 보고합니다. 알려진 템플릿의 매개변수 변형에서만 성공한 시스템을 일반적 역량이 있는 것으로 설명하지 않으며, 어떠한 집계도 전이 결과를 가릴 수 없습니다.",
+        },
+      },
     ],
   },
   {
@@ -1906,6 +1915,15 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         refs: ["agarwal-statistical", "tau-bench"],
       },
       {
+        id: "submission-attempt-control",
+        badge: "current-rule",
+        term: { en: "Submission and attempt control", ko: "제출과 시도 횟수 통제" },
+        detail: {
+          en: "The evaluation budget, number of attempts and publication rule are pre-registered for each system snapshot. Every eligible attempt is retained and reported; a submitter cannot repeat the same snapshot until a favorable run appears, cherry-pick the best score, or replace a declared snapshot after seeing holdout feedback.",
+          ko: "평가 예산, 시도 횟수, 공개 규칙은 시스템 스냅샷별로 사전 등록합니다. 모든 적격 시도를 보존하고 보고하며, 제출자는 유리한 실행이 나올 때까지 같은 스냅샷을 반복 제출하거나 최고점만 선택하거나 홀드아웃 피드백을 본 뒤 선언한 스냅샷을 교체할 수 없습니다.",
+        },
+      },
+      {
         id: "binary-hierarchical",
         badge: "open-question",
         term: { en: "Uncertainty for binary hierarchical outcomes", ko: "이진·계층 결과의 불확실성" },
@@ -2041,6 +2059,24 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         refs: ["magar-schwartz", "livebench", "gpt3-contamination"],
       },
       {
+        id: "contamination-classification",
+        badge: "current-rule",
+        term: { en: "Contamination is classified, not reduced to a label", ko: "오염 상태의 구분" },
+        detail: {
+          en: "Every item and result records separately whether there is evidence of exposure, memorization, or score exploitation. Exposure alone does not prove memorization, and memorization alone does not establish score exploitation; unknown status remains unknown rather than being reported as clean.",
+          ko: "각 항목과 결과에는 노출, 암기, 점수 악용의 근거 여부를 구분해 기록합니다. 노출만으로 암기를 입증하지 않고, 암기만으로 점수 악용이 성립한다고 보지 않으며, 상태를 알 수 없으면 청정하다고 보고하지 않고 미확인으로 유지합니다.",
+        },
+      },
+      {
+        id: "clean-subset-comparison",
+        badge: "current-rule",
+        term: { en: "Clean-subset comparison", ko: "청정 부분집합 비교" },
+        detail: {
+          en: "When exposure risk differs across items, MICA publishes the full result beside a clean-subset result restricted to items with no known exposure evidence. A material gap is reported as a limitation and blocks claims of broad generalization; the subset is never selected after inspecting which choice favors a system.",
+          ko: "항목별 노출 위험이 다르면 전체 결과와 함께 알려진 노출 근거가 없는 항목으로 제한한 청정 부분집합 결과를 공개합니다. 두 결과의 유의미한 차이는 한계로 보고하며 광범위한 일반화 주장을 차단합니다. 부분집합은 어느 선택이 특정 시스템에 유리한지 확인한 뒤 선택하지 않습니다.",
+        },
+      },
+      {
         id: "suite-dependence",
         badge: "open-question",
         term: { en: "Suite dependence", ko: "평가 묶음 의존성" },
@@ -2078,6 +2114,15 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
           ko: "운영 주체, 결정 권한 보유자, 자금과 그 조건, 유상 과제 저작 관계, 공급자 관계, 이해충돌, 공개 절차, 그리고 정정과 이의 절차입니다.",
         },
         refs: ["nist-ai-rmf"],
+      },
+      {
+        id: "role-level-conflicts",
+        badge: "current-rule",
+        term: { en: "Role-level conflicts and holdout access", ko: "역할별 이해관계와 홀드아웃 접근" },
+        detail: {
+          en: "Before results are published, MICA discloses the task author, reviewer, evaluator and funder roles, each role's financial or organizational relationship to evaluated parties, and every person's holdout access. A person with a material conflict or unauthorized holdout access is excluded from scoring and publication decisions for the affected system.",
+          ko: "결과 공개 전에 과제 저작자, 검토자, 평가자, 자금 제공자의 역할과 평가 대상과의 재정적·조직적 관계, 각 개인의 홀드아웃 접근 여부를 공개합니다. 중대한 이해관계가 있거나 승인되지 않은 홀드아웃 접근 이력이 있는 사람은 해당 시스템의 채점과 공개 결정에서 배제합니다.",
+        },
       },
       {
         id: "structural-transition",

@@ -63,7 +63,7 @@ describe("empty evidence registry", () => {
       }),
     );
     expect(document.body.textContent).toMatch(/기록된 실행 셀 없음/);
-    expect(document.body.textContent).toMatch(/증거 등록부가 비어 있습니다/);
+    expect(document.body.textContent).toMatch(/근거 등록부에는 아직 기록이 없습니다/);
     expect(document.querySelector("a[href^='/ko/evidence/']")).toBeNull();
   });
 });
