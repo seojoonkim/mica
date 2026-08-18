@@ -1548,6 +1548,12 @@ html[lang="ko"] .mica-section-copy {
   color: var(--color-ink);
 }
 
+.mica-stack-index {
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
 .mica-stack li::after {
   content: "→";
   color: var(--color-ink-faint);
@@ -2926,10 +2932,27 @@ footer.border-t {
 
 .mica-framework-diagnostics > li {
   display: grid;
-  gap: 6px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 12px;
   min-width: 0;
-  padding: 14px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--color-border);
+}
+
+.mica-diagnostic-index {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+.mica-diagnostic-copy {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
 }
 
 .mica-framework-diagnostics .mica-stack-term {

@@ -147,8 +147,11 @@ export default async function HomePage({
         <div className="mica-grid mt-9 border-t border-[var(--color-ink)] pt-5">
           <p className="mica-eyebrow md:col-span-3">{dict.home.stackEyebrow}</p>
           <ul className="mica-stack md:col-span-9">
-            {DIAGNOSTIC_AXES.map((axis) => (
+            {DIAGNOSTIC_AXES.map((axis, index) => (
               <li key={axis.id}>
+                <span className="mica-stack-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <span className="mica-stack-term">
                   {dict.diagnosticAxes[axis.id].label}
                 </span>
@@ -212,10 +215,15 @@ export default async function HomePage({
               <p className="mica-body-sm mt-2 mb-0">{dict.home.frameworkFieldDetail}</p>
             </div>
             <ul className="mica-framework-diagnostics" aria-label={dict.home.stackEyebrow}>
-              {DIAGNOSTIC_AXES.map((axis) => (
+              {DIAGNOSTIC_AXES.map((axis, index) => (
                 <li key={axis.id}>
-                  <span className="mica-stack-term">{dict.diagnosticAxes[axis.id].label}</span>
-                  <span className="mica-body-sm">{dict.diagnosticAxes[axis.id].description}</span>
+                  <span className="mica-diagnostic-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mica-diagnostic-copy">
+                    <span className="mica-stack-term">{dict.diagnosticAxes[axis.id].label}</span>
+                    <span className="mica-body-sm">{dict.diagnosticAxes[axis.id].description}</span>
+                  </span>
                 </li>
               ))}
             </ul>

@@ -48,6 +48,25 @@ describe("plain-language public copy", () => {
     }
   });
 
+  it("numbers all seven system capability axes consistently in the summary and explanations", async () => {
+    for (const lang of ["en", "ko"] as const) {
+      const { container, unmount } = render(await HomePage({ params: Promise.resolve({ lang }) }));
+      const framework = container.querySelector('[data-testid="agent-capability-framework"]');
+      expect(framework).not.toBeNull();
+
+      const detailCards = framework?.querySelectorAll(".mica-framework-diagnostics > li");
+      expect(detailCards).toHaveLength(7);
+      expect(Array.from(detailCards ?? []).map((card) => card.querySelector(".mica-diagnostic-index")?.textContent)).toEqual([
+        "01", "02", "03", "04", "05", "06", "07",
+      ]);
+      expect(Array.from(detailCards ?? []).every((card) => Boolean(card.querySelector(".mica-stack-term")?.textContent && card.querySelector(".mica-body-sm")?.textContent))).toBe(true);
+
+      const summaryNumbers = Array.from(container.querySelectorAll(".mica-stack-index")).map((node) => node.textContent);
+      expect(summaryNumbers).toEqual(["01", "02", "03", "04", "05", "06", "07"]);
+      unmount();
+    }
+  });
+
   it("removes the global demo-ranking strip and its repeated footer wording", async () => {
     for (const lang of ["en", "ko"] as const) {
       const footer = render(<Colophon lang={lang} />);
