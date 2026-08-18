@@ -38,19 +38,16 @@ export function Masthead({ lang }: { lang: Locale }) {
               {dict.site.longName}
             </span>
           </LocaleLink>
-          <div className="flex shrink-0 flex-col items-end gap-1.5">
+          <div className="mica-masthead-meta">
             <p className="mica-eyebrow hidden text-right sm:block">
               {dict.site.edition}
             </p>
             <LocaleSwitchLive lang={lang} />
           </div>
+          <nav aria-label={dict.chrome.primaryNavLabel} className="mica-primary-nav">
+            <NavLinks lang={lang} />
+          </nav>
         </div>
-        <nav
-          aria-label={dict.chrome.primaryNavLabel}
-          className="border-t border-[var(--color-ink)]"
-        >
-          <NavLinks lang={lang} />
-        </nav>
       </div>
     </header>
   );

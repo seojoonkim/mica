@@ -51,7 +51,7 @@ export const en = {
     secondary:
       "The world’s first public benchmark for end-to-end consumer-agent execution across 6 localized markets and everyday consumer domains.",
     definition:
-      "MICA measures whether a versioned consumer-agent system can finish an ordinary errand in the market where the consumer lives: local channels, identity checks, payment rails and app-only flows. Each validated task earns one final score, and raw accuracy, speed and cost stay published beside it.",
+      "MICA evaluates whether a versioned consumer-agent system can complete consumer tasks end to end across six localized markets.",
     edition: "Preview 0.1",
     demoNotice:
       "Preview data for interface development. No verified results are published.",
@@ -208,16 +208,16 @@ export const en = {
     frameworkEyebrow: "The MICA capability framework",
     frameworkTitle: "Test the whole agent. Measure the outcome. Explain the system.",
     frameworkIntro:
-      "MICA is not an API integration test. It evaluates an assembled consumer-agent system across understanding, orchestration, model routing, memory, tool use, localisation, safety and recovery.",
+      "The evaluation target is not an individual model but an assembled consumer-agent system spanning understanding, orchestration, model routing, memory, tool use, localisation, safety and recovery.",
     frameworkStages: [
       { label: "Test", title: "Reality, not a clean prompt", detail: "Exercise the system under local language, identity, payment, permission, handoff and recovery conditions, with realistic user context and changing constraints." },
-      { label: "Measure", title: "Confirmed completion, not a successful call", detail: "Publish raw accuracy, speed and cost, then derive the per-run score as 100 × normalized Accuracy × normalized Speed × normalized Cost." },
+      { label: "Measure", title: "Confirmed completion, not a successful call", detail: "Record accuracy, speed and cost separately, and do not treat an execution that misses its declared final state as a partial success." },
       { label: "Explain", title: "Diagnose why the system succeeded or failed", detail: "Trace outcomes across seven system-capability axes without folding diagnosis into the score." },
     ],
     frameworkFieldTitle: "10 everyday task domains are the proving ground",
     frameworkFormulaLabel: "MICA score = 100 × normalized Accuracy × normalized Speed × normalized Cost",
     frameworkFieldDetail:
-      "100 canonical tasks across 6 localized markets form MICA’s current observation environment. The 10 domains define real errands such as reservations, orders, changes and administration across multiple services, each with a declared final state and confirmation boundary. The agent system is evaluated through one end-to-end execution, from input interpretation and planning through model and tool selection, state retention, localization, safe handoff and recovery. MICA derives Accuracy from the confirmed final state, Speed from elapsed time for successful runs and Cost from evaluation cost per success, then connects call lineage and state transitions to 7 diagnostic axes. These are proving grounds for the complete agent system, not 10 isolated API suites.",
+      "100 canonical tasks across 10 task domains and 6 localized markets form 600 planned task-market cells. This is evaluation scope, not a measured result.",
     bandEyebrow: `${COUNTRIES.length} market editions`,
     disclosureDetail:
       "The interface is ready; the index is empty. MICA has published no verified system results.",
@@ -256,7 +256,7 @@ export const en = {
     axesEyebrow: "One score per task, three axes still published",
     axesTitle: "Accuracy, speed and cost are the record; the score is derived",
     axesIntro:
-      "Accuracy, speed and cost stay published in their own units. A 100 × accuracy × speed × cost summary can be derived per eligible attempt, but it is not a headline result or ranking key until its references, repeat-run contract and uncertainty are calibrated in the pilot. No task has been scored yet.",
+      "All three axes remain published in their own units. The derived score is not a headline result or ranking key until its references, repeat-run contract and uncertainty are calibrated in the pilot.",
     readinessEyebrow: "What is built, and what is not",
     readinessTitle: "Where the index stands",
     readinessIntro:

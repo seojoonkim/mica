@@ -139,55 +139,6 @@ export default async function HomePage({
           </div>
         </div>
 
-        {/*
-         * The system stack. Each term is a diagnostic axis MICA already
-         * defines, so the line is read off the policy rather than written
-         * here: a model is one link in it, never the thing being measured.
-         */}
-        <div className="mica-grid mt-9 border-t border-[var(--color-ink)] pt-5">
-          <p className="mica-eyebrow md:col-span-3">{dict.home.stackEyebrow}</p>
-          <ul className="mica-stack md:col-span-9">
-            {DIAGNOSTIC_AXES.map((axis, index) => (
-              <li key={axis.id}>
-                <span className="mica-stack-index" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="mica-stack-term">
-                  {dict.diagnosticAxes[axis.id].label}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* The market band: every edition, native name first. */}
-        <div className="mica-grid mt-8 border-t border-[var(--color-ink)] pt-5">
-          <p className="mica-eyebrow md:col-span-3">{dict.home.bandEyebrow}</p>
-          <ul className="mica-band md:col-span-9">
-            {COUNTRIES.map((country) => (
-              <li key={country.code} data-market={country.code}>
-                <LocaleLink
-                  lang={lang}
-                  href={`/countries/${country.code}`}
-                  className="block text-[var(--color-ink)] no-underline"
-                  data-detail-link
-                >
-                  <span className="mica-band-code">{country.code}</span>
-                  <span
-                    className="mica-band-native"
-                    lang={country.locale}
-                  >
-                    {country.nativeName}
-                  </span>
-                  <span className="mica-band-name">
-                    {dict.markets[country.code]}
-                  </span>
-                  <DetailCue />
-                </LocaleLink>
-              </li>
-            ))}
-          </ul>
-        </div>
       </header>
 
       <Section
@@ -209,89 +160,8 @@ export default async function HomePage({
             ))}
           </ol>
           <p className="mica-framework-formula">{dict.home.frameworkFormulaLabel}</p>
-          <div className="mica-framework-field">
-            <div>
-              <p className="mica-eyebrow">{dict.home.frameworkFieldTitle}</p>
-              <p className="mica-body-sm mt-2 mb-0">{dict.home.frameworkFieldDetail}</p>
-            </div>
-            <ul className="mica-framework-diagnostics" aria-label={dict.home.stackEyebrow}>
-              {DIAGNOSTIC_AXES.map((axis, index) => (
-                <li key={axis.id}>
-                  <span className="mica-diagnostic-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="mica-diagnostic-copy">
-                    <span className="mica-stack-term">{dict.diagnosticAxes[axis.id].label}</span>
-                    <span className="mica-body-sm">{dict.diagnosticAxes[axis.id].description}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-
-      <div className="mt-9">
-        <PublicationStatus text={dict.home.publicationStatus} />
-        {/*
-         * The empty state, stated twice and deliberately: once as the standing
-         * of the index, once as the standing of the taxonomy. Both counts are
-         * read from the canonical records, so neither can be overstated in
-         * copy.
-         */}
-        <div className="mica-home-status mt-4">
-          <div>
-            <p className="mica-notice-head">
-              {dict.home.noResultsHeadline}
-            </p>
-            <p className="mica-body-sm mt-2 mb-0">
-              {dict.home.noResultsDetail}
-            </p>
-          </div>
-          <div className="mica-home-status-next">
-            <p className="mica-eyebrow">{dict.coverage.headline}</p>
-            <p className="mica-body-sm mt-2 mb-0">{dict.coverage.detail}</p>
-          </div>
-        </div>
-        <dl
-          className="mica-ledger mt-4"
-          data-testid="catalogue-lifecycle-status"
-          aria-label={dict.home.lifecycleLabel}
-        >
-          {lifecycleFigures.map((figure) => (
-            <div key={figure.term}>
-              <dt className="mica-eyebrow">{figure.term}</dt>
-              <dd>{figure.value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-
-      <Section
-        eyebrow={dict.home.positionEyebrow}
-        title={dict.home.positionTitle}
-        intro={dict.home.positionIntro}
-      >
-        <DataList items={dict.home.positionItems} />
-        <p className="mt-6">
-          <LocaleLink lang={lang} href="/methodology#why-mica" className="mica-link">
-            {dict.home.positionLink}
-          </LocaleLink>
-        </p>
-      </Section>
-
-      <Section
-        eyebrow={dict.home.axesEyebrow}
-        title={dict.home.axesTitle}
-        intro={dict.home.axesIntro}
-      >
-        {/*
-         * The triptych. Each axis owns one hue and one glyph for the whole
-         * site, and the two always travel together, so the identity survives
-         * greyscale and colour blindness.
-         */}
-        <div className="mica-triptych">
+          <h3 className="mica-display mica-h3 mt-8">{dict.home.axesTitle}</h3>
+          <div className="mica-triptych mt-8">
           {OUTCOME_AXES.map((axis, index) => (
             <article key={axis.id} className="mica-axis" data-axis={axis.id}>
               <p className="mica-axis-bar m-0">
@@ -318,7 +188,59 @@ export default async function HomePage({
             </article>
           ))}
         </div>
+          <p className="mica-body-sm mt-4">{dict.home.axesIntro}</p>
+          <div className="mica-framework-field">
+            <div>
+              <p className="mica-eyebrow">{dict.home.frameworkFieldTitle}</p>
+              <p className="mica-body-sm mt-2 mb-0">{dict.home.frameworkFieldDetail}</p>
+            </div>
+            <ul className="mica-framework-diagnostics" aria-label={dict.home.stackEyebrow}>
+              {DIAGNOSTIC_AXES.map((axis, index) => (
+                <li key={axis.id}>
+                  <span className="mica-diagnostic-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mica-diagnostic-copy">
+                    <span className="mica-stack-term">{dict.diagnosticAxes[axis.id].label}</span>
+                    <span className="mica-body-sm">{dict.diagnosticAxes[axis.id].description}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </Section>
+
+
+      <Section
+        eyebrow={dict.home.positionEyebrow}
+        title={dict.home.positionTitle}
+        intro={dict.home.positionIntro}
+      >
+        <DataList items={dict.home.positionItems.slice(1)} />
+        <div className="mica-grid mt-8 border-t border-[var(--color-ink)] pt-5">
+          <p className="mica-eyebrow md:col-span-3">{dict.home.bandEyebrow}</p>
+          <ul className="mica-band md:col-span-9">
+            {COUNTRIES.map((country) => (
+              <li key={country.code} data-market={country.code}>
+                <LocaleLink lang={lang} href={`/countries/${country.code}`} className="block text-[var(--color-ink)] no-underline" data-detail-link>
+                  <span className="mica-band-code">{country.code}</span>
+                  <span className="mica-band-native" lang={country.locale}>{country.nativeName}</span>
+                  <span className="mica-band-name">{dict.markets[country.code]}</span>
+                  <DetailCue />
+                </LocaleLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p className="mt-6">
+          <LocaleLink lang={lang} href="/methodology#why-mica" className="mica-link">
+            {dict.home.positionLink}
+          </LocaleLink>
+        </p>
+      </Section>
+
+
 
       {/*
        * Where the ledger and the global table used to sit. They are not hidden
@@ -326,18 +248,7 @@ export default async function HomePage({
        * put in a benchmark's most valuable column inch is the state of the
        * apparatus, not an empty table implying a table is imminent.
        */}
-      <Section
-        eyebrow={dict.home.readinessEyebrow}
-        title={dict.home.readinessTitle}
-        intro={dict.home.readinessIntro}
-      >
-        <DataList items={dict.home.readinessItems} />
-        <p className="mt-6">
-          <LocaleLink lang={lang} href="/rankings" className="mica-link">
-            {dict.home.filterLink}
-          </LocaleLink>
-        </p>
-      </Section>
+
 
       <Section
         eyebrow={dict.home.familiesEyebrow}
@@ -374,6 +285,28 @@ export default async function HomePage({
           <LocaleLink lang={lang} href="/tasks" className="mica-link">
             {dict.home.familiesLink}
           </LocaleLink>
+        </p>
+      </Section>
+
+      <Section
+        eyebrow={dict.home.readinessEyebrow}
+        title={dict.home.readinessTitle}
+        intro={dict.home.noResultsDetail}
+      >
+        <PublicationStatus text={dict.home.publicationStatus} />
+        <p className="mica-notice-head mt-6">{dict.home.noResultsHeadline}</p>
+        <p className="mica-body-sm mt-2">{dict.coverage.headline}</p>
+        <dl className="mica-ledger" data-testid="catalogue-lifecycle-status" aria-label={dict.home.lifecycleLabel}>
+          {lifecycleFigures.map((figure) => (
+            <div key={figure.term}>
+              <dt className="mica-eyebrow">{figure.term}</dt>
+              <dd>{figure.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="mt-8"><DataList items={dict.home.readinessItems.slice(0, 4)} /></div>
+        <p className="mt-6">
+          <LocaleLink lang={lang} href="/rankings" className="mica-link">{dict.home.filterLink}</LocaleLink>
         </p>
       </Section>
     </div>

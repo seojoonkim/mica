@@ -2586,7 +2586,7 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
   --color-accent: #5cc8e6;
   --color-accent-soft: #142a31;
   --radius-control: 6px;
-  --masthead-h: 118px;
+  --masthead-h: 52px;
   --step-hero: clamp(2.35rem, 1.7rem + 2.8vw, 3.6rem);
 }
 
@@ -2603,14 +2603,68 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
 }
 
 .mica-masthead-top {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   min-height: 52px;
   padding-block: 6px;
 }
 
+.mica-masthead-meta {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.mica-primary-nav {
+  min-width: 44px;
+}
+
+@media (max-width: 47.999rem) {
+  .mica-wordmark-expansion {
+    display: none;
+  }
+
+  .mica-nav-toggle {
+    width: 44px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .mica-nav-toggle > span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .mica-primary-nav .mica-nav-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    padding: 0 18px 12px;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-paper);
+  }
+}
+
 @media (min-width: 48rem) {
   .mica-masthead-top {
+    grid-template-columns: minmax(0, 1fr) auto;
     min-height: 60px;
     padding-block: 8px;
+  }
+
+  .mica-primary-nav {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--color-border);
   }
 }
 
