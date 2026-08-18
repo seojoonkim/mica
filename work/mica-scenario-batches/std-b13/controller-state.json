@@ -1,0 +1,61 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-controller-state/v1",
+  "batchId": "std-b13",
+  "methodRevision": "lean-v1.3",
+  "generation": 1,
+  "status": "parked",
+  "controllerContextId": "claude-std-b13-controller",
+  "sessionId": "claude-sonnet5-mica-2026-08-18-b13",
+  "acquiredAt": "2026-08-18T11:58:28Z",
+  "renewedAt": "2026-08-18T12:24:56Z",
+  "leaseExpiresAt": "2026-08-18T12:24:56Z",
+  "authorizationRef": "initial-validated-start",
+  "controllerHistory": [],
+  "roleClaims": {
+    "controller": {
+      "contextId": "claude-std-b13-controller",
+      "claimedAt": "2026-08-18T11:58:28Z"
+    },
+    "sourceResearcher": {
+      "contextId": "agent-researcher-b13",
+      "claimedAt": "2026-08-18T12:12:02Z",
+      "generation": 1,
+      "writeAuthorizationToken": "bee4561c2aae0deed84016ee563df72d7e191d117be58dcc276adff086aa781b"
+    },
+    "sourceReviewer": {
+      "contextId": "agent-reviewer-b13",
+      "claimedAt": "2026-08-18T12:12:59Z",
+      "generation": 1,
+      "writeAuthorizationToken": "71b2ebc57597035009d4048b3dbcf11b02e5418da56b2a815c76a9366e34d10d"
+    }
+  },
+  "roleCompletions": {
+    "sourceResearcher": {
+      "contextId": "agent-researcher-b13",
+      "completedAt": "2026-08-18T12:12:35Z",
+      "observedAt": "2026-08-18T12:12:55Z",
+      "artifacts": [
+        "source-evidence.jsonl"
+      ]
+    }
+  },
+  "checkpoint": {
+    "agent-visible.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch-manifest.json": "d57e37978093e3e1f518ccebb9c715701ab6afcc833810a85ef1ed95290a40d9",
+    "blind-agent-rehearsal.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "closure.json": "73d44da4e591edc202113475fa6f4a456de5d1bc294ad25c180011ea69e69c08",
+    "comparison.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "defect-ledger.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-candidates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-observations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "measurement-contracts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "need-observations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observation-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-evidence.jsonl": "35e4d2abc5d712e7a38db921a554f70fc077dd57c7cfed81e19707012a9b1f22",
+    "source-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "task-candidates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "parkReason": "lane-superseded: mica-scenario-production.py in-repo batch lane confirmed abandoned earlier today (see 2026-08-18-std-b11-abandoned-superseded-lane.md) -- pivoting to job-packet clean-room exchange (kh-b13/mica-cleanroom.py) for the actual measurement-asset work"
+}
