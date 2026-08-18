@@ -53,7 +53,7 @@
 draft tier(producer가 source·observation·translation을 한 번에 수행하는 압축 공정)의 reviewer는 아래 6항목을 전부 pass/fail로 판정한다. 하나라도 fail이면 reject다. 근거와 실측은 `work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md`에 있다.
 
 1. `evidenceReal` — boundedObservation이 원문과 일치하는가
-2. `categoryMatch` — 주 성공 경로 기준으로 카테고리가 맞는가
+2. `categoryMatch` — 주 성공 경로의 완료 조건과 권위 있는 최종 상태가 성립하는 생활 영역 기준으로 카테고리가 맞는가. **경계 지침(2026-08-18)**: 분쟁조정·피해구제·상담·신고 같은 공적 구제 절차는 경로이지 영역이 아니다. 판정 축은 절차의 종류가 아니라 그 절차가 끝났을 때 바뀌어 있는 외부 상태가 귀속되는 생활 계약·계정·거래다. 결과가 특정 생활 계약의 상태를 바꾸면(환불·정산·명의·예약·요금·반환) 그 생활 영역이고, 바꾸지 않으면(일반적 손해배상, 재발방지 권고, 법적 근거 확인 같은 정보 취득, 접수 확인 자체) 소재 영역으로 분류할 수 없다. 후자는 `government-civic` 해당 여부를 검토하고, 외부 상태 변화가 아예 없으면 상태 변화 과업 요건 자체를 재검토한다. 근거와 판정례는 `work/method-reviews/2026-08-18-category-boundary-rule.md`에 있다.
 3. `lifeNeedSupport` — 2.1의 3항목
 4. `authorityRoleCompliant` — 실제 사업자·기관 실명이 evidence 밖(후보 본문)에 노출되지 않았는가
 5. **`evidencePrecision`** — boundedObservation만이 아니라 `taskAction`, `canonicalFinalState`, `confirmationBoundary`, `failureRecoveryEvents`, `prohibitedStates` 전체를 원문과 **문장 단위로** 대조한다. 시간 순서·인과관계가 원문과 같은 방향인가, 사건 당사자(누가 무엇을 했는지)가 정확한가, 원문에 없는 법률·기관·절차·수치·전달수단을 사실처럼 서술하지 않았는가, 원문이 명시적으로 부정·배제한 것을 반대로 쓰지 않았는가.

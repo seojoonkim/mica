@@ -915,6 +915,14 @@
               "replacementCandidateId": "hea-r2-03",
               "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
               "supersededAt": "2026-08-17T18:10:00Z"
+            },
+            {
+              "event": "known-defect-unresolved",
+              "auditVerdict": "DEFECT-MAJOR",
+              "remediationAttempts": 0,
+              "note": "2026-08-18 카테고리 경계 규칙으로 부적합 확정. 완료 조건이 외부 상태 변화 없는 정보 취득(법적 근거 확인)으로 종결돼 healthcare-administration의 권위 있는 최종 상태가 성립하지 않고 상태 변화 과업 요건에도 미달. wave-4 검토자 CONFIRM과 field-fill 검토자 기각의 충돌을 규칙으로 판정. 대체 후보 재발굴 대상.",
+              "reasonRef": "work/method-reviews/2026-08-18-category-boundary-rule.md#2.2",
+              "flaggedAt": "2026-08-17T21:00:00Z"
             }
           ],
           "tier": "draft-r1"

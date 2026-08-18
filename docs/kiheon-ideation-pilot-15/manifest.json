@@ -35,8 +35,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
-      "sha256": "8fa303a332489e31eeaeb0f92789d2da86cd3f75fc597963b7321aca6f8047b1",
-      "byteLength": 18051
+      "sha256": "9282ad892214bb86ff1b2dbd11793a39ac4411f45b1301f3bb8fa46a625afc3c",
+      "byteLength": 18970
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
@@ -130,8 +130,8 @@
     },
     {
       "path": "scripts/mica-portfolio.py",
-      "sha256": "edc37c5bfc047e54811de7157e0b08cec6c7dcc8dc6d0258c71bfc0f28bc9d72",
-      "byteLength": 74784
+      "sha256": "dd933f8bb3029618f50a854e144c51c2c8f6242434e222e9abc92a5b158761a8",
+      "byteLength": 75399
     },
     {
       "path": "scripts/test-mica-portfolio.py",
