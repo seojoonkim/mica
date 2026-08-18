@@ -1,0 +1,36 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "lean-b1",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 2,
+  "heldCandidates": [
+    {
+      "candidateId": "ki-lb1-03",
+      "reason": "oracle 분기 참조 재발행 누락(df-lb1-03) — 전환 경로 특정됨(or 재발행 + 2개 sink 결속)"
+    }
+  ],
+  "rejectedCandidates": 0,
+  "stageCounts": {
+    "sourceEvidence": "5(수락 3·거절 2)",
+    "needObservations": "5(수락 3·거절 2)",
+    "taskCandidates": "3(수락 3)",
+    "comparison": "transformation 2·independent-finding 1",
+    "measurement": "designable 2·hold 1"
+  },
+  "newActionableProcessDefects": [
+    "df-lb1-01",
+    "df-lb1-02",
+    "df-lb1-03",
+    "df-lb1-04",
+    "df-lb1-05",
+    "df-lb1-06"
+  ],
+  "regression": {
+    "preflight(HEAD)": "pass — 기존 15건 결속 유지",
+    "validateBatch(aae1370·9fccd8e 공통)": "fail: wrong-origin:source-evidence.jsonl:1 — controller가 행 단위 origin 필드를 누락(df-lb1-06). 동결 불변성 보호로 소급 미수정. df-lb1-04(행수 상한 충돌)는 정적 분석 확인(실측은 origin 실패에 가려 미도달)"
+  },
+  "nextBatchDecision": "3건 단위 유지 — 새 실행 결함 4건 발견으로 5건 승격 불가. 계약·도구에 df-01~04 반영 후 재실행",
+  "externalActionsPending": "결과의 Notion·PR 반영은 기헌 승인 대기",
+  "closedAt": "2026-08-10T23:50+09:00"
+}

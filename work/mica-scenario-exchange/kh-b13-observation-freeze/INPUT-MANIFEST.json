@@ -1,0 +1,32 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-input-manifest/v1",
+  "jobId": "kh-b13-observation-freeze",
+  "files": [
+    {
+      "path": "need-observations.staging.jsonl",
+      "sha256": "1ca7f5713722c69d0a312530402c0dd933c665a3ed115da2dce736c7d8e6acda",
+      "byteLength": 10175
+    },
+    {
+      "path": "observation-reviews.staging.jsonl",
+      "sha256": "ffc5df8fb304eed070d4ff9cc9b0b4c8c2e1c2adfb22007cbdcec2288322a01a",
+      "byteLength": 13957
+    },
+    {
+      "path": "observation-review-closure.json",
+      "sha256": "e98a35fb1b45ea90076f2c171c64d52d1d1d1cd3b256409b037cf2b75fee9d2c",
+      "byteLength": 3023
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "bc6e2e2e87bbb79856c43137a9b46dfbd62110e5cb32b6a0a36bc6b5d7f639c7",
+      "byteLength": 5127
+    },
+    {
+      "path": "CLOSURE.template.json",
+      "sha256": "3c5b914ad1a0cb700186784f79e6c318b64d1d3bd5898c68002d94114ea7d069",
+      "byteLength": 1503
+    }
+  ]
+}

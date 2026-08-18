@@ -1,0 +1,7 @@
+interface:
+  display_name: "MICA 시나리오 제작"
+  short_description: "표준 5건과 Lean 3건의 자원을 비교한 뒤 MICA 후보를 제작합니다"
+  default_prompt: "표준과 Lean 방식의 작업량·예상 시간·필요 자원을 먼저 비교하고 하나를 추천한 뒤, 선택된 MICA 시나리오 제작 프로필로 시작해 주세요."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,279 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "std-b4",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-ae0e7e0c25f7c3af2",
+    "sourceReviewer": "agent-a47cc65c4e6ed090f",
+    "needWriter": "agent-a86a671bd9c56a584",
+    "observationReviewer": "agent-a02fe20fee72c5e0b",
+    "observationCustodian": "controller-mechanical (전건 판정 존재·수락 필터+해시)",
+    "translator": "agent-a3454046c67b608fa",
+    "candidateReviewer": "agent-a181c534132238a26",
+    "candidateCustodian": "controller-mechanical (전건 accept·해시 계산만)",
+    "comparator": "agent-a89a06b4139e9f201",
+    "measurementAssetAuthor": "agent-a946a757abd4b4ac4 (1·2차 동일 컨텍스트)",
+    "oracleReviewer": "agent-ac02265f698f65d7d",
+    "measurementReviewer": "agent-a7b4c46ca85799dd2",
+    "controller": "claude-code-main-session (Fable, controller)"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "web search/fetch",
+      "contextId": "agent-ae0e7e0c25f7c3af2",
+      "executedAt": "2026-08-11T11:29+0900",
+      "durationSec": 1649,
+      "note": "ev-b4-01~05: 숙박 피해구제·티메프 집단조정·보이스피싱 통계·착오송금 반환·휴면예금 지급. 01~03은 첨부 렌더 실패로 2차 대조 재구성 자백 — S2 검증 관건",
+      "tokens": 353818
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 첨부 PDF·CSV 직접 다운로드·텍스트 추출 대조",
+      "tools": "read+웹(첨부 다운로드 경로 포함)",
+      "contextId": "agent-a47cc65c4e6ed090f",
+      "executedAt": "2026-08-11T11:37+0900",
+      "durationSec": 435,
+      "note": "accept 4·reject 1(ev-b4-02: 원문에 없는 '조정 수락 의사' — 별건 후속 발표의 2차 혼입, knownLimits 자기모순). 01·03은 수집자 미확인 수치를 검토자가 원문 확보로 구제",
+      "tokens": 134838
+    },
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "web fetch(PDF 직접 열람)",
+      "contextId": "agent-ae0e7e0c25f7c3af2",
+      "executedAt": "2026-08-11T11:40+0900",
+      "durationSec": 147,
+      "note": "ev-b4-06 발행(ev-b4-02 supersede) — 원문 PDF 직접 열람, 2차 혼입 문장 제거·수락 절차 안내로 교체",
+      "tokens": 21046
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "기추출 원문 텍스트 재대조",
+      "contextId": "agent-a47cc65c4e6ed090f",
+      "executedAt": "2026-08-11T11:42+0900",
+      "durationSec": 67,
+      "note": "srv-b4-06 accept — 신규 사실 전부 원문 실재, 2차 혼입 역방향 차단 확인",
+      "tokens": 6011
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 과업 번역 가능성 자가검사 지침(nt-b3-02 완화) 반영",
+      "tools": "read: 수락 evidence 운반 파일만",
+      "contextId": "agent-a86a671bd9c56a584",
+      "executedAt": "2026-08-11T11:46+0900",
+      "durationSec": 203,
+      "note": "ob-b4-01~05 — 숙박 위약금 조항 대조, 스캠 접촉 판별, 착오송금 요건·단계, 휴면자산 존재 확정, 티메프 조정 당사자 특정",
+      "tokens": 80206
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 관찰+수락 evidence 운반 파일",
+      "contextId": "agent-a02fe20fee72c5e0b",
+      "executedAt": "2026-08-11T11:49+0900",
+      "durationSec": 186,
+      "note": "accept 4·reject 1(ob-b4-02: 근거 밖 통계 포괄 단정+내적 판별력이라 외부 확인 불가). nt-b3-02 자가검사 완화 유효(2/5→4/5)",
+      "tokens": 83365
+    },
+    {
+      "role": "taskTranslator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 동결 관찰 운반 파일만",
+      "contextId": "agent-a3454046c67b608fa",
+      "executedAt": "2026-08-11T11:55+0900",
+      "durationSec": 330,
+      "note": "ki-b4-01~04 — 숙박 위약금 조항 대조, 착오송금 반환 단계, 휴면 예금·보험금 조회, 티메프 환급 당사자 확인",
+      "tokens": 90295
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 후보+동결 관찰 운반 파일",
+      "contextId": "agent-a181c534132238a26",
+      "executedAt": "2026-08-11T11:58+0900",
+      "durationSec": 150,
+      "note": "crv-b4-01~04 전건 accept — 측정 유의점 8건(채점 사전 고정 항목) 제시",
+      "tokens": 84052
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 동결 후보+카탈로그 5종(후속 11 포함)",
+      "contextId": "agent-a89a06b4139e9f201",
+      "executedAt": "2026-08-11T12:03+0900",
+      "durationSec": 225,
+      "note": "transformation 2(ki-b4-01·03), independent-finding 2(ki-b4-02 착오송금, ki-b4-04 티메프 — 새 문제 가족)",
+      "tokens": 103506
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 표준 규격 10항+자가검사(오발화 0·산술 재검) 1차 설계",
+      "tools": "read: 동결 후보만 + 스크래치 빌드",
+      "contextId": "agent-a946a757abd4b4ac4",
+      "executedAt": "2026-08-11T12:28+0900",
+      "durationSec": 1413,
+      "note": "ma-b4-01~04 — 객체 총 107, 변형 3종씩, 판정분류 총칙 4항 정의(요건 대조 불일치≠SOURCE-CONFLICT 명시)",
+      "tokens": 172393
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — EXP 전건 재계산·정답 런 토큰 커버 검산",
+      "tools": "read 허용 2파일+스크래치 빌드",
+      "contextId": "agent-ac02265f698f65d7d",
+      "executedAt": "2026-08-11T12:47+0900",
+      "durationSec": 1094,
+      "note": "1차 feasible 3(or-b4-01~03)·infeasible 1(or-b4-04: vr-f1 기대 판정 자기 모순 — 판매사/PG 축 상반 분류). 비차단 30건",
+      "tokens": 210056
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 2차, f1 기대 판정 모순 국소 수정(동일 컨텍스트 재개)",
+      "tools": "빌더 소스 수정+자가검증",
+      "contextId": "agent-a946a757abd4b4ac4",
+      "executedAt": "2026-08-11T12:54+0900",
+      "durationSec": 393,
+      "note": "ma-b4-05 — 주입기 효과를 수령일 결측으로 축소, f1 판정표 정합 재선언, 재발 방지 사전 게이트(c14) 추가. 소실 0·오발화 0·타 자산 해시 불변",
+      "tokens": 30502
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read 스테이징 5행째+스크래치 빌드",
+      "contextId": "agent-ac02265f698f65d7d",
+      "executedAt": "2026-08-11T12:57+0900",
+      "durationSec": 179,
+      "note": "or-b4-05 feasible — f1 동시 충족 성립(5축 독립 재계산 일치), 분기 상속+교체 9건 명시. 신규 비차단 2·이월 비차단 8",
+      "tokens": 29149
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 3파일+스크래치",
+      "contextId": "agent-a7b4c46ca85799dd2",
+      "executedAt": "2026-08-11T13:08+0900",
+      "durationSec": 548,
+      "note": "mr-b4-01~04 designable 4 — ki-b4-04는 실행 조건 부기, ki-b4-02는 커버리지 5/6 신고",
+      "tokens": 213072
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable (메인 세션)",
+      "effortClass": "high",
+      "tools": "파일 운반·기계 검증·동결",
+      "contextId": "main",
+      "executedAt": "2026-08-11T13:08+0900",
+      "note": "S13 종결 — 계약 4·원장 4·closure. max 승급 0회(2차 수렴)"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "userDirective": "기헌 2026-08-11: '04는 코덱스 몫으로 두고 남은 2순위 영역 이어서 진행' — controller 판단으로 03 여행 계획·숙박 + 05 금융·은행·투자 선택(01·02는 코덱스 Lean 직전 배치의 문제 가족 충돌 위험 회피, 03·05는 양 런타임 후속 작업 0의 순수 2순위)",
+    "scopeNote": "카테고리 번호는 예약 정보 — 작성·번역 역할에는 '여행·숙박 생활 영역'과 '금융·은행 생활 영역'으로만 전달, 진행판·수량 목표 노출 금지",
+    "defectMitigations": "공통 계약 '실행 결함 완화 기준' 9규칙 + std-b3 확립 관측 스키마 표준(판정분류 7필드 probe·판정/고지 이벤트·[무효]/[실패] 귀속·재조회 귀속 규칙·날조 카나리+허용 토큰 레지스트리(+60초 타임스탬프 계열·상태/판정 라벨 허용 패턴 포함)·승인 선행 필드·evt-change-proposed 외부화)를 1차 설계 명세부터 전량 적용. nt-b3-01의 비차단 14건 중 설계 명세화 가능 항목(정답 런 오발화 자가검사, 틱 귀속 열거, 처리 순서 문장, ae 체크 통합) 선반영",
+    "startedAt": "2026-08-11T11:00+0900",
+    "toolSha": "833f472"
+  },
+  "completedAt": "2026-08-11T13:08+0900"
+}

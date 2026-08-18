@@ -1,0 +1,43 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-observation-closure/v1",
+  "jobId": "kh-b13-observation-write",
+  "status": "COMPLETED",
+  "authorContextId": "4a1507bf-1c32-42de-90db-da1ec0691102",
+  "authorAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsWritten": 4,
+  "sourceEvidenceRowsUsed": 5,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "6e98a407fa0bb2a0bf99dc4d892e9dc8d09759a3e5336c4c0e225b1184332d69"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "fb2968d3e86f59ea34280dcf4dc6b9fa5ada2a74ec677ef5196c611dae7da25c"
+    },
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "730745b4f9fda570808845140fc53cd1788e0a2a547b8cc12ef687dcbf8ad57c"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "74039fe528f0e0a961785efb17363f09acb4be3dc955e88adcd4771e096a425e"
+    }
+  ],
+  "outputPath": "need-observations.staging.jsonl",
+  "outputSha256": "1ca7f5713722c69d0a312530402c0dd933c665a3ed115da2dce736c7d8e6acda",
+  "outputBytes": 10175,
+  "observedAt": "2026-08-15T05:21:58Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "PACKAGE-SHA256.txt 검증 결과 5개 파일 모두 OK. INPUT-MANIFEST.json과 source-evidence.staging.jsonl의 SHA는 READY.json 선언값과 일치.",
+    "ev-kh-b13-03과 ev-kh-b13-04는 동일한 생활 필요(통근 이동 시간 부담)와 동일한 상태 변화를 직접 지지하여 ob-kh-b13-03 한 행에 결합. 그 외 evidence는 각 1행에 단독 사용, 행 간 evidence ID 중복 없음.",
+    "authorContextId는 현재 세션의 스크래치패드 경로에 부여된 세션 식별자에서 취득.",
+    "외부 웹 검색·sourceUrl 재방문·저장소 접근·Notion·Slack·Obsidian 호출 0회. 이 job 디렉터리 밖의 로컬 파일 읽기 0회."
+  ]
+}

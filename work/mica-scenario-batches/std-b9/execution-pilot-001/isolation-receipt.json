@@ -1,0 +1,9 @@
+{
+  "enforcement": "macos-sandbox-exec",
+  "privateRoot": "controller-private-root",
+  "agentRoot": "isolated-ephemeral-root",
+  "publicRootReadable": true,
+  "privateProbeBlocked": true,
+  "otherProcessInfoBlocked": true,
+  "commandExitCode": 0
+}

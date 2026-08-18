@@ -1,0 +1,1278 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.research-portfolio/v1",
+  "portfolioId": "kiheon-ideation-100-slot",
+  "displayNameKo": "신기헌 아이데이션 100-slot 연구 포트폴리오",
+  "displayNameEn": "Kiheon Ideation 100-slot Research Portfolio",
+  "relationToCanonical": "parallel-research-portfolio",
+  "canonicalAdoptionStatus": "not-adopted",
+  "targetSlotCount": 100,
+  "categories": [
+    {
+      "categoryId": "email-calendar",
+      "labelKo": "이메일·캘린더",
+      "slots": [
+        {
+          "slotId": "email-calendar-01",
+          "status": "occupied",
+          "candidateId": "LEAN010204-TASK-001",
+          "annotationRowSha256": "cfc3c7c95c7139d65a78f174679f8aee19e541757667ba725dc273ebd4767ca7",
+          "reviewRowSha256": "5ec13881c31830f2e5e9e7ec7f9b317dfec1716dbda1e5e9e23c8e5a2de20b19",
+          "sourceBatchId": "lean-010204-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "email-calendar-02",
+          "status": "occupied",
+          "candidateId": "ki-lb1-02",
+          "annotationRowSha256": "fe9cf736191df1560e0c5f7c8f9eaa30ef229abb5b52dc8e0ed41b9c661799d8",
+          "reviewRowSha256": "b0daa5d74d71b06952bd6b2c8eaa4e5cc2799a957b78331208c81d3c35bd997e",
+          "sourceBatchId": "lean-b1",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "email-calendar-03",
+          "status": "occupied",
+          "candidateId": "ki-b6-01",
+          "annotationRowSha256": "81b1179e611b32e8d238708ea42ae84c1bb24c9cf0d3757e12c728b07d3351a0",
+          "reviewRowSha256": "9f94d8eb6da44939990b4a08e35b7ffca81126bd6953d0100bc6cc9a5e72f8fd",
+          "sourceBatchId": "std-b6",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "email-calendar-04",
+          "status": "occupied",
+          "candidateId": "ki-b6-02",
+          "annotationRowSha256": "2c28f6e4387033c42cbb031314af6c5f3b0c21e81e604be0cfe99e19154cea1f",
+          "reviewRowSha256": "9721aeaad468b51db40f6cb86c7b36239c503ee3cf0ea17571b27247b86c8f99",
+          "sourceBatchId": "std-b6",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "email-calendar-05",
+          "status": "occupied",
+          "candidateId": "ema-r2-03",
+          "annotationRowSha256": "018156743e29ba73734e522ed405751cbd751caaf5acbedce7c45c4ef78e57d0",
+          "reviewRowSha256": "7ec6dfeea6cea58633bce087dad23c8c1e41150e5ba8653e94ad946103eaa3f5",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "eml-draft-01",
+              "supersededAnnotationRowSha256": "5260b0a582ae889b109d6e7c5f26a4c844a567bf9554eee2104bb379bf8bd3b3",
+              "replacementCandidateId": "ema-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "email-calendar-06",
+          "status": "occupied",
+          "candidateId": "eml2-draft-01",
+          "annotationRowSha256": "b62f51ff38e27af2054e3908a6bc1186e3b674ea002d91855d1e9f734c86b53f",
+          "reviewRowSha256": "269b3c39a13cc32a73fbefa8dbd001852a8b807655bbeec1f487349e29bc535a",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "email-calendar-07",
+          "status": "occupied",
+          "candidateId": "eml2-draft-02b",
+          "annotationRowSha256": "096a5d08b10381df49a9a79639779baab222860e18985a7264245dc243de3962",
+          "reviewRowSha256": "c0e3d37b751720ec3b4ef50b9e0fa9857eedf355d7d017829c45dfa77c7ee783",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "eml2-draft-02",
+              "supersededAnnotationRowSha256": "55796ba2ae9edc9ea7baa1f1892178b1223c9ac1c89075cf6c4cc6b0e8a7c31d",
+              "replacementCandidateId": "eml2-draft-02b",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "email-calendar-08",
+          "status": "occupied",
+          "candidateId": "eml2-draft-04",
+          "annotationRowSha256": "4558186a2cad2a7475ef22e8f22e40ce98837f5f1419d8c446c700085ed562e4",
+          "reviewRowSha256": "09561589e839d153016e7d4894c644d1dbb80f2b279732c7e4a4b2d4a0ab4320",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "email-calendar-09",
+          "status": "occupied",
+          "candidateId": "eml2-draft-05",
+          "annotationRowSha256": "7ec6c0ed1d554c41d1c78cdb1b1eb4c4faed94b134051b74810e421a2bf0b791",
+          "reviewRowSha256": "9cf4d0531da1c52047d4c890261eedc8244e0893e28272d23a856b48948a243d",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "email-calendar-10",
+          "status": "occupied",
+          "candidateId": "eml3-draft-01",
+          "annotationRowSha256": "c204eea075254d46a6b3b81c75fe4ac76c2613d0095137c630eb501e01d27ab8",
+          "reviewRowSha256": "38b26b01d789b7ad8cbc1b5e9ac4815501f117c8e120c12a3b4f05f011524da1",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "shopping-delivery",
+      "labelKo": "쇼핑·배송",
+      "slots": [
+        {
+          "slotId": "shopping-delivery-01",
+          "status": "occupied",
+          "candidateId": "LEAN010204-TASK-002",
+          "annotationRowSha256": "eaf55d44c74147a08d0f39952d8b9f1d0aacb1a17c9130681dae6afe8f66b03f",
+          "reviewRowSha256": "c940e258338ae5a692e52d47fb4632f3f9e41fee16656aff1b457cbf03aea28c",
+          "sourceBatchId": "lean-010204-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "shopping-delivery-02",
+          "status": "occupied",
+          "candidateId": "tc-b10-01",
+          "annotationRowSha256": "9420b37e46cb5c21eb49efdad23253c767ff466d6ecd9ff1fa6530c310fe048f",
+          "reviewRowSha256": "3a18365414c35bfd16e2a3c61d7dacb0840b58ed0ac2515f1b4e0f2f9bdb3cbd",
+          "sourceBatchId": "std-b10",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "shopping-delivery-03",
+          "status": "occupied",
+          "candidateId": "tc-b12-02",
+          "annotationRowSha256": "8bb86ad29bb745644b391512dee448a927280cf7f0a9cf1ff42929fe129a4001",
+          "reviewRowSha256": "be0df0e7efcbdd76a5d49cc3fa0cc6bbf5c760954eb0d14ff9a15c07b034b880",
+          "sourceBatchId": "std-b12",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "shopping-delivery-04",
+          "status": "occupied",
+          "candidateId": "ki-b4-04",
+          "annotationRowSha256": "48db80b8a4149cb1a7ec166a781dc076704b08faa6ed43183c81a1a7b07a1771",
+          "reviewRowSha256": "757d4859e1f9843f140439ad4bff8dee0e425f8bee3c70f29610d47affd8b759",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "shopping-delivery-05",
+          "status": "occupied",
+          "candidateId": "sho-r2-01",
+          "annotationRowSha256": "82b7f7b06744cdc5b2be46630fe9b35f99e53d54cfd5d3b64ac253af2c7fa8ce",
+          "reviewRowSha256": "24cf77adff1a870b36d02288665dcb90c5e7263a93a6cc555ab2e2d979f61090",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-01",
+              "supersededAnnotationRowSha256": "eacfa0fd765dcbf33f2c2fbcffd500777fced6126f1c131b3b27227085e4d84b",
+              "replacementCandidateId": "sho-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "shopping-delivery-06",
+          "status": "occupied",
+          "candidateId": "shp-draft-02",
+          "annotationRowSha256": "a2863c3b7c345602c7d1f2dd0a1ed67edce90cdeb55a4c2ee5ce7b17d727a134",
+          "reviewRowSha256": "08008d1ebb76f3efe27fe884f5e5813448a49d1cd53beb21a48a046f297c559d",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "shopping-delivery-07",
+          "status": "occupied",
+          "candidateId": "shp-draft-03",
+          "annotationRowSha256": "64a4e5969c215f9f613d24b78f5102103477fd9d996f9baaf853c59388d20724",
+          "reviewRowSha256": "a9326f43ef902e1b392551fa9b782fe22a9ed0255e58c75f6a74914de1f407c0",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "shopping-delivery-08",
+          "status": "occupied",
+          "candidateId": "sho-r2-02",
+          "annotationRowSha256": "d112b077f42d38a85d0b72216f90d216b61ba14c32a1f8527d27eb732d50bbe6",
+          "reviewRowSha256": "778e718f2781f7d483da97f1e348b54ebce697bd1edc9823ace340126c494824",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-05",
+              "supersededAnnotationRowSha256": "443e42c7bd8e3766f2da49260aea4a431fc9dbb62975f7e6c8bdbdac7ee9c6a5",
+              "replacementCandidateId": "sho-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "shopping-delivery-09",
+          "status": "occupied",
+          "candidateId": "sho-r2-03",
+          "annotationRowSha256": "589db441310688d8276d4e955d90798e5fc1e6146500bca844def1a385976410",
+          "reviewRowSha256": "8dd423b6379ae7d648c52f7b98f3e304318a12d7cbf1e71310649025d9d0bfcd",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-07",
+              "supersededAnnotationRowSha256": "31fe9bffd2e17b15add5afff81f01b52ffd2ed9a46c7dc5c792182d10ce8d9ff",
+              "replacementCandidateId": "sho-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "shopping-delivery-10",
+          "status": "occupied",
+          "candidateId": "sho-r2-04",
+          "annotationRowSha256": "616a286b3dbbaa4c50f2998623f409e04229e5cfd18e252cb1b42c0ed2ceece2",
+          "reviewRowSha256": "e11b44de8a2b686e305ee4e35292a137a7e321c0da285ccc03b969781eaee0bf",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "shp-draft-08",
+              "supersededAnnotationRowSha256": "037438c96ebb379f02fee144a6431c37f0865175a76a5e0e6f4889ee535599db",
+              "replacementCandidateId": "sho-r2-04",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "travel-accommodation",
+      "labelKo": "여행 계획·숙박",
+      "slots": [
+        {
+          "slotId": "travel-accommodation-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-010",
+          "annotationRowSha256": "8410c1cdc732cfff2c289171726c76c8c63663501c2a4efd96aca7d97fb81e06",
+          "reviewRowSha256": "a609fffd108662a6b9a8c0a5ab0119fab95a69ecd15112a1320f1b6de5c2924c",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "travel-accommodation-02",
+          "status": "occupied",
+          "candidateId": "tc-b12-01",
+          "annotationRowSha256": "e847ee90fce8795b3199053ebf7a41f94a7287e4297ef82d3146300b5aa2a50a",
+          "reviewRowSha256": "23ccb4a3d4c5232bcf352fcdaf99c3374d3a90cc7637a4a102f8b41cf1f94482",
+          "sourceBatchId": "std-b12",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "travel-accommodation-03",
+          "status": "occupied",
+          "candidateId": "ki-b4-01",
+          "annotationRowSha256": "66e5f5367ca9509b3f838a8399a3ba2f4eef9f0543b274b33a57991f051f6cd9",
+          "reviewRowSha256": "2f22a128ad7db59f302538e6425da40b28fa094b704269f0bdb1908fb6026190",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "travel-accommodation-04",
+          "status": "occupied",
+          "candidateId": "ki-b13-02",
+          "annotationRowSha256": "b79c58484319f313241cd9118b8fac377e95c43337bab9505143eadacbab6bdc",
+          "reviewRowSha256": "243103088edbc6ce7d9c97d8e26441cfaaaa80c4d3fb6bee87a6b84335082592",
+          "sourceBatchId": "kh-b13",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "travel-accommodation-05",
+          "status": "occupied",
+          "candidateId": "tra-r2-01",
+          "annotationRowSha256": "5d1d62ad0fa9932502da1a091bae876fb0cbab2223262e970bf3fb6f5c67b8bc",
+          "reviewRowSha256": "c2d2ef1c4c41c21d0bf754c350c0e300fe8874788d4de9356172d80c4fb14c04",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "trv-draft-01",
+              "supersededAnnotationRowSha256": "e8cdf26e2d075cd6ffbf0ae660cb2d02033543fded9d68bd8bf0ba2383dcbbe1",
+              "replacementCandidateId": "tra-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "travel-accommodation-06",
+          "status": "occupied",
+          "candidateId": "trv-draft-04",
+          "annotationRowSha256": "c855c0cb13a71bd0ee2c75fdaa4aaa23d8e3243a3fa588c748645b70e27e6120",
+          "reviewRowSha256": "3535c3d891fdc7a4c445ff798ebf5dbc8d150fed1bbf88520ce620bc32ee717a",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "travel-accommodation-07",
+          "status": "occupied",
+          "candidateId": "trv2-draft-01",
+          "annotationRowSha256": "23b73844b7363c05b9fb006e495c01a94c856c1e9d2708584bd04e77f5ec1aea",
+          "reviewRowSha256": "6a35e0b99d14d7e24b304a92ed387e576c821e23da97edc51d3291b761511fe0",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "travel-accommodation-08",
+          "status": "occupied",
+          "candidateId": "trv2-draft-03",
+          "annotationRowSha256": "3d9255cc36ac46d9e4f8da17e163e45ab1daea943a1f3e5d8d1ab53f2048417d",
+          "reviewRowSha256": "04a4b89af055298866048547c581b1c065c104abebc6c9669f7437eed5831ae9",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "travel-accommodation-09",
+          "status": "occupied",
+          "candidateId": "trv2-draft-04",
+          "annotationRowSha256": "51cf655284c6a7f35c4e171f142ad1e8042857d1d7d59bf1dc6732b5dd6a5674",
+          "reviewRowSha256": "5f4e997aa3699be32249ecddf7b026a970b93ba39e19a01d922efb94cd73800e",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "travel-accommodation-10",
+          "status": "occupied",
+          "candidateId": "trv2-draft-05",
+          "annotationRowSha256": "376a222b273b22c6cbf61d871c1a6803e9ef183d26617ed54e12a728db55b307",
+          "reviewRowSha256": "639158385a42d4f93bffc9d61d390aba5fdf75ab776803241efcf62208c68ca7",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "restaurants-local",
+      "labelKo": "외식·예약",
+      "slots": [
+        {
+          "slotId": "restaurants-local-01",
+          "status": "occupied",
+          "candidateId": "tc-b10-02",
+          "annotationRowSha256": "eca8b3ab9dec945c00c0e319210bb3c37926b6e5ab3d573c9b25afbf816a8fd4",
+          "reviewRowSha256": "7c68a8bf588c392aa487a73f0f3dd9a3cc60c2044a21f536cb1a0141ac9c2573",
+          "sourceBatchId": "std-b10",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "restaurants-local-02",
+          "status": "occupied",
+          "candidateId": "KI-L4-001",
+          "annotationRowSha256": "4323e2bf3d3bfe5257a58672e42b8df8833c47d764a98a25d6cd41a7d7a91b59",
+          "reviewRowSha256": "c853f27f95d024dd09db0b3f76c0966a71c60140fbf20f0f2dab8eedb9b820a6",
+          "sourceBatchId": "cat04-lean-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "restaurants-local-03",
+          "status": "occupied",
+          "candidateId": "res-draft-04",
+          "annotationRowSha256": "f62fbd7d6fd2b5186774521a304d058e7d78e82098540d9ed3c23527f4fe15e1",
+          "reviewRowSha256": "41b7d34d5d00f1eb6ae34a61d83dddaf9ce34c23957de7ef425506a3c348ebff",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-04",
+          "status": "occupied",
+          "candidateId": "res2-draft-01",
+          "annotationRowSha256": "9acb77229d67ec674da5709a10fd922ac05a5baa361346011fc7e9710f10a5f7",
+          "reviewRowSha256": "02dacbc19af28dfb3979d5447783fc882de2bb5ad0acf0dd2949c1eab7aceb40",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-05",
+          "status": "occupied",
+          "candidateId": "res-r2-01",
+          "annotationRowSha256": "17afcfdbbb75b7e7ab5975e1854ef2686e89e51e2a9dc7169b697a3e8b2f16b2",
+          "reviewRowSha256": "912e2dff238752d0fcaa0870e3d2a5cd6d23d20ccca8b153ac4480aabce20e16",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res2-draft-02",
+              "supersededAnnotationRowSha256": "3c3f523f685928ae10cbbf5a1627d42543c036b6208bb2e45375e6886b8cd22d",
+              "replacementCandidateId": "res-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-06",
+          "status": "occupied",
+          "candidateId": "res2-draft-03",
+          "annotationRowSha256": "817acb4357f0da0d19906c257dd7e57bb33c0ef815e5f518d2446e9b8055b222",
+          "reviewRowSha256": "fe3cbd3cc50bc33e41046def2adbaf15598afce450cda76c43452fdac293dd17",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-07",
+          "status": "occupied",
+          "candidateId": "res-r2-04",
+          "annotationRowSha256": "f2086f324de36bae2c50c1cac1795b2f57e5127ed541689727c0220f94211915",
+          "reviewRowSha256": "b2760d6b0a8332330a3f95bd2b46fbf9daf0764cf519beb4e4cf71d5094d622f",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-01",
+              "supersededAnnotationRowSha256": "9f7a52edbe7dfb2d669591152a8fc1dc6bf054bdbd34292f1e845a3f3329266a",
+              "replacementCandidateId": "res-r2-04",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-08",
+          "status": "occupied",
+          "candidateId": "res3-draft-11",
+          "annotationRowSha256": "d21e7aa9d040c385ff6fb901e09d6a4bd4447735a4625e2ac3f9781a1ef38b24",
+          "reviewRowSha256": "2ae2cebc585ea64804765e248c500b25d3460223800f93ecb6d4c99c151ebc4b",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-02",
+              "supersededAnnotationRowSha256": "dcdaf6a2021e67e6280834066a16ff0d20ded493482c14952ab01fe8e4588628",
+              "replacementCandidateId": "res3-draft-11",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-09",
+          "status": "occupied",
+          "candidateId": "res-r2-03",
+          "annotationRowSha256": "72d587573002233f68bbf056d30b39d40c1ee75eb0393f4d74db4ba77203290b",
+          "reviewRowSha256": "34876ed373f6ee429aedd286dba6adc553e6eb24ff8180b0cba07c586cdb2109",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-03",
+              "supersededAnnotationRowSha256": "a3c965f2213e510168fc26cafe1700d43f5eda51ec294ea4fc13265f29cc29bf",
+              "replacementCandidateId": "res-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "restaurants-local-10",
+          "status": "occupied",
+          "candidateId": "res3-draft-13",
+          "annotationRowSha256": "7212653692bb3bec83ea9a70f6c6a123a5d0889d13aaec5e40b93020426ef34e",
+          "reviewRowSha256": "29288bae7933fdfb5a149981c88024a135d52be58cc01a610069aed3a8e4849c",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-04",
+              "supersededAnnotationRowSha256": "5ae4583715d7a24a5d8e54d76f10753aa79a4dff13336ee2f5a3872b533406df",
+              "replacementCandidateId": "res3-draft-13",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "money-banking-investing",
+      "labelKo": "금융·은행·투자",
+      "slots": [
+        {
+          "slotId": "money-banking-investing-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-007",
+          "annotationRowSha256": "9742e72d7a2fd163c68ce96b6d06b852db44200ee534f6afbfbc6c1d4119dc78",
+          "reviewRowSha256": "71941dd8f31731eeba95befb310decbfbea96a57af9e687fb9a1fb86589fdabb",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "money-banking-investing-02",
+          "status": "occupied",
+          "candidateId": "KI-P15-012",
+          "annotationRowSha256": "e347d906aa056f2594914e222bf7a66c243f7128bd42233b29cca4de47907433",
+          "reviewRowSha256": "06c9a41720060b0c1e94b085948ad4401cfa50fe3a297ae9803a8ac238a3b593",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "money-banking-investing-03",
+          "status": "occupied",
+          "candidateId": "ki-lb1-03",
+          "annotationRowSha256": "a9ae7f3baafc555e8341d79c684d37e397d6ac1638ea78b54ce280ab51fd9ec5",
+          "reviewRowSha256": "9e87202104397d023fb23b2b87be5a71820308facb670e2d32c029a089756954",
+          "sourceBatchId": "lean-b1",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "money-banking-investing-04",
+          "status": "occupied",
+          "candidateId": "ki-b4-02",
+          "annotationRowSha256": "7197326eeeef6cd73b72324a14e7e754988fc4d30dd46ae4708b4cc325b64253",
+          "reviewRowSha256": "66ad8c39d14fa08669a76c632339884da3b27eec62d7f9f9244d4941d01b9adf",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "money-banking-investing-05",
+          "status": "occupied",
+          "candidateId": "ki-b4-03",
+          "annotationRowSha256": "86a20b0040c719e7f146f874f93909ea6b7e6001371e7c614b1078222f6104b8",
+          "reviewRowSha256": "c20199bdc106381862c91f5eb51edb29619f18f08bd68a6104d659c7912c46fc",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "money-banking-investing-06",
+          "status": "occupied",
+          "candidateId": "ki-b5-02",
+          "annotationRowSha256": "c769f5dd29db5f3d89a9e8a7df25de0882672c755d96a12eee101cb34d0a10fc",
+          "reviewRowSha256": "9e70e651d7fcd8124c568ec8fc4fd3aa9df740c574cc0f4332cc5349e9ab565e",
+          "sourceBatchId": "std-b5",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "money-banking-investing-07",
+          "status": "occupied",
+          "candidateId": "mon-r2-04",
+          "annotationRowSha256": "29ac1d5b87bf293df67d758712689af30aee81de6f058b2c5ed63f1c07f7cadc",
+          "reviewRowSha256": "602719f395f613f2088190ba4d6fb123cb6006b4ecce06d47b6d7a043f995fd8",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mbi-draft-01",
+              "supersededAnnotationRowSha256": "3ca2ab13fe09ec258a1441686484a297bef8f798d7e6ba192bceb3d0247d1962",
+              "replacementCandidateId": "mon-r2-04",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "money-banking-investing-08",
+          "status": "occupied",
+          "candidateId": "mbi-draft-02",
+          "annotationRowSha256": "fb390097a6e1c9466f2738659f295c94a6ecd59bb7a0e359fc8bc6116e23c68d",
+          "reviewRowSha256": "3441068daa4146e85fdea8afb677f2bf86f9c92ce60be64f8db73eb551f76472",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "money-banking-investing-09",
+          "status": "occupied",
+          "candidateId": "mbi-draft-03",
+          "annotationRowSha256": "acf5dc4c6991ae0d7df6ddca4e1fa3345b576fc97f8e9b283644c7e42ebfea5a",
+          "reviewRowSha256": "d0a3e97d89c4d1afc77598e2d105be304267cbab4491623e149c18f7d02edf3b",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "money-banking-investing-10",
+          "status": "occupied",
+          "candidateId": "mbi-draft-04",
+          "annotationRowSha256": "b4603be13c4f944f829b236d4f6831059a2ead2412f8f3994dff86e046072616",
+          "reviewRowSha256": "e6d587e47d42aad3e661ba37dfc25728299362bc195941578ab85217de22168e",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "mobility-transit",
+      "labelKo": "이동·대중교통",
+      "slots": [
+        {
+          "slotId": "mobility-transit-01",
+          "status": "occupied",
+          "candidateId": "ki-b3-01",
+          "annotationRowSha256": "0bbc348c70dc78f8b16086ce0c22de4e820f70fd313ad87a700056dbeac313e8",
+          "reviewRowSha256": "18a90fc29930df4788578906291045ccad3d21a1b029d659625046afd5d4e091",
+          "sourceBatchId": "std-b3",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "mobility-transit-02",
+          "status": "occupied",
+          "candidateId": "ki-b3-02",
+          "annotationRowSha256": "945c29f7e570d299ae8af3eae0617e3979cdd8d0a90c3c13d5eb2eaa2260d5a6",
+          "reviewRowSha256": "d1fe25773dd5dc2632028494df127c21c7ff166f1c6c7654ae5c32f1721e15a3",
+          "sourceBatchId": "std-b3",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "mobility-transit-03",
+          "status": "occupied",
+          "candidateId": "mob-r2-01",
+          "annotationRowSha256": "f03f5a921964d292067565d26717a1ab6aaa924a904ed20449beecbba1a3bad8",
+          "reviewRowSha256": "b38ccbd0e7c12545ee2ad4cb0692b5af2c332f71e46147ba6e9602bebbf29ec3",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob-draft-01",
+              "supersededAnnotationRowSha256": "5fac570483e78a421536571364d8be60800fac6b13a5fff5b16b8713934ccc3a",
+              "replacementCandidateId": "mob-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-04",
+          "status": "occupied",
+          "candidateId": "mob-draft-02",
+          "annotationRowSha256": "9b7542846078cb6a99c8f3b80a0000257e5346c73caa917d10cbead3be3997a5",
+          "reviewRowSha256": "a8bad35c5ef2aff1f3b4e14c9221969fce4023664c5eed8814c82f8d89c14485",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-05",
+          "status": "occupied",
+          "candidateId": "mob-draft-03",
+          "annotationRowSha256": "799d604eb6ac7702dd98038a87b389799e38d3a1542c66c38e0ba6c59e57a076",
+          "reviewRowSha256": "b846646f5e60e1797b757b95eec70e5da4d30ae996af41f607176499639e9cbc",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-06",
+          "status": "occupied",
+          "candidateId": "mob-r2-02",
+          "annotationRowSha256": "d7948a01b443a3bc96ce764735c687915413dab590423f0aa4c838443cda1b6c",
+          "reviewRowSha256": "f30a17f108c39ff9864d83548e7a29561e72cd3ec286be7b1529465db180c3fa",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob-draft-04",
+              "supersededAnnotationRowSha256": "83cfe44afac216df899beccc8f36e2dda7f9425738878b9415934aaa7701d44a",
+              "replacementCandidateId": "mob-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-07",
+          "status": "occupied",
+          "candidateId": "mob-r2-03",
+          "annotationRowSha256": "3c746344126b3d1bcb31c60d99376549cd061d9d1e299cc83505626a810977bf",
+          "reviewRowSha256": "a88b3b5068fbb8d89a96aff589974337265a0b2781d5e48017469d5297b88cc1",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob-draft-05",
+              "supersededAnnotationRowSha256": "b9051f00ba63c81a3528d2d3fc021dbeac370253d388ce53c538685dccbd6d93",
+              "replacementCandidateId": "mob-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-08",
+          "status": "occupied",
+          "candidateId": "mob-r2-05",
+          "annotationRowSha256": "ed3ede1f922b06facba52ee4f4c511f7fa6900ff45490ea3101e58775f72cbac",
+          "reviewRowSha256": "c7fcc2573766277f722b4362b64c5823ac0ae2db8e66033824e1a881639d5edd",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "mob2-draft-01",
+              "supersededAnnotationRowSha256": "d44ee9d7234ca41e2c8d606ffde9d1e554a3572e570e2d7b844aa4a86de36c3d",
+              "replacementCandidateId": "mob-r2-05",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-09",
+          "status": "occupied",
+          "candidateId": "mob2-draft-02",
+          "annotationRowSha256": "45461064cc4c19d70f966de0ccd499a423fca619348242f30cb59bf03f71012c",
+          "reviewRowSha256": "e958c73390bbabe1f319eb74ee7e46ddce1d0b39e2467d034678bddc629806a7",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "mobility-transit-10",
+          "status": "occupied",
+          "candidateId": "mob2-draft-03",
+          "annotationRowSha256": "2dae087299b6f8f0701d3eda5ecbada4b63ef293fc9f4d19ef5306eeb121a6e3",
+          "reviewRowSha256": "4672c3347341ae9254d02e8c065cee64d4306ae2aef69fe096de62da2ff26b2e",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "healthcare-administration",
+      "labelKo": "의료 행정",
+      "slots": [
+        {
+          "slotId": "healthcare-administration-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-002",
+          "annotationRowSha256": "bf0e3d786b9c52e11586603e508a3b784833c1992e4ecdd9eeb8fd816b2a933b",
+          "reviewRowSha256": "12533931a30de20c54456a0dc48340594e9f5448f8866f480bad1246ba1a5366",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "healthcare-administration-02",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-001",
+          "annotationRowSha256": "9926b483a093d7ade7c29eed2ff512939db5ea465a3365f69db6ec133c122c6f",
+          "reviewRowSha256": "deccf578f1613c72ddbc9d07cbb9980282a47f3282b17b524256b2eb52a0d373",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "healthcare-administration-03",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-002",
+          "annotationRowSha256": "a2d9a6a15c6cc52a98b28aaca2291063112a03d2a5adc14c9d71f0a123df8897",
+          "reviewRowSha256": "3c0ee2f812642270341b2c6806167012380a1ddadc09b6862078c7515b8be45d",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "healthcare-administration-04",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-003",
+          "annotationRowSha256": "ff4aba1454e8f99ff6413f8fa56ca48a0e3229bb29bc90299d14a95312864ee6",
+          "reviewRowSha256": "c7c16ba7da82b592c5717f3bdd544dbe363222913b19fae38df9d44c53ec16ee",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "healthcare-administration-05",
+          "status": "occupied",
+          "candidateId": "eml-draft-05",
+          "annotationRowSha256": "c41320eeddb0add72539ab8b809f76923609a2ce9cef96bad0bee9aa29438030",
+          "reviewRowSha256": "c6888367908a721396bbc95a0fab8cf3cd0350982d1aa7fbe6bb856b60d0e9ae",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "healthcare-administration-06",
+          "status": "occupied",
+          "candidateId": "hca-draft-01",
+          "annotationRowSha256": "946794e9104dff1c9718e9adebb36aae567e9319855ef27742f2c06385915340",
+          "reviewRowSha256": "196141cad2be9fbba9ee4315b53acaba082585fe796d25d2d121d79c753994a1",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "healthcare-administration-07",
+          "status": "occupied",
+          "candidateId": "hca-draft-02",
+          "annotationRowSha256": "429d33922c66f5c46aa90e1b9aee189568ce2e8b9ec1852fc77c6624146eec44",
+          "reviewRowSha256": "b65950c9e369cdbf8299cd05250650814c7aa2b58a036744d5686f77727469ef",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "healthcare-administration-08",
+          "status": "occupied",
+          "candidateId": "hca-draft-03",
+          "annotationRowSha256": "0f19c2500dc1867b8bb13c1355e0f1d350132efea387d24e31f7d7c455022da4",
+          "reviewRowSha256": "c9a6aa9d9e151599c9f248bdcdce73a729cc3404ed0a151ced26818740312798",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "healthcare-administration-09",
+          "status": "occupied",
+          "candidateId": "hea-r2-02",
+          "annotationRowSha256": "d4a5874dbe653f4016738f7fc8cfb6265a22521d0e48f6b9ca28fb9543f45846",
+          "reviewRowSha256": "efda3b0cdac407e69520df7541c3fe7eef68e09266d52858cd8f24bc3792b60a",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hca-draft-04",
+              "supersededAnnotationRowSha256": "a7a03113e6ab792d802d57a7d11c11a4de43754ef8ffd54cfff740ce1bd459ab",
+              "replacementCandidateId": "hea-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "healthcare-administration-10",
+          "status": "occupied",
+          "candidateId": "hc-admin-deposit-refund-02",
+          "annotationRowSha256": "c54790cd7cc1502c6a11e06117e95c3bf379ff508b5b2a76e3f07d8e34b5d8b8",
+          "reviewRowSha256": "268ad42a6cb093c4f6ac9dadcff5041f92e7ea61243233614bbaa6c9cd49109a",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hca-draft-05",
+              "supersededAnnotationRowSha256": "2b8b4c785c58671cd05665112d6fbb9c2a5ad72991b01ffc6ce3a10d2d9f1306",
+              "replacementCandidateId": "hea-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T18:10:00Z"
+            },
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hea-r2-03",
+              "supersededAnnotationRowSha256": "665d4200984a4f12a1fcf932c4b18817a8e9c78f5f0a51caf39337c0fb00d6d4",
+              "replacementCandidateId": "hc-admin-deposit-refund-02",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "government-civic",
+      "labelKo": "행정·공공 서비스",
+      "slots": [
+        {
+          "slotId": "government-civic-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-001",
+          "annotationRowSha256": "2f3f548523bde49466984e4eba38a393a5a840887a4882ce8c5aea2793403849",
+          "reviewRowSha256": "e5fd04fdeb4eca511b8899c97f522e1204c5d7d3a477256efe4e9e17851493b8",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-02",
+          "status": "occupied",
+          "candidateId": "KI-P15-003",
+          "annotationRowSha256": "83f504581f6684913a44c98147166f701b420c7f9bd8d4835808dc48ecf77e97",
+          "reviewRowSha256": "e70ed22ac34a6c0e519e5d39501d945fe271cac3d2e7d8e6d98120451a1c8d7e",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-03",
+          "status": "occupied",
+          "candidateId": "KI-P15-004",
+          "annotationRowSha256": "dac391becfa25c77d5d44cd3f779b8b97990a4511741fc8536d046f8c5f9f809",
+          "reviewRowSha256": "2218ba2b85e02ee19bbeca90249b45aee9ba5d9322e63c26baa6396515e06df1",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-04",
+          "status": "occupied",
+          "candidateId": "KI-P15-005",
+          "annotationRowSha256": "afb8f79f4511fab12c149563317b7cecba4056922836c292caa87a71195a4b54",
+          "reviewRowSha256": "5e92ece423657f6cc4dea745ac521f732bc8f21c7a5f03c61bc576146f58fc24",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-05",
+          "status": "occupied",
+          "candidateId": "KI-P15-006",
+          "annotationRowSha256": "b6b8438599633cfa8a96744e5144426e494a15e8bbfec2e30bd4e6916f4d01b7",
+          "reviewRowSha256": "0273d30d155cf8f369b35c77a6866657c60b3065cabfd3cef64538cd6374c859",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-06",
+          "status": "occupied",
+          "candidateId": "KI-P15-008",
+          "annotationRowSha256": "018910001b93ce509f98f77a1e3253c43fe4f11fd6f6df1fd8f2009e931bd7a4",
+          "reviewRowSha256": "38b7c4c224e67a41e8259893281375da642e4380bacbbc142595297fb8b1cb50",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-07",
+          "status": "occupied",
+          "candidateId": "KI-P15-009",
+          "annotationRowSha256": "981dc49136865aa7de3ba865ec298d342d09f1762478ca41a765b83fa878d22c",
+          "reviewRowSha256": "2f0117ba45acb6aaf82ac9382cc5a703dcf2f71f3cc5aa677dc2700e97211cb9",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-08",
+          "status": "occupied",
+          "candidateId": "KI-P15-011",
+          "annotationRowSha256": "8976a4f98f8f559cc1839f674aa38ffc8181094e078171e9e7fbd9d61c565fad",
+          "reviewRowSha256": "b1155a55337a88368882154724d369e11c3e551d7399415c5713e60a972fcabd",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-09",
+          "status": "occupied",
+          "candidateId": "KI-P15-013",
+          "annotationRowSha256": "5c7e61eeb535d57bfbae6ee552fd20f2e29c4a8017350e007f5eae1629cb3876",
+          "reviewRowSha256": "da95b4ddcebb27bfbfc00be368a1b9b621de2b459d53cad695e36eba98fca155",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "government-civic-10",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-004",
+          "annotationRowSha256": "2ddeaa810db8fe4b26ab22c335d9f8a98abe988a0e2f413c1a4c8bccb599db90",
+          "reviewRowSha256": "0d8805fcea113bb85493bcc3a695d8df5c564eace73da7b3c8f4b489c545a9c5",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": [],
+          "tier": "verified"
+        }
+      ]
+    },
+    {
+      "categoryId": "home-utilities",
+      "labelKo": "주거·공과금",
+      "slots": [
+        {
+          "slotId": "home-utilities-01",
+          "status": "occupied",
+          "candidateId": "ki-b5-03",
+          "annotationRowSha256": "1df3463f36524e68aef9ab7c2df3790500fa24430aa2755c2b43cbb4f5bf728d",
+          "reviewRowSha256": "52d9c9cb22c368d6939f8fa911819f1821f9493f361476034ec00584bb4da331",
+          "sourceBatchId": "std-b5",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "home-utilities-02",
+          "status": "occupied",
+          "candidateId": "ki-b5-04",
+          "annotationRowSha256": "7170a9be54cab4985173a07b525ebdcb415943813c39dbb8cda15476e351abda",
+          "reviewRowSha256": "265b971772e594905787d9ae37c815bf51ffaf42418f7cfff6aad246dd9590f7",
+          "sourceBatchId": "std-b5",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "home-utilities-03",
+          "status": "occupied",
+          "candidateId": "ki-b7-04",
+          "annotationRowSha256": "3295f583026a61429d0e617dbdde7084ab64f8f127dbb9e820fa764ddf4cfe22",
+          "reviewRowSha256": "16040e3c925da30b0bc433e60bd407c909607c8396833439945a193087ca1516",
+          "sourceBatchId": "std-b7",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "home-utilities-04",
+          "status": "occupied",
+          "candidateId": "hom-r2-01",
+          "annotationRowSha256": "899d0a941409b998d20b1023aa87eebb5a282d40d245b2a565b8a43659f7bb83",
+          "reviewRowSha256": "d131357d9b71304a6ca465df7cfa9eda1c95b2c58b9e9591b66a4916d6443be1",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hut-draft-05",
+              "supersededAnnotationRowSha256": "2e755bb85f51dc64111a265e4e17b8d819cc04de2378bffb7f45d80fc9aabf6d",
+              "replacementCandidateId": "hom-r2-01",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "home-utilities-05",
+          "status": "occupied",
+          "candidateId": "hom-r2-02",
+          "annotationRowSha256": "451a4c13533b345d129ae7f6794ba135ddec4f578bd646ce2e1b6c4f49f3d378",
+          "reviewRowSha256": "a3919191d043cedd5512168a310a3d8db81e10b9966630e426b941f4325fa32b",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hut-draft-06",
+              "supersededAnnotationRowSha256": "383df13885fa4a529a43a72755fb1be8b50c302fa0071b037429219b7f67c2d7",
+              "replacementCandidateId": "hom-r2-02",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "home-utilities-06",
+          "status": "occupied",
+          "candidateId": "hom-r2-03",
+          "annotationRowSha256": "1345795f5798fe770509b9a417fbc85456235a7e2f69a14ec89c0ce031a55e56",
+          "reviewRowSha256": "10989820cc8301fcf2be9d82aea8c138d98faa4b2b12d4444f25a8de06ce3185",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [
+            {
+              "event": "superseded-defect",
+              "supersededCandidateId": "hut2-draft-01",
+              "supersededAnnotationRowSha256": "83fea30b23e0ae98f8b898a11e11c178cdd1cd662be219df91d5cab301ffeea5",
+              "replacementCandidateId": "hom-r2-03",
+              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-review-rubric-hardening.md#4",
+              "supersededAt": "2026-08-17T17:10:00Z"
+            }
+          ],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "home-utilities-07",
+          "status": "occupied",
+          "candidateId": "hut2-draft-02",
+          "annotationRowSha256": "304c0c8ac17c6ef0a4263a1d060f13f36b971cfabe169cbec5898cd4b2a523fc",
+          "reviewRowSha256": "24215a20194f8695ddea28d29f2a4956b5ba0d1fbb878584a0281f86fdd18a9c",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "home-utilities-08",
+          "status": "occupied",
+          "candidateId": "hut2-draft-03",
+          "annotationRowSha256": "18c0fd82dac135bd4326304acd0b1ff4676479b5acb78b5ff5aca0bab7a9195d",
+          "reviewRowSha256": "1659a7b9e99b200cfb5a9ab93ae5e75bbd9c190982d3b1e12408a429cfce8158",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "home-utilities-09",
+          "status": "occupied",
+          "candidateId": "hut2-draft-04",
+          "annotationRowSha256": "1b36929f3790f0c10a96ee1e79f9c40a457a2599b9a3d3b1a55c3496b96bb39f",
+          "reviewRowSha256": "aaea2371eeda5ba7120ee301bd1a07d960b43986e6a68c2d9f35038e1a03b45f",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        },
+        {
+          "slotId": "home-utilities-10",
+          "status": "occupied",
+          "candidateId": "hut2-draft-05",
+          "annotationRowSha256": "5b1d265eff6081ed8f9326a7e86018d5e5f419945eb12c22460672b69ab9236e",
+          "reviewRowSha256": "270be3b33e1e7b5665f7af626308097b83000cbff0684d0dc4126b10874fa367",
+          "sourceBatchId": "draft-r1",
+          "attemptHistory": [],
+          "tier": "draft-r1"
+        }
+      ]
+    },
+    {
+      "categoryId": "telecom-subscriptions",
+      "labelKo": "통신·구독·렌털",
+      "slots": [
+        {
+          "slotId": "telecom-subscriptions-01",
+          "status": "occupied",
+          "candidateId": "ki-b2-01",
+          "annotationRowSha256": "d500e973cd518924db0a8f48f52eb2ade255cb920df51b0ca20aed7541cf3dcb",
+          "reviewRowSha256": "712bb756ef20e0e381018ecef5318b277a96158bea04eb05a6664d84bae2c6e1",
+          "sourceBatchId": "std-b2",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-02",
+          "status": "occupied",
+          "candidateId": "ki-b2-02",
+          "annotationRowSha256": "52fbbab187537ae3ff1aed8df98e535bb87078322d8d833413afeaecad3d9582",
+          "reviewRowSha256": "900df94ab2b1aa96d15e2998d462ffdde53101c9c53d1109502246f342cecbc5",
+          "sourceBatchId": "std-b2",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-03",
+          "status": "occupied",
+          "candidateId": "ki-b6-04",
+          "annotationRowSha256": "e608dccda3819220ab42f38a5806922e871288741098fba74355afce0bb8b4d9",
+          "reviewRowSha256": "bc77b1f0496c2d41e45ce0740a0e37e61dcc095fdccc3b2763805b12cb092bdb",
+          "sourceBatchId": "std-b6",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-04",
+          "status": "occupied",
+          "candidateId": "ki-b7-05",
+          "annotationRowSha256": "79a652a6361a0a6e1f0db0d0a7a37e020409ef9e27aecfac2fa5612cd7d28e14",
+          "reviewRowSha256": "f4a738af3098cc4189b6d29285843ad19d1981ebbaed0c6fad1d3476bfcbbbaa",
+          "sourceBatchId": "std-b7",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-05",
+          "status": "occupied",
+          "candidateId": "ki-b8-02",
+          "annotationRowSha256": "1dce063c041f19703bb673d04614d4066de98647ec3194b7395bdf07d5c5e6a5",
+          "reviewRowSha256": "1ba14bbd523bfce89352c879e4365725bf9296659443ca31747877ef5b0a6552",
+          "sourceBatchId": "std-b8",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-06",
+          "status": "occupied",
+          "candidateId": "ki-b7-03",
+          "annotationRowSha256": "26b7792b7769f5ab81a98349898daf83e2126a6e4b65c844a59a08eddba21336",
+          "reviewRowSha256": "29eca3be4ad4da6f7d660fc73f8cfa666e6472de2d872de5ffb6beadb0f4e8f4",
+          "sourceBatchId": "std-b7",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-07",
+          "status": "occupied",
+          "candidateId": "ki-b8-03",
+          "annotationRowSha256": "248f2ed1b8780b3cde04583c4762bdf06a936eb36c3c0ad5aaf9b47116a85489",
+          "reviewRowSha256": "4ef7e7d8e53f769f572e62b194bad906d78500112b20f8887358d3d788e12889",
+          "sourceBatchId": "std-b8",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-08",
+          "status": "occupied",
+          "candidateId": "ki-b9-02",
+          "annotationRowSha256": "20cc59098a8fb98dfc0d37568e352ab69519c24857531fb8160d92d3a96bf2f7",
+          "reviewRowSha256": "02a952f28b16a965f4a888a058cdeae40ad731dbfb480c9d26a20ec617bc1ef9",
+          "sourceBatchId": "std-b9",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-09",
+          "status": "occupied",
+          "candidateId": "ki-b9-01",
+          "annotationRowSha256": "ea098ecb09c3c37c9123c34f8c5006fa6758b7b6c6b079901f8d04260dd0771e",
+          "reviewRowSha256": "4b5b18935149a176a2fc7d0365f318837d98cd251e172ccd008fb6699013dd54",
+          "sourceBatchId": "std-b9",
+          "attemptHistory": [],
+          "tier": "verified"
+        },
+        {
+          "slotId": "telecom-subscriptions-10",
+          "status": "occupied",
+          "candidateId": "ki-b9-03",
+          "annotationRowSha256": "342cb7d29a32744fd0139f0b5338c11cc605d829053810acd5daf7c9f7f50b90",
+          "reviewRowSha256": "c27a95f70e8e1e712093961598eb4f30bdd5c0c57fc98c453e5a870b079cef3f",
+          "sourceBatchId": "std-b9",
+          "attemptHistory": [],
+          "tier": "verified"
+        }
+      ]
+    }
+  ]
+}

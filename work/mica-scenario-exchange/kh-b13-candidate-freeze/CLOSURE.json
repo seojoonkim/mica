@@ -1,0 +1,74 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-candidate-freeze-closure/v1",
+  "jobId": "kh-b13-candidate-freeze",
+  "status": "COMPLETED",
+  "custodianContextId": "4b6a1bc7-7367-4d0f-8b4b-09d25b352a7f",
+  "custodianAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "webCalls": 0,
+  "candidateRowsSeen": 1,
+  "reviewRowsSeen": 1,
+  "acceptedRows": 1,
+  "rejectedRows": 0,
+  "heldRows": 0,
+  "candidateReviewReceiptVerified": true,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "927061bb169a7fb2c3347e56de016ad9f0b57dc0d848f830cf76fb6faabecfc6"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "b1cefc704a520af0bb22277033129fa33bf1e3e350cc2eb60adfcb4905398af7"
+    },
+    {
+      "path": "task-candidates.staging.jsonl",
+      "sha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba"
+    },
+    {
+      "path": "candidate-reviews.staging.jsonl",
+      "sha256": "5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c"
+    },
+    {
+      "path": "candidate-review-closure.json",
+      "sha256": "90884f472359fa327e6131e17b1ee3d96ea23fc7f6faf0d22a8459e25784f7e0"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "77a78e619bf75ba39d81675bb1ad9385d7b1eb734344dfdc5c6878a01bda8252"
+    },
+    {
+      "path": "CLOSURE.template.json",
+      "sha256": "c5a05e2b42ccdf49fb6910f2ae87ba38d517bfa3cb3d7af11d0db097e2150346"
+    }
+  ],
+  "outputPath": "frozen-candidates.staging.jsonl",
+  "outputSha256": "d70986a23ed6e1b7c71afb7ed7b4003a506be15d24832409e87e3a0b1f5ccc80",
+  "outputBytes": 6046,
+  "frozenCandidateIds": [
+    "ki-b13-02"
+  ],
+  "completedAt": "2026-08-17T03:13:57Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "pwd -P는 /private/tmp/mica-clean-room-jobs/kh-b13-candidate-freeze로 controller가 지정한 물리 경로와 일치했다. shasum -a 256 -c PACKAGE-SHA256.txt 결과 7개 파일 모두 OK였다.",
+    "candidate review closure 결속: candidate-review-closure.json의 실제 SHA-256 90884f472359fa327e6131e17b1ee3d96ea23fc7f6faf0d22a8459e25784f7e0가 READY.json.candidateReviewClosure.sha256과 READY.json.candidateReviewReceipt.closureSha256 두 곳에 모두 일치했다. 바이트 수 5884와 상태 COMPLETED도 선언과 같다.",
+    "candidate review output 결속: candidate-reviews.staging.jsonl의 실제 SHA-256 5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c가 READY.json.candidateReviewPacket.sha256, READY.json.candidateReviewClosure.outputSha256, READY.json.candidateReviewReceipt.outputSha256 세 결속 위치와 모두 일치했고 candidate-review-closure.json 안의 outputSha256, INPUT-MANIFEST.json 선언값과도 같았다. 바이트 수 6407도 선언과 같다. 따라서 candidateReviewReceiptVerified를 true로 기록했다.",
+    "candidate packet 결속: task-candidates.staging.jsonl의 실제 SHA-256 c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba가 READY.json.candidatePacket.sha256과 INPUT-MANIFEST.json 선언값에 일치했고 바이트 수 5539, 행수 1도 같았다.",
+    "raw row 결속: candidate 행에서 LF를 제외한 5538바이트의 SHA-256 ff20128dea46d694bda717fe5b84db4d3d0be391482f3e4fcf5451ee125374a5가 READY.json.candidatePacket.rawRowSha256ByCandidateId.ki-b13-02와 일치했고, review 행에서 LF를 제외한 6406바이트의 SHA-256 1405c80c6ae95455680fe5d72fedf62a7622403e53d84435b3171e1bf5e3fc0c가 READY.json.candidateReviewPacket.rawRowSha256ByCandidateId.ki-b13-02와 일치했다. review 행 안의 candidateRowSha256도 실제 candidate 행 SHA와 같았다.",
+    "1:1 대응: candidate 1행과 review 1행이며 candidate ID는 양쪽 모두 ki-b13-02 하나다. 중복 ID와 짝 없는 행은 없었다.",
+    "accepted-only 적용: ki-b13-02의 verdict가 accept이고 traceability, executionUnit, startState, finalState, authoritativeOracle, confirmationBoundary, prohibitedStates, failureRecovery, nonFabrication, userRequestExposure 열 checks가 모두 pass여서 동결했다. reject와 hold는 0건이므로 제외한 행이 없다. 수량 목표를 쓰지 않고 입력 review에서 기계적으로 도출한 수만 사용했다.",
+    "원본 보존: nested candidate는 원본 행 객체를 값과 필드 순서 그대로 복사했다. 다시 직렬화한 바이트가 task-candidates.staging.jsonl의 원본 한 줄과 완전히 동일함을 확인했다. 문구, 배열 순서, 수치를 수정하지 않았고 대체 후보를 쓰지 않았다.",
+    "출력 필드 순서는 READY.json.output.exactFieldOrder의 10개 필드를 그대로 따랐고 한 줄에 JSON 객체 하나만 썼다. candidateRowSha256, reviewRowSha256, taskReceiptSha256은 모두 소문자 64자리 SHA-256이다.",
+    "현재 context ID 4b6a1bc7-7367-4d0f-8b4b-09d25b352a7f는 READY.json.forbiddenPriorContextIds의 여덟 값 어느 것과도 다르다. 앞선 역할 세션의 대화, 자기평가, 완료 보고를 읽지 않았다.",
+    "허용 입력 7개만 읽었다. 상위 디렉터리와 다른 로컬 경로 접근, 저장소 clone, GitHub MICA 저장소와 PR 열람, 기존 후보와 portfolio, comparison 열람, source evidence와 observation 원문 열람, 전역 mica-scenario-production 스킬 읽기 및 실행은 없었다. 작업 시작 시 job 디렉터리에는 이 역할의 출력 파일이 존재하지 않았다.",
+    "review의 verdict와 checks를 다시 판정하거나 바꾸지 않았다. category, slot, termination, complexity, surface, measurement, oracle은 설계하지 않았다.",
+    "웹 도구, 외부 조사, Notion, Slack, Obsidian 호출은 0회다. commit, push, 배포, 외부 반영도 하지 않았다.",
+    "U+2014 EM DASH는 출력과 이 closure에 0회다.",
+    "comparison, annotation, measurement 등 다음 단계는 시작하지 않았다."
+  ]
+}

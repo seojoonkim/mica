@@ -1,0 +1,27 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-input-manifest/v1",
+  "jobId": "kh-b13-task-translation",
+  "inputs": [
+    {
+      "path": "frozen-observations.staging.jsonl",
+      "sha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb",
+      "byteLength": 5650
+    },
+    {
+      "path": "observation-freeze-closure.json",
+      "sha256": "71f74c3ba94a0789df471779ed86c319a64c1be012e8b73a91335bc27a1ebf88",
+      "byteLength": 4868
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "eaf667198747834b2f7edd4edb1384d574ec53676ce916094e83349b2ffb040f",
+      "byteLength": 5644
+    },
+    {
+      "path": "CLOSURE.template.json",
+      "sha256": "645a242fd38ac6829b819e0b4f2807bfc8190b8d05f7347b4b7d491a2f0e8862",
+      "byteLength": 794
+    }
+  ]
+}

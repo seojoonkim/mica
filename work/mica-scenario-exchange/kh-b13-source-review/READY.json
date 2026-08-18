@@ -1,0 +1,81 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b13-source-review",
+  "jobType": "clean-room-production",
+  "phase": "source-review",
+  "methodRevision": "standard-v1.3.5",
+  "sourceCommitSha": "be4fb73b28599b7ecc35847b21d956ad59b3308f",
+  "status": "READY",
+  "inputManifest": {
+    "path": "INPUT-MANIFEST.json",
+    "sha256": "eadaa62ad6c93ba0aa285f2fe47e13ad259bd3b73bf716e5e095a6dbdaf2860a",
+    "byteLength": 629
+  },
+  "sourceEvidence": {
+    "path": "source-evidence.staging.jsonl",
+    "sha256": "730745b4f9fda570808845140fc53cd1788e0a2a547b8cc12ef687dcbf8ad57c",
+    "byteLength": 10869,
+    "rows": 5,
+    "sourceBatchId": "kh-b13"
+  },
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "source-evidence.staging.jsonl",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "allowedExternalResearch": "sourceUrl의 공식 원문 페이지와 직접 첨부 문서",
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 로컬 파일과 상위 디렉터리",
+    "GitHub MICA 저장소와 기존 PR",
+    "source researcher 세션의 대화·자기평가·완료 보고",
+    "기존 MICA 100개 과제와 기존 후보",
+    "portfolio, comparison, annotation, holdout 산출물",
+    "Notion, Slack, Obsidian"
+  ],
+  "role": {
+    "name": "sourceReviewer",
+    "accessProfile": "job-packet-only",
+    "mustUseFreshContext": true,
+    "mustUseDistinctContextFromAuthor": true,
+    "mustNotCloneRepository": true,
+    "output": "source-reviews.staging.jsonl",
+    "schemaVersion": "mica.source-review/v1",
+    "exactFields": [
+      "origin",
+      "schemaVersion",
+      "batchId",
+      "reviewId",
+      "evidenceId",
+      "verdict",
+      "checks",
+      "reasons",
+      "nonBlockingNotes",
+      "reviewerContextId"
+    ]
+  },
+  "reviewChecks": [
+    "publisher",
+    "scope",
+    "verbatim",
+    "directSupport",
+    "typeAccuracy",
+    "recency",
+    "limitationsHonesty"
+  ],
+  "maxRows": 5,
+  "rowsMustMatchSourceEvidence": true,
+  "nextStageAutoStart": false,
+  "closureContract": {
+    "template": "CLOSURE.template.json",
+    "output": "CLOSURE.json",
+    "validStatuses": [
+      "COMPLETED",
+      "INPUT-BOUNDARY-BREACH",
+      "BLOCKED"
+    ],
+    "stopAfterClosure": true
+  }
+}

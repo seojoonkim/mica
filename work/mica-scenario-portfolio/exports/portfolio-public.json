@@ -1,0 +1,979 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.research-portfolio-public-export/v1",
+  "namespace": "kiheon-ideation-research-portfolio",
+  "portfolioId": "kiheon-ideation-100-slot",
+  "displayNameKo": "신기헌 아이데이션 100-slot 연구 포트폴리오",
+  "displayNameEn": "Kiheon Ideation 100-slot Research Portfolio",
+  "relationToCanonical": "parallel-research-portfolio",
+  "relationNoteKo": "공식 MICA canonical catalogue와 병존하는 비정본 연구 포트폴리오",
+  "canonicalAdoptionStatus": "not-adopted",
+  "taskSet": "public",
+  "holdoutIncluded": false,
+  "targetSlotCount": 100,
+  "occupiedSlotCount": 45,
+  "blockedSlotCount": 0,
+  "categories": [
+    {
+      "categoryId": "email-calendar",
+      "labelKo": "이메일·캘린더",
+      "slots": [
+        {
+          "slotId": "email-calendar-01",
+          "status": "occupied",
+          "candidateId": "LEAN010204-TASK-001",
+          "annotationRowSha256": "cfc3c7c95c7139d65a78f174679f8aee19e541757667ba725dc273ebd4767ca7",
+          "reviewRowSha256": "5ec13881c31830f2e5e9e7ec7f9b317dfec1716dbda1e5e9e23c8e5a2de20b19",
+          "sourceBatchId": "lean-010204-001",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-02",
+          "status": "occupied",
+          "candidateId": "ki-lb1-02",
+          "annotationRowSha256": "fe9cf736191df1560e0c5f7c8f9eaa30ef229abb5b52dc8e0ed41b9c661799d8",
+          "reviewRowSha256": "b0daa5d74d71b06952bd6b2c8eaa4e5cc2799a957b78331208c81d3c35bd997e",
+          "sourceBatchId": "lean-b1",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-03",
+          "status": "occupied",
+          "candidateId": "ki-b6-01",
+          "annotationRowSha256": "81b1179e611b32e8d238708ea42ae84c1bb24c9cf0d3757e12c728b07d3351a0",
+          "reviewRowSha256": "9f94d8eb6da44939990b4a08e35b7ffca81126bd6953d0100bc6cc9a5e72f8fd",
+          "sourceBatchId": "std-b6",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-04",
+          "status": "occupied",
+          "candidateId": "ki-b6-02",
+          "annotationRowSha256": "2c28f6e4387033c42cbb031314af6c5f3b0c21e81e604be0cfe99e19154cea1f",
+          "reviewRowSha256": "9721aeaad468b51db40f6cb86c7b36239c503ee3cf0ea17571b27247b86c8f99",
+          "sourceBatchId": "std-b6",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "email-calendar-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "shopping-delivery",
+      "labelKo": "쇼핑·배송",
+      "slots": [
+        {
+          "slotId": "shopping-delivery-01",
+          "status": "occupied",
+          "candidateId": "LEAN010204-TASK-002",
+          "annotationRowSha256": "eaf55d44c74147a08d0f39952d8b9f1d0aacb1a17c9130681dae6afe8f66b03f",
+          "reviewRowSha256": "c940e258338ae5a692e52d47fb4632f3f9e41fee16656aff1b457cbf03aea28c",
+          "sourceBatchId": "lean-010204-001",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-02",
+          "status": "occupied",
+          "candidateId": "tc-b10-01",
+          "annotationRowSha256": "9420b37e46cb5c21eb49efdad23253c767ff466d6ecd9ff1fa6530c310fe048f",
+          "reviewRowSha256": "3a18365414c35bfd16e2a3c61d7dacb0840b58ed0ac2515f1b4e0f2f9bdb3cbd",
+          "sourceBatchId": "std-b10",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-03",
+          "status": "occupied",
+          "candidateId": "tc-b12-02",
+          "annotationRowSha256": "8bb86ad29bb745644b391512dee448a927280cf7f0a9cf1ff42929fe129a4001",
+          "reviewRowSha256": "be0df0e7efcbdd76a5d49cc3fa0cc6bbf5c760954eb0d14ff9a15c07b034b880",
+          "sourceBatchId": "std-b12",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-04",
+          "status": "occupied",
+          "candidateId": "ki-b4-04",
+          "annotationRowSha256": "48db80b8a4149cb1a7ec166a781dc076704b08faa6ed43183c81a1a7b07a1771",
+          "reviewRowSha256": "757d4859e1f9843f140439ad4bff8dee0e425f8bee3c70f29610d47affd8b759",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "shopping-delivery-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "travel-accommodation",
+      "labelKo": "여행 계획·숙박",
+      "slots": [
+        {
+          "slotId": "travel-accommodation-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-010",
+          "annotationRowSha256": "8410c1cdc732cfff2c289171726c76c8c63663501c2a4efd96aca7d97fb81e06",
+          "reviewRowSha256": "a609fffd108662a6b9a8c0a5ab0119fab95a69ecd15112a1320f1b6de5c2924c",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-02",
+          "status": "occupied",
+          "candidateId": "tc-b12-01",
+          "annotationRowSha256": "e847ee90fce8795b3199053ebf7a41f94a7287e4297ef82d3146300b5aa2a50a",
+          "reviewRowSha256": "23ccb4a3d4c5232bcf352fcdaf99c3374d3a90cc7637a4a102f8b41cf1f94482",
+          "sourceBatchId": "std-b12",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-03",
+          "status": "occupied",
+          "candidateId": "ki-b4-01",
+          "annotationRowSha256": "66e5f5367ca9509b3f838a8399a3ba2f4eef9f0543b274b33a57991f051f6cd9",
+          "reviewRowSha256": "2f22a128ad7db59f302538e6425da40b28fa094b704269f0bdb1908fb6026190",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "travel-accommodation-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "restaurants-local",
+      "labelKo": "외식·예약",
+      "slots": [
+        {
+          "slotId": "restaurants-local-01",
+          "status": "occupied",
+          "candidateId": "tc-b10-02",
+          "annotationRowSha256": "eca8b3ab9dec945c00c0e319210bb3c37926b6e5ab3d573c9b25afbf816a8fd4",
+          "reviewRowSha256": "7c68a8bf588c392aa487a73f0f3dd9a3cc60c2044a21f536cb1a0141ac9c2573",
+          "sourceBatchId": "std-b10",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-02",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "restaurants-local-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "money-banking-investing",
+      "labelKo": "금융·은행·투자",
+      "slots": [
+        {
+          "slotId": "money-banking-investing-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-007",
+          "annotationRowSha256": "9742e72d7a2fd163c68ce96b6d06b852db44200ee534f6afbfbc6c1d4119dc78",
+          "reviewRowSha256": "71941dd8f31731eeba95befb310decbfbea96a57af9e687fb9a1fb86589fdabb",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-02",
+          "status": "occupied",
+          "candidateId": "KI-P15-012",
+          "annotationRowSha256": "e347d906aa056f2594914e222bf7a66c243f7128bd42233b29cca4de47907433",
+          "reviewRowSha256": "06c9a41720060b0c1e94b085948ad4401cfa50fe3a297ae9803a8ac238a3b593",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-03",
+          "status": "occupied",
+          "candidateId": "ki-lb1-03",
+          "annotationRowSha256": "a9ae7f3baafc555e8341d79c684d37e397d6ac1638ea78b54ce280ab51fd9ec5",
+          "reviewRowSha256": "9e87202104397d023fb23b2b87be5a71820308facb670e2d32c029a089756954",
+          "sourceBatchId": "lean-b1",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-04",
+          "status": "occupied",
+          "candidateId": "ki-b4-02",
+          "annotationRowSha256": "7197326eeeef6cd73b72324a14e7e754988fc4d30dd46ae4708b4cc325b64253",
+          "reviewRowSha256": "66ad8c39d14fa08669a76c632339884da3b27eec62d7f9f9244d4941d01b9adf",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-05",
+          "status": "occupied",
+          "candidateId": "ki-b4-03",
+          "annotationRowSha256": "86a20b0040c719e7f146f874f93909ea6b7e6001371e7c614b1078222f6104b8",
+          "reviewRowSha256": "c20199bdc106381862c91f5eb51edb29619f18f08bd68a6104d659c7912c46fc",
+          "sourceBatchId": "std-b4",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-06",
+          "status": "occupied",
+          "candidateId": "ki-b5-02",
+          "annotationRowSha256": "c769f5dd29db5f3d89a9e8a7df25de0882672c755d96a12eee101cb34d0a10fc",
+          "reviewRowSha256": "9e70e651d7fcd8124c568ec8fc4fd3aa9df740c574cc0f4332cc5349e9ab565e",
+          "sourceBatchId": "std-b5",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "money-banking-investing-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "mobility-transit",
+      "labelKo": "이동·대중교통",
+      "slots": [
+        {
+          "slotId": "mobility-transit-01",
+          "status": "occupied",
+          "candidateId": "ki-b3-01",
+          "annotationRowSha256": "0bbc348c70dc78f8b16086ce0c22de4e820f70fd313ad87a700056dbeac313e8",
+          "reviewRowSha256": "18a90fc29930df4788578906291045ccad3d21a1b029d659625046afd5d4e091",
+          "sourceBatchId": "std-b3",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-02",
+          "status": "occupied",
+          "candidateId": "ki-b3-02",
+          "annotationRowSha256": "945c29f7e570d299ae8af3eae0617e3979cdd8d0a90c3c13d5eb2eaa2260d5a6",
+          "reviewRowSha256": "d1fe25773dd5dc2632028494df127c21c7ff166f1c6c7654ae5c32f1721e15a3",
+          "sourceBatchId": "std-b3",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-03",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "mobility-transit-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "healthcare-administration",
+      "labelKo": "의료 행정",
+      "slots": [
+        {
+          "slotId": "healthcare-administration-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-002",
+          "annotationRowSha256": "bf0e3d786b9c52e11586603e508a3b784833c1992e4ecdd9eeb8fd816b2a933b",
+          "reviewRowSha256": "12533931a30de20c54456a0dc48340594e9f5448f8866f480bad1246ba1a5366",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-02",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-001",
+          "annotationRowSha256": "9926b483a093d7ade7c29eed2ff512939db5ea465a3365f69db6ec133c122c6f",
+          "reviewRowSha256": "deccf578f1613c72ddbc9d07cbb9980282a47f3282b17b524256b2eb52a0d373",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-03",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-002",
+          "annotationRowSha256": "a2d9a6a15c6cc52a98b28aaca2291063112a03d2a5adc14c9d71f0a123df8897",
+          "reviewRowSha256": "3c0ee2f812642270341b2c6806167012380a1ddadc09b6862078c7515b8be45d",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-04",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-003",
+          "annotationRowSha256": "ff4aba1454e8f99ff6413f8fa56ca48a0e3229bb29bc90299d14a95312864ee6",
+          "reviewRowSha256": "c7c16ba7da82b592c5717f3bdd544dbe363222913b19fae38df9d44c53ec16ee",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "healthcare-administration-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "government-civic",
+      "labelKo": "행정·공공 서비스",
+      "slots": [
+        {
+          "slotId": "government-civic-01",
+          "status": "occupied",
+          "candidateId": "KI-P15-001",
+          "annotationRowSha256": "2f3f548523bde49466984e4eba38a393a5a840887a4882ce8c5aea2793403849",
+          "reviewRowSha256": "e5fd04fdeb4eca511b8899c97f522e1204c5d7d3a477256efe4e9e17851493b8",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-02",
+          "status": "occupied",
+          "candidateId": "KI-P15-003",
+          "annotationRowSha256": "83f504581f6684913a44c98147166f701b420c7f9bd8d4835808dc48ecf77e97",
+          "reviewRowSha256": "e70ed22ac34a6c0e519e5d39501d945fe271cac3d2e7d8e6d98120451a1c8d7e",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-03",
+          "status": "occupied",
+          "candidateId": "KI-P15-004",
+          "annotationRowSha256": "dac391becfa25c77d5d44cd3f779b8b97990a4511741fc8536d046f8c5f9f809",
+          "reviewRowSha256": "2218ba2b85e02ee19bbeca90249b45aee9ba5d9322e63c26baa6396515e06df1",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-04",
+          "status": "occupied",
+          "candidateId": "KI-P15-005",
+          "annotationRowSha256": "afb8f79f4511fab12c149563317b7cecba4056922836c292caa87a71195a4b54",
+          "reviewRowSha256": "5e92ece423657f6cc4dea745ac521f732bc8f21c7a5f03c61bc576146f58fc24",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-05",
+          "status": "occupied",
+          "candidateId": "KI-P15-006",
+          "annotationRowSha256": "b6b8438599633cfa8a96744e5144426e494a15e8bbfec2e30bd4e6916f4d01b7",
+          "reviewRowSha256": "0273d30d155cf8f369b35c77a6866657c60b3065cabfd3cef64538cd6374c859",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-06",
+          "status": "occupied",
+          "candidateId": "KI-P15-008",
+          "annotationRowSha256": "018910001b93ce509f98f77a1e3253c43fe4f11fd6f6df1fd8f2009e931bd7a4",
+          "reviewRowSha256": "38b7c4c224e67a41e8259893281375da642e4380bacbbc142595297fb8b1cb50",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-07",
+          "status": "occupied",
+          "candidateId": "KI-P15-009",
+          "annotationRowSha256": "981dc49136865aa7de3ba865ec298d342d09f1762478ca41a765b83fa878d22c",
+          "reviewRowSha256": "2f0117ba45acb6aaf82ac9382cc5a703dcf2f71f3cc5aa677dc2700e97211cb9",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-08",
+          "status": "occupied",
+          "candidateId": "KI-P15-011",
+          "annotationRowSha256": "8976a4f98f8f559cc1839f674aa38ffc8181094e078171e9e7fbd9d61c565fad",
+          "reviewRowSha256": "b1155a55337a88368882154724d369e11c3e551d7399415c5713e60a972fcabd",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-09",
+          "status": "occupied",
+          "candidateId": "KI-P15-013",
+          "annotationRowSha256": "5c7e61eeb535d57bfbae6ee552fd20f2e29c4a8017350e007f5eae1629cb3876",
+          "reviewRowSha256": "da95b4ddcebb27bfbfc00be368a1b9b621de2b459d53cad695e36eba98fca155",
+          "sourceBatchId": "pilot-15",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "government-civic-10",
+          "status": "occupied",
+          "candidateId": "CAT0708-TASK-004",
+          "annotationRowSha256": "2ddeaa810db8fe4b26ab22c335d9f8a98abe988a0e2f413c1a4c8bccb599db90",
+          "reviewRowSha256": "0d8805fcea113bb85493bcc3a695d8df5c564eace73da7b3c8f4b489c545a9c5",
+          "sourceBatchId": "cat07-08-standard-001",
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "home-utilities",
+      "labelKo": "주거·공과금",
+      "slots": [
+        {
+          "slotId": "home-utilities-01",
+          "status": "occupied",
+          "candidateId": "ki-b5-03",
+          "annotationRowSha256": "1df3463f36524e68aef9ab7c2df3790500fa24430aa2755c2b43cbb4f5bf728d",
+          "reviewRowSha256": "52d9c9cb22c368d6939f8fa911819f1821f9493f361476034ec00584bb4da331",
+          "sourceBatchId": "std-b5",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-02",
+          "status": "occupied",
+          "candidateId": "ki-b5-04",
+          "annotationRowSha256": "7170a9be54cab4985173a07b525ebdcb415943813c39dbb8cda15476e351abda",
+          "reviewRowSha256": "265b971772e594905787d9ae37c815bf51ffaf42418f7cfff6aad246dd9590f7",
+          "sourceBatchId": "std-b5",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-03",
+          "status": "occupied",
+          "candidateId": "ki-b7-04",
+          "annotationRowSha256": "3295f583026a61429d0e617dbdde7084ab64f8f127dbb9e820fa764ddf4cfe22",
+          "reviewRowSha256": "16040e3c925da30b0bc433e60bd407c909607c8396833439945a193087ca1516",
+          "sourceBatchId": "std-b7",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-04",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-05",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-06",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-07",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-08",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "home-utilities-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    },
+    {
+      "categoryId": "telecom-subscriptions",
+      "labelKo": "통신·구독·렌털",
+      "slots": [
+        {
+          "slotId": "telecom-subscriptions-01",
+          "status": "occupied",
+          "candidateId": "ki-b2-01",
+          "annotationRowSha256": "d500e973cd518924db0a8f48f52eb2ade255cb920df51b0ca20aed7541cf3dcb",
+          "reviewRowSha256": "712bb756ef20e0e381018ecef5318b277a96158bea04eb05a6664d84bae2c6e1",
+          "sourceBatchId": "std-b2",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-02",
+          "status": "occupied",
+          "candidateId": "ki-b2-02",
+          "annotationRowSha256": "52fbbab187537ae3ff1aed8df98e535bb87078322d8d833413afeaecad3d9582",
+          "reviewRowSha256": "900df94ab2b1aa96d15e2998d462ffdde53101c9c53d1109502246f342cecbc5",
+          "sourceBatchId": "std-b2",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-03",
+          "status": "occupied",
+          "candidateId": "ki-b6-04",
+          "annotationRowSha256": "e608dccda3819220ab42f38a5806922e871288741098fba74355afce0bb8b4d9",
+          "reviewRowSha256": "bc77b1f0496c2d41e45ce0740a0e37e61dcc095fdccc3b2763805b12cb092bdb",
+          "sourceBatchId": "std-b6",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-04",
+          "status": "occupied",
+          "candidateId": "ki-b7-05",
+          "annotationRowSha256": "79a652a6361a0a6e1f0db0d0a7a37e020409ef9e27aecfac2fa5612cd7d28e14",
+          "reviewRowSha256": "f4a738af3098cc4189b6d29285843ad19d1981ebbaed0c6fad1d3476bfcbbbaa",
+          "sourceBatchId": "std-b7",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-05",
+          "status": "occupied",
+          "candidateId": "ki-b8-02",
+          "annotationRowSha256": "1dce063c041f19703bb673d04614d4066de98647ec3194b7395bdf07d5c5e6a5",
+          "reviewRowSha256": "1ba14bbd523bfce89352c879e4365725bf9296659443ca31747877ef5b0a6552",
+          "sourceBatchId": "std-b8",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-06",
+          "status": "occupied",
+          "candidateId": "ki-b7-03",
+          "annotationRowSha256": "26b7792b7769f5ab81a98349898daf83e2126a6e4b65c844a59a08eddba21336",
+          "reviewRowSha256": "29eca3be4ad4da6f7d660fc73f8cfa666e6472de2d872de5ffb6beadb0f4e8f4",
+          "sourceBatchId": "std-b7",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-07",
+          "status": "occupied",
+          "candidateId": "ki-b8-03",
+          "annotationRowSha256": "248f2ed1b8780b3cde04583c4762bdf06a936eb36c3c0ad5aaf9b47116a85489",
+          "reviewRowSha256": "4ef7e7d8e53f769f572e62b194bad906d78500112b20f8887358d3d788e12889",
+          "sourceBatchId": "std-b8",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-08",
+          "status": "occupied",
+          "candidateId": "ki-b9-02",
+          "annotationRowSha256": "20cc59098a8fb98dfc0d37568e352ab69519c24857531fb8160d92d3a96bf2f7",
+          "reviewRowSha256": "02a952f28b16a965f4a888a058cdeae40ad731dbfb480c9d26a20ec617bc1ef9",
+          "sourceBatchId": "std-b9",
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-09",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        },
+        {
+          "slotId": "telecom-subscriptions-10",
+          "status": "empty",
+          "candidateId": null,
+          "annotationRowSha256": null,
+          "reviewRowSha256": null,
+          "sourceBatchId": null,
+          "attemptHistory": []
+        }
+      ]
+    }
+  ],
+  "sourcePortfolioLedgerSha256": "e410f010e6d3e3fdc725f6ab726053dc6458f7766d308bc06cc8dfeba6135396"
+}

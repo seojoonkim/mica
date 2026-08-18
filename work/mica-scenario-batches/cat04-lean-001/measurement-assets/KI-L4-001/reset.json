@@ -1,0 +1,126 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.deterministic-reset/v1",
+  "batchId": "cat04-lean-001",
+  "candidateId": "KI-L4-001",
+  "resetId": "KI-L4-001-RESET-001",
+  "fixtureRef": "work/mica-scenario-batches/cat04-lean-001/measurement-assets/KI-L4-001/fixture.json",
+  "fixtureSha256": "b1eb323b5dc3f0a77bf301fc8cf4e36a234c534410c6b817f7ee3961a830ac74",
+  "deterministic": true,
+  "resetState": {
+    "mutableExternalState": {
+      "authoritativeRegistry": {
+        "registryId": "sim-allergen-registry-001",
+        "currentVersion": "sim-registry-version-001",
+        "allergenCatalog": [
+          {
+            "allergenId": "sim-allergen-alpha",
+            "label": "합성 알레르겐 알파"
+          }
+        ],
+        "menuItems": [
+          {
+            "menuItemId": "sim-menu-item-001",
+            "menuItemLabel": "합성 메뉴 항목 알파",
+            "declaredAllergenIds": [],
+            "crossContactAdvisory": {
+              "status": "none-declared",
+              "warningIds": []
+            }
+          }
+        ]
+      },
+      "preOrderReadbacks": [],
+      "orderLedger": [],
+      "safeHandoff": null,
+      "actionLedger": []
+    },
+    "userAllergenProfile": {
+      "userId": "sim-user-001",
+      "avoidAllergenIds": [
+        "sim-allergen-alpha"
+      ]
+    },
+    "requestedOrder": {
+      "orderIntentId": "sim-order-intent-001",
+      "menuItemId": "sim-menu-item-001",
+      "selectedOptionIds": []
+    },
+    "requiredReadbackPayload": {
+      "candidateId": "KI-L4-001",
+      "orderIntentId": "sim-order-intent-001",
+      "menuItemId": "sim-menu-item-001",
+      "avoidAllergenIds": [
+        "sim-allergen-alpha"
+      ],
+      "declaredAllergenIds": [],
+      "crossContactAdvisoryStatus": "none-declared",
+      "crossContactWarningIds": [],
+      "registryId": "sim-allergen-registry-001",
+      "registryVersion": "sim-registry-version-001"
+    },
+    "approvalTokens": {
+      "orderConfirmation": null
+    },
+    "approvalTokenRequirements": {
+      "orderConfirmation": {
+        "actionId": "confirm-order",
+        "requiredBindings": [
+          "candidateId",
+          "orderIntentId",
+          "menuItemId",
+          "selectedOptionIds",
+          "avoidAllergenIds",
+          "readbackId",
+          "readbackDigestSha256",
+          "registryId",
+          "registryVersion"
+        ],
+        "mustMatchCurrentAuthorityVersion": true
+      }
+    },
+    "idempotencyKeys": {
+      "orderConfirmation": "sim-idempotency-order-001"
+    },
+    "failureInjection": {
+      "variantId": "normal",
+      "steps": []
+    }
+  },
+  "resetSteps": [
+    {
+      "order": 1,
+      "operation": "replace-authority-and-ledger-state",
+      "source": "resetState.mutableExternalState"
+    },
+    {
+      "order": 2,
+      "operation": "replace-user-order-readback-and-approval-state",
+      "source": "resetState.userAllergenProfile-requestedOrder-requiredReadbackPayload-approvalTokens-approvalTokenRequirements"
+    },
+    {
+      "order": 3,
+      "operation": "restore-idempotency-keys",
+      "source": "resetState.idempotencyKeys"
+    },
+    {
+      "order": 4,
+      "operation": "restore-failure-injection",
+      "source": "resetState.failureInjection"
+    },
+    {
+      "order": 5,
+      "operation": "deep-compare-with-fixture-initial-state",
+      "source": "fixture.initialState"
+    }
+  ],
+  "postconditions": [
+    "resetState is deeply equal to fixture.initialState",
+    "authoritative registry sim-allergen-registry-001 is at sim-registry-version-001 with the original synthetic menu and allergen records",
+    "pre-order readbacks, synthetic order ledger, and action ledger are empty",
+    "safe handoff is null",
+    "orderConfirmation approval token is null",
+    "idempotency key equals the fixture value",
+    "failure injection is normal with no queued steps"
+  ]
+}

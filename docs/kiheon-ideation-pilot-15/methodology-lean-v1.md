@@ -1,0 +1,78 @@
+# MICA 시나리오 제작 Lean v1
+
+- origin: `kiheon-ideation`
+- method revision: `lean-v1.3`
+- status: `intermediate-compressed-method`
+- relationship: 표준 방법론을 대체하지 않는 별도 실행 프로필
+- scope: 신규 최대 3건의 빠른 중간 배치
+
+## 1. 언제 선택하는가
+
+Lean v1은 표준 계약과 도구가 이미 안정적이고, 팀에 다음 중간 결과를 빠르게 공유해야 할 때 사용한다. 한 배치에서 신규 후보를 최대 3건만 다루고 정형 작업의 추론 비용과 재검토 범위를 줄인다.
+
+다음 상황에서는 Lean을 선택하지 않고 [`methodology.md`](./methodology.md)의 표준 방식을 사용한다.
+
+- 저장소에서 처음 재현하는 경우
+- 방법론·schema·검증 도구를 함께 변경하는 경우
+- 고위험·민감 과업을 다루는 경우
+- 입력 누출, 역할 충돌, 반복 결함 또는 독립 판정 충돌이 있는 경우
+
+## 2. 시작 전 두 방식 비교
+
+| 항목 | 표준 `standard` | 압축 `lean` |
+|---|---|---|
+| 기본 배치 | 최대 5건 | 최대 3건 |
+| 1회 예상 | 약 6–12시간 | 약 3–5시간 |
+| 역할 자원 | 15개 역할 경계, 동시 최대 3개 | 15개 역할 경계, 동시 최대 2개·정형 단계 저비용 실행 |
+| 동시 실행 | 최대 2–3개 | 최대 2개 |
+| 추론 사용 | 의미 역할 전반 high/xhigh 중심 | 정형 medium, 의미 high, 예외만 xhigh 이상 |
+| 의미 재검토 | 넓은 범위 | 신규·변경·고위험 항목 집중 |
+| 권장 상황 | 첫 재현·방법 변경·고위험·결함 충돌 | 안정된 계약에서 빠른 후속 배치 |
+
+시간은 네트워크·자료 접근·거절과 재작업에 따라 달라지는 계획값이다. 수락 목표를 맞추기 위한 보장이 아니다.
+
+## 3. 줄이는 것
+
+1. 배치의 최대 신규 후보 수를 5건에서 3건으로 줄인다.
+2. 원천 정리, 파일 운반, 형식 검사처럼 정형화된 역할은 균형형 모델의 `medium` 추론을 기본으로 한다.
+3. 작성·번역·일반 의미 검토는 상위 모델의 `high`를 기본으로 하고 모호·고위험 사례만 `xhigh` 이상으로 올린다.
+4. 의미 재검토는 신규 항목, 이번 배치에서 변경된 계약, 고위험 항목에 집중한다.
+5. 동시에 활성화하는 컨텍스트를 최대 2개로 제한한다.
+
+## 4. 줄이지 않는 것
+
+- 기존 MICA 과제와 현재 15건을 작성·번역의 발상 입력으로 사용하지 않는다.
+- 작성자·번역자와 검토자·동결 담당자를 분리한다.
+- 원문과 review를 덮어쓰지 않고 수락된 행만 동결한다.
+- 기존 과제 대조는 후보 동결 뒤 comparator만 수행한다.
+- fixture, deterministic reset, fail-closed eligibility, 독립 oracle과 measurement review를 생략하지 않는다.
+- 구조·origin·role·count·reference 검사는 전수 실행한다.
+- 권위 있는 완료 readback, 안전한 중단, 실패·복구 분기를 유지한다.
+- `agent-visible`, `evaluator-visible`, `harness-private` 노출면 분리와 blind-agent rehearsal을 유지한다. 리허설은 입력 충분성과 합리적 경로 존재성만 검사하며 실제 모델 성능을 추론하지 않는다.
+- 0건 수락도 유효하며 수량을 맞추기 위해 hold·reject를 승격하지 않는다.
+
+## 5. Lean 실행 순서
+
+1. 최대 3개의 독립 1차 자료를 조사하고 별도 reviewer가 수락 범위를 고정한다.
+2. need writer가 해결책 없는 관찰을 작성하고 별도 reviewer가 의미를 판정한다.
+3. 수락 관찰만 동결한다.
+4. translator가 상태 변화 과업으로 번역하고 별도 reviewer가 판정한다.
+5. 수락 후보만 동결한다.
+6. comparator가 동결 뒤에만 기존 과제와 15건을 대조한다.
+7. fixture·reset·eligibility와 oracle을 분리 작성하고 measurement reviewer가 전수 결속을 확인한다.
+8. 별도 컨텍스트가 자연어 요청과 공통 안전정책만 받아 blind-agent rehearsal을 수행한다.
+9. controller가 누출 여부와 최소 충분 oracle을 확인한 뒤 수락·보류·거절, 새 공정 결함, 회귀 결과와 다음 프로필 판단을 기록한다.
+
+순서 의존 단계는 병렬화하지 않는다. 원천 조사와 사전검사, 후보 동결 뒤 comparator와 measurement asset 작성처럼 입력이 독립된 구간만 동시에 실행한다.
+
+## 6. 종료와 표준 방식 복귀
+
+- 새 실행 가능한 공정 결함이 없고 기존 결함 회귀가 통과하면 다음 Lean 배치 또는 표준 5건 승격을 검토한다.
+- 구조 결함, 역할 충돌, 비교 결과 역류, 완료 판정 모호성, 민감·고위험 문제가 발견되면 현재 배치를 닫고 표준 방식으로 복귀한다.
+- Lean의 `designable` 판정도 실제 실행, 시장 성립, 공개 적격 또는 canonical 편입을 승인하지 않는다.
+
+Lean v1은 품질 관문을 없앤 간이 생성법이 아니다. 동일한 증거·역할·동결·측정·노출 경계를 더 작은 배치와 선택적 추론 비용으로 실행하는 압축 프로필이다.
+
+Codex·Claude Code 역할 분리, method lock, `std-b4`와 `std-b5`에서 승격된 공통 회귀 규칙은 [`codex-claude-operating-model.md`](./codex-claude-operating-model.md)를 그대로 적용한다. 압축 프로필도 stage 입력 SHA 결속, 단일 writer 소유권, EXP label registry, 누락 성분 단일 규칙, 엄격 순서의 `NOT-APPLICABLE`, 전체 원문 행 SHA-256, 후보의 사업자명 일반화를 줄이지 않는다.
+
+`lean-v1.3`부터 표준 `standard-v1.3.3`의 controller lease·role 선점·checkpoint 재개·OS 시각 기록을 그대로 적용한다. 거절 원문은 같은 배치에서 재작성하지 않고, accepted-only 수량으로 진행하거나 다음 배치의 새 evidence·새 ID로 재시도한다. 압축 프로필은 이 운영 무결성 관문을 줄이지 않는다.

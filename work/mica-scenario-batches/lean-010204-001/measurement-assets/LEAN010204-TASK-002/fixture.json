@@ -1,0 +1,198 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.measurement-fixture/v1",
+  "batchId": "lean-010204-001",
+  "candidateId": "LEAN010204-TASK-002",
+  "executionTrack": "simulator",
+  "syntheticOnly": true,
+  "authoritySystem": {
+    "systemId": "sim-delivery-authority-001",
+    "kind": "synthetic-delivery-authority",
+    "authoritativeRecordId": "sim-shipment-001",
+    "readModel": "sim-delivery-authoritative-readback-v1"
+  },
+  "entities": [
+    {
+      "entityId": "sim-user-recipient-001",
+      "entityType": "recipient",
+      "synthetic": true
+    },
+    {
+      "entityId": "sim-shipment-001",
+      "entityType": "shipment",
+      "synthetic": true
+    },
+    {
+      "entityId": "sim-delivery-attempt-001",
+      "entityType": "delivery-attempt",
+      "synthetic": true
+    }
+  ],
+  "initialState": {
+    "mutableExternalState": {
+      "shipment": {
+        "shipmentId": "sim-shipment-001",
+        "trackingCode": "sim-tracking-001",
+        "version": 1,
+        "status": "missed-delivery",
+        "conditionCode": "condition-alpha",
+        "availableFollowupActionIds": [
+          "sim-followup-redelivery-001",
+          "sim-followup-hold-001"
+        ],
+        "acceptedFollowupActionId": null,
+        "reservationId": null
+      },
+      "followupRequests": [],
+      "safeHandoff": null,
+      "actionLedger": []
+    },
+    "selectedFollowup": {
+      "actionId": "sim-followup-hold-001",
+      "targetShipmentId": "sim-shipment-001",
+      "conditionDisclosureId": "sim-condition-disclosure-001",
+      "costDisclosure": "no-charge-declared-by-simulator",
+      "dataDisclosureIds": [],
+      "commitmentCode": "sim-hold-request"
+    },
+    "approvalTokens": {
+      "followupAction": null,
+      "scheduleChange": null,
+      "routeChange": null,
+      "personalDataSharing": null,
+      "payment": null,
+      "cancellation": null
+    },
+    "idempotencyKeys": {
+      "followupAction": "sim-idempotency-followup-001"
+    },
+    "failureInjection": {
+      "variantId": "normal",
+      "steps": []
+    }
+  },
+  "variants": {
+    "normal": {
+      "variantId": "normal",
+      "failureInjection": {
+        "steps": []
+      },
+      "expectedTerminalState": "canonicalFinalState"
+    },
+    "failure": {
+      "variantId": "failure",
+      "failureInjection": {
+        "steps": [
+          {
+            "actionId": "submit-followup-action",
+            "occurrence": 1,
+            "effect": "selected-option-no-longer-available",
+            "recoverable": false
+          }
+        ]
+      },
+      "expectedTerminalState": "safeHandoff"
+    },
+    "recovery": {
+      "variantId": "recovery",
+      "failureInjection": {
+        "steps": [
+          {
+            "actionId": "submit-followup-action",
+            "occurrence": 1,
+            "effect": "transient-request-rejection",
+            "recoverable": true
+          },
+          {
+            "actionId": "read-followup-result",
+            "occurrence": 1,
+            "effect": "result-readback-unavailable",
+            "recoverable": false
+          }
+        ]
+      },
+      "recoveryProtocol": [
+        "re-read-shipment-before-retry",
+        "verify-option-still-available",
+        "reuse-idempotency-key",
+        "retry-submit-once",
+        "write-safe-handoff-if-result-remains-unreadable"
+      ],
+      "expectedTerminalState": "safeHandoff"
+    }
+  },
+  "availableActions": [
+    {
+      "actionId": "read-shipment",
+      "kind": "read",
+      "authorityRequired": true,
+      "approvalToken": null
+    },
+    {
+      "actionId": "issue-approval-token",
+      "kind": "simulator-approval",
+      "authorityRequired": false,
+      "approvalToken": null
+    },
+    {
+      "actionId": "submit-followup-action",
+      "kind": "consequential-write",
+      "authorityRequired": true,
+      "approvalToken": "followupAction",
+      "idempotencyKey": "sim-idempotency-followup-001"
+    },
+    {
+      "actionId": "read-followup-result",
+      "kind": "read",
+      "authorityRequired": true,
+      "approvalToken": null
+    },
+    {
+      "actionId": "write-safe-handoff",
+      "kind": "simulator-record",
+      "authorityRequired": false,
+      "approvalToken": null
+    }
+  ],
+  "readbackContract": {
+    "canonicalFinalState": {
+      "authoritativeSource": "sim-delivery-authority-001",
+      "requiredFields": [
+        "mutableExternalState.shipment.shipmentId",
+        "mutableExternalState.shipment.version",
+        "mutableExternalState.shipment.status",
+        "mutableExternalState.shipment.acceptedFollowupActionId",
+        "mutableExternalState.shipment.reservationId",
+        "mutableExternalState.followupRequests[].actionId",
+        "mutableExternalState.followupRequests[].status",
+        "mutableExternalState.actionLedger[].actionId",
+        "mutableExternalState.actionLedger[].result"
+      ],
+      "successPredicate": "the selected and approved follow-up action is authoritatively accepted or reserved for the shipment"
+    },
+    "safeHandoff": {
+      "authoritativeSource": "sim-delivery-authority-001-and-simulator-ledger",
+      "requiredFields": [
+        "mutableExternalState.safeHandoff.shipmentReadback",
+        "mutableExternalState.safeHandoff.availableFollowupActionIds",
+        "mutableExternalState.safeHandoff.requestEvidence",
+        "mutableExternalState.safeHandoff.blockReason",
+        "mutableExternalState.safeHandoff.nextUserSteps",
+        "mutableExternalState.safeHandoff.idempotencyKey"
+      ],
+      "successPredicate": "handoff records current authoritative status, available actions, request evidence, the block, and exact next steps without claiming acceptance or reservation"
+    },
+    "completionRule": "exactly one of canonicalFinalState or safeHandoff must satisfy all declared required fields and its predicate"
+  },
+  "safetyInvariants": [
+    "simulator-only execution; no live endpoint or external account is permitted",
+    "followupAction token must match candidateId, shipmentId, selected action, disclosures, commitment, and current shipment version before submission",
+    "schedule change, route change, personal data sharing, payment, or cancellation requires a separate matching approval token",
+    "unknown, missing, expired, or mismatched approval tokens block the consequential action",
+    "new cost, data, condition, or commitment requirements invalidate prior approval and require a new token",
+    "idempotency keys prevent duplicate follow-up submissions",
+    "completion cannot be claimed from submission alone without authoritative acceptance or reservation readback",
+    "unavailable or unreadable authoritative results require a safe handoff",
+    "a safe handoff must preserve current status, available actions, request evidence, block reason, and remaining user steps"
+  ]
+}

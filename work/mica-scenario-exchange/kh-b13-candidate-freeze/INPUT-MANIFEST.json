@@ -1,0 +1,26 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-input-manifest/v1",
+  "jobId": "kh-b13-candidate-freeze",
+  "generatedAt": "2026-08-15T16:50:38Z",
+  "inputs": [
+    {
+      "path": "task-candidates.staging.jsonl",
+      "sha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba",
+      "byteLength": 5539,
+      "rowCount": 1
+    },
+    {
+      "path": "candidate-reviews.staging.jsonl",
+      "sha256": "5737f304395dcde66685760ca6796b251584ca320bc37d18c41be7d7d4bb876c",
+      "byteLength": 6407,
+      "rowCount": 1
+    },
+    {
+      "path": "candidate-review-closure.json",
+      "sha256": "90884f472359fa327e6131e17b1ee3d96ea23fc7f6faf0d22a8459e25784f7e0",
+      "byteLength": 5884,
+      "status": "COMPLETED"
+    }
+  ]
+}

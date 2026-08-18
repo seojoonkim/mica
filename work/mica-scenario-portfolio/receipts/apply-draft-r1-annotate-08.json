@@ -1,0 +1,26 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.portfolio-apply-receipt/v1",
+  "transactionId": "apply-draft-r1-annotate-08",
+  "jobId": "draft-r1-annotate-08",
+  "sourceBatchIds": [
+    "draft-r1"
+  ],
+  "sourceCommitSha": "a591e4b1e6105455d67657a139d71892d9602754",
+  "sourceClosureSha256": "548a507fe6cf623b207283d1a0dcd5e7b54c995c45570172b78d6eacf72e758f",
+  "annotationPath": "work/mica-scenario-exchange/draft-r1-annotate-08/author-output.staging.jsonl",
+  "annotationSha256": "bac8a324b21064cb763eb15ab34a5154333d7302e5f98be5a3eca785fc3a1085",
+  "reviewPath": "work/mica-scenario-exchange/draft-r1-annotate-08/review-output.staging.jsonl",
+  "reviewSha256": "c87b5c02713da37424f150d23a4a5fd6459381471499506682e8f911abd2d601",
+  "beforePortfolioSha256": "cc18d2ba7c54744e7fa58495cbc6ac79fc4a8f95c528ef1f673353d7cfcebda0",
+  "afterPortfolioSha256": "b7695a2c2fff8420a6148c06ad41f330522fb6ee9e6bf7c187254470e1e7b978",
+  "beforeAnnotationLedgerSha256": "e4b352524240e6c13170470c1d813e6e9879b1ab4c141abcf2f31c4ec0358ff3",
+  "afterAnnotationLedgerSha256": "a496d1c38529b050c426358b271689d67eb8246330f963f2e7034b6147e35fe9",
+  "beforeReviewLedgerSha256": "f4675a6e30708a8c0e13500362694bf806a021e6601aa19796d91e7c0f0dfcac",
+  "afterReviewLedgerSha256": "3b37f14d1fecb6324d461dff1408aced73be3343daad2ed56fdd190af481682e",
+  "appliedByContextId": "draft-r1-controller",
+  "appliedCount": 5,
+  "placedCount": 5,
+  "unplacedCount": 0,
+  "observedAt": "2026-08-17T16:05:00Z"
+}

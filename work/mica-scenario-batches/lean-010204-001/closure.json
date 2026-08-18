@@ -1,0 +1,13 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "lean-010204-001",
+  "productionProfile": "lean",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 2,
+  "newActionableProcessDefects": [
+    "LEAN010204-DEF-002",
+    "LEAN010204-DEF-003"
+  ],
+  "nextBatchDecision": "fix-oracle-role-and-row-hash-contract-before-next-lean"
+}

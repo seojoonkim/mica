@@ -1,0 +1,563 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v4",
+  "batchId": "std-b8",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "methodRevision": "standard-v1.3",
+  "methodLock": {
+    "schemaVersion": "mica.scenario-production-method-lock/v1",
+    "revision": "standard-v1.3",
+    "sourceCommitSha": "a15657603d03cbc9ff0eb7bdfbfd8594d083bebd",
+    "sourceFiles": [
+      {
+        "path": "docs/kiheon-ideation-pilot-15/methodology.md",
+        "sha256": "7603d1c810b28c93591ff25d57517ad87f0a39ccb4fa251681fe8694159fefd4"
+      },
+      {
+        "path": ".agents/skills/mica-scenario-production/SKILL.md",
+        "sha256": "fe6c49c55cb944baad2c211fec07a545c122b7debb999e011d57bbe8bd07740f"
+      },
+      {
+        "path": ".claude/skills/mica-scenario-production/SKILL.md",
+        "sha256": "fe6c49c55cb944baad2c211fec07a545c122b7debb999e011d57bbe8bd07740f"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/reproduction.md",
+        "sha256": "9db6d225f46f9bf20c3ca713a1806b74a8243ddb2ef030ed4416e8568e43855f"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
+        "sha256": "b9abbf8600ced5def19761df739f41ff09f96a7e67bf50f5fd151829b33d31cf"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
+        "sha256": "d48211ed49c1221c9687db357af2894365aea3312492931f5595c21c242fe8f8"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
+        "sha256": "d1e13f4d79855be467c260cba9b28056be0b5c7cf1125f0915b6ff9323831b68"
+      },
+      {
+        "path": "scripts/mica-scenario-production.py",
+        "sha256": "3bb22a257984dd62ad7ef3eddcb203cb62d3e958919a0777f2f669550c9af7d9"
+      },
+      {
+        "path": "scripts/test-mica-scenario-production.py",
+        "sha256": "cfbfa6f7ca70aefba09a1c76f8cdb4d47218f3882d6b4177fabc8d66b5de5a63"
+      }
+    ],
+    "lockedAt": "2026-08-12T06:59:23+09:00"
+  },
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "15개 역할 경계, 동시 실행은 최대 3개",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "exposurePreparer": [
+      "frozen-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "blindAgentRehearsal": [
+      "agent-visible.jsonl"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl",
+      "blind-agent-rehearsal.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-a40df8993fc6dc71b",
+    "sourceReviewer": "agent-aa296f53d6d378d2e",
+    "needWriter": "agent-a8ac733cf0a251f53",
+    "observationReviewer": "agent-a1d125b29776b4747",
+    "observationCustodian": "agent-ad1161963919a65f0",
+    "translator": "agent-aaa4f82903d09e0b3",
+    "candidateReviewer": "agent-a30e1986c7689907d",
+    "candidateCustodian": "agent-a89ad71ecb18d8133",
+    "comparator": "agent-ac1d3c84ca5198fac",
+    "measurementAssetAuthor": "agent-a889d8d2bb322f98b",
+    "oracleReviewer": "agent-a097f63e62d010a59",
+    "exposurePreparer": "std_b8_exposure_preparer",
+    "blindAgentRehearsal": "std_b8_blind_rehearsal",
+    "measurementReviewer": "agent-ad8800adfad265365",
+    "controller": "codex-controller-std-b8"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "web+첨부 직접 다운로드(pdftotext), 직접 Write(경로 되읽기)",
+      "contextId": "agent-a40df8993fc6dc71b",
+      "executedAt": "2026-08-12T07:56+0900",
+      "note": "ev-b8-01~04: 약정 만료 재약정 민원 구조(방통위 정책연구 2020)·통신장애 고지의무 신설(2019)·분쟁해결기준 장애 배상 조건(고시 2024-32)·배상 기준 개정과 청구 전제(2022). 5개 상한 중 4개 — 정의 부합 기준으로 제한"
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 원문 PDF 바이트 재다운로드·축자 대조(103쪽 보고서 포함)",
+      "tools": "SHA 3회, 직접 Write(경로 되읽기)",
+      "contextId": "agent-aa296f53d6d378d2e",
+      "executedAt": "2026-08-12T08:10+0900",
+      "note": "accept 1(ev-b8-01)·reject 3(ev-b8-02·03·04 — 생활 필요 직접 지지 실패, 제도 설명). ev-b8-04 원문 내 1차 부담 서술 실재 특정(재작성 경로 제시)"
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 확인, 직접 Write(경로 되읽기)",
+      "contextId": "agent-a8ac733cf0a251f53",
+      "executedAt": "2026-08-12T08:34+0900",
+      "note": "ob-b8-01(약정 만료 미인지 — 9개월~1년 할인 상실·소급 불가)·ob-b8-02(중단 배상 청구 준비 — 절차 안내 부재·청구 전제). 실사업자명 0"
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 3회, 직접 Write(경로 되읽기)",
+      "contextId": "agent-a1d125b29776b4747",
+      "executedAt": "2026-08-12T08:42+0900",
+      "note": "전건 accept 2/2 — 5항 전항 pass. 비반려 주의 3건(접점 한정 구절 단독 인용 금지·기간 투영 표현 빈도 승격 금지·잔존성 미확정 승계)"
+    },
+    {
+      "role": "observationCustodian",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium — raw-text splice 원문 바이트 보존",
+      "tools": "SHA 교차 검증(Python+shasum), 직접 Write(되읽기)",
+      "contextId": "agent-ad1161963919a65f0",
+      "executedAt": "2026-08-12T08:46+0900",
+      "note": "동결 2행(행 단위 SHA: ob-b8-01 03d7d3a0…, ob-b8-02 c94eb515…). 사후 ID 정정 요청을 봉인 원칙으로 거부하고 자기 검증 실측(mtime 인과 불성립 확인) 후 fallback 유지 — fail-closed 모범 사례"
+    },
+    {
+      "role": "translator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 확인, 직접 Write(경로 되읽기)",
+      "contextId": "agent-aaa4f82903d09e0b3",
+      "executedAt": "2026-08-12T09:03+0900",
+      "note": "ki-b8-01(약정 만료 사전 인지·공백 없는 연장)·ki-b8-02(중단 배상 자격 확인·결정 기반 청구 접수). cFS 각 3항 최소 구성, 요청문에 정답 수치 0, ID 선부여 2단계 기동 첫 적용"
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 9항(v1.3 노출면·minimum sufficient 포함)",
+      "tools": "SHA 3회, 직접 Write(되읽기)",
+      "contextId": "agent-a30e1986c7689907d",
+      "executedAt": "2026-08-12T08:53+0900",
+      "note": "ki-b8-02 accept(9/9) / ki-b8-01 reject(금지 상태 3이 세계 상태 금지 — FRE 4 안전 인계와 모순). 최소 수정 방향 제시"
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 전후, 직접 Write(append·되읽기)",
+      "contextId": "agent-a30e1986c7689907d",
+      "executedAt": "2026-08-12T09:12+0900",
+      "note": "cr-b8-03 accept — 모순 해소 확인(금지 3 행위 기준화+짝 금지 4 신설, 상호 배타·의무 공백 없음). 비반려 2건: 기준 조회 단일화 권고·미승인 종결 판정 처리 명시 권고(측정 단계 이월)"
+    },
+    {
+      "role": "candidateCustodian",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "SHA 확인, raw-text splice(되읽기)",
+      "contextId": "agent-a89ad71ecb18d8133",
+      "executedAt": "2026-08-12T09:23+0900",
+      "note": "동결 2행(ki-b8-02 26433582…, ki-b8-03 3580a9ea…) — ID 선부여로 fallback 없음"
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 정본 100+파일럿 15+lean 3+후속 29항 전수",
+      "tools": "SHA 전후, 직접 Write(되읽기)",
+      "contextId": "agent-ac1d3c84ca5198fac",
+      "executedAt": "2026-08-12T09:31+0900",
+      "note": "transformation 2 — cmp-b8-01(closest hu-outage-response, 접수 확인·미청구 결정 이분 종결 축 신규) / cmp-b8-02(closest ts-contract-term-research·ki-b6-04, 만료 경과 미확정 분기·시점 조건부 cFS·공백 산출 축 신규)"
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 동시 충족성 사전 게이트 선행 판정",
+      "tools": "SHA 확인, 생성기 3분할+검증기, 직접 Write(되읽기)",
+      "contextId": "agent-a889d8d2bb322f98b",
+      "executedAt": "2026-08-12T09:58+0900",
+      "note": "ma-b8-01(객체 17·레코드 35·변형 3·최악 25/61)·ma-b8-02(객체 14·레코드 41·변형 3·최악 18/61). 자가검사 188/188, 카나리 오발화 0, 고아 0. 중간 API 연결 오류 1회 — 같은 컨텍스트 재개로 이어 완료. 검사기 자체 결함 1건(제안·승인 동수 요구→승인⊆제안 정정) 자가 발견"
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 3회, stdin 직접 실행(보조 파일 미생성), 되읽기",
+      "contextId": "agent-a097f63e62d010a59",
+      "executedAt": "2026-08-12T10:22+0900",
+      "note": "1차: ma-b8-02 feasible(차단 0·비차단 6) / ma-b8-01 infeasible(차단 1 — gate-02 재승인의 이용자 측 픽스처 앵커 부재, 비차단 6). 해소 경로 특정(fx14 v1 상태 재승인 선언+재접근 틱)"
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "기준선 전수 JSON 경로 비교(preservationCheck), 직접 Write(되읽기)",
+      "contextId": "agent-a889d8d2bb322f98b",
+      "executedAt": "2026-08-12T10:32+0900",
+      "note": "gen2: ma-b8-03(ma-b8-01 대체) — gate-01/02 승인을 fx14 상태 앵커로 결속(userAnchor·anchorRule·E1-14·XC-05), 호출 26/61. 미선언 변경 0·소실 0. 비차단 6건은 미수령으로 보류(시뮬레이터 구현 전 정리 목록 이월)"
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 소실 0 주장 기준선 재현 실측",
+      "tools": "SHA 확인, stdin 실행, 되읽기",
+      "contextId": "agent-a097f63e62d010a59",
+      "executedAt": "2026-08-12T11:05+0900",
+      "note": "2차 최종: or-b8-03 feasible(차단 0·비차단 9 — 승계 6+신규 3, fx13 접수 시각 T0+024s 정정 권고 포함). 최종 조합: ki-b8-02→ma-b8-03, ki-b8-03→ma-b8-02. 중간 API 오류 1회 재개"
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 17항 checks·oracle gap 전수 재검·수치 주장 독립 검증",
+      "tools": "SHA 3회, 직접 Write(되읽기)",
+      "contextId": "agent-ad8800adfad265365",
+      "executedAt": "2026-08-12T11:52+0900",
+      "note": "2건 모두 designable-pending-exposure(fail 0·bindingChecks 5/5). 비차단 이월 각 5건 — 신규 포착 1건(자산 preservationCheck 기준선 SHA 인용 검증 불가) 포함. 스트림 스톨 1회·재개 완료"
+    },
+    {
+      "role": "exposurePreparer",
+      "model": "Codex subagent (current session inherited)",
+      "effortClass": "medium — 공개 입력 분리·금지 단서 전수 검사",
+      "tools": "허용된 동결 후보와 공개 계약만 읽기, JSONL 검증",
+      "contextId": "std_b8_exposure_preparer",
+      "executedAt": "2026-08-12T11:28+09:00",
+      "note": "후보 2건의 userRequest 원문을 보존하고 사용자에게 알려진 제약·공통 안전정책·허용 도구만 agent-visible로 분리. 내부 평가·fixture·oracle·식별자 누출 0건"
+    },
+    {
+      "role": "blindAgentRehearsal",
+      "model": "Codex subagent (current session inherited)",
+      "effortClass": "high — agent-visible 단독 의미 리허설",
+      "tools": "agent-visible.jsonl만 읽기, 외부 도구 실행 없음",
+      "contextId": "std_b8_blind_rehearsal",
+      "executedAt": "2026-08-12T11:33+09:00",
+      "note": "2건 모두 pass. 내부 정답·숨은 파일·강제 실행 순서 없이 요청 이해와 성공 또는 안전 인계 경로 도달 가능. 실제 시스템 성능 판정은 아님"
+    },
+    {
+      "role": "controller",
+      "model": "Codex (current session)",
+      "effortClass": "high — 결속·누출·회귀 종결",
+      "tools": "로컬 검증기·해시·git diff 검사",
+      "contextId": "codex-controller-std-b8",
+      "executedAt": "2026-08-12T11:36+09:00",
+      "note": "Claude Code의 측정 계약을 보존하고 별도 Codex 측정 심사를 보조 감사 증거로 결속. exposure와 blind rehearsal 뒤에만 designable로 승격"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "userDirective": "기헌 지시 2026-08-12: std-b8 표준 최대 5건, validate-ready PASS 후 진행. 로컬 커밋까지만 — git push·Notion·Slack·Vercel 금지. 방법론·스킬·검증 스크립트 무수정(결함은 defect-ledger로 코덱스 이관). 측정 검토 직후 designable 종결 금지(designable-pending-exposure → exposure → rehearsal → validate-exposure 순).",
+    "scopeDecision": "controller 판단 — 50 목표 잔여 공백 가족 2종: ①통신·인터넷 계약의 약정 만료 전후 유지·재약정·전환 선택 준비 생활 영역(카테고리 10 귀속) ②생활 요금제 서비스(통신·인터넷·생활가전 대여류)의 장애·중단·미지급 보상 신청 준비 생활 영역(09·10 귀속). 충돌 회피 경계(가족 수준): 해지 위약금·정산 사전 계산 / 해지 후 회수·청구 대조 / 서명 전 구두 조건 대조 / 개통 약속 조건 보관 / 이사 다계약 정리 / 인터넷 해지 확인·사은금 대조 / 명의 회선 전수 / 유출 통지·수신거부 / 구독 중복·트라이얼 / 임대차·보증금·관리비·이사요금 계열은 제외. Notion 예약 행 추가는 외부 반영 금지 지시로 보류 — 이 기록이 예약을 대신함(std-b6 전례).",
+    "startedAt": "2026-08-12T07:35+0900"
+  },
+  "artifactShaLedger": [
+    {
+      "path": "source-evidence.jsonl",
+      "sha256": "189e86ff7960a46f01a28c50dae2c5fefe54a18904c49b072ada085417eb974f",
+      "closedBy": "agent-a40df8993fc6dc71b",
+      "verifiedByController": true,
+      "at": "2026-08-12T07:56+0900"
+    },
+    {
+      "path": "source-reviews.jsonl",
+      "sha256": "bb2989df541e6e221d75139119faef01de60fb0ce8cce5c386c7c1c41ab12889",
+      "closedBy": "agent-aa296f53d6d378d2e",
+      "verifiedByController": true,
+      "inputShaChecks": "3회 일치(시작·쓰기 직전·완료 후)",
+      "at": "2026-08-12T08:10+0900",
+      "note": "reviewerContextId 세션 ID 오기입 — 소유자 정정 예정"
+    },
+    {
+      "path": "source-evidence.jsonl(ev-b8-05 append 후)",
+      "sha256": "a55855413f48f45acf1260588f7f66ff35bc6075e270c751f0a05909bfd988d9",
+      "closedBy": "agent-a40df8993fc6dc71b",
+      "verifiedByController": true,
+      "inputShaChecks": "기존 4행 바이트 불변(분리 해시 일치)",
+      "at": "2026-08-12T08:19+0900"
+    },
+    {
+      "path": "source-reviews.jsonl(정정+sr-b8-05)",
+      "sha256": "fe95a702a3fa5a30728f8926297f323b13f00abd64cf64979581728b5476fac7",
+      "closedBy": "agent-aa296f53d6d378d2e",
+      "verifiedByController": true,
+      "inputShaChecks": "5행·앞 4행 분리 해시 일치",
+      "at": "2026-08-12T08:24+0900",
+      "note": "reviewerContextId 정정(역치환 복원 증명) 포함"
+    },
+    {
+      "path": "scratchpad/b8-accepted-evidence.jsonl(운반)",
+      "sha256": "6607e44049fa4d553d2fc74b1b0f1b13e9cac60b18bda1136cb1924d56679402",
+      "closedBy": "controller-mechanical(수락 2행 추출)",
+      "at": "2026-08-12T08:26+0900"
+    },
+    {
+      "path": "need-observations.jsonl",
+      "sha256": "dea48463cc6ba61bc35fb5012b73171086175df6b3483cf3472012002af7d358",
+      "closedBy": "agent-a8ac733cf0a251f53",
+      "verifiedByController": true,
+      "inputShaChecks": "운반 파일 일치",
+      "at": "2026-08-12T08:34+0900",
+      "note": "authorContextId 실값 정정(역치환 복원 검증) 포함"
+    },
+    {
+      "path": "observation-reviews.jsonl",
+      "sha256": "72cf3269bec86118efa2c1f0e51020afc4dbd8845a01990e6d49afb0474a74ec",
+      "closedBy": "agent-a1d125b29776b4747",
+      "verifiedByController": true,
+      "inputShaChecks": "2파일 3회 일치",
+      "at": "2026-08-12T08:42+0900",
+      "note": "reviewerContextId 실값 정정 포함"
+    },
+    {
+      "path": "frozen-observations.jsonl",
+      "sha256": "efca8bef29dd07ded5627346e9b9453cad1268ff5dafccf54bb41d239e2f9d52",
+      "closedBy": "agent-ad1161963919a65f0",
+      "verifiedByController": true,
+      "inputShaChecks": "2파일 사전·사후 일치",
+      "at": "2026-08-12T08:46+0900",
+      "note": "frozenBy는 fallback 표기로 봉인 유지 — custodian이 사후 ID 주입을 봉인 원칙으로 거부(경로 b 선택, 드라이런 삭제). 실측 ID 결속은 이 원장·modelRecord가 정본"
+    },
+    {
+      "path": "task-candidates.jsonl",
+      "sha256": "bcad7b9bed4e6e1f0588e01e34845b5a8b9a2e43ba8137e7eb54b046197c9277",
+      "closedBy": "agent-aaa4f82903d09e0b3",
+      "verifiedByController": true,
+      "inputShaChecks": "동결본 일치·사후 재확인",
+      "at": "2026-08-12T09:03+0900"
+    },
+    {
+      "path": "candidate-reviews.jsonl",
+      "sha256": "08a8634c37ad93b1db5b93af4bebed738bd699873478abf1334f93d202947827",
+      "closedBy": "agent-a30e1986c7689907d",
+      "verifiedByController": true,
+      "inputShaChecks": "3회 일치",
+      "at": "2026-08-12T08:53+0900"
+    },
+    {
+      "path": "task-candidates.jsonl(ki-b8-03 append 후)",
+      "sha256": "8391069cd75782726ac0db97a8ab09c9f6fb7eecb2aa6b58e8baf73081895788",
+      "closedBy": "agent-aaa4f82903d09e0b3",
+      "verifiedByController": true,
+      "inputShaChecks": "기존 2행 분리 해시 불변",
+      "at": "2026-08-12T09:08+0900"
+    },
+    {
+      "path": "candidate-reviews.jsonl(cr-b8-03 append 후)",
+      "sha256": "2076008b54ad24bcd9281230f78798205b29229a1507cb70191e5f6cba6c85fc",
+      "closedBy": "agent-a30e1986c7689907d",
+      "verifiedByController": true,
+      "inputShaChecks": "3행·앞 2행 분리 해시 불변·userRequest 바이트 동일 확인",
+      "at": "2026-08-12T09:12+0900"
+    },
+    {
+      "path": "frozen-candidates.jsonl",
+      "sha256": "616e854081d0b7f0de850d3eea4939beed8875d6bf1998accb8c3222ab852e21",
+      "closedBy": "agent-a89ad71ecb18d8133",
+      "verifiedByController": true,
+      "inputShaChecks": "2파일 사전·사후 일치",
+      "at": "2026-08-12T09:23+0900",
+      "note": "ID 선부여 2단계 기동 — frozenBy 실값 기입(fallback 불요)"
+    },
+    {
+      "path": "comparison.jsonl",
+      "sha256": "6300b8b5d1bd691fedb7caf70ae05e880e19aeccc7915d09661db4722e8a06ac",
+      "closedBy": "agent-ac1d3c84ca5198fac",
+      "verifiedByController": true,
+      "inputShaChecks": "시작·종료 일치",
+      "at": "2026-08-12T09:31+0900"
+    },
+    {
+      "path": "scratchpad/ma-b8-gen1.jsonl(운반)",
+      "sha256": "a0afe16b2650dca4bd5ce46ab437686f6c2a2c1364b4037d8205dc3bf5b463f0",
+      "closedBy": "agent-a889d8d2bb322f98b",
+      "verifiedByController": true,
+      "inputShaChecks": "2회 일치(착수·API 오류 재개 시)",
+      "at": "2026-08-12T09:58+0900"
+    },
+    {
+      "path": "scratchpad/or-b8-gen1.jsonl(운반)",
+      "sha256": "634eafc4feef24b013b1c4d65823f68d2d0314bce0ce6fe6e946acc58a8d03fc",
+      "closedBy": "agent-a097f63e62d010a59",
+      "verifiedByController": true,
+      "inputShaChecks": "2파일 3회 일치",
+      "at": "2026-08-12T10:22+0900"
+    },
+    {
+      "path": "scratchpad/ma-b8-gen2.jsonl(운반)",
+      "sha256": "2e95e621f79b0eb1756c7248f8c2a4401a4706c44fcf4e67ab554d6ab3198159",
+      "closedBy": "agent-a889d8d2bb322f98b",
+      "verifiedByController": true,
+      "inputShaChecks": "gen1 착수·완료 불변",
+      "at": "2026-08-12T10:32+0900"
+    },
+    {
+      "path": "scratchpad/or-b8-gen2.jsonl(운반)",
+      "sha256": "26f0414eda377dd29c3af67b98c590c0481cb4543f63762f7385a7afcab863c6",
+      "closedBy": "agent-a097f63e62d010a59",
+      "verifiedByController": true,
+      "inputShaChecks": "3파일 일치",
+      "at": "2026-08-12T11:05+0900"
+    },
+    {
+      "path": "measurement-assets.staging.jsonl(gen1+gen2, 3행)",
+      "sha256": "8d8999244c0fdf9344b89f375e3db85c94c11d1ff33abf6293615b86f7b9683d",
+      "closedBy": "controller-mechanical",
+      "at": "2026-08-12T11:07+0900"
+    },
+    {
+      "path": "oracle-reviews.staging.jsonl(gen1+gen2, 3행)",
+      "sha256": "47fb31f12d130c8e6bdc15ef2cb9aab4234663f4496f82e1e3775623a53d10a9",
+      "closedBy": "controller-mechanical",
+      "at": "2026-08-12T11:07+0900"
+    },
+    {
+      "path": "measurement-contracts.jsonl(designable-pending-exposure)",
+      "sha256": "0ebd6f19cd40fef1baaeff9ea945c476272799deddf521c8489900795e926704",
+      "closedBy": "agent-ad8800adfad265365",
+      "verifiedByController": true,
+      "inputShaChecks": "4파일 3회 일치",
+      "at": "2026-08-12T11:52+0900"
+    },
+    {
+      "path": "measurement-review.staging.jsonl(S12 1차 시도 중간 산출 — 이력 보존)",
+      "sha256": "1a5b1dc24486ef5d84b48b9eaf39854229c684a6f5aa591cba3cae3d7935d7ce",
+      "closedBy": "agent-ad8800adfad265365(1차 시도, 스트림 스톨로 중단 — contextId 표기 비표준 'std_b8_measurement_review')",
+      "at": "2026-08-12T11:25+0900",
+      "note": "판정은 정본 contracts와 동일. 정본 아님"
+    },
+    {
+      "path": "measurement-contracts.jsonl(exposure 결속 후 designable)",
+      "sha256": "800e04958a5733ad696776a7b8e75854e2fb63a5ebebf1d799da8655084c2416",
+      "closedBy": "codex-controller-std-b8",
+      "verifiedByController": true,
+      "inputShaChecks": "Claude Code 측정 정본 보존, blindRehearsal 결속만 기계 갱신",
+      "at": "2026-08-12T11:36+0900"
+    },
+    {
+      "path": "agent-visible.jsonl",
+      "sha256": "93c004db0274992cef515d6ae5af3ab16fe6d9882500bc1249af7c848e93d25d",
+      "closedBy": "std_b8_exposure_preparer",
+      "verifiedByController": true,
+      "inputShaChecks": "frozen-candidates 616e8540… 전후 일치, 요청 원문 2행 일치",
+      "at": "2026-08-12T11:28+0900"
+    },
+    {
+      "path": "blind-agent-rehearsal.jsonl",
+      "sha256": "0c7c7ec2f2662451ff34e87b696a56180a4435240945789f57d21551e8e66617",
+      "closedBy": "std_b8_blind_rehearsal",
+      "verifiedByController": true,
+      "inputShaChecks": "agent-visible 93c004db… 전후 일치, raw row SHA 2행 일치",
+      "at": "2026-08-12T11:33+0900"
+    },
+    {
+      "path": "defect-ledger.jsonl",
+      "sha256": "240a041b5ef3b8c10919ee74b8a18b9b4ec08abe787229b3a0791a7e5d91456a",
+      "closedBy": "codex-controller-std-b8",
+      "verifiedByController": true,
+      "at": "2026-08-12T11:36+0900"
+    },
+    {
+      "path": "closure.json",
+      "sha256": "95d39e01c7ff0bce393b25049d2fcba7bfb0204ee64fd6588d256d711632899e",
+      "closedBy": "codex-controller-std-b8",
+      "verifiedByController": true,
+      "at": "2026-08-12T11:36+0900"
+    }
+  ],
+  "defectDrafts": [
+    {
+      "draftId": "df-b8-proc-01",
+      "stage": "process",
+      "summary": "역할 컨텍스트 ID 선부여 절차 부재 — 역할이 자기 ID를 조회할 수단이 없어 산출물 *ContextId가 fallback으로 기입되고, 봉인형 산출물(custodian)은 사후 정정이 봉인 원칙과 충돌(정당 거부 발생). 전사 flush가 턴 경계 단위라 턴 내 자기 검증도 불가. 다음 revision: 스폰→ID 포함 브리핑의 2단계 기동 표준화 또는 하네스 자기 ID 조회 제공(코덱스 이관). 이번 배치는 S6부터 2단계 기동 적용, ID 결속 정본은 manifest"
+    },
+    {
+      "draftId": "df-b8-proc-02",
+      "stage": "process",
+      "summary": "S12 1차 시도가 스트림 스톨(무진행 600s 워치독)로 중단되며 중간 산출 measurement-review.staging.jsonl(contextId 비표준 표기)이 남음 — 재개 컨텍스트는 그 기록을 기억하지 못함. 판정 내용은 정본과 동일해 오염 없음. API 연결 오류도 S10·S11에서 각 1회(같은 컨텍스트 재개로 복구). 인프라 계열 이벤트 3건 기록"
+    }
+  ],
+  "controllerResolutions": [
+    {
+      "target": "oracle 비차단 잔여(01 계열 9건·02 계열 6건)",
+      "resolution": "시뮬레이터 구현 전 정리 목록으로 이월(defect-ledger nt 기록 예정) — designable 판정은 이분 판정 가능성 기준으로 유지",
+      "at": "2026-08-12T11:07+0900"
+    }
+  ]
+}

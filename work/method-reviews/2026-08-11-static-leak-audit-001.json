@@ -1,0 +1,13 @@
+{
+  "origin": "kiheon-ideation",
+  "auditId": "static-leak-audit-001",
+  "methodRevision": "standard-v1.3",
+  "auditedAt": "2026-08-12",
+  "scope": "agent-visible 후보 필드(userRequest·label) — 파일럿 15 + 전 배치 동결 후보",
+  "candidatesScanned": 42,
+  "fieldsScanned": 84,
+  "patternSummary": "하네스 내부 식별자 접두 30여종 + 채점 어휘(판정분류·SOURCE-CONFLICT·UNVERIFIABLE·NOT-APPLICABLE·oracle 등)",
+  "findings": [],
+  "verdict": "PASS",
+  "note": "agent-visible 경계는 v1.3 기준. evaluator-visible 필드(canonicalFinalState 등)는 에이전트 미전달이 전제이므로 이번 감사 범위 밖 — 실행기 직렬화 계약(v1.3 노출면 계약)이 그 경계를 담당한다."
+}

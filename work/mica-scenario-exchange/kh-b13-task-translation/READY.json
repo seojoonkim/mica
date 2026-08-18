@@ -1,0 +1,93 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b13-task-translation",
+  "batchId": "kh-b13",
+  "jobType": "clean-room-production",
+  "stage": "task-translation",
+  "methodRevision": "standard-v1.3.5",
+  "status": "READY",
+  "role": "taskTranslator",
+  "requiredAccessProfile": "job-packet-only",
+  "generatedAt": "2026-08-15T13:42:06Z",
+  "maxRows": 2,
+  "zeroRowsValid": true,
+  "candidateIdAllocations": [
+    {
+      "sourceObservationId": "ob-kh-b13-03",
+      "candidateId": "ki-b13-01"
+    },
+    {
+      "sourceObservationId": "ob-kh-b13-04",
+      "candidateId": "ki-b13-02"
+    }
+  ],
+  "forbiddenPriorContextIds": [
+    "1ef8863e-485f-42bf-a439-d3ec28b90a59",
+    "7f907f3c-d81c-4f59-b8af-ef4c4cf9109d",
+    "4a1507bf-1c32-42de-90db-da1ec0691102",
+    "913ff582-0dfe-4ab0-96ad-42c379853a71",
+    "7a3eeb06-5aa3-4dc2-8ca7-79de4ef42456",
+    "efd61526-3cbf-4a5e-91ba-1998471fa584"
+  ],
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "frozen-observations.staging.jsonl",
+    "observation-freeze-closure.json",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 모든 로컬 파일과 상위 디렉터리",
+    "MICA 저장소, GitHub 저장소, PR, 브랜치와 커밋 기록",
+    "기존 MICA 100개 과제, 기존 후보, 이전 배치, 비교 결과, 포트폴리오와 슬롯 원장",
+    "카테고리별 잔여 슬롯, 목표 수량, 우선순위와 이전 거절 또는 hold 결과",
+    "source evidence 원문, source review, 거절된 관찰과 앞선 역할의 대화 또는 완료 보고",
+    "measurement asset, fixture, reset, eligibility, oracle와 채점 내부 장치",
+    "Notion, Slack, Obsidian, 진행 웹과 외부 작업 기록",
+    "전역 mica-scenario-production 스킬과 다른 에이전트 메모리"
+  ],
+  "frozenObservationPacket": {
+    "path": "frozen-observations.staging.jsonl",
+    "sha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb",
+    "byteLength": 5650,
+    "rowCount": 2,
+    "observationIds": [
+      "ob-kh-b13-03",
+      "ob-kh-b13-04"
+    ]
+  },
+  "observationFreezeClosure": {
+    "path": "observation-freeze-closure.json",
+    "sha256": "71f74c3ba94a0789df471779ed86c319a64c1be012e8b73a91335bc27a1ebf88",
+    "byteLength": 4868,
+    "status": "COMPLETED",
+    "custodianContextId": "efd61526-3cbf-4a5e-91ba-1998471fa584",
+    "outputSha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb"
+  },
+  "output": {
+    "path": "task-candidates.staging.jsonl",
+    "schemaVersion": "mica.task-candidate/v1",
+    "rowCountRange": [
+      0,
+      2
+    ],
+    "exactFieldOrder": [
+      "origin",
+      "candidateId",
+      "sourceObservationIds",
+      "label",
+      "userRequest",
+      "startState",
+      "taskAction",
+      "canonicalFinalState",
+      "confirmationBoundary",
+      "prohibitedStates",
+      "failureRecoveryEvents",
+      "unknowns",
+      "translatorContextId"
+    ]
+  },
+  "nextStageAutoStartAllowed": false
+}

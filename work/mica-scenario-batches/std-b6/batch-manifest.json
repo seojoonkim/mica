@@ -1,0 +1,512 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v3",
+  "batchId": "std-b6",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "methodRevision": "standard-v1.2-b5",
+  "methodLock": {
+    "schemaVersion": "mica.scenario-production-method-lock/v1",
+    "revision": "standard-v1.2-b5",
+    "sourceCommitSha": "388070806fc612829407bd261ec5ffba9d90a975",
+    "sourceFiles": [
+      {
+        "path": "docs/kiheon-ideation-pilot-15/methodology.md",
+        "sha256": "97da758cdef7d7d2c2534b9a0018eba751f011026421f7363e73cd6a612bd9a7"
+      },
+      {
+        "path": ".agents/skills/mica-scenario-production/SKILL.md",
+        "sha256": "e51fc690ce07b47fa917339914bbcd0547b8e8e17d751ccccc589d8c37d869ad"
+      },
+      {
+        "path": ".claude/skills/mica-scenario-production/SKILL.md",
+        "sha256": "e51fc690ce07b47fa917339914bbcd0547b8e8e17d751ccccc589d8c37d869ad"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/reproduction.md",
+        "sha256": "32b54af07f166c632cf8b0360ea33395fb8a9f255b9f2d1fd1cf4f98e8ce7104"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
+        "sha256": "a70e7870a974a71d713638b66108e1f721ea2127bd42b663f31dc0cc19af1e76"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
+        "sha256": "a0bdddfb2cfcd80622db6f5ad4a9b6faddb65fcb68181e2b20c519a5cb030e96"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
+        "sha256": "35f1bf3774884327b7b1ee81108473a724f6b5bbbaedd346db7fb9cddb3f2368"
+      },
+      {
+        "path": "scripts/mica-scenario-production.py",
+        "sha256": "119cdd5db8d271f79a7e305552867180cd8d5b29f0123d9d7e42a7ea221cb76d"
+      },
+      {
+        "path": "scripts/test-mica-scenario-production.py",
+        "sha256": "7c743982d3bda975c18cbed11e095c44c366446ab39c9b0f80af27d09517467f"
+      }
+    ],
+    "lockedAt": "2026-08-11T20:01:05+09:00"
+  },
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-a1707ab3b0699e689",
+    "sourceReviewer": "agent-a2eca6308e3de59e1",
+    "needWriter": "agent-a248b851cc7653025",
+    "observationReviewer": "agent-a5b22bd730ee34530",
+    "observationCustodian": "agent-a2dc633d071da5a74 (v1.2 별도 컨텍스트)",
+    "translator": "agent-a83104ae9e3e45875",
+    "candidateReviewer": "agent-a1cf0d1ce7f726be6",
+    "candidateCustodian": "agent-a2839dfa7af1f0e90 (v1.2 별도 컨텍스트)",
+    "comparator": "agent-a37572b6322225b2f",
+    "measurementAssetAuthor": "agent-a6cb2acb85512ffdb (1·2차) / agent-acd23f46153a81cdf (3차 max 승급)",
+    "oracleReviewer": "agent-a42071d97bba78c22",
+    "measurementReviewer": "agent-a0540a298c38557e6",
+    "controller": "claude-code-main-session (Fable, controller)"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "web+첨부 다운로드, 배치 파일 직접 Write(v1.2)",
+      "contextId": "agent-a1707ab3b0699e689",
+      "executedAt": "2026-08-11T20:41+0900",
+      "durationSec": 1068,
+      "note": "ev-b6-01~05 닫음: 스팸 처벌·개인정보 유출 제재·수신거부 간소화·다크패턴·통관부호 도용",
+      "tokens": 267757
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 첨부 PDF 이중 대조·검산",
+      "tools": "read+웹, SHA 3회 확인(v1.2), 직접 Write",
+      "contextId": "agent-a2eca6308e3de59e1",
+      "executedAt": "2026-08-11T20:50+0900",
+      "durationSec": 497,
+      "note": "accept 4·reject 1(ev-b6-04: 시정계획 11건→11개 사업자 전용). SHA 3회 전부 일치",
+      "tokens": 128314
+    },
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "직접 append+SHA(v1.2)",
+      "contextId": "agent-a1707ab3b0699e689",
+      "executedAt": "2026-08-11T21:03+0900",
+      "durationSec": 390,
+      "note": "ev-b6-06·07 개정 2회(11건 표기·표 위치)",
+      "tokens": 52785
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 3회×3사이클, 필드 단위 기계 대조",
+      "contextId": "agent-a2eca6308e3de59e1",
+      "executedAt": "2026-08-11T21:03+0900",
+      "durationSec": 324,
+      "note": "srv-b6-06 reject(위치 오기)·srv-b6-07 accept — 최종 수락 5(01·02·03·05·07)",
+      "tokens": 29934
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 자가검사·실사업자명 격리(v1.2 규칙4)",
+      "tools": "read: 운반 파일(SHA 확인)만, 직접 Write",
+      "contextId": "agent-a248b851cc7653025",
+      "executedAt": "2026-08-11T21:07+0900",
+      "durationSec": 224,
+      "note": "ob-b6-01~05 — 광고 메시지 신고 구분, 유출 통지 대조, 수신거부 이력, 통관부호 대조, 구독 갱신·해지 구분",
+      "tokens": 84060
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 3회×2입력, 직접 Write",
+      "contextId": "agent-a5b22bd730ee34530",
+      "executedAt": "2026-08-11T21:12+0900",
+      "durationSec": 217,
+      "note": "accept 4·reject 1(ob-b6-01: 근거 밖 판별 기준)",
+      "tokens": 87342
+    },
+    {
+      "role": "observationCustodian",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium — 기계 절차 전용(v1.2 규칙3 별도 컨텍스트)",
+      "tools": "read 2입력(SHA 확인), 직접 Write",
+      "contextId": "agent-a2dc633d071da5a74",
+      "executedAt": "2026-08-11T21:15+0900",
+      "durationSec": 207,
+      "note": "동결 4행 — 행 단위 frozenRowSha256 기록",
+      "tokens": 95368
+    },
+    {
+      "role": "taskTranslator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read 운반 파일(SHA 확인)만, 직접 Write",
+      "contextId": "agent-a83104ae9e3e45875",
+      "executedAt": "2026-08-11T21:23+0900",
+      "durationSec": 380,
+      "note": "ki-b6-01~04 — 유출 통지·수신거부 이력·통관부호·구독 갱신 해지 대조. 산출 경로 오배치(vooy/mika 오타) 발생 — df-b6-01",
+      "tokens": 93798
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 3회×2입력, 직접 Write(경로 되읽기 확인)",
+      "contextId": "agent-a1cf0d1ce7f726be6",
+      "executedAt": "2026-08-11T21:29+0900",
+      "durationSec": 301,
+      "note": "accept 3·reject 1(ki-b6-03: 완료 조건의 개인정보 원문 기재 요구 ↔ 금지 상태 충돌 — 마스킹 대조로 국소 해소 가능)",
+      "tokens": 98190
+    },
+    {
+      "role": "taskTranslator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "append+SHA(v1.2), 경로 되읽기",
+      "contextId": "agent-a83104ae9e3e45875",
+      "executedAt": "2026-08-11T21:34+0900",
+      "durationSec": 153,
+      "note": "ki-b6-05 개정(마스킹 대조 완료 조건)",
+      "tokens": 11142
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "SHA 3회+assert 게이트, head-4 불변 해시 증명",
+      "contextId": "agent-a1cf0d1ce7f726be6",
+      "executedAt": "2026-08-11T21:34+0900",
+      "durationSec": 153,
+      "note": "crv-b6-05 accept — 값→판정 이동으로 실질 해소. 최종 accept 4(01·02·04·05)",
+      "tokens": 12301
+    },
+    {
+      "role": "candidateCustodian",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium — 기계 절차(v1.2 별도 컨텍스트)",
+      "tools": "read 2입력(SHA), 직접 Write",
+      "contextId": "agent-a2839dfa7af1f0e90",
+      "executedAt": "2026-08-11T21:40+0900",
+      "durationSec": 283,
+      "note": "동결 4행(01·02·04·05) — 행 단위 frozenRowSha256",
+      "tokens": 106147
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read 동결본(SHA 확인)+카탈로그 5종(후속 20)",
+      "contextId": "agent-a37572b6322225b2f",
+      "executedAt": "2026-08-11T21:45+0900",
+      "durationSec": 309,
+      "note": "transformation 2(b6-01·02)·duplicate 1(b6-04 구독 — 첫 duplicate, 측정 제외)·independent-finding 1(b6-05 통관부호 — 원문 반출 무효 반전 축)",
+      "tokens": 119292
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 1·2차(동일 컨텍스트), 음성 테스트 포함 294 PASS",
+      "tools": "스크래치 빌드",
+      "contextId": "agent-a6cb2acb85512ffdb",
+      "executedAt": "2026-08-11T23:03+0900",
+      "durationSec": 2424,
+      "note": "ma-b6-01~03(1차)·04~06(2차 — 차단 7건 해소)",
+      "tokens": 277787
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 712자 문자 대조·셀 단위 재스캔·보존 실측",
+      "tools": "read 2입력(SHA)+스크래치 빌드",
+      "contextId": "agent-a42071d97bba78c22",
+      "executedAt": "2026-08-11T23:03+0900",
+      "durationSec": 2065,
+      "note": "1차 infeasible 3(차단 7) → 2차 feasible 2(or-b6-04·05)·infeasible 1(or-b6-06: fm 규칙 4건 vs exp 3건 — itm-rcp 누락)",
+      "tokens": 587967
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-fable (최상위)",
+      "effortClass": "max급 — 같은 자산 2회 연속 infeasible 승급",
+      "tools": "patch 빌드+5종 자가검증",
+      "contextId": "agent-acd23f46153a81cdf",
+      "executedAt": "2026-08-11T23:19+0900",
+      "durationSec": 611,
+      "note": "ma-b6-07 — fm (나) 항목 축 한정 제외 조항(B안, 픽스처 구조 수렴 근거), state 변경 1건뿐",
+      "tokens": 140387
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 독립 실측 재검증(712자 대조·fm 재적용)",
+      "tools": "read 3입력(SHA)·직접 Write",
+      "contextId": "agent-a0540a298c38557e6",
+      "executedAt": "2026-08-11T23:29+0900",
+      "durationSec": 511,
+      "note": "mr-b6-01~03 designable 3 — 착수 전 정리 4건 권고",
+      "tokens": 233289
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable (메인 세션)",
+      "effortClass": "high",
+      "tools": "SHA 원장·기계 운반·오배치 복구",
+      "contextId": "main",
+      "executedAt": "2026-08-11T23:29+0900",
+      "note": "S13 종결 — 계약 3·원장 5·closure. push·Notion 금지 준수, 코덱스 감사 대기"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "userDirective": "코덱스 인수인계 2026-08-11: std-b6를 standard-v1.2-b5로 로컬 생산만, push·Notion 금지, 완료/fail-closed 후 멈춰 보고(코덱스 감사 대기)",
+    "scopeDecision": "controller 판단 — SSOT 분포 기준 저편중 범위: 01 이메일·캘린더(1/10) + 02 쇼핑·배송(1/10). 충돌 회피 경계: 01은 회의 일정 변경·재조율 계열 제외(코덱스 Lean 완료 가족), 02는 미배송·배송 추적 계열 제외(동일), 07·08은 cat07-08-standard-001 소유로 범위 밖. SSOT 예약 행 추가는 Notion 금지 지시로 보류 — 감사 후 일괄 반영 대상으로 이 기록이 예약을 대신함",
+    "v12Compliance": "규칙1·2: producer가 배치 파일을 직접 닫고 SHA-256 보고, reviewer는 시작·쓰기 직전·완료 후 3회 SHA 확인(불일치 시 stale evidence 격리). 규칙3: observation/candidate custodian을 별도 컨텍스트로 편성(원문 행 전체 SHA-256 기록). 규칙4: 실사업자명은 evidence만. 규칙5: EXP literal label registry 전수·누락 성분 단일 formula·strict-order NOT-APPLICABLE. 규칙6: 방법 문서·검증 스크립트·cat07-08 불가침",
+    "startedAt": "2026-08-11T20:23+0900",
+    "headAtStart": "dd353105096f1c9c916cf993c2760cf9b0fcf551"
+  },
+  "artifactShaLedger": [
+    {
+      "path": "source-evidence.jsonl",
+      "sha256": "7282a28d6f4a9868a8e3b2b349fa4a75e720f130dea7ea2759d28c7c2dccd119",
+      "closedBy": "agent-a1707ab3b0699e689",
+      "verifiedByController": true,
+      "at": "2026-08-11T20:41+0900"
+    },
+    {
+      "path": "source-reviews.jsonl",
+      "sha256": "fcec8d83eba964ad3c95a784328b498b887f216802f87c66e19063f7515d263d",
+      "closedBy": "agent-a2eca6308e3de59e1",
+      "verifiedByController": true,
+      "inputShaChecks": "3/3 일치",
+      "at": "2026-08-11T20:50+0900"
+    },
+    {
+      "path": "source-evidence.jsonl",
+      "sha256": "b8a64a3ac29045bd2bf3caf927373577d6a169ca22f44a4bcbbeaa0981267d94",
+      "closedBy": "agent-a1707ab3b0699e689",
+      "verifiedByController": true,
+      "note": "ev-b6-06 append(supersedes 04)",
+      "at": "2026-08-11T20:55+0900"
+    },
+    {
+      "path": "source-reviews.jsonl",
+      "sha256": "d1b8caca1d8f212a978d3e650469125dbd874a819e29173475dac6227ad9b1db",
+      "closedBy": "agent-a2eca6308e3de59e1",
+      "verifiedByController": true,
+      "inputShaChecks": "3/3 일치(새 기준)",
+      "note": "srv-b6-06 reject append — 위치 지시 오류 1건",
+      "at": "2026-08-11T20:59+0900"
+    },
+    {
+      "path": "source-evidence.jsonl",
+      "sha256": "861a9127ee7c0501fce51e4ca9ac97a1cad454ef6ec1ce607ae6d051482c7dac",
+      "closedBy": "agent-a1707ab3b0699e689",
+      "verifiedByController": true,
+      "note": "ev-b6-07 append(최종)",
+      "at": "2026-08-11T21:03+0900"
+    },
+    {
+      "path": "source-reviews.jsonl",
+      "sha256": "4ed3d2aaf4658078b1712ba4852b0e46a7ad9b0d076609e3805560c9f9767d65",
+      "closedBy": "agent-a2eca6308e3de59e1",
+      "verifiedByController": true,
+      "inputShaChecks": "3/3×3사이클 전부 일치",
+      "note": "srv-b6-07 accept(최종)",
+      "at": "2026-08-11T21:03+0900"
+    },
+    {
+      "path": "scratchpad/b6-accepted-evidence.jsonl(운반)",
+      "sha256": "5058a1e04b8fb8622f1aa079cdbc6bdb642800fd142c657fdb6edc7a62a73e5a",
+      "closedBy": "controller-mechanical(수락 필터)",
+      "at": "2026-08-11T21:03+0900"
+    },
+    {
+      "path": "need-observations.jsonl",
+      "sha256": "8cb7123b04242eeaa74acfb25494ebdb92751e42a35a04664c17586165492eb0",
+      "closedBy": "agent-a248b851cc7653025",
+      "verifiedByController": true,
+      "inputShaChecks": "운반 파일 일치",
+      "at": "2026-08-11T21:07+0900"
+    },
+    {
+      "path": "observation-reviews.jsonl",
+      "sha256": "d605ac2925bc74ecced17dc9aa097f80af3d0730adae02e5818bfde55ea4baad",
+      "closedBy": "agent-a5b22bd730ee34530",
+      "verifiedByController": true,
+      "inputShaChecks": "3/3×2 일치",
+      "at": "2026-08-11T21:12+0900"
+    },
+    {
+      "path": "frozen-observations.jsonl",
+      "sha256": "ff7e643ca221dd5887c185e6805d8055f81804c11a0c0ada49382dfcae4ae69c",
+      "closedBy": "agent-a2dc633d071da5a74",
+      "verifiedByController": true,
+      "inputShaChecks": "시작·완료 일치",
+      "at": "2026-08-11T21:15+0900"
+    },
+    {
+      "path": "scratchpad/b6-frozen-observations.jsonl(운반)",
+      "sha256": "3233f08e2ea4db9e9be20460f2dfa67e886b76eb8a1ca6696d1b54ceecd2edcd",
+      "closedBy": "controller-mechanical",
+      "at": "2026-08-11T21:15+0900"
+    },
+    {
+      "path": "task-candidates.jsonl",
+      "sha256": "9b75a31cee896c497e80056fa54fe01ced3c5eeb7765a7300bf168d323e0a2ce",
+      "closedBy": "agent-a83104ae9e3e45875 (오배치 → controller 기계 이동 복구, 내용 SHA 무변경 검증)",
+      "verifiedByController": true,
+      "inputShaChecks": "운반 파일 일치",
+      "at": "2026-08-11T21:23+0900"
+    },
+    {
+      "path": "candidate-reviews.jsonl",
+      "sha256": "6fe97c151c30b5c329c43501f0118d1485a3e68180d927b0148c344039acd14c",
+      "closedBy": "agent-a1cf0d1ce7f726be6",
+      "verifiedByController": true,
+      "inputShaChecks": "3/3×2 일치",
+      "at": "2026-08-11T21:29+0900"
+    },
+    {
+      "path": "task-candidates.jsonl",
+      "sha256": "30566037a81a494aadea4bb550752cfb22c2b59ff6e99a983aa1109ce543e0dd",
+      "closedBy": "agent-a83104ae9e3e45875",
+      "verifiedByController": true,
+      "note": "ki-b6-05 append(최종)",
+      "at": "2026-08-11T21:34+0900"
+    },
+    {
+      "path": "candidate-reviews.jsonl",
+      "sha256": "77800c3ff15899bfec1ebdba3e073b9e3d4121b418a11fee794adc4d1c9b09a2",
+      "closedBy": "agent-a1cf0d1ce7f726be6",
+      "verifiedByController": true,
+      "inputShaChecks": "3/3×2 일치+head-4 불변 증명",
+      "note": "crv-b6-05 accept(최종)",
+      "at": "2026-08-11T21:34+0900"
+    },
+    {
+      "path": "frozen-candidates.jsonl",
+      "sha256": "37604131a6166614bbb5e4a407c4a0788746f9994788aae6860ffd5313e9c583",
+      "closedBy": "agent-a2839dfa7af1f0e90",
+      "verifiedByController": true,
+      "inputShaChecks": "시작·완료 일치",
+      "at": "2026-08-11T21:40+0900"
+    },
+    {
+      "path": "comparison.jsonl",
+      "sha256": "72fe5e39c5b1cc2aa2d997e7a32d78dc89736b1f9f0b7dc6dc284247da22d377",
+      "closedBy": "agent-a37572b6322225b2f",
+      "verifiedByController": true,
+      "inputShaChecks": "시작·종료 일치",
+      "at": "2026-08-11T21:45+0900"
+    },
+    {
+      "path": "measurement-assets.staging.jsonl",
+      "sha256": "d5ace4be06874ccae928b6ba46a4f5cf7cb6a0e6e669f2b5e672caae020e3ec0",
+      "closedBy": "controller-mechanical(스크래치 7행 통합)",
+      "at": "2026-08-11T23:19+0900"
+    },
+    {
+      "path": "oracle-reviews.staging.jsonl",
+      "sha256": "c35928a6092d8fee3d2ce7349916dc187380d3300b89dfc3ca4c2ec75f4beaa5",
+      "closedBy": "controller-mechanical(스크래치 7행 통합)",
+      "at": "2026-08-11T23:19+0900"
+    }
+  ],
+  "defectDrafts": [
+    {
+      "defectId": "df-b6-01",
+      "summary": "translator가 허용 산출 경로 밖(/vooy/mika 오타 트리)에 파일을 Write — v1.2 controller SHA 실측 대조(빈 파일 SHA e3b0c44 적발)로 발견, 내용 SHA 일치 확인 후 기계 이동 복구. 산출 경로 검증(닫음 보고의 경로 실측)을 controller 절차에 추가 필요",
+      "at": "2026-08-11T21:23+0900"
+    }
+  ],
+  "completedAt": "2026-08-11T23:29+0900"
+}

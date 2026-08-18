@@ -1,0 +1,344 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "std-b2",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-a1094e105ead5ab19",
+    "sourceReviewer": "agent-a87d2b2a2b067e744",
+    "needWriter": "agent-a1daa17ef7dc0cdb1",
+    "observationReviewer": "agent-a4b5b2a23d19fc91a",
+    "observationCustodian": "agent-a6489930dcb543b6e",
+    "translator": "agent-aae75c4b29ec988ff",
+    "candidateReviewer": "agent-a39cb4450ac44523d",
+    "candidateCustodian": "controller-mechanical (전건 accept·전건 판정 존재로 결정 자명 — 해시 검증 수행, 별도 컨텍스트 생략을 결함 후보로 기록)",
+    "comparator": "agent-a4e23feb2f97651ff",
+    "measurementAssetAuthor": "agent-a786a91c66448bf93 (1·2차) / agent-aab61eef914f5a3ac (3·4차 max 승급)",
+    "oracleReviewer": "agent-a077a4ad562f3a9f4",
+    "measurementReviewer": "agent-ab2194d4b72d54508",
+    "controller": "claude-code-main-session (Fable, controller)"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형형)",
+      "effortClass": "medium",
+      "tools": "web only",
+      "contextId": "agent-a1094e105ead5ab19",
+      "executedAt": "2026-08-11T03:12+0900",
+      "durationSec": 667,
+      "tokens": 150566
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "web fetch for cited sources only",
+      "contextId": "agent-a87d2b2a2b067e744",
+      "executedAt": "2026-08-11T03:18+0900",
+      "durationSec": 325,
+      "tokens": 123467
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-a1daa17ef7dc0cdb1",
+      "executedAt": "2026-08-11T03:20+0900",
+      "durationSec": 91,
+      "tokens": 54087
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a4b5b2a23d19fc91a",
+      "executedAt": "2026-08-11T03:24+0900",
+      "durationSec": 143,
+      "tokens": 77339
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "none",
+      "contextId": "agent-a1daa17ef7dc0cdb1",
+      "executedAt": "2026-08-11T03:25+0900",
+      "durationSec": 47,
+      "note": "새 ID 재작성 ob-04/05 (ev-05 계열은 행수 상한으로 미진행)",
+      "tokens": 53361
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a4b5b2a23d19fc91a",
+      "executedAt": "2026-08-11T03:27+0900",
+      "durationSec": 76,
+      "note": "재판정 ob-04/05 accept",
+      "tokens": 5828
+    },
+    {
+      "role": "observationCustodian",
+      "model": "claude-sonnet (균형형)",
+      "effortClass": "medium",
+      "tools": "none",
+      "contextId": "agent-a6489930dcb543b6e",
+      "executedAt": "2026-08-11T03:29+0900",
+      "durationSec": 77,
+      "note": "동결 2건 — 해시 기계 검증 통과",
+      "tokens": 58419
+    },
+    {
+      "role": "translator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: frozen-observations만",
+      "contextId": "agent-aae75c4b29ec988ff",
+      "executedAt": "2026-08-11T03:33+0900",
+      "durationSec": 223,
+      "tokens": 79519
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a39cb4450ac44523d",
+      "executedAt": "2026-08-11T03:35+0900",
+      "durationSec": 73,
+      "tokens": 72307
+    },
+    {
+      "role": "candidateCustodian",
+      "model": "controller 기계 절차",
+      "effortClass": "mechanical",
+      "tools": "hash verify",
+      "contextId": "main-session",
+      "executedAt": "2026-08-11T03:35+0900",
+      "note": "accept 2/2 자명 케이스 — 독립 컨텍스트 생략, 종결 시 원장에 기록"
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 5파일",
+      "contextId": "agent-a4e23feb2f97651ff",
+      "executedAt": "2026-08-11T03:41+0900",
+      "durationSec": 322,
+      "tokens": 122793
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a786a91c66448bf93",
+      "executedAt": "2026-08-11T03:51+0900",
+      "durationSec": 543,
+      "tokens": 116843
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a077a4ad562f3a9f4",
+      "executedAt": "2026-08-11T03:59+0900",
+      "durationSec": 433,
+      "note": "1차 판정 infeasible 2 (gap 7+7)",
+      "tokens": 110920
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 3파일",
+      "contextId": "agent-a786a91c66448bf93",
+      "executedAt": "2026-08-11T04:09+0900",
+      "durationSec": 574,
+      "note": "재설계 ma-b2-03/04 — gap 전량 해소 + preservationCheck(소실 0)",
+      "tokens": 39858
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a077a4ad562f3a9f4",
+      "executedAt": "2026-08-11T04:15+0900",
+      "durationSec": 346,
+      "note": "2차 판정 infeasible 2 — 잔여 gap: 승인 발행 주체(공통), V-NOTISSUED D2 기대값(ki-02)",
+      "tokens": 37452
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-fable (최상위)",
+      "effortClass": "max급 — 같은 자산 2회 연속 infeasible 승급 조건 발동",
+      "tools": "read: 스테이징 3~4행만",
+      "contextId": "agent-aab61eef914f5a3ac",
+      "executedAt": "2026-08-11T04:28+0900",
+      "durationSec": 699,
+      "note": "ma-b2-05/06 국소 수정(승인 액터·V-NOTISSUED 기대값) + preservationCheck 소실 0",
+      "tokens": 164901
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a077a4ad562f3a9f4",
+      "executedAt": "2026-08-11T04:38+0900",
+      "durationSec": 291,
+      "note": "3차 판정 — 이전 gap 전량 해소·분기 전량 재발행(-05/-06), 잔여 gap 1종으로 수렴: failClosedRule이 에이전트 미수행과 픽스처 고장을 미구분(3차 수정 지시문이 유발한 controller 결함)",
+      "tokens": 191827
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-fable (최상위)",
+      "effortClass": "max급 — 4차, failClosedRule 1필드 교체(fixture·reset 무변경, basedOn 참조)",
+      "tools": "read: 없음(동일 컨텍스트 재개)",
+      "contextId": "agent-aab61eef914f5a3ac",
+      "executedAt": "2026-08-11T04:42+0900",
+      "durationSec": 183,
+      "note": "ma-b2-07/08 — 픽스처 오류 무효를 픽스처 측 관측 3조건으로 한정, 무제시·무시도 런은 실패 집계로 분리",
+      "tokens": 17055
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 2파일",
+      "contextId": "agent-a077a4ad562f3a9f4",
+      "executedAt": "2026-08-11T04:45+0900",
+      "durationSec": 164,
+      "note": "4차 최종 — feasible 2건. 분기는 or-b2-05/06 상속 유효 선언(객체 네임스페이스 동일·failClosedRule 비의존). 잔여 gaps는 비차단 개선 권고(evt-change-proposed 미선언으로 픽스처 오류 조건 (a) 발동 불가)",
+      "tokens": 24161
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 3파일(동결 후보·자산 5~8행·oracle 5~8행)",
+      "contextId": "agent-ab2194d4b72d54508",
+      "executedAt": "2026-08-11T04:57+0900",
+      "durationSec": 448,
+      "note": "mr-b2-01/02 designable 2건 — 6기준 전부 pass, 잔여는 비차단(nt-b2-01~03)",
+      "tokens": 144049
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable (메인 세션)",
+      "effortClass": "high",
+      "tools": "파일 운반·기계 검증·동결 처리",
+      "contextId": "main",
+      "executedAt": "2026-08-11T04:57+0900",
+      "note": "S13 종결 — 계약 2행·원장 7행·closure. 자체 결함 2건 원장 기록(df-b2-01 운반, df-b2-03 지시문발) + defect-ledger origin 누락을 검증기로 적발·작성 중 보완(lean-b1 df-lb1-06 유형 재발 방지 실패 사례로 원장 비고)"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "toolVersionAtCreation": "5de139c (프로필 체계 9fccd8e 포함)",
+  "controllerNotes": {
+    "userDirective": "기헌 지시(2026-08-11): 카테고리 09 주거·공과금 / 10 통신·디지털 구독에서 5건. 카테고리는 동결 후 사후 부착 — 격리 작성자에게는 생활 영역 범위로만 전달",
+    "researchScopeAssigned": "주거(주택·임대·공과금·주거 설비 이용)와 통신·디지털 구독(통신 서비스·인터넷·디지털 서비스 이용) 생활 영역의 일반 소비자 부담 1차 자료, kr/jp/sg/tw/th/ae 중 자유",
+    "concurrencyLimit": "동시 최대 2 컨텍스트 유지(직전 인수인계 상수 — 표준 프로필 상한 3보다 보수적)",
+    "defectMitigations": {
+      "df-lb1-01": "자산 설계 프롬프트에 성공 분기 도달 가능성(무조건 fault 미바인딩 성공 대상 최소 1개) 필수 요건 명시",
+      "df-lb1-02": "재설계 발생 시 이전 판정 통과 요소 보존 대조를 지시에 포함",
+      "df-lb1-03": "oracle 재검토는 항상 분기 전량을 현행 자산 네임스페이스로 재발행 — 간결 상속 금지",
+      "df-lb1-04": "파일당 행수를 maxDrafts(5) 이하로 유지 — 재작성은 행수 여유 내에서만, 부족분은 수량 미달로 수용",
+      "df-lb1-05": "이 manifest에 도구 SHA 고정",
+      "df-lb1-06": "모든 산출 JSONL 행에 origin: kiheon-ideation 필드 포함(운반 시 controller가 검사)",
+      "nt-lb1-01": "의미 검토자에게 대조 대상 필드의 원문 전문 전달",
+      "nt-lb1-02": "executedAt은 date 실측만 기록"
+    }
+  },
+  "completedAt": "2026-08-11T04:57+0900"
+}

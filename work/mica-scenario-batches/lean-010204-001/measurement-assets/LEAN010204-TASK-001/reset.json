@@ -1,0 +1,102 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.deterministic-reset/v1",
+  "batchId": "lean-010204-001",
+  "candidateId": "LEAN010204-TASK-001",
+  "resetId": "LEAN010204-TASK-001-RESET-001",
+  "fixtureRef": "work/mica-scenario-batches/lean-010204-001/measurement-assets/LEAN010204-TASK-001/fixture.json",
+  "fixtureSha256": "8d9d7f6d0c31a4818afa6e38c5d825830b68ab4814fefe0933415129e9998424",
+  "deterministic": true,
+  "resetState": {
+    "mutableExternalState": {
+      "event": {
+        "eventId": "sim-event-001",
+        "ownerId": "sim-user-organizer-001",
+        "version": 1,
+        "scheduleSlot": "slot-alpha",
+        "locationCode": "room-alpha",
+        "attendeeIds": [
+          "sim-attendee-001",
+          "sim-attendee-002"
+        ],
+        "lastApprovedChangeId": null
+      },
+      "notifications": [
+        {
+          "attendeeId": "sim-attendee-001",
+          "status": "not-sent",
+          "changeId": null
+        },
+        {
+          "attendeeId": "sim-attendee-002",
+          "status": "not-sent",
+          "changeId": null
+        }
+      ],
+      "safeHandoff": null,
+      "actionLedger": []
+    },
+    "requestedChange": {
+      "changeId": "sim-change-001",
+      "fromScheduleSlot": "slot-alpha",
+      "toScheduleSlot": "slot-beta",
+      "fromLocationCode": "room-alpha",
+      "toLocationCode": "room-beta",
+      "notificationContentId": "sim-notice-content-001",
+      "targetAttendeeIds": [
+        "sim-attendee-001",
+        "sim-attendee-002"
+      ]
+    },
+    "approvalTokens": {
+      "eventUpdate": null,
+      "attendeeNotification": null,
+      "additionalRescheduling": null,
+      "newInformationSharing": null
+    },
+    "idempotencyKeys": {
+      "eventUpdate": "sim-idempotency-event-001",
+      "attendeeNotification": "sim-idempotency-notice-001"
+    },
+    "failureInjection": {
+      "variantId": "normal",
+      "steps": []
+    }
+  },
+  "resetSteps": [
+    {
+      "order": 1,
+      "operation": "replace-authority-state",
+      "source": "resetState.mutableExternalState"
+    },
+    {
+      "order": 2,
+      "operation": "replace-request-and-approval-state",
+      "source": "resetState.requestedChange-and-approvalTokens"
+    },
+    {
+      "order": 3,
+      "operation": "restore-idempotency-keys",
+      "source": "resetState.idempotencyKeys"
+    },
+    {
+      "order": 4,
+      "operation": "restore-failure-injection",
+      "source": "resetState.failureInjection"
+    },
+    {
+      "order": 5,
+      "operation": "deep-compare-with-fixture-initial-state",
+      "source": "fixture.initialState"
+    }
+  ],
+  "postconditions": [
+    "resetState is deeply equal to fixture.initialState",
+    "authority record sim-event-001 has version 1 and no approved change",
+    "all synthetic attendee notification records are not-sent",
+    "safe handoff and action ledger are empty",
+    "all approval tokens are null",
+    "idempotency keys equal the fixture values",
+    "failure injection is normal with no queued steps"
+  ]
+}

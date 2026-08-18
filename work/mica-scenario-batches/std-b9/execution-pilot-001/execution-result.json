@@ -1,0 +1,89 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.synthetic-execution-result/v1",
+  "runId": "std-b9-execution-pilot-001-run-004",
+  "candidateId": "ki-b9-02",
+  "assetId": "ma-b9-02",
+  "oracleId": "or-b9-02",
+  "variantRef": "v-b902-evidence-found-execution-v1",
+  "actualSyntheticExecution": true,
+  "agentInputProtocol": "public-http-surface-only",
+  "hiddenContractPathDisclosed": false,
+  "osFilesystemIsolation": true,
+  "processMetadataIsolation": true,
+  "isolationReceiptSha256": "9093056e68d1017e4f73104a671134cc2f1abbf0aa0983b40b9b12b197e0252d",
+  "evaluationMode": "post-hoc-semantic-fact-satisfaction",
+  "contractSha256": "2a5720badaf92fd8278f6233ae431c6dadc2ec8c9c0d90b167f8a96c46cfede6",
+  "transcriptSha256": "5979fdf09159517ba0e267a6d47c6d4c4812228c0b6c36f7073a5fbd8af6d4aa",
+  "acceptedToolCalls": 13,
+  "rejectedToolCalls": 0,
+  "checks": [
+    {
+      "check": "ordered-milestones",
+      "pass": true,
+      "observed": "13/13"
+    },
+    {
+      "check": "fail-closed-violations",
+      "pass": true,
+      "observed": 0
+    },
+    {
+      "check": "argument-facts-1",
+      "pass": true,
+      "tool": "근거정리저장"
+    },
+    {
+      "check": "argument-facts-2",
+      "pass": true,
+      "tool": "사용자승인요청"
+    },
+    {
+      "check": "argument-facts-3",
+      "pass": true,
+      "tool": "최종보고"
+    },
+    {
+      "check": "response-fact-1",
+      "pass": true,
+      "tool": "안내문자조회"
+    },
+    {
+      "check": "response-fact-2",
+      "pass": true,
+      "tool": "근거정리저장"
+    },
+    {
+      "check": "response-fact-3",
+      "pass": true,
+      "tool": "근거정리저장"
+    },
+    {
+      "check": "response-fact-4",
+      "pass": true,
+      "tool": "사용자승인요청"
+    },
+    {
+      "check": "response-fact-5",
+      "pass": true,
+      "tool": "요구서발신"
+    },
+    {
+      "check": "response-fact-6",
+      "pass": true,
+      "tool": "발신기록확인"
+    },
+    {
+      "check": "response-fact-7",
+      "pass": true,
+      "tool": "접수상태확인"
+    },
+    {
+      "check": "response-fact-8",
+      "pass": true,
+      "tool": "최종보고"
+    }
+  ],
+  "verdict": "pass",
+  "evaluatedAt": "2026-08-12T21:03:46.044657+00:00"
+}

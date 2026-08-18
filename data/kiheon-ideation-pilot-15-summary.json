@@ -1,0 +1,50 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.kiheon-pilot-summary/v1",
+  "status": "research-pilot-not-canonical",
+  "publicationEligible": false,
+  "maturity": {
+    "release": "intermediate-iteration-release",
+    "methodConfidence": "evidence-backed-not-final",
+    "confidenceScore": null
+  },
+  "roadmap": {
+    "targetMeasurableCandidates": 100,
+    "completedMeasurableCandidates": 15,
+    "remainingMeasurableCandidates": 85,
+    "currentBatchMode": 5,
+    "promotionBatchMode": 10,
+    "promotionRule": "no-new-actionable-process-defect-and-regression-pass",
+    "finalStep": "full-integrated-analysis-after-100",
+    "canonicalAdoption": "separate-review-required"
+  },
+  "milestone": {
+    "measurableCandidates": 15,
+    "comparison": {
+      "transformation": 12,
+      "independentFinding": 3,
+      "duplicate": 0,
+      "hold": 0
+    },
+    "measurement": {
+      "designable": 15,
+      "executionTrack": "simulator",
+      "actualRuns": 0,
+      "calibration": "pending"
+    }
+  },
+  "pipeline": {
+    "sourceObservations": 18,
+    "frozenObservations": 17,
+    "translatedCandidates": 17,
+    "acceptedCandidates": 15,
+    "rejectedCandidates": 2
+  },
+  "limits": {
+    "marketApplicability": "unverified",
+    "localReview": "not-run",
+    "liveExecution": "not-run",
+    "representativeness": "not-claimed",
+    "canonicalStatus": "not-canonical"
+  }
+}

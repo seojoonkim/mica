@@ -1,0 +1,26 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-slot-brief/v1",
+  "jobId": "kh-b13-source-research",
+  "marketScope": "KR",
+  "requestedTotal": 5,
+  "categories": [
+    {
+      "categoryId": "restaurants-local",
+      "labelKo": "외식·예약",
+      "requestedEvidenceRows": 2
+    },
+    {
+      "categoryId": "mobility-transit",
+      "labelKo": "이동·대중교통",
+      "requestedEvidenceRows": 2
+    },
+    {
+      "categoryId": "travel-accommodation",
+      "labelKo": "여행 계획·숙박",
+      "requestedEvidenceRows": 1
+    }
+  ],
+  "interpretation": "카테고리와 수량은 조사 범위일 뿐 기존 답, 소재, 해결 방식 또는 슬롯별 정답이 아니다.",
+  "quantityRule": "근거가 직접 지지하는 행만 작성한다. 적합한 근거가 부족하면 5건을 채우지 않고 더 적은 행으로 종결한다."
+}

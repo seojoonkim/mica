@@ -1,0 +1,38 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.draft-batch-closure/v1",
+  "batchId": "draft-r1",
+  "tier": "draft-r1",
+  "status": "completed",
+  "frozenCandidatesSha256": "0c98e9dc8538bd6a00f21eae9b82663a9a2f87dcee7a457d35cc94091aced3af",
+  "frozenCandidatesBytes": 320713,
+  "acceptedMeasurableCandidates": 63,
+  "knownGaps": [
+    "shp-draft-06 보류: 형사 사기 신고가 주 성공 경로라 현재 10-카테고리 어디에도 정확히 맞지 않음. held-no-category.jsonl 에 보존.",
+    "restaurants-local은 3차 시도에서 완전히 회복됨(1/4 -> 3/7 -> 4/4). 소재 유형이 조건표 중심에서 분쟁조정 결정례·신고 절차 중심으로 바뀐 것이 원인으로 추정됨."
+  ],
+  "closedAt": "2026-08-17T13:00:00Z",
+  "slotFillCount": 51,
+  "categoryOverflowCount": 12,
+  "correctionRound": {
+    "trigger": "12건 표본 심층 감사(Opus 5 xhigh, 격리 컨텍스트)에서 3/12 DEFECT-MAJOR 발견",
+    "corrected": [
+      "res2-draft-03",
+      "mbi-draft-05",
+      "mob2-draft-05"
+    ],
+    "method": "결함 3건 모두 격리된 새 컨텍스트가 원문을 재확인해 지적된 필드만 최소 수정, 또 다른 격리 컨텍스트가 전체 rubric으로 재검토",
+    "outcome": {
+      "res2-draft-03": "CONFIRM",
+      "mbi-draft-05": "CONFIRM",
+      "mob2-draft-05": "DEFECT-MINOR(5항목 전부 pass, 잔여 흠은 비차단)"
+    },
+    "correctedAt": "2026-08-18T01:00:00Z"
+  },
+  "remediationRounds": {
+    "summary": "2026-08-18 6항목 rubric 전수 감사 후 재작업 6라운드. 32건 MAJOR 중 29건 해소, 3건 결함 유지(사용자 결정). 이후 Fable 검수에서 failureRecoveryEvents 결측 9건 발견, 7건 보완 반영.",
+    "detailRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md",
+    "fableReviewRef": "work/method-reviews/2026-08-18-fable-review-supplement.md",
+    "finalFrozenRowCount": 90
+  }
+}

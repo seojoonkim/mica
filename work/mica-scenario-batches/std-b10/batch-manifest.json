@@ -1,0 +1,457 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v5",
+  "batchId": "std-b10",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "methodRevision": "standard-v1.3.2",
+  "methodLock": {
+    "schemaVersion": "mica.scenario-production-method-lock/v1",
+    "revision": "standard-v1.3.2",
+    "sourceCommitSha": "ea8a2cc1b23e46f887051ab2544f44144a7650b8",
+    "sourceFiles": [
+      {
+        "path": "docs/kiheon-ideation-pilot-15/methodology.md",
+        "sha256": "bd663dfcad6da659f5cef3add86bb052b5372ffad5fe3cf76d92e2aeade0e091"
+      },
+      {
+        "path": ".agents/skills/mica-scenario-production/SKILL.md",
+        "sha256": "df97c4b23dd1190117c787e6f4083f15e8e7a8d4763cd5af00fcdf69ddabecf6"
+      },
+      {
+        "path": ".claude/skills/mica-scenario-production/SKILL.md",
+        "sha256": "df97c4b23dd1190117c787e6f4083f15e8e7a8d4763cd5af00fcdf69ddabecf6"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/reproduction.md",
+        "sha256": "a342ed4edf84790c2f4f6ed74e309be2357541eeff3b7b8a24b0c6867c7db2f7"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/agent-production-contract.md",
+        "sha256": "456814af5aa3c9b6c938df6124ffd9ca1353e99d7ecb346361e90dbc8147fe5b"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
+        "sha256": "3f2657a0f6137d2140d8a0bed0b2db19d68838b35af3e5fc6dcacfc2f2c28593"
+      },
+      {
+        "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
+        "sha256": "9bb374fc8a7a3b97a4902706b084485c14214734a3fd040b1c511304dec5c038"
+      },
+      {
+        "path": "scripts/mica-scenario-production.py",
+        "sha256": "9f0a0b60159d1a5cb3a63806a05cce016be4400f35e8b30a3f61fbf6bdb90391"
+      },
+      {
+        "path": "scripts/test-mica-scenario-production.py",
+        "sha256": "363541df2b6369d0205849ac4219e15f099e4939fe5836ac00058ad37f005333"
+      }
+    ],
+    "lockedAt": "2026-08-13T03:41:57+09:00"
+  },
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "15개 역할 경계, 동시 실행은 최대 3개",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 3,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "exposurePreparer": [
+      "frozen-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "blindAgentRehearsal": [
+      "agent-visible.jsonl"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl",
+      "blind-agent-rehearsal.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-a9b2299fd030023de",
+    "sourceReviewer": "agent-a1a3d5e0be53dffd6",
+    "needWriter": "agent-aad1bb148732b3e52",
+    "observationReviewer": "agent-af83fd5ff0531ebe2",
+    "observationCustodian": "agent-a6dc5d807f8f08352",
+    "translator": "agent-a3ad6b46f5159444f",
+    "candidateReviewer": "agent-ae154e889e7244a41",
+    "candidateCustodian": "agent-a2f7cb7d18fae54eb",
+    "comparator": "agent-a39dcdd853b9a4a8a",
+    "measurementAssetAuthor": "agent-a02d3b0c462100ca1",
+    "oracleReviewer": "agent-ad321bc9067b0c364",
+    "exposurePreparer": "agent-a8f19ca64cbc06f7c",
+    "blindAgentRehearsal": "agent-a082ba7ca7e571911",
+    "measurementReviewer": "agent-ab6ebc8faec1ee4eb",
+    "controller": "claude-code-controller-std-b10"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 원문 PDF 직접 확보·pdftotext 대조",
+      "tools": "web+직접 PDF(download.do 우선), 직접 Write(되읽기)",
+      "contextId": "agent-a9b2299fd030023de",
+      "executedAt": "2026-08-13T05:28+0900",
+      "note": "ev-b10-01~05: 택배 피해구제 통계(2025 추석 주의보)·새벽배송 실태조사(2020, 최신성 한계 명시)·외식 예약 위약금 분쟁해결기준 개정(2025-12 시행)·기후동행카드 운영종료 FAQ(라이브 확인)·K-패스 월말 정산 누락(secondary — 1차 접근 실패 경위 기록). direct 4·secondary 1, 영역 2는 1건으로 한정(수량 미강제)"
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-fable (세션 상속, 원 컨트롤러 세션 브리핑)",
+      "effortClass": "high — 원문 5건 전부 재접근·축자 대조, 입력 SHA 3회 게이트",
+      "tools": "web+직접 PDF(curl·pdftotext), 직접 Write(되읽기)",
+      "contextId": "agent-a1a3d5e0be53dffd6",
+      "executedAt": "2026-08-13T05:36+09:00",
+      "note": "source-reviews.jsonl 5행(accept 5·reject 0, SHA be9c9edb…) — 원 컨트롤러 세션이 05:29 브리핑한 컨텍스트의 산출물을 기헌 승계 결정(05:43)에 따라 정본 채택. 행별 nonBlockingNotes(ev-01 비율 분모=상위5개사 879건, ev-02 '유형 구조' 한정 사용, ev-04 완화 경로 병기, ev-05 '4만원'은 산술 도출 등)는 controller 종결 검증 항목으로 이관",
+      "duplicateContextIncident": "이중 기동된 agent-a7eae28667e3ecd7f(재개 세션 브리핑)는 파일 미작성 상태로 05:45 해산 — 독립 대조 초안 accept 5로 정본과 동일 결론(교차 확인 참고, 역할 산출물 아님). 경위 df-b10-02"
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 생활 필요 작성(의미 역할)",
+      "tools": "로컬 읽기(source-evidence.jsonl만)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-aad1bb148732b3e52",
+      "executedAt": "2026-08-13T05:48+09:00",
+      "note": "관찰 3건 작성(ob-b10-01 택배 훼손·분실 배상 지연, ob-b10-02 예약 취소 위약금 분쟁, ob-b10-03 정기권 종료 전환 손실) — ev-b10-02(최신성 약함·표본 144건, 유형 구조 한정)·ev-b10-05(secondary·사례 중심, 규모 미지지)는 미사용 사유와 함께 제외. 입력 SHA 3회 일치, 출력 SHA de66b9d5…"
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 독립 의미 검토(5개 검사 전건 판정)",
+      "tools": "로컬 읽기(관찰·evidence·계약 3파일)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-af83fd5ff0531ebe2",
+      "executedAt": "2026-08-13T05:54+09:00",
+      "note": "3건 판정: accept 2(ob-b10-01·02, 5개 검사 전부 pass·축자 대조), reject 1(ob-b10-03 — 청소년 할인을 근거 밖 '보상·환급 계획 없음'에 확장 결합, evidence alignment·no invented facts fail). 입력 3파일 SHA 3회 일치, 출력 SHA b1e0637a…. 재작성 경로는 행수 상한(maxDrafts=3) 충돌로 미사용(df-b10-03), 수락 2건으로 진행"
+    },
+    {
+      "role": "observationCustodian",
+      "model": "claude-sonnet (alias 지정 — 정형 운반 역할 medium)",
+      "effortClass": "medium — accepted-only 동결·행 해시 결속(기계 검사)",
+      "tools": "로컬 읽기(관찰·판정 2파일)+python 해시+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a6dc5d807f8f08352",
+      "executedAt": "2026-08-13T05:58+09:00",
+      "note": "accept 2건(ob-b10-01·02) 동결, reject 1건(ob-b10-03) 제외. frozenRowSha256: ob-01 cb14fe25…, ob-02 1697cdc6…. 입력 SHA 3회 일치, 출력 SHA 96da9e90…. controller가 원문 축자·해시 독립 재검증 완료"
+    },
+    {
+      "role": "translator",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 과업 번역(의미 역할)",
+      "tools": "로컬 읽기(frozen-observations·계약 2파일)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a3ad6b46f5159444f",
+      "executedAt": "2026-08-13T06:00+09:00",
+      "note": "후보 2건 번역(tc-b10-01 택배 파손 배상 청구 완결, tc-b10-02 예약 취소·보증금 환급 정산), hold 0. 기능적 권위 역할만 사용, 미확인 값 unknowns 격리, userRequest 누출 어휘 없음(작성자 자체 점검). 입력 SHA 3회 일치, 출력 SHA 01d65f15…"
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 독립 후보 검토(10개 검사 전건 판정)",
+      "tools": "로컬 읽기(frozen-observations·task-candidates·계약 3파일)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-ae154e889e7244a41",
+      "executedAt": "2026-08-13T06:05+09:00",
+      "note": "2건 판정: accept 2(tc-b10-01·02, 10개 검사 전부 pass)·reject 0. 소견: 두 후보 모두 상대측 처리 variant(배상 결정/거부/지연, 환급 정상/불일치) fixture 정의 필요 — nonBlockingNotes 기록. 입력 3파일 SHA 3회 일치, 출력 SHA e4862a75…"
+    },
+    {
+      "role": "candidateCustodian",
+      "model": "claude-sonnet (alias 지정 — 정형 운반 역할 medium)",
+      "effortClass": "medium — accepted-only 동결·행 해시 결속(기계 검사)",
+      "tools": "로컬 읽기(후보·판정 2파일)+python 해시+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a2f7cb7d18fae54eb",
+      "executedAt": "2026-08-13T06:10+09:00",
+      "note": "accept 2건(tc-b10-01·02) 동결, reject·hold 0. sourceRowSha256: tc-01 cf50b67a…, tc-02 748c6eea…. frozenAt 06:11:30. 입력 SHA 3회 일치, 출력 SHA 46c0cd4e…. controller가 원문 축자성·행 해시 독립 재검증 완료"
+    },
+    {
+      "role": "comparator",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 5축 사후 대조(공식 카탈로그+파일럿15+과거 배치 동결 후보 14파일)",
+      "tools": "로컬 읽기(비교군 read-only, SHA 기록)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a39dcdd853b9a4a8a",
+      "executedAt": "2026-08-13T09:14+09:00",
+      "note": "2건 모두 transformation — tc-b10-01: ki-b8-02·sd-undelivered-parcel-trace·KI-P15-010 대비 배상 결정 readback·이중 승인·중복 청구 불변식으로 강화. tc-b10-02: mt-cancel-and-refund와 duplicate 우선 검토 후 환급 처리 readback·노쇼 불변식·이의 분기로 oracle 구조 상이 판단. 입력 SHA 3회 일치, 출력 SHA 5d98ca9b…, 비교군 14파일 SHA 시작 시 기록"
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — fixture·reset·eligibility·variant·synthetic clock 설계",
+      "tools": "로컬 읽기(frozen-candidates·comparison+타입 골격 템플릿)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a02d3b0c462100ca1",
+      "executedAt": "2026-08-13T09:27+09:00",
+      "note": "자산 2건(ma-b10-01·02): variant 각 3(정상·실패·복구, snapshot 고정·injector 없음), eligibility gate 각 4(LP1-4 1:1, fail-closed), worstPathProof 각 PASS(35≤48, 25≤36 tick), simultaneityGate 6 variant 무충돌, EXP registry 사용/등재 완전 일치, sourceFrozenRowSha256 정확(controller 재검증). 입력 SHA 3회 일치, 출력 SHA 4cacec7d…"
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 분기별 이분 판정 가능성 검토·minimum sufficient oracle 작성",
+      "tools": "로컬 읽기(frozen-candidates·measurement-assets+타입 골격)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-ad321bc9067b0c364",
+      "executedAt": "2026-08-13T09:37+09:00",
+      "note": "oracle 2건(or-b10-01: 조건 23, or-b10-02: 조건 20) 작성 — 6개 분기 전부 이분 판정 가능, 신규 EXP label 0, 자기 보고·부분점수 불사용. 자산 설계 issue 5건 기록(IS-A1-01·02, IS-A2-01·02·03 — 검출식 미명세·중복·자유 텍스트 공백·전제 누락·상수-참 검사). 입력 SHA 3회 일치, 출력 SHA bfba6029…"
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 15개 검사 전수 대조·issue 판정(1단계), 리허설 후 확정(2단계)",
+      "tools": "로컬 읽기(frozen-candidates·comparison·assets·oracles+타입 골격)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-ab6ebc8faec1ee4eb",
+      "executedAt": "2026-08-13T11:08+09:00",
+      "note": "1단계(리허설 전) 완료 11:21 — ma-b10-01·02 모두 designable-pending-exposure, 15개 검사 fail 0, blocking 0. oracle issue 5건 재정: resolved-by-interpretation 2(IS-A1-01·IS-A2-02), non-blocking 3(IS-A1-02, IS-A2-01 residual-risk-accepted·2단계 감시, IS-A2-03 design-limitation). 독립 재검증: 증인 trace 6종 재구성·worstPathProof 재계산(보수적 정정 41≤48, 29≤36으로 결론 유지)·va2-fail 지평 산술(204tick>36)·sourceFrozenRowSha256 2건 재계산 일치. 자산 단독 문면의 실질 결함 1건 발견(prohibitedStateChecks[2] 문면 적용 시 인계 보고가 완료 보고로 오탐 → SAFE-HANDOFF 도달 불가)이나 oracle CC-A1-02·CC-A2-02가 완결 규칙으로 복원해 실행 산출물 기준 무모순, oracle 구속 해석 의존을 basis에 명시. 정리 항목 13건(ma-01 7·ma-02 6). 입력 SHA 3회 일치, 출력 SHA 675c9112…. 2단계(리허설 후) 완료 11:37 — tc-b10-01·02 모두 designable, 노출면 5조건 전부 충족(cond5는 설계 수준, 런타임 마운트 차단 실측은 시뮬레이터 구축 시 선결). cond1 근거: 분기 판별자(가액 증빙 유무·고지 기준 조회 가능 여부·산정률) 공개 표면 부재. cond2 근거: 비공개 계약 미열람 리허설이 공개 안전정책만으로 승인 게이트를 approvalModel anchor와 일치하게 도출. IS-A2-01 재판정: 유해 형태(추정 제시→취소 실행)는 승인 anchor 내용 해시 결속으로 fail-closed 검출되므로 차단 사유 아님(non-blocking 유지, 구조화 '제시' 사건 타입은 실행 전 정리 항목). 정리 항목 13건은 실행 전 선결 조건으로 명시. 입력 6종 SHA 3회 일치, 출력 SHA 07052a3b…",
+      "abortedAttempt": "선행 컨텍스트 agent-af24a8ea67834af2c는 09:40경 기동 직후 API 장애(ENOTFOUND)로 중단 — 어떤 파일도 쓰지 않았고 입력 4파일 SHA 불변을 controller가 확인. 장애 복구 후 기헌 지시로 11:08 새 컨텍스트 재기동. 환경 장애이며 공정 결함 아님(결함 원장 미등재), 역할 기록 정합을 위해 경위만 보존"
+    },
+    {
+      "role": "exposurePreparer",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "medium-high — 공개 표면 분리·누출 차단",
+      "tools": "로컬 읽기(frozen-candidates·계약 2파일)+직접 Write(되읽기), 웹 미사용",
+      "contextId": "agent-a8f19ca64cbc06f7c",
+      "executedAt": "2026-08-13T11:25+09:00",
+      "note": "agent-visible 2행 작성(tc-b10-01·02) — userRequest 원문 바이트 일치, 키 9개 정확, 35개 정규식 누출 스캔 0건. userKnownConstraints 3·commonSafetyPolicy 5·allowedTools 5(행별 동일 구성, 일반 문장). 미확정 값·수행 순서·성공 조건 미포함. 입력 SHA 3회 일치, 출력 SHA c06f105b…. controller가 키·축자성·누출 패턴 독립 재검증 완료"
+    },
+    {
+      "role": "blindAgentRehearsal",
+      "model": "claude-fable (세션 상속)",
+      "effortClass": "high — 입력 충분성·경로 존재성 검토(instruction-sufficiency, 실행 관측 아님)",
+      "tools": "로컬 읽기(agent-visible.jsonl 단일 파일)+직접 Write(되읽기), 도구 실행·웹 미사용",
+      "contextId": "agent-a082ba7ca7e571911",
+      "executedAt": "2026-08-13T11:28+09:00",
+      "note": "2행 모두 pass — 5개 boolean 기준 충족, 누출 판단 항목 0. 경로 존재성 근거: 사용자 제공 식별 정보로 대상 특정 → 공개 안내·약관으로 기준 확인 → 계정 범위 조회 → 불가역 지점(외부 제출/취소 실행) 직전 승인 → 외부 제시 조건 임의 수락 금지·사용자 인계 → 경과 기록. 안전 인계 경로도 후보별로 존재. agent-visible 단일 파일만 열람(다른 산출물 미접근 확인), 도구 실행·성능 추론 없음. 입력 SHA 3회 일치, 출력 SHA 0deaddee…. controller가 18키·verdict 등식·행 SHA·v2 고정필드 독립 재검증"
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable → claude-opus-5 (11:07 세션 모델 전환, 역할 경계·판정에는 영향 없음)",
+      "effortClass": "controller — 역할 브리핑·입력 SHA 게이트·산출물 독립 재검증·원장/결함/종결 기록",
+      "tools": "로컬 읽기·Bash(shasum·date·mtime)·직접 Write, 웹·Slack·Notion 미사용",
+      "contextId": "claude-code-controller-std-b10",
+      "executedAt": "2026-08-13T11:38+09:00",
+      "note": "승계 controller(df-b10-02). 전 역할 산출물의 SHA·해시 결속·형식을 역할과 독립으로 재검증하고 원장에 기입. 자체 기록 오류 2건(시각 어림 기입)을 발견·정정·등재(df-b10-05)"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "activeController": "claude-code-controller-std-b10 (production lane) — 이 배치의 유일한 활성 컨트롤러. 다른 런타임은 이 배치 경로에 쓰기 전 이 선언을 갱신·인수 기록해야 함(std-b8 이중 통제 사건 재발 방지 임시 표식, 정식 장치는 revision 대기)",
+    "controllerStateAtClosure": "closed — activeController는 생산 당시 임시 선언을 보존한 역사 필드이며 현재 활성 lease를 뜻하지 않음. 후속 standard-v1.3.3부터 controller-state.json을 사용",
+    "userDirective": "기헌 2026-08-13: std-b10 진행 — HANDOFF.md 경계·순서 그대로 적용, std-b10 신규 산출물만 수정, 방법·스킬·검증기·러너 무수정, 과거 배치 역할 컨텍스트 재사용 금지, validate-ready PASS 후 역할별 새 컨텍스트, 작성자에게 기존 과제·후보·comparison·quota 비노출, 완료/fail-closed 후 결함 원장·closure 포함 보고. git push·Notion·Slack 반영 금지",
+    "scopeDecision": "controller 판단(HANDOFF 조사 방향: 상대적으로 적게 다룬 저위험 일상 유지 영역 우선 + 방법론 7절 추상 coverage 차원) — 저위험 반복 일상 유지 생활 영역 3종: ①일상 생필품·식료품의 반복 구매와 수령·반품·교환 과정 유지 부담(쇼핑·배송 가족) ②일상 외식·매장 예약과 이용 과정의 반복 부담(외식·예약 가족) ③일상 이동·대중교통 정기 이용 유지 부담(이동 가족). 충돌 회피 경계(controller 전용 지식, 작성자 비전달): 놓친 배송 후속 조치·통관부호 대조(02 기존), 알레르기 확인 후 승인 주문(04 기존), 분실물 보관단계·취소수수료 구간(06 기존)과 가족 수준 중복 회피. 수락 0건 유효, 최대 초안 3건",
+    "startedAt": "2026-08-13T05:14+0900",
+    "resumedAt": "2026-08-13T05:35+09:00",
+    "resumeNote": "sourceResearcher가 source-evidence.jsonl(5행)을 닫은 뒤 세션 중단. 재개 컨트롤러(동일 production lane, 새 대화)가 validate-ready를 재실행하자 설계상 ready-batch-not-empty FAIL — 시작 관문 성립은 e2a41d6 pristine worktree에서 validate-ready PASS(readyForProduction=True) 재현과 source-evidence.jsonl SHA-256(4fe2a384…)의 artifactShaLedger 일치로 확인함. 완료 산출물 폐기 없이 sourceReviewer부터 재개. 재개 관문 부재는 df-b10-01로 결함 원장에 기록",
+    "toolConstraint": "기헌 2026-08-13 추가 지시: 이번 std-b10에서 Slack·Notion 도구 호출 금지(연결·목록 노출 자체는 호출 아님). 본 재개 세션 기준 호출 이력 0건, 원 세션도 std-b10 작업 중 0건 확인(05:41 회신). 모든 역할 컨텍스트에 동일 금지 전달, closure에 SlackCalls=0·NotionCalls=0 명시",
+    "successionDecision": "기헌 결정(2026-08-13 05:43경, AskUserQuestion): 이중 컨트롤러 사건(df-b10-02)에서 재개 세션이 std-b10을 승계, 원 세션은 배치 쓰기 영구 동결 후 철수(05:45 확인, 대기 S3 컨텍스트 브리핑 없이 해산). 이후 이 배치 경로에는 승계 세션만 쓴다. S1(source-evidence, 4fe2a384…)·S2(source-reviews, be9c9edb…) 산출물은 폐기 없이 승계, roles.sourceReviewer는 실제 서명자 agent-a1a3d5e0be53dffd6으로 정정",
+    "sourceReviewNonBlockingNotesCustody": "S2 nonBlockingNotes는 하류 역할 allowlist(needWriter=수락 evidence 행만) 밖이므로 작성자에게 비전달. 대신 controller가 (1) needWriter에 일반 규율('행에 적힌 수치 그대로만 인용, 파생 계산·분모 결합 금지')을 브리핑에 포함하고 (2) 종결 검증에서 관찰·후보·측정 산출물이 소견과 모순되는지 대조한다",
+    "timestampCalibration": "2026-08-13T06:13+09:00 controller 정정: modelRecord.executedAt(observationCustodian·translator·candidateReviewer·candidateCustodian)과 artifactShaLedger.at 4건이 controller의 어림 기입으로 실제 벽시계보다 수 분 앞서 있어, 산출물 파일 mtime(frozen-observations 05:59:55, task-candidates 06:04:32, candidate-reviews 06:09:05, frozen-candidates 06:11:30)을 기준으로 재보정함. 역할 실행 순서·SHA 결속에는 영향 없음",
+    "parkingNote": "2026-08-13T11:10+09:00 원 컨트롤러 세션이 기헌 직접 지시(2회)로 배치를 중간 파킹. 통과 단계(원장 SHA 결속): S1 원천 5(4fe2a384)→S2 검토 accept 5/0(be9c9edb)→S3 관찰 3(de66b9d5)→S4 관찰 검토 3(b1e0637a)→S5 동결 2(96da9e90)→S6 후보 2(01d65f15)→S7 검토 2(e4862a75)→S8 동결 2(46c0cd4e)→S9 대조 2(5d98ca9b)→S10 자산 2(4cacec7d)→S11 oracle 2(bfba6029). 미생성: measurement-review 1차 산출물(S12 — 역할 agent-ab6ebc8faec1ee4eb 기동 기록만 있고 산출물 0), agent-visible(0행), blind-agent-rehearsal(0행), measurement-contracts(0행), S12 2차, closure(open 플레이스홀더). 미할당 역할: exposurePreparer·blindAgentRehearsal·controller. 열린 결함: df-b10-01~04. 관찰 기록: comparison·assets·oracle 파일 mtime(09:14~09:37)이 원장 at(06:22~06:51)보다 후행하나 내용 SHA는 원장과 전부 일치 — 내용 무결, 재기록 흔적으로만 기록(단정 없음). 재개 지점: 새 세션은 (1) 원장 전 항목 SHA 재검증(validate-ready는 설계상 FAIL — df-b10-01 우회 검증 절차는 resumeNote 참조) → (2) S12 measurement reviewer를 새 컨텍스트로 기동(1차: designable-pending-exposure 상한, v1.3.2 sourceFrozenRowSha256=frozen-candidates 행 자체 SHA 정의 유의) → (3) S13 exposure preparer → S14 blind rehearsal(v2) → S12 2차 → 검증·closure 순. Slack·Notion 도구 호출 금지 유지(toolConstraint), 현재까지 양 세션 합산 0건. 이 파킹 기록 이후 원 세션은 이 배치 경로에 다시 쓰지 않는다.",
+    "timestampCalibration2": "2026-08-13T11:13:27+0900 controller 2차 정정(중대). 06:13 1차 보정 뒤에도 벽시계를 재측정하지 않고 어림 기입을 재개해 comparator 이후 전 구간이 실제보다 약 3시간 앞서 기록됨(comparator executedAt 06:16→실측 09:14, measurementAssetAuthor 06:24→09:27, oracleReviewer 06:39→09:37, measurementReviewer 07:05→11:08; ledger at 06:22/06:37/06:51→09:14/09:27/09:37). 산출물 파일 mtime과 실측 date 기준으로 전건 재보정함. 발견 경위: 병행 세션이 mtime과 원장 at의 불일치를 통지(2026-08-13 11:09경) → controller 자체 검증으로 확인. 내용 SHA·역할 순서·결속에는 영향 없음(모든 산출물 SHA는 원장과 일치). 반복 발생이므로 df-b10-05로 등재",
+    "parkingSupersededNote": "2026-08-13T11:13:27+0900 승계 controller 기록: 병행 세션의 파킹 판단(11:09, 'S12 무산출 정지')은 관측 시점 기준으로는 타당했으나 결론은 사실과 다름. S12(measurementReviewer)는 09:40 1차 기동이 API 장애로 중단됐고, 장애 구간(약 90분) 뒤 기헌 지시로 11:08 새 컨텍스트(agent-ab6ebc8faec1ee4eb)로 재기동되어 파킹 커밋 9d73a2c 시점에도 실행 중이었다. 따라서 배치는 정온이 아니라 진행 중이며, 이 세션이 파이프라인을 계속한다. 병행 세션의 파킹 기록(parkingNote·df-b10-04)과 커밋 9d73a2c는 역사 기록으로 보존하고 소급 수정하지 않는다. 병행 세션은 11:09 종료를 선언했으므로 이후 이 배치 경로의 유일한 쓰기 주체는 이 세션이다",
+    "workingTreeNote": "2026-08-13T11:22+09:00 controller 기록: measurement reviewer가 세션 중 git working tree 변화를 관측·보고함(source-evidence.jsonl이 M 목록에서 사라지고 defect-ledger.jsonl이 추가됨). 원인은 병행 세션의 파킹 커밋 9d73a2c(11:11, std-b10 경로만)가 기존 M 파일들을 커밋해 해소했고, 이후 controller가 defect-ledger(df-b10-05)와 manifest를 추가 수정했기 때문. 역할 산출물 오염 아님 — reviewer의 입력 4종 SHA는 전 구간 불변이었고 controller가 재확인함",
+    "closedAt": "2026-08-13T11:40+09:00 — status completed. 수락 2건(designable), 거절 관찰 1, 결함 5건(major 2) 보존. push·Notion·Slack 없음"
+  },
+  "artifactShaLedger": [
+    {
+      "path": "source-evidence.jsonl",
+      "sha256": "4fe2a384016c1949d67d6c66843ebcdaf81f224c068244115c3981f01acbf481",
+      "closedBy": "agent-a9b2299fd030023de",
+      "verifiedByController": true,
+      "at": "2026-08-13T05:28+0900"
+    },
+    {
+      "path": "source-reviews.jsonl",
+      "sha256": "be9c9edb274faf58de694ce62952127c8e7ab0fca7fd8baac3b5a9890d6592fd",
+      "closedBy": "agent-a1a3d5e0be53dffd6",
+      "verifiedByController": true,
+      "at": "2026-08-13T05:46+09:00",
+      "note": "원 세션 S2가 05:36경 닫은 파일을 승계 controller가 디스크 SHA·서명 contextId·5행 내용 정독으로 재검증 후 원장 기입"
+    },
+    {
+      "path": "need-observations.jsonl",
+      "sha256": "de66b9d57fa73daa131cea8b66863de37c5d6c40079a1b6dc9c15054cbb657de",
+      "closedBy": "agent-aad1bb148732b3e52",
+      "verifiedByController": true,
+      "at": "2026-08-13T05:53+09:00"
+    },
+    {
+      "path": "observation-reviews.jsonl",
+      "sha256": "b1e0637a35867e516e23098287938236b0d37256bf7cba3e2c1653008331c977",
+      "closedBy": "agent-af83fd5ff0531ebe2",
+      "verifiedByController": true,
+      "at": "2026-08-13T05:57+09:00"
+    },
+    {
+      "path": "frozen-observations.jsonl",
+      "sha256": "96da9e90f58490186a333ea943442a554aeecf95ffb0d89e529ea5b571a2d3cc",
+      "closedBy": "agent-a6dc5d807f8f08352",
+      "verifiedByController": true,
+      "at": "2026-08-13T06:00+09:00",
+      "note": "controller가 frozen 2행의 원문 축자성·frozenRowSha256을 need-observations 원행과 독립 대조로 재검증"
+    },
+    {
+      "path": "task-candidates.jsonl",
+      "sha256": "01d65f15881b6e20b83a81b0cb0d06ac2e292f06f10a70dad9e1f43c2a384364",
+      "closedBy": "agent-a3ad6b46f5159444f",
+      "verifiedByController": true,
+      "at": "2026-08-13T06:05+09:00"
+    },
+    {
+      "path": "candidate-reviews.jsonl",
+      "sha256": "e4862a756daefae3d8684da55ab714ca4f371e64c9cd1c7ef32d4d2c2b43d296",
+      "closedBy": "agent-ae154e889e7244a41",
+      "verifiedByController": true,
+      "at": "2026-08-13T06:09+09:00"
+    },
+    {
+      "path": "frozen-candidates.jsonl",
+      "sha256": "46c0cd4ec1571c24f9d1f48ae50a9d08e71553d0f00b821035d597e79cf564d0",
+      "closedBy": "agent-a2f7cb7d18fae54eb",
+      "verifiedByController": true,
+      "at": "2026-08-13T06:14+09:00",
+      "note": "controller가 frozen 2행의 candidate 원문 축자성·sourceRowSha256을 task-candidates 원행과 독립 대조로 재검증"
+    },
+    {
+      "path": "comparison.jsonl",
+      "sha256": "5d98ca9b8103c4914b2263725ca0961f4c358846bb5fcf0a687ba7201b0bb31a",
+      "closedBy": "agent-a39dcdd853b9a4a8a",
+      "verifiedByController": true,
+      "at": "2026-08-13T09:14+09:00"
+    },
+    {
+      "path": "measurement-assets.staging.jsonl",
+      "sha256": "4cacec7d483cf28843461a20638caf85cdb74586a90df518e82e72dd1a16ac4a",
+      "closedBy": "agent-a02d3b0c462100ca1",
+      "verifiedByController": true,
+      "at": "2026-08-13T09:27+09:00",
+      "note": "controller가 sourceFrozenRowSha256 2건을 frozen-candidates 원행 해시와 독립 대조로 재검증"
+    },
+    {
+      "path": "oracle-reviews.staging.jsonl",
+      "sha256": "bfba6029df3c3a053ef9d54f320250901dc23d2660ca2cae0f581951af724f8f",
+      "closedBy": "agent-ad321bc9067b0c364",
+      "verifiedByController": true,
+      "at": "2026-08-13T09:37+09:00"
+    },
+    {
+      "path": "measurement-review.staging.jsonl",
+      "sha256": "675c911258ba0760fd47413665e0265022f610338d26a34d9dd61532effc85ef",
+      "closedBy": "agent-ab6ebc8faec1ee4eb",
+      "verifiedByController": true,
+      "at": "2026-08-13T11:21+09:00",
+      "note": "mtime 실측(11:21:04) 기준 기입 — df-b10-05 재발 방지 규율 적용"
+    },
+    {
+      "path": "agent-visible.jsonl",
+      "sha256": "c06f105b7cae7e6a2516a36ffb3df0c44acb953483df2ca38bb785797008440d",
+      "closedBy": "agent-a8f19ca64cbc06f7c",
+      "verifiedByController": true,
+      "at": "2026-08-13T11:25+09:00",
+      "note": "mtime 실측(11:25:00) 기준. controller 재검증: 키 9개·userRequest 축자 일치·검증기 3개 정규식 누출 0"
+    },
+    {
+      "path": "blind-agent-rehearsal.jsonl",
+      "sha256": "0deaddeed7399330177f452c981578cf54eadef94e1ba587f818ed55b534fc7d",
+      "closedBy": "agent-a082ba7ca7e571911",
+      "verifiedByController": true,
+      "at": "2026-08-13T11:28+09:00",
+      "note": "mtime 실측(11:28:26) 기준. controller 재검증: agentVisibleRowSha256 2건이 공개 행 raw 해시와 일치"
+    },
+    {
+      "path": "measurement-contracts.jsonl",
+      "sha256": "07052a3b222ac2f87e6170837ad53fb1fb093fb7c0a95a04bb77fd8645f438ec",
+      "closedBy": "agent-ab6ebc8faec1ee4eb",
+      "verifiedByController": true,
+      "at": "2026-08-13T11:37+09:00",
+      "note": "mtime 실측(11:37:08) 기준. controller 재검증: decision·refs·5조건 키·reviewedAt·컨텍스트 서명"
+    },
+    {
+      "path": "defect-ledger.jsonl",
+      "sha256": "f81e57bf73aedf77fecc5ed0b059bfbd894ade8956fc2bf13a627d90211476d1",
+      "closedBy": "claude-code-controller-std-b10",
+      "verifiedByController": true,
+      "at": "2026-08-13T11:40+09:00"
+    },
+    {
+      "path": "closure.json",
+      "sha256": "8e26873c47d07bdaa05217ad4edfe1b007bc55f66f793d0b60f3f48ab927aa8f",
+      "closedBy": "claude-code-controller-std-b10",
+      "verifiedByController": true,
+      "at": "2026-08-13T04:10:48Z",
+      "postClosureUpdatedBy": "codex-control-plane-standard-v1.3.3",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    },
+    {
+      "path": "PROCESS-DEFECT-RESOLUTION.md",
+      "sha256": "751586aebc8033e2b3dce0cb5289cab2bc8cc5bfc0a3ebd1aca4bfebd257adb0",
+      "closedBy": "codex-control-plane-standard-v1.3.3",
+      "verifiedByController": true,
+      "at": "2026-08-13T04:07:26Z",
+      "timeSource": "filesystem-mtime-observed-by-controller-tool"
+    }
+  ]
+}

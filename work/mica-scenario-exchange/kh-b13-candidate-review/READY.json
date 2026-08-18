@@ -1,0 +1,107 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-ready/v1",
+  "jobId": "kh-b13-candidate-review",
+  "batchId": "kh-b13",
+  "jobType": "clean-room-production",
+  "stage": "candidate-review",
+  "methodRevision": "standard-v1.3.5",
+  "status": "READY",
+  "role": "candidateReviewer",
+  "requiredAccessProfile": "job-packet-only",
+  "generatedAt": "2026-08-15T15:45:41Z",
+  "candidateRows": 1,
+  "candidateIds": [
+    "ki-b13-02"
+  ],
+  "forbiddenPriorContextIds": [
+    "1ef8863e-485f-42bf-a439-d3ec28b90a59",
+    "7f907f3c-d81c-4f59-b8af-ef4c4cf9109d",
+    "4a1507bf-1c32-42de-90db-da1ec0691102",
+    "913ff582-0dfe-4ab0-96ad-42c379853a71",
+    "7a3eeb06-5aa3-4dc2-8ca7-79de4ef42456",
+    "efd61526-3cbf-4a5e-91ba-1998471fa584",
+    "03472bb9-854a-4ceb-86bb-c7c0e5af9fa7"
+  ],
+  "allowedInputs": [
+    "READY.json",
+    "INPUT-MANIFEST.json",
+    "task-candidates.staging.jsonl",
+    "task-translation-closure.json",
+    "frozen-observations.staging.jsonl",
+    "ROLE-CONTRACT.md",
+    "CLOSURE.template.json"
+  ],
+  "forbiddenInputs": [
+    "이 job 디렉터리 밖의 모든 로컬 파일과 상위 디렉터리",
+    "MICA 저장소, GitHub 저장소, PR, 브랜치와 커밋 기록",
+    "기존 MICA 100개 과제, 기존 후보, 이전 배치, 비교 결과, 포트폴리오와 슬롯 원장",
+    "카테고리별 잔여 슬롯, 목표 수량, 우선순위와 과거 후보 검토 결과",
+    "source evidence 원문, source review, 거절된 관찰과 앞선 역할의 대화 또는 완료 보고",
+    "measurement asset, fixture, reset, eligibility, oracle와 채점 내부 장치",
+    "Notion, Slack, Obsidian, 진행 웹과 외부 작업 기록",
+    "전역 mica-scenario-production 스킬과 다른 에이전트 메모리"
+  ],
+  "candidatePacket": {
+    "path": "task-candidates.staging.jsonl",
+    "sha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba",
+    "byteLength": 5539,
+    "rowCount": 1,
+    "candidateIds": [
+      "ki-b13-02"
+    ],
+    "rawRowSha256ByCandidateId": {
+      "ki-b13-02": "ff20128dea46d694bda717fe5b84db4d3d0be391482f3e4fcf5451ee125374a5"
+    }
+  },
+  "taskTranslationClosure": {
+    "path": "task-translation-closure.json",
+    "sha256": "4f65097e89d395f5f0c52bc012a176e807588af6939949eced796c6cb0a298f2",
+    "byteLength": 6619,
+    "status": "COMPLETED",
+    "translatorContextId": "03472bb9-854a-4ceb-86bb-c7c0e5af9fa7",
+    "outputSha256": "c5a3e394b5de3ac8bd1155d989e8b58815d34a808271d8367362908f076f0cba"
+  },
+  "frozenObservationPacket": {
+    "path": "frozen-observations.staging.jsonl",
+    "sha256": "f2a4493c794acd25f3c7450c066a00d48abe96db7c76d4f63dfea0717bc362bb",
+    "byteLength": 5650,
+    "rowCount": 2,
+    "allowedSourceObservationIds": [
+      "ob-kh-b13-03",
+      "ob-kh-b13-04"
+    ]
+  },
+  "output": {
+    "path": "candidate-reviews.staging.jsonl",
+    "schemaVersion": "mica.candidate-review/v1",
+    "rowCount": 1,
+    "exactFieldOrder": [
+      "origin",
+      "schemaVersion",
+      "batchId",
+      "reviewId",
+      "candidateId",
+      "candidateRowSha256",
+      "verdict",
+      "checks",
+      "reasons",
+      "nonBlockingNotes",
+      "reviewerContextId",
+      "reviewedAt"
+    ],
+    "exactCheckOrder": [
+      "traceability",
+      "executionUnit",
+      "startState",
+      "finalState",
+      "authoritativeOracle",
+      "confirmationBoundary",
+      "prohibitedStates",
+      "failureRecovery",
+      "nonFabrication",
+      "userRequestExposure"
+    ]
+  },
+  "nextStageAutoStartAllowed": false
+}

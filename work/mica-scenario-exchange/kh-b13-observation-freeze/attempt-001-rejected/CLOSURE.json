@@ -1,0 +1,56 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-observation-freeze-closure/v1",
+  "jobId": "kh-b13-observation-freeze",
+  "status": "COMPLETED",
+  "custodianContextId": "7a3eeb06-5aa3-4dc2-8ca7-79de4ef42456",
+  "custodianAccessProfile": "job-packet-only",
+  "inputBoundaryStatus": "clean",
+  "forbiddenInputReads": 0,
+  "slackCalls": 0,
+  "notionCalls": 0,
+  "rowsSeen": 4,
+  "acceptedRows": 2,
+  "rejectedRowsExcluded": 2,
+  "frozenRows": 2,
+  "inputsRead": [
+    {
+      "path": "READY.json",
+      "sha256": "a1edffacd38704b104cbfda167dc6da9574cfcfa4c2df31f836f97933069976e"
+    },
+    {
+      "path": "INPUT-MANIFEST.json",
+      "sha256": "62a8fc91981e22d67797dbfe98d1afcadcb6db0e378cdb90d03393a4c52e9f87"
+    },
+    {
+      "path": "need-observations.staging.jsonl",
+      "sha256": "1ca7f5713722c69d0a312530402c0dd933c665a3ed115da2dce736c7d8e6acda"
+    },
+    {
+      "path": "observation-reviews.staging.jsonl",
+      "sha256": "ffc5df8fb304eed070d4ff9cc9b0b4c8c2e1c2adfb22007cbdcec2288322a01a"
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "f695bc629ec56eb9cb9bf175ac3068fe0e6f33bdb769eeeda167c15948a469f9"
+    }
+  ],
+  "outputPath": "frozen-observations.staging.jsonl",
+  "outputSha256": "1dad35f3959ee462c4aa0635e59b87eb0d61f5cb3c71ea06e07528ec77cf2f31",
+  "outputBytes": 5650,
+  "frozenObservationIds": [
+    "ob-kh-b13-03",
+    "ob-kh-b13-04"
+  ],
+  "completedAt": "2026-08-15T10:47:56Z",
+  "nextStageAutoStarted": false,
+  "notes": [
+    "PACKAGE-SHA256.txt 검증에서 허용 파일 6개가 모두 OK였고, need-observations.staging.jsonl과 observation-reviews.staging.jsonl의 SHA-256과 byteLength가 READY.json 및 INPUT-MANIFEST.json 값과 일치했다.",
+    "observation 4행과 review 4행이 observationId 기준으로 중복 없이 1:1 대응하고 순서(ob-kh-b13-01, 02, 03, 04)도 동일함을 확인했다.",
+    "verdict accept이면서 다섯 checks가 모두 pass인 행은 ob-kh-b13-03, ob-kh-b13-04 두 건이었다. ob-kh-b13-01은 reject(needBoundary fail, stateChangeClarity fail), ob-kh-b13-02는 reject(needBoundary fail)로 출력에서 제외했다. reviewer의 의미 판정은 재심사하지 않고 기계적으로 적용했다.",
+    "frozenRowSha256과 reviewRowSha256은 각 원본 JSONL 한 줄에서 줄바꿈(LF)만 제외한 바이트의 SHA-256이며, 두 입력 파일 모두 CR 바이트가 없음을 확인했다.",
+    "출력 후 재파싱 readback에서 앞 12개 필드의 값과 sourceRefs 배열 순서가 원본과 완전히 일치하고, 15개 필드의 순서도 계약과 일치함을 확인했다. 출력에 U+2014 EM DASH는 0개다.",
+    "비차단 관찰: READY.json의 observationReviewReceipt.closureSha256 값이 62자리로 SHA-256 64자리보다 짧다. 이 값은 이번 job의 입력 파일 SHA가 아니라 이전 단계 closure의 영수증 필드여서 검증 대상 입력 SHA 대조에는 사용하지 않았고 BLOCKED 사유로 취급하지 않았다.",
+    "CLOSURE 작성 후 정지한다. 후보 번역, 후보 검토, comparison, annotation, measurement 단계를 자동 시작하지 않았고 commit, push, 배포, Notion, Slack 반영도 하지 않았다."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.exchange-input-manifest/v1",
+  "jobId": "draft-r1-annotate-08",
+  "files": [
+    {
+      "path": "packet.jsonl",
+      "byteLength": 9728,
+      "sha256": "dafd898c2a06e09429d52d2fb38b757f2331926de5579bb7562544ac8bfc9e34"
+    }
+  ]
+}

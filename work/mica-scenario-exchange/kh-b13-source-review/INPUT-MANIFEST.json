@@ -1,0 +1,22 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.clean-room-input-manifest/v1",
+  "jobId": "kh-b13-source-review",
+  "files": [
+    {
+      "path": "source-evidence.staging.jsonl",
+      "sha256": "730745b4f9fda570808845140fc53cd1788e0a2a547b8cc12ef687dcbf8ad57c",
+      "byteLength": 10869
+    },
+    {
+      "path": "ROLE-CONTRACT.md",
+      "sha256": "e77190cb9af1825f6da6124d3ee50cb46abbf898eb92d64394b55d50a2e0763d",
+      "byteLength": 4000
+    },
+    {
+      "path": "CLOSURE.template.json",
+      "sha256": "67a76fb86fdbf8b4c1a2eafb25852a905ffa9c429367b05a29106d7a1dcf5243",
+      "byteLength": 1005
+    }
+  ]
+}

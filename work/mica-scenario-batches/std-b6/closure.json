@@ -1,0 +1,42 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-closure/v1",
+  "batchId": "std-b6",
+  "productionProfile": "standard",
+  "methodRevision": "standard-v1.2-b5",
+  "status": "completed",
+  "acceptedMeasurableCandidates": 3,
+  "heldCandidates": [],
+  "rejectedCandidates": 0,
+  "duplicateCandidates": [
+    "ki-b6-04 (구독 갱신·해지 대조 — ts-duplicate-and-trial-control 등 구독 관리 계열 범위 내, 측정 제외. 첫 duplicate 판정 사례)"
+  ],
+  "stageCounts": {
+    "sourceEvidence": "7(수락 5·거절 2 — ev-b6-04→06→07 개정 2사이클: 원문 밖 실체 수·표 위치 오기를 검토자가 연쇄 적발)",
+    "needObservations": "5(수락 4·거절 1 — ob-b6-01 근거 밖 판별 기준)",
+    "taskCandidates": "5(수락 4·거절 1 — ki-b6-03→05 개정: 개인정보 원문 기재↔금지 상태 충돌을 값→판정 이동으로 해소)",
+    "comparison": "transformation 2·duplicate 1·independent-finding 1(ki-b6-05 통관부호 — 원문 반출 무효 반전 축)",
+    "measurement": "designable 3(측정 대상 3/3) — 1차 infeasible 3(차단 7) → 2차 feasible 2·잔여 1 → 3차 최상위 승급으로 수렴"
+  },
+  "newActionableProcessDefects": [
+    "df-b6-01 산출 경로 오배치(v1.2 SHA 대조로 즉시 적발·복구)",
+    "df-b6-02 카나리 계열 정의 결손(정답 런 오발화 — 단일 원천 렌더·근거 라벨 열거화로 해소)",
+    "df-b6-03 formula 도메인 미명시(항목 축 한정 조항으로 해소)"
+  ],
+  "regression": {
+    "validateBatch(std-b6, HEAD)": "pass — completed·methodLock 결속(standard-v1.2-b5·388070806) 유지·수락 3==계약 3행. 참고: closure.accepted는 duplicate 1건을 제외한 측정 수락 수",
+    "validateBatch(std-b3·b4·b5 회귀)": "전량 pass",
+    "preflight(HEAD)": "pass — 기존 15건·스킬 진입점 유지",
+    "v1.2 준수 실측": "규칙1·2 SHA 결속 전 역할 통과(STALE 0, 3사이클 개정 포함), 규칙3 별도 custodian 2역할 편성(행 SHA), 규칙4 실사업자명 evidence 한정(후보·자산 0건), 규칙5 EXP 전수 열거·단일 formula(+도메인 명시)·strict-order NOT-APPLICABLE 실증, 규칙6 방법 문서·검증 스크립트·cat07-08 무접촉"
+  },
+  "postHocCategoryAttachment": {
+    "note": "카테고리는 동결 후 사후 부착 — 작성·번역 역할에는 생활 영역명만 전달",
+    "ki-b6-01": "01 이메일·캘린더 (유출 통지 여부 대조)",
+    "ki-b6-02": "01 이메일·캘린더 (수신거부 이력 대조)",
+    "ki-b6-05": "02 쇼핑·배송 (통관부호 정보 대조)",
+    "ki-b6-04(duplicate)": "02 쇼핑·배송 — 진행판 미산입"
+  },
+  "nextBatchDecision": "01은 1/10→3/10, 02는 1/10→2/10(duplicate 제외). v1.2 전 규칙 유효 작동 실증(SHA 결속·별도 custodian·경로 사고 적발). 신규 규격 후보 3건(경로 실측 명문화·계열 단일 원천 렌더·formula 도메인 명시). 다음은 코덱스 감사 후 판단",
+  "externalActionsPending": "push·Notion 반영 금지(코덱스 인수인계 지시) — 로컬 종결 후 멈춰 보고, 코덱스 감사 대기",
+  "closedAt": "2026-08-11T23:29+0900"
+}

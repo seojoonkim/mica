@@ -1,0 +1,365 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "cat04-lean-001",
+  "status": "completed",
+  "productionProfile": "lean",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
+  "resourceEstimate": {
+    "estimatedHours": "3–5",
+    "roleContexts": "독립 의미 역할은 유지하고 최대 2개만 동시 실행",
+    "maxConcurrentContexts": 2,
+    "reasoning": "정형 작업 medium, 의미 작업 high, 예외만 xhigh 이상"
+  },
+  "maxDrafts": 3,
+  "createdBy": "mica-scenario-production",
+  "createdAt": "2026-08-11T09:13:26+09:00",
+  "humanProfileLabel": "간소화 탐색형",
+  "portfolioReservation": {
+    "categoryId": "04",
+    "categoryLabel": "외식·예약",
+    "ownerRuntime": "Codex",
+    "conflictCheck": "카테고리 06의 std-b3는 다른 Claude Code 세션 작업으로 유지하고 이 배치와 격리한다",
+    "authorExposure": "source researcher에는 외식·예약 생활 영역만 전달한다. need writer와 translator에는 수락·동결된 원문만 전달하고 카테고리 번호, 진행률, 수량 목표를 노출하지 않는다"
+  },
+  "sourceGate": {
+    "status": "completed",
+    "researchedCount": 2,
+    "acceptedCount": 1,
+    "rejectedCount": 1,
+    "acceptedEvidenceIds": [
+      "CAT04-SRC-R1-002"
+    ],
+    "rejectedEvidenceIds": [
+      "CAT04-SRC-R1-001"
+    ],
+    "sourceEvidenceSha256": "54d6f7a2b32f39da4fbe33001bc9d217eca5abb99a5754a99efe02169c229b47",
+    "sourceReviewsSha256": "c53226ca1eb46775046fa94c126265bf1bb81cc6f2828cac26371c0ec899e9b7",
+    "priorInvalidAttempt": {
+      "reason": "missing-origin-field",
+      "sourceEvidenceSha256": "5423e45049422d599b4ca1fed6649e4aab913d0591a3e8aa12a8129b52e1e3b4",
+      "sourceReviewsSha256": "bb09ed5a30efdf17d2efb73ddc8c4c850b26ecb92c9bd052c2cbeaf59db4a509",
+      "artifacts": [
+        "source-evidence.v0-invalid-origin.jsonl",
+        "source-reviews.v0-invalid-origin.jsonl"
+      ]
+    },
+    "nextState": "observation-gate-completed"
+  },
+  "observationGate": {
+    "status": "completed",
+    "acceptedSourceInputSha256": "d7dd46f56092445ed2aef4b5a884e02e279ecf94d178de1b4900a820fc9aff3f",
+    "writtenCount": 1,
+    "reviewedCount": 1,
+    "acceptedCount": 1,
+    "rejectedCount": 0,
+    "frozenCount": 1,
+    "acceptedObservationIds": [
+      "CAT04-OBS-001"
+    ],
+    "needObservationsSha256": "c62a23f96a7a2150db2970657b048a5d5bc07a74c8f6268a601d1ceba4b728a5",
+    "observationReviewsSha256": "8ab529bea786b6dde7d251669599d56fc4c84dc4fc0a44a939ff574226b2c07a",
+    "frozenObservationsSha256": "c62a23f96a7a2150db2970657b048a5d5bc07a74c8f6268a601d1ceba4b728a5",
+    "roleSeparation": {
+      "needWriter": "cat04_need_writer_r1",
+      "observationReviewer": "cat04_observation_reviewer_r1",
+      "observationCustodian": "cat04_observation_custodian_r1"
+    },
+    "nextState": "frozen-observation-ready-for-isolated-task-translator"
+  },
+  "taskGate": {
+    "status": "completed",
+    "translatedCount": 1,
+    "reviewedCount": 1,
+    "acceptedCount": 1,
+    "rejectedCount": 0,
+    "frozenCount": 1,
+    "acceptedCandidateIds": [
+      "KI-L4-001"
+    ],
+    "taskCandidatesSha256": "fc5e1cf9fdf5c02b6c835045aa6486a4638f5f001f1c838ef88916f8224a8aa0",
+    "candidateReviewsSha256": "1db0b810e411972c9bf2c0b2f2de921101aea519de26dc7e5cafb720a8b08355",
+    "frozenCandidatesSha256": "fc5e1cf9fdf5c02b6c835045aa6486a4638f5f001f1c838ef88916f8224a8aa0",
+    "roleSeparation": {
+      "translator": "cat04_task_translator_r1",
+      "candidateReviewer": "cat04_candidate_reviewer_r1",
+      "candidateCustodian": "cat04_candidate_custodian_r1"
+    },
+    "nextState": "frozen-candidate-ready-for-post-freeze-comparison"
+  },
+  "comparisonGate": {
+    "status": "completed",
+    "comparedCount": 1,
+    "verdictCounts": {
+      "duplicate": 0,
+      "transformation": 1,
+      "independentFinding": 0,
+      "hold": 0
+    },
+    "comparisonSha256": "a3268cc79c5c606dd54a90e82e2fc8af43746b1fde9eb2ab94e5968ae610a930",
+    "comparatorContextId": "cat04_comparator_r1"
+  },
+  "measurementGate": {
+    "status": "completed",
+    "designableCount": 1,
+    "holdCount": 0,
+    "measurementContractsSha256": "4d73a3cc47dd1ce55ac68ed1e9370ebe7bf5e63b23767999bea1ebe1893643d1",
+    "assetHashes": {
+      "fixture": "b1eb323b5dc3f0a77bf301fc8cf4e36a234c534410c6b817f7ee3961a830ac74",
+      "reset": "271b89fb93890491910006df7475e8d856d6cfad85eb6d2c3171ea973084cf11",
+      "eligibility": "90702953f1004d2da9b72d31383042b0356595efc3357e79a4f82ac3747e7191",
+      "oracle": "7e9b2711079f387f99cdcaa91f76459e2acc7ed4e9b35f46a06406a333a6335b"
+    },
+    "roleSeparation": {
+      "measurementAssetAuthor": "cat04_measurement_asset_author_r1",
+      "oracleReviewer": "cat04_oracle_reviewer_r1",
+      "measurementReviewer": "cat04_measurement_reviewer_r1"
+    },
+    "scopeBoundary": "합성 simulator 측정 설계만 승인한다. 실제 실행, 시장 성립, 현지 검토, 공개 적격, 정본 편입은 승인하지 않는다."
+  },
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "accepted-source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "cat04_source_researcher_r1",
+    "sourceReviewer": "cat04_source_reviewer_r1",
+    "needWriter": "cat04_need_writer_r1",
+    "observationReviewer": "cat04_observation_reviewer_r1",
+    "observationCustodian": "cat04_observation_custodian_r1",
+    "translator": "cat04_task_translator_r1",
+    "candidateReviewer": "cat04_candidate_reviewer_r1",
+    "candidateCustodian": "cat04_candidate_custodian_r1",
+    "comparator": "cat04_comparator_r1",
+    "measurementAssetAuthor": "cat04_measurement_asset_author_r1",
+    "oracleReviewer": "cat04_oracle_reviewer_r1",
+    "measurementReviewer": "cat04_measurement_reviewer_r1",
+    "controller": "codex-root-cat04-lean-001-controller"
+  },
+  "modelRecord": [
+    {
+      "role": "controller",
+      "contextId": "codex-root-cat04-lean-001-preparation",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "ultra",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T09:13:26+09:00",
+      "scope": "충돌 확인, 프로필 선택, 빈 배치 생성, 입력 경계 고정"
+    },
+    {
+      "role": "sourceResearcher",
+      "contextId": "cat04_source_researcher",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoningEffort": "medium",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T09:40:47+09:00",
+      "scope": "외식·예약 생활 영역의 권위 있는 1차 자료 최대 3건 조사"
+    },
+    {
+      "role": "sourceReviewer",
+      "contextId": "cat04_source_reviewer",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T09:44:20+09:00",
+      "scope": "2개 source evidence의 원문 직접성·범위·한계 독립 판정"
+    },
+    {
+      "role": "sourceResearcher",
+      "contextId": "cat04_source_researcher_r1",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoningEffort": "medium",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T09:46:36+09:00",
+      "scope": "origin 누락 실패본을 보존하고 새 ID·정확한 origin으로 의미 불변 재발행"
+    },
+    {
+      "role": "sourceReviewer",
+      "contextId": "cat04_source_reviewer_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T09:48:04+09:00",
+      "scope": "재발행 2개 source evidence를 이전 판정 없이 공식 원문에서 독립 재검토"
+    },
+    {
+      "role": "needWriter",
+      "contextId": "cat04_need_writer_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T11:04:29+09:00",
+      "scope": "수락된 1차 자료 1건만 입력으로 받아 해결책을 처방하지 않는 필요 관찰 작성"
+    },
+    {
+      "role": "observationReviewer",
+      "contextId": "cat04_observation_reviewer_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T11:07:29+09:00",
+      "scope": "근거 정렬·필요 경계·비처방성·비창작·상태 변화 명확성 독립 판정"
+    },
+    {
+      "role": "observationCustodian",
+      "contextId": "cat04_observation_custodian_r1",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoningEffort": "high",
+      "serviceSpeed": "priority",
+      "executedAt": "2026-08-11T11:06:49+09:00",
+      "scope": "수락 관찰의 raw row SHA 결속과 accepted-only 원문 동결"
+    },
+    {
+      "role": "controller",
+      "contextId": "codex-root-cat04-lean-001-observation-controller",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "ultra",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T11:08:00+09:00",
+      "scope": "런타임 역할 선언, 수락 자료 격리, 관찰 관문 결속, 검증과 기록"
+    },
+    {
+      "role": "translator",
+      "contextId": "cat04_task_translator_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T11:50:00+09:00",
+      "scope": "동결 관찰 1건만 입력으로 받아 실행 가능한 과업 후보 1건 번역"
+    },
+    {
+      "role": "candidateReviewer",
+      "contextId": "cat04_candidate_reviewer_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T11:53:07+09:00",
+      "scope": "추적성·실행 단위·최종 상태·승인 경계·복구의 독립 판정"
+    },
+    {
+      "role": "candidateCustodian",
+      "contextId": "cat04_candidate_custodian_r1",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoningEffort": "medium",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T11:54:00+09:00",
+      "scope": "수락 후보 raw 행 해시 결속과 accepted-only 동결"
+    },
+    {
+      "role": "comparator",
+      "contextId": "cat04_comparator_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T11:58:24+09:00",
+      "scope": "후보 동결 뒤 공식 과제와 기존 15건에 대한 5축 사후 대조"
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "contextId": "cat04_measurement_asset_author_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T12:02:00+09:00",
+      "scope": "합성 알레르기 레지스트리·승인·주문 ledger의 fixture, reset, eligibility 설계"
+    },
+    {
+      "role": "oracleReviewer",
+      "contextId": "cat04_oracle_reviewer_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T12:05:00+09:00",
+      "scope": "정상·실패·복구 분기의 binary oracle와 승인·무주문 경계 독립 판정"
+    },
+    {
+      "role": "measurementReviewer",
+      "contextId": "cat04_measurement_reviewer_r1",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T12:08:13+09:00",
+      "scope": "후보·비교·4개 측정 자산의 현재 바이트 결속과 designable 독립 판정"
+    },
+    {
+      "role": "controller",
+      "contextId": "codex-root-cat04-lean-001-controller",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoningEffort": "ultra",
+      "serviceSpeed": "standard",
+      "executedAt": "2026-08-11T12:10:00+09:00",
+      "scope": "배치 종결, 수량·해시·역할 결속, Notion·웹 공유면 갱신"
+    }
+  ],
+  "externalActionsAuthorized": false
+}

@@ -1,0 +1,257 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-batch/v2",
+  "batchId": "std-b5",
+  "status": "completed",
+  "productionProfile": "standard",
+  "methodologyPath": "docs/kiheon-ideation-pilot-15/methodology.md",
+  "resourceEstimate": {
+    "estimatedHours": "6–12",
+    "roleContexts": "8–12개의 분리된 역할 실행",
+    "maxConcurrentContexts": 3,
+    "reasoning": "의미 역할 전반에 high/xhigh 중심"
+  },
+  "maxDrafts": 5,
+  "createdBy": "mica-scenario-production",
+  "leanV1": {
+    "defaultBatchSize": 3,
+    "escalatedBatchSize": 5,
+    "maxConcurrentContexts": 2,
+    "orderDependentStagesSequential": true,
+    "semanticReReviewFocus": "new, changed, and high-risk items; mechanical checks always full"
+  },
+  "authorInputs": [
+    "source-evidence.jsonl"
+  ],
+  "forbiddenAuthorInputs": [
+    "existing MICA tasks",
+    "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+    "prior candidates and comparison results",
+    "category quotas and gap hints"
+  ],
+  "roleInputAllowlist": {
+    "sourceResearcher": [
+      "controller-assigned research scope",
+      "independent primary sources"
+    ],
+    "sourceReviewer": [
+      "source-evidence.jsonl",
+      "cited primary source locations"
+    ],
+    "needWriter": [
+      "accepted rows of source-evidence.jsonl"
+    ],
+    "observationReviewer": [
+      "need-observations.jsonl",
+      "accepted source-evidence.jsonl rows",
+      "agent-production-contract.md"
+    ],
+    "observationCustodian": [
+      "need-observations.jsonl",
+      "observation-reviews.jsonl"
+    ],
+    "translator": [
+      "frozen-observations.jsonl",
+      "task candidate base fields in agent-production-contract.md"
+    ],
+    "candidateReviewer": [
+      "frozen-observations.jsonl",
+      "task-candidates.jsonl",
+      "agent-production-contract.md"
+    ],
+    "candidateCustodian": [
+      "task-candidates.jsonl",
+      "candidate-reviews.jsonl"
+    ],
+    "comparator": [
+      "frozen-candidates.jsonl",
+      "docs/kiheon-ideation-pilot-15/candidate-specs.json",
+      "existing MICA task catalogue"
+    ],
+    "measurementAssetAuthor": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl"
+    ],
+    "oracleReviewer": [
+      "frozen-candidates.jsonl",
+      "fixture, reset, and eligibility assets"
+    ],
+    "measurementReviewer": [
+      "frozen-candidates.jsonl",
+      "comparison.jsonl",
+      "measurement-contracts.jsonl"
+    ],
+    "controller": [
+      "all batch artifacts read-only",
+      "defect-ledger.jsonl",
+      "closure.json"
+    ]
+  },
+  "roles": {
+    "sourceResearcher": "agent-a7a26c000a1e03054",
+    "sourceReviewer": "agent-a102c32db8a20418d",
+    "needWriter": "agent-a3448c1bc6b17442d",
+    "observationReviewer": "agent-a129def98ce8945d2",
+    "observationCustodian": "controller-mechanical (전건 판정 존재·수락 필터+해시)",
+    "translator": "agent-a7425d88da91b4c0c",
+    "candidateReviewer": "agent-a6a9160998b4491b1",
+    "candidateCustodian": "controller-mechanical (전건 accept·해시 계산만)",
+    "comparator": "agent-aa94174e14f22e32a",
+    "measurementAssetAuthor": "agent-aac515930a07a2a3f (1·2차 동일 컨텍스트)",
+    "oracleReviewer": "agent-a0cf7461d1aa8964f",
+    "measurementReviewer": "agent-ac82626461616a867",
+    "controller": "claude-code-main-session (Fable, controller)"
+  },
+  "modelRecord": [
+    {
+      "role": "sourceResearcher",
+      "model": "claude-sonnet (균형)",
+      "effortClass": "medium",
+      "tools": "web+첨부 직접 다운로드(HUG xlsx openpyxl 파싱)",
+      "contextId": "agent-a7a26c000a1e03054",
+      "executedAt": "2026-08-11T16:49+0900",
+      "durationSec": 1448,
+      "note": "ev-b5-01~05: 수도요금 과오납·임대차 분쟁조정 실적·전세보증 사고·관리비 제도개선·이사 요금 정산",
+      "tokens": 178384
+    },
+    {
+      "role": "sourceReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 원문 HTML·xlsx 직접 대조, 교차 확인 포함",
+      "tools": "read+웹(첨부 재다운로드)",
+      "contextId": "agent-a102c32db8a20418d",
+      "executedAt": "2026-08-11T16:58+0900",
+      "durationSec": 364,
+      "note": "전건 accept 5 — 첫 무개정 통과. srv-05는 요약 도구가 붙인 갱신일이 원문에 없음을 적발(수집자 knownLimits 정직성 확인)",
+      "tokens": 90778
+    },
+    {
+      "role": "needWriter",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 자가검사 지침 반영",
+      "tools": "read: 운반 파일만",
+      "contextId": "agent-a3448c1bc6b17442d",
+      "executedAt": "2026-08-11T17:02+0900",
+      "durationSec": 216,
+      "note": "ob-b5-01~05 — 수도요금 이중납부 대조, 분쟁조정 관할·접수 준비, 전세보증 가입 확인, 관리비 항목 대조, 이사 정산 항목 확인",
+      "tokens": 80897
+    },
+    {
+      "role": "observationReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 관찰+운반 파일",
+      "contextId": "agent-a129def98ce8945d2",
+      "executedAt": "2026-08-11T17:05+0900",
+      "durationSec": 144,
+      "note": "accept 4·reject 1(ob-b5-01: 근거 밖 발생 분포 단정 — 이사 전후 집중 주장)",
+      "tokens": 79272
+    },
+    {
+      "role": "taskTranslator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 동결 관찰 운반 파일만",
+      "contextId": "agent-a7425d88da91b4c0c",
+      "executedAt": "2026-08-11T17:11+0900",
+      "durationSec": 334,
+      "note": "ki-b5-01~04 — 임대차 관할 확인, 전세 반환보증 확인, 관리비 고지서 대조, 이사 요금 정산 확인",
+      "tokens": 90616
+    },
+    {
+      "role": "candidateReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 후보+동결 관찰",
+      "contextId": "agent-a6a9160998b4491b1",
+      "executedAt": "2026-08-11T17:14+0900",
+      "durationSec": 143,
+      "note": "crv-b5-01~04 전건 accept — ki-b5-03 시점 오염 차단 확인",
+      "tokens": 83077
+    },
+    {
+      "role": "comparator",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 동결 후보+카탈로그 5종(후속 16)",
+      "contextId": "agent-aa94174e14f22e32a",
+      "executedAt": "2026-08-11T18:40+0900",
+      "durationSec": 487,
+      "note": "transformation 4 — gc 계열 결합형(01), b4 구조 결합(02), 청구 대조 유형(03), 이사 전환 사후 재구성(04)",
+      "tokens": 102353
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 표준 규격+결함 회피(변형 수준 state 고정) 1차 설계, 3중 자가검사",
+      "tools": "read: 동결 후보만+스크래치 빌드",
+      "contextId": "agent-aac515930a07a2a3f",
+      "executedAt": "2026-08-11T19:06+0900",
+      "durationSec": 1514,
+      "note": "ma-b5-01~04 — 객체 160, 동시 충족성 72건 검증, 오발화 0, EXP 재계산 일치",
+      "tokens": 187739
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 동시 충족성 독립 재검증·EXP 재계산",
+      "tools": "read 허용 2파일+스크래치 빌드",
+      "contextId": "agent-a0cf7461d1aa8964f",
+      "executedAt": "2026-08-11T19:26+0900",
+      "durationSec": 1129,
+      "note": "1차 feasible 2(or-b5-01·03)·infeasible 2(or-b5-02 레지스트리 누락, or-b5-04 EXP 성분·라벨 충돌 2)",
+      "tokens": 235370
+    },
+    {
+      "role": "measurementAssetAuthor",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high — 2차 국소 수정(동일 컨텍스트)",
+      "tools": "빌더 소스 수정+자가검증(EXP 라벨 열거 검사 신설)",
+      "contextId": "agent-aac515930a07a2a3f",
+      "executedAt": "2026-08-11T19:33+0900",
+      "durationSec": 414,
+      "note": "ma-b5-05/06 — 레지스트리 결손·성분 부재 규칙 단일화·RECHECK-DUE 정합. 소실 0·gen1 해시 불변",
+      "tokens": 43749
+    },
+    {
+      "role": "oracleReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read 스테이징 5~6행+스크래치 빌드",
+      "contextId": "agent-a0cf7461d1aa8964f",
+      "executedAt": "2026-08-11T19:40+0900",
+      "durationSec": 352,
+      "note": "or-b5-05/06 feasible — 차단 3건 전부 해소(독립 재계산 검산), amendedTests 2+5, 객체 보존 기계 대조. 신규 비차단 3",
+      "tokens": 66929
+    },
+    {
+      "role": "measurementReviewer",
+      "model": "claude-opus (상위 추론)",
+      "effortClass": "high",
+      "tools": "read: 허용 3파일",
+      "contextId": "agent-ac82626461616a867",
+      "executedAt": "2026-08-11T19:54+0900",
+      "durationSec": 742,
+      "note": "mr-b5-01~04 designable 4 — 착수 조건 6문장 부기. 출력 1행 형식 오류는 controller가 자명 수리(내용 무변경)",
+      "tokens": 241035
+    },
+    {
+      "role": "controller",
+      "model": "claude-fable (메인 세션)",
+      "effortClass": "high",
+      "tools": "파일 운반·기계 검증·동결·형식 수리 1건",
+      "contextId": "main",
+      "executedAt": "2026-08-11T19:54+0900",
+      "note": "S13 종결 — 계약 4·원장 4·closure. push·Notion 기록은 기헌 승인에 따라 이번에 수행"
+    }
+  ],
+  "externalActionsAuthorized": false,
+  "controllerNotes": {
+    "userDirective": "기헌 2026-08-11: '코덱스가 진행해둔 방향에 맞춰서 계속 아이디어 작업 진행해서 업데이트' — SSOT의 코덱스 권장(09 우선, 01·02·04 동률)에 따라 09 주거·공과금 단독 선택",
+    "scopeNote": "카테고리 번호는 예약 정보 — 작성·번역 역할에는 '주거·공과금 생활 영역'으로만 전달. std-b2 실패 교훈 반영: 실태·인구 통계 원천은 개인 층위 관찰로 못 내려가므로 분쟁·정산·환불·보증금·요금 오류 계열의 1차 자료 우선. KI-P15-007(소득충격 납기·지원 조정)과의 문제 가족 충돌 회피 — 지원제도 신청 가족은 후순위",
+    "defectMitigations": "공통 계약 9규칙 + std-b3 관측 스키마 표준 + std-b4 신규 규격(기대 판정표 동시 충족성 사전 게이트 c14 패턴, 판정분류 총칙 4항 — nt-b4-03) + nt-b4-01 공통 유형 반영(1회 해제 주입기 대신 변형 수준 state 고정 원칙, 게이트↔잠긴 경로 1:1, 첨부 직접 다운로드 시도 — nt-b4-02)를 1차 명세부터 적용",
+    "startedAt": "2026-08-11T13:15+0900",
+    "toolSha": "cb66f65"
+  },
+  "completedAt": "2026-08-11T19:54+0900"
+}

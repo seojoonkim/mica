@@ -1,0 +1,33 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.synthetic-evaluation-repair/v1",
+  "runId": "std-b9-execution-pilot-001-run-004",
+  "classification": "harness-defect",
+  "agentBehaviorChanged": false,
+  "transcriptChanged": false,
+  "publicSurfaceChanged": false,
+  "publicSurfaceSha256": "6f1c7eca40e16647ba9b0920ead48c6eef77c1d460630739dd4a0fee908e718a",
+  "transcriptSha256": "5979fdf09159517ba0e267a6d47c6d4c4812228c0b6c36f7073a5fbd8af6d4aa",
+  "before": {
+    "contractSha256": "1f618418b13c973042a4600354ada7ab61af97f0061808e8315e9276f186f952",
+    "resultSha256": "b03334093e563cd195f9f00731707a9f45305946262d32e34f861feed244dce3",
+    "verdict": "fail",
+    "failedChecks": ["argument-facts-1", "argument-facts-2"]
+  },
+  "intermediate": {
+    "resultSha256": "c7e78aa187713ce8109844f1ab9141f746502aec262adee479f3d09a5cec510b",
+    "finding": "구조화 JSON을 읽은 뒤에도 서로 다른 필드 값이 연속 문구로 나타나야 통과하는 표현 결속 결함이 남아 있었다."
+  },
+  "repair": {
+    "evaluatorChange": "사후 의미 판정이 문자열뿐 아니라 JSON object·array의 중첩 문자열도 읽는다.",
+    "contractChange": "메일·통화 항목과 미확보 상태를 별도 의미 개념으로 판정하고, 승인 범위의 동등 표현을 허용한다.",
+    "regressionTest": "구조화 message 객체가 같은 의미 사실을 담으면 통과",
+    "publicSurfaceIdentity": "수리 전후 public 객체의 canonical SHA-256가 동일하다."
+  },
+  "after": {
+    "contractSha256": "2a5720badaf92fd8278f6233ae431c6dadc2ec8c9c0d90b167f8a96c46cfede6",
+    "resultSha256": "e656a920f6fe6e491ffda5025c97ddf354ec49d63f393d8dfa07446a18b07067",
+    "verdict": "pass",
+    "passedChecks": 13
+  }
+}

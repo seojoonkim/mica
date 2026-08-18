@@ -1,0 +1,48 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.scenario-production-controller-state/v1",
+  "batchId": "std-b11",
+  "methodRevision": "standard-v1.3.3",
+  "generation": 2,
+  "status": "parked",
+  "controllerContextId": "claude-std-b11-controller",
+  "sessionId": "claude-code-c04f7e76-13b9-43a7-b465-bb0ef5fe809b",
+  "acquiredAt": "2026-08-17T18:24:11Z",
+  "renewedAt": "2026-08-17T18:39:45Z",
+  "leaseExpiresAt": "2026-08-17T18:39:45Z",
+  "authorizationRef": "user-message:2026-08-18-user-selected-start-std-b11-now",
+  "controllerHistory": [
+    {
+      "controllerContextId": "codex-std-b11-preparer",
+      "sessionId": "codex-thread-019fdf7b",
+      "releasedAt": "2026-08-17T18:24:11Z",
+      "status": "parked"
+    }
+  ],
+  "roleClaims": {
+    "controller": {
+      "contextId": "claude-std-b11-controller",
+      "claimedAt": "2026-08-17T18:24:11Z"
+    }
+  },
+  "roleCompletions": {},
+  "checkpoint": {
+    "HANDOFF.md": "aca9e8db6ec48df00549bd262f82c2180e0d60a0ebbc9698204fe028967bc610",
+    "agent-visible.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch-manifest.json": "565e4db5df5f1102faf98b258305dd96b41c21eec6791f19cdc3a7fb9a31afa7",
+    "blind-agent-rehearsal.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "closure.json": "f1f6ba71906888704b35826db227a2d0bc840a215b0c78d091ec2822307a65df",
+    "comparison.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "defect-ledger.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-candidates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen-observations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "measurement-contracts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "need-observations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observation-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-evidence.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-reviews.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "task-candidates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "parkReason": "std-b11이 구식 method revision(v1.3.3)·구식 in-repo lane을 쓰고, 2026-08-17 claude-primary-controller-handoff.md가 이 lane을 dormant로 규정한 것을 뒤늦게 발견. 실제 생산 착수 전 사용자에게 재확인 필요."
+}

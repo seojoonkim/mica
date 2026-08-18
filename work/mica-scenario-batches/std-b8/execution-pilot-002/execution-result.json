@@ -1,0 +1,74 @@
+{
+  "origin": "kiheon-ideation",
+  "schemaVersion": "mica.synthetic-execution-result/v1",
+  "runId": "std-b8-execution-pilot-002-run-003",
+  "candidateId": "ki-b8-03",
+  "assetId": "ma-b8-04",
+  "oracleId": "or-b8-04",
+  "variantRef": "var-b8-04-pilot-normal",
+  "actualSyntheticExecution": true,
+  "agentInputProtocol": "public-http-surface-only",
+  "hiddenContractPathDisclosed": false,
+  "osFilesystemIsolation": true,
+  "processMetadataIsolation": true,
+  "isolationReceiptSha256": "9093056e68d1017e4f73104a671134cc2f1abbf0aa0983b40b9b12b197e0252d",
+  "evaluationMode": "post-hoc-semantic-fact-satisfaction",
+  "contractSha256": "663af1dfd14fd836c9b254d63234b115bd76f101827d5c5da962e23d53782a06",
+  "transcriptSha256": "893833b2a095a1587c4f9281a38461ee9da3311a72d4af3ac5ba9ed107cadd3d",
+  "acceptedToolCalls": 9,
+  "rejectedToolCalls": 0,
+  "checks": [
+    {
+      "check": "ordered-milestones",
+      "pass": true,
+      "observed": "9/9"
+    },
+    {
+      "check": "fail-closed-violations",
+      "pass": true,
+      "observed": 0
+    },
+    {
+      "check": "argument-facts-1",
+      "pass": true,
+      "tool": "사용자고지"
+    },
+    {
+      "check": "argument-facts-2",
+      "pass": true,
+      "tool": "승인요청"
+    },
+    {
+      "check": "argument-facts-3",
+      "pass": true,
+      "tool": "최종보고"
+    },
+    {
+      "check": "response-fact-1",
+      "pass": true,
+      "tool": "계약정보조회"
+    },
+    {
+      "check": "response-fact-2",
+      "pass": true,
+      "tool": "승인요청"
+    },
+    {
+      "check": "response-fact-3",
+      "pass": true,
+      "tool": "반영확인"
+    },
+    {
+      "check": "response-fact-4",
+      "pass": true,
+      "tool": "반영확인"
+    },
+    {
+      "check": "response-fact-5",
+      "pass": true,
+      "tool": "최종보고"
+    }
+  ],
+  "verdict": "pass",
+  "evaluatedAt": "2026-08-12T12:47:13.155718+00:00"
+}
