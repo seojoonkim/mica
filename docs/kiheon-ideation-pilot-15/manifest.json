@@ -10,8 +10,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology.md",
-      "sha256": "a1d9b0bfaf237802f722ecb255cfa4250846fead951c2da581753f7d8e1719a6",
-      "byteLength": 20880
+      "sha256": "f769814755884c7b52ea34bb679d40dcf6d1f422bfd10d44eee827cb157a6b04",
+      "byteLength": 23432
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/methodology-lean-v1.md",
@@ -35,8 +35,8 @@
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/role-prompts.md",
-      "sha256": "9282ad892214bb86ff1b2dbd11793a39ac4411f45b1301f3bb8fa46a625afc3c",
-      "byteLength": 18970
+      "sha256": "0fab3e04b6623a6990e69598e6a208356bc4cbbce2ff17355b672db2197d99e1",
+      "byteLength": 20466
     },
     {
       "path": "docs/kiheon-ideation-pilot-15/codex-claude-operating-model.md",
