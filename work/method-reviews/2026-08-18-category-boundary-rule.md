@@ -6,7 +6,7 @@ scope: category-judgment-boundary-rule
 language: ko
 asOf: 2026-08-18
 decidedBy: Claude Code 주 컨트롤러 (Fable 패스, 방법론 판단)
-appliesFrom: 이후 모든 draft tier 생산·검토·annotation, 미결 이견 2건의 판정
+appliesFrom: 이후 모든 draft tier 생산·검토·annotation, 미결 이견 3건의 판정(hom-r2-04, hea-r2-03, hca-draft-08)
 relatedDocs:
   - work/method-reviews/2026-08-18-fable-review-supplement.md
   - work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md
@@ -50,13 +50,20 @@ relatedDocs:
 
 이 후보의 canonicalFinalState는 스스로 "법적 근거 확인 시점에서 종결되며, 진단서가 실제로 발급되는 것은 종결 조건이 아니다"라고 선언한다. 절차가 끝나도 바뀌는 외부 상태가 없다. 경계 지침 (b)에 따라 healthcare-administration의 권위 있는 최종 상태가 성립하지 않고, 더 근본적으로 상태 변화 과업 요건(단순 정보 제공이 아닌 종단 간 상태 변화) 미달이다. wave-4 검토자의 CONFIRM과 field-fill 검토자의 기각이 충돌했으나 규칙으로 후자를 채택한다.
 
-슬롯 점유는 유지하되(기존 3건 결함 슬롯과 같은 처리) `known-defect-unresolved` 마커를 추가해 사이트에 결함으로 표시한다. 대체 후보 발굴은 다음 생산 세션의 대상이다.
+슬롯 점유는 유지하되(기존 3건 결함 슬롯과 같은 처리) `known-defect-unresolved` 마커를 추가해 사이트에 결함으로 표시한다. 대체 후보 발굴은 다음 생산 세션의 대상이다. **2026-08-18 wave-5-remediation으로 해소**: `hc-admin-deposit-refund-02`가 healthcare-administration-10을 대체 점유했다. 상세: `work/method-reviews/2026-08-18-wave5-remediation-closure.md`.
+
+### 2.3 `hca-draft-08` (healthcare-administration overflow): 유지 확정, 보류 해제 (2026-08-18)
+
+producer가 스스로 남긴 categoryRationale이 "쟁점이 일반 계약해지·환불 법리(위임계약, 위약금)에 가까워 consumer-contract-dispute 카테고리로 재분류될 여지"를 언급하며 보류로 남겼다. `consumer-contract-dispute`는 유효 카테고리 10개에 없는 이름이며, 이 자체가 판정 축을 생활 영역이 아니라 쟁점 법리로 잡은 축 오류다.
+
+격리 재판정(producer·기존 이력을 모르는 독립 컨텍스트)의 결론: 조정 결과가 의료기관과 체결한 시술 패키지 진료계약의 해지 정산을 594,000원 환급으로 확정하므로, 경계 지침 (a)에 따라 그 계약이 귀속되는 healthcare-administration이 맞다. 절차에 적용된 법리(위임계약, 의료업 소비자분쟁해결기준)는 계약 귀속을 확인해 주는 정황일 뿐 규칙이 명시적으로 배제한 판정 축(절차의 종류·법리)에 해당해 카테고리를 흔들지 않는다.
+
+`categoryProvisional`은 여전히 false, `slotDisposition`은 여전히 `category-overflow`로 원장 필드 변경은 없다(애초에 배정 자체는 옳았고 불확실성 플래그만 있었다). 원본 frozen candidate의 categoryRationale은 producer 당시 판단의 역사 기록이라 손대지 않는다.
 
 ## 3. 파생 지침
 
 - `mob-r2-04`(미반영 여분): 항공권 취소수수료 환불은 여정 예약 계약의 상태 변화이므로 재분류 시 `travel-accommodation`이 맞다(field-fill 이전 검토자의 제안 채택). 반영 여부는 다음 생산 세션에서 결정.
-- `eml2-draft-02` 슬롯(email-calendar-07) 재발굴 시: 완료 조건이 이메일·캘린더 도메인의 실제 상태 변화(계정 접근, 수신 상태, 일정 상태)로 성립하는 소재만 채택한다. 공적 신고·상담으로 완결되는 소재는 이 슬롯에 다시 시도하지 않는다.
-- `hca-draft-08`: 보류 유지. overflow라 슬롯 영향이 없고, 규칙 적용 재판정은 다음 annotation 라운드에서 한다.
+- `eml2-draft-02` 슬롯(email-calendar-07) 재발굴 시: 완료 조건이 이메일·캘린더 도메인의 실제 상태 변화(계정 접근, 수신 상태, 일정 상태)로 성립하는 소재만 채택한다. 공적 신고·상담으로 완결되는 소재는 이 슬롯에 다시 시도하지 않는다. **2026-08-18 wave-5-remediation으로 반영 완료**: `eml2-draft-02b`가 이 슬롯을 대체 점유했다.
 
 ## 4. 하지 않은 것
 
