@@ -84,18 +84,18 @@
         {
           "slotId": "email-calendar-07",
           "status": "occupied",
-          "candidateId": "eml2-draft-02",
-          "annotationRowSha256": "55796ba2ae9edc9ea7baa1f1892178b1223c9ac1c89075cf6c4cc6b0e8a7c31d",
-          "reviewRowSha256": "0bf523affaaa824f7a2feb7585beefd75c068ec3022a0f8ca99ab6d51ac69158",
+          "candidateId": "eml2-draft-02b",
+          "annotationRowSha256": "096a5d08b10381df49a9a79639779baab222860e18985a7264245dc243de3962",
+          "reviewRowSha256": "c0e3d37b751720ec3b4ef50b9e0fa9857eedf355d7d017829c45dfa77c7ee783",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
-              "event": "known-defect-unresolved",
-              "auditVerdict": "DEFECT-MAJOR",
-              "remediationAttempts": 3,
-              "note": "6항목 rubric 감사에서 DEFECT-MAJOR 확인. 3라운드 연속 대체 시도 실패(원 조사 evidenceReal/categoryMatch 실패, 보충 재조사 3건 전원 reject, 최종 교정 3건 전원 실패). 재검토자는 이 소재의 완료조건이 email-calendar가 아니라 government-civic에서 성립할 수 있다고 지적.",
-              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md#4",
-              "flaggedAt": "2026-08-17T19:00:00Z"
+              "event": "superseded-defect",
+              "supersededCandidateId": "eml2-draft-02",
+              "supersededAnnotationRowSha256": "55796ba2ae9edc9ea7baa1f1892178b1223c9ac1c89075cf6c4cc6b0e8a7c31d",
+              "replacementCandidateId": "eml2-draft-02b",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
             }
           ],
           "tier": "draft-r1"
@@ -484,18 +484,18 @@
         {
           "slotId": "restaurants-local-08",
           "status": "occupied",
-          "candidateId": "res3-draft-02",
-          "annotationRowSha256": "dcdaf6a2021e67e6280834066a16ff0d20ded493482c14952ab01fe8e4588628",
-          "reviewRowSha256": "b448524d7a6009c14bb38e543f6b780b870b5dd67b71e55e40e67896748036f9",
+          "candidateId": "res3-draft-11",
+          "annotationRowSha256": "d21e7aa9d040c385ff6fb901e09d6a4bd4447735a4625e2ac3f9781a1ef38b24",
+          "reviewRowSha256": "2ae2cebc585ea64804765e248c500b25d3460223800f93ecb6d4c99c151ebc4b",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
-              "event": "known-defect-unresolved",
-              "auditVerdict": "DEFECT-MAJOR",
-              "remediationAttempts": 1,
-              "note": "6항목 rubric 감사에서 DEFECT-MAJOR 확인. 대체 후보 생산 시도(5건 생산, 3건만 성공)에서 이 슬롯까지는 성공작이 배정되지 못함. 순수 생산량 부족.",
-              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md#4",
-              "flaggedAt": "2026-08-17T19:00:00Z"
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-02",
+              "supersededAnnotationRowSha256": "dcdaf6a2021e67e6280834066a16ff0d20ded493482c14952ab01fe8e4588628",
+              "replacementCandidateId": "res3-draft-11",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
             }
           ],
           "tier": "draft-r1"
@@ -522,18 +522,18 @@
         {
           "slotId": "restaurants-local-10",
           "status": "occupied",
-          "candidateId": "res3-draft-04",
-          "annotationRowSha256": "5ae4583715d7a24a5d8e54d76f10753aa79a4dff13336ee2f5a3872b533406df",
-          "reviewRowSha256": "bcecb000858ea9daecac1a71769fb47b1ee90c636b4badfc597e63885531758c",
+          "candidateId": "res3-draft-13",
+          "annotationRowSha256": "7212653692bb3bec83ea9a70f6c6a123a5d0889d13aaec5e40b93020426ef34e",
+          "reviewRowSha256": "29288bae7933fdfb5a149981c88024a135d52be58cc01a610069aed3a8e4849c",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
-              "event": "known-defect-unresolved",
-              "auditVerdict": "DEFECT-MAJOR",
-              "remediationAttempts": 1,
-              "note": "6항목 rubric 감사에서 DEFECT-MAJOR 확인. 대체 후보 생산 시도(5건 생산, 3건만 성공)에서 이 슬롯까지는 성공작이 배정되지 못함. 순수 생산량 부족.",
-              "reasonRef": "work/method-reviews/2026-08-18-draft-tier-32-defect-remediation-closure.md#4",
-              "flaggedAt": "2026-08-17T19:00:00Z"
+              "event": "superseded-defect",
+              "supersededCandidateId": "res3-draft-04",
+              "supersededAnnotationRowSha256": "5ae4583715d7a24a5d8e54d76f10753aa79a4dff13336ee2f5a3872b533406df",
+              "replacementCandidateId": "res3-draft-13",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
             }
           ],
           "tier": "draft-r1"
@@ -903,9 +903,9 @@
         {
           "slotId": "healthcare-administration-10",
           "status": "occupied",
-          "candidateId": "hea-r2-03",
-          "annotationRowSha256": "665d4200984a4f12a1fcf932c4b18817a8e9c78f5f0a51caf39337c0fb00d6d4",
-          "reviewRowSha256": "5f3d7f4396a5e8723b8b07e383565d9806a7d5f20c9837a9cec96b0bbd439be0",
+          "candidateId": "hc-admin-deposit-refund-02",
+          "annotationRowSha256": "c54790cd7cc1502c6a11e06117e95c3bf379ff508b5b2a76e3f07d8e34b5d8b8",
+          "reviewRowSha256": "268ad42a6cb093c4f6ac9dadcff5041f92e7ea61243233614bbaa6c9cd49109a",
           "sourceBatchId": "draft-r1",
           "attemptHistory": [
             {
@@ -917,12 +917,12 @@
               "supersededAt": "2026-08-17T18:10:00Z"
             },
             {
-              "event": "known-defect-unresolved",
-              "auditVerdict": "DEFECT-MAJOR",
-              "remediationAttempts": 0,
-              "note": "2026-08-18 카테고리 경계 규칙으로 부적합 확정. 완료 조건이 외부 상태 변화 없는 정보 취득(법적 근거 확인)으로 종결돼 healthcare-administration의 권위 있는 최종 상태가 성립하지 않고 상태 변화 과업 요건에도 미달. wave-4 검토자 CONFIRM과 field-fill 검토자 기각의 충돌을 규칙으로 판정. 대체 후보 재발굴 대상.",
-              "reasonRef": "work/method-reviews/2026-08-18-category-boundary-rule.md#2.2",
-              "flaggedAt": "2026-08-17T21:00:00Z"
+              "event": "superseded-defect",
+              "supersededCandidateId": "hea-r2-03",
+              "supersededAnnotationRowSha256": "665d4200984a4f12a1fcf932c4b18817a8e9c78f5f0a51caf39337c0fb00d6d4",
+              "replacementCandidateId": "hc-admin-deposit-refund-02",
+              "reasonRef": "work/method-reviews/2026-08-18-wave5-remediation-closure.md#3",
+              "supersededAt": "2026-08-18T07:45:00Z"
             }
           ],
           "tier": "draft-r1"
