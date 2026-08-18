@@ -62,6 +62,21 @@
 
 `designable`은 측정 자산을 구성할 수 있다는 뜻이다. 성능 결과나 실행 성공을 뜻하지 않는다.
 
+### 5.1 저작 중 검증 (`mica.measurement-asset/v3`, 2026-08-18)
+
+`std-b12`(variant 5, 자산당 51KB)가 측정 관문에서 0/2로 종결된 뒤 실측(`work/method-reviews/2026-08-14-measurement-throughput-analysis.md`)한 결과, 병목은 복잡도가 아니라 **반복 루프의 소실**이었다. 초기 배치는 자산을 2~4회 반복 저작해 통과시켰고, 최근 배치는 1회 저작을 그대로 판정받는다. 측정 리뷰어가 잡은 정합 결함은 기계 검사가 가능하며, 저작자가 제출 전에 돌리는 검증기로 만들면 reject가 iterate로 바뀐다.
+
+`scripts/mica-measurement-asset.py validate <path>`가 `mica.measurement-asset/v3` 스키마의 다음 4개 항목을 결정론적으로 검사한다. v2 이하 자산은 실패로 세지 않고 "v3로 갱신 후 이 검증기를 쓰라"로 건너뛴다(거짓 PASS/FAIL 금지).
+
+| 결함 | 검사 | v3 신규 필드 |
+|---|---|---|
+| `worstPathProof` ↔ `simultaneityGate` 수치 불일치 | 모든 variant에서 두 값이 같아야 함 | `syntheticClock.worstPathProof.perVariantCalls: {variantId: number}`, `simultaneityGate.perVariant[].worstPathCalls: number` |
+| `sinks.*`가 독립적으로 판정 클래스 선언 | `sinks.<key>`는 `{sinkId, reachCondition}` 두 키만 허용(`verdictBinding` 금지) | 없음(기존 `verdictBinding` 필드 제거가 계약) |
+| `EXP-COUNT-0` 행이 근거 없이 규칙 1(`PROHIBITED-STATE-REACHED`)에 결속 | 해당 행은 `prohibitedStateChecks` 인덱스 또는 `failClosed:true` 게이트 중 하나를 반드시 참조 | `gates: [{gateId, failClosed}]`, `variants[].expectedVerdicts[].justifiedBy` |
+| terminal 도달 가능성 (좁은 대리 검사) | `anchorUnconditionalOnMissingValue`가 true이고 해당 variant에 결측 확정값이 있으며 terminal이 승인을 요구하면 저작자 확인 요구 | `approvalModel.anchorUnconditionalOnMissingValue: boolean`, `variants[].missingConfirmedValues: string[]`, `variants[].terminalRequiresApproval: string \| null` |
+
+마지막 항목은 완전한 도달가능성 증명이 아니라 `std-b12`에서 실제로 걸린 정확한 패턴(승인이 무조건 조항으로 막히는데 + 확정값이 결측인데 + terminal이 그 승인을 요구하는 조합)의 대리 검사다. 스키마는 additive(v2→v3)이며 기존 동결 자산은 재작성하지 않는다 — 이 검증기는 앞으로의 저작에만 적용한다. 근거와 반증 실행 결과는 `work/method-reviews/2026-08-18-measurement-asset-preflight-validator.md`.
+
 ## 6. 파일럿에서 확인된 결함 유형
 
 - closure/review 전체 key shape가 계약에 충분히 적혀 있지 않음
