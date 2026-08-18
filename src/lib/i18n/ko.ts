@@ -19,7 +19,7 @@ export const ko = {
   },
 
   site: {
-    longName: "소비자 에이전트 다국가 지수",
+    longName: "소비자 에이전트 다국가 지수 · Multinational Index of Consumer Agents",
     tagline: "소비자 에이전트 벤치마크",
     secondary:
       "6개 현지 시장과 일상 소비 영역의 엔드투엔드 실행을 평가하는 세계 최초의 공개 벤치마크입니다.",
@@ -32,6 +32,7 @@ export const ko = {
 
   nav: {
     countries: "국가",
+    evaluate: "평가 범위 설계",
     rankings: "결과표",
     agents: "시스템",
     tasks: "과제",
@@ -39,6 +40,34 @@ export const ko = {
     methodology: "방법론",
     governance: "거버넌스",
     submit: "제출 요건 안내",
+  },
+
+  evaluate: {
+    metaTitle: "평가 범위 플래너",
+    metaDescription: "실행 없이 선택 가능한 MICA 평가 범위를 미리 확인합니다.",
+    eyebrow: "범위 미리보기",
+    title: "평가 범위 플래너",
+    standfirst: "시장과 공개 과제를 골라 벤치마크 매트릭스를 미리 확인합니다. 이 플래너는 실행을 시작하거나 대기열에 넣거나 모의 실행하지 않습니다.",
+    boundary: "여기서는 어떤 실행도 이루어지지 않습니다. MICA에는 실행 백엔드나 연결된 하네스가 없으며 결과를 추정하지도 않습니다.",
+    modeLegend: "설계 방식",
+    countryFocused: "국가 중심",
+    taskFocused: "과제 중심 다국가",
+    custom: "사용자 지정 매트릭스",
+    fullBenchmark: "전체 벤치마크",
+    countriesLegend: "국가",
+    tasksLegend: "공개 과제",
+    selectCountryHint: "국가를 하나 이상 선택하세요.",
+    selectTaskHint: "공개 과제를 하나 이상 선택하세요.",
+    invalid: "국가와 과제를 각각 하나 이상 선택하세요. 빈 사용자 지정 범위는 셀을 0개로 계획합니다.",
+    summaryTitle: "범위 미리보기",
+    selectedCountries: "선택한 국가",
+    selectedTasks: "선택한 과제",
+    planned: "계획된 셀",
+    executionEligible: "실행 가능",
+    executed: "실행 완료",
+    failed: "실패",
+    harnessFailed: "하네스 실패",
+    notApplicable: "실행 해당 없음",
   },
 
   chrome: {

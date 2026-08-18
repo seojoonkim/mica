@@ -8,6 +8,7 @@ import type { Dict } from "@/lib/i18n/dictionary";
  */
 export const NAV = [
   { href: "/countries", key: "countries" },
+  { href: "/evaluate", key: "evaluate" },
   { href: "/rankings", key: "rankings" },
   { href: "/agents", key: "agents" },
   { href: "/tasks", key: "tasks" },
@@ -19,6 +20,7 @@ export const NAV = [
 
 /** The five recurring reader journeys shown in the global header. */
 export const PRIMARY_NAV = [
+  { href: "/evaluate", key: "evaluate" },
   { href: "/rankings", key: "rankings" },
   { href: "/tasks", key: "tasks" },
   { href: "/methodology", key: "methodology" },

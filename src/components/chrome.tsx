@@ -34,7 +34,7 @@ export function Masthead({ lang }: { lang: Locale }) {
             className="block min-h-11 min-w-0 text-[var(--color-ink)] no-underline"
           >
             <span className="mica-wordmark">MICA</span>
-            <span className="mica-wordmark-expansion mt-1.5 hidden sm:block">
+            <span className="mica-wordmark-expansion mt-1.5">
               {dict.site.longName}
             </span>
           </LocaleLink>
@@ -68,7 +68,7 @@ export function Colophon({ lang }: { lang: Locale }) {
             <p className="mica-body-sm mt-2">
               {dict.site.tagline} {dict.site.secondary}
             </p>
-            <p className="mt-2 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.1em] text-[var(--color-ink-faint)]">
+            <p className="mt-2 text-[11px] uppercase tracking-[0.1em] text-[var(--color-ink-faint)]">
               {SITE.name} · {dict.site.edition}
             </p>
           </div>
@@ -98,7 +98,7 @@ export function Colophon({ lang }: { lang: Locale }) {
           </div>
         </div>
         <hr className="mica-rule my-6" />
-        <p className="max-w-[80ch] font-[family-name:var(--font-mono)] text-[11px] uppercase leading-relaxed tracking-[0.1em] text-[var(--color-ink-faint)]">
+        <p className="max-w-[80ch] text-[11px] uppercase leading-relaxed tracking-[0.1em] text-[var(--color-ink-faint)]">
           {dict.chrome.colophonNote}
         </p>
       </div>

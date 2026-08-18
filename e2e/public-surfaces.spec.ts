@@ -31,17 +31,14 @@ for (const lang of locales) {
               (face) => face.family === "Noto Sans KR Variable" && face.status === "loaded",
             )),
         headingLoaded: [...document.fonts].some(
-          (face) =>
-            face.family ===
-              (locale === "ko" ? "Noto Serif KR Variable" : "Newsreader Variable") &&
-            face.status === "loaded",
+          (face) => face.family === "Instrument Sans Variable" && face.status === "loaded",
         ),
       };
     }, lang);
     expect(typography.bodyFamily).toContain("Instrument Sans Variable");
     expect(typography.bodyFamily).toContain("Noto Sans KR Variable");
-    expect(typography.headingFamily).toContain("Newsreader Variable");
-    expect(typography.headingFamily).toContain("Noto Serif KR Variable");
+    expect(typography.headingFamily).toContain("Instrument Sans Variable");
+    expect(typography.headingFamily).toContain("Noto Sans KR Variable");
     expect(typography.bodyLoaded).toBe(true);
     expect(typography.headingLoaded).toBe(true);
     const widths = await page.evaluate(() => ({

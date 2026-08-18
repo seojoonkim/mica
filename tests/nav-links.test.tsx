@@ -52,10 +52,11 @@ describe("primary nav active state", () => {
 });
 
 describe("primary navigation structure", () => {
-  it("keeps the global navigation focused on five benchmark journeys", () => {
+  it("includes the scope planner in the focused benchmark journeys", () => {
     render(<NavLinks lang="en" />);
 
     expect(screen.getAllByRole("link").map((link) => link.textContent)).toEqual([
+      "Plan evaluation",
       "Rankings",
       "Tasks",
       "Methodology",

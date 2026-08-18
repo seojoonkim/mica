@@ -362,6 +362,47 @@ MICA의 평가 taxonomy는 소비자의 일상생활 전반을 다음 10개 카�
 
 소비자가 실제로 사용할 법한 자연어 요청이다. 필요한 정보가 모두 명시되지 않을 수 있으며, 에이전트가 적절한 확인 질문이나 추론 경계를 판단해야 한다.
 
+### Execution & Information Environment
+
+동일한 사용자 입력이라도 외부 상태에 따라 정답 행동이 달라지는 조건을 실행 환경에 선언한다.
+
+- 시장·서비스·권한·confirmation boundary와 hard validator
+- 참조 대상의 위치와 세션 범위
+- 기록의 최신성·유효 시점·supersession 상태
+- 사용자 주장과 authoritative record의 실제 일치 관계
+- 필요한 정보의 최소 합법 획득 경로와 대체 경로
+- 환경상 제약 만족 가능성
+
+이 조건은 사용자 발화의 표현 형식과 분리한다. 예를 들어 fully named ID도 cross-session 조회를 요구할 수 있고, 지시어도 same-turn artifact를 가리킬 수 있다.
+
+### Input Realism Profile
+
+동일한 canonical task를 실제 소비자가 요청하는 여러 방식으로 인스턴스화한다. 원시 프로파일은 독립 조작 가능한 입력 속성을 선언한다.
+
+- 요청 명세 충분성
+- 담화 topology와 signal density
+- 수정 dynamics와 pre/post-commit timing
+- 언어적 reference form
+- 사용자 주장의 확신 표현
+- modality presence set과 primary modality
+- artifact fidelity와 OCR·ASR·잘림·저가독성 등의 signal condition
+
+정돈된 anchor와 현실적 variation은 같은 목표, acceptable final states와 validator를 공유한다. 입력 프로파일은 난이도 보너스가 아니라 모든 시스템에 동일하게 주어지는 외생 조건이다.
+
+명확화 필요 여부는 입력 속성이 아니다. evaluator는 `must-not-ask-before-progress`, `may-ask`, `must-ask-before-commit`, `must-handoff`의 Oracle Interaction Policy와 결정 지점·필요 정보·허용 선행 행동을 별도로 사전 등록한다.
+
+상세 분류, task instance 스키마, 채점과 표본 설계는 `docs/MICA-input-realism-and-agent-capability-framework.ko.md`를 따른다.
+
+### Required Capabilities, Observed Behaviors & Diagnosis
+
+각 task instance는 intent resolution, goal & constraint state tracking, evidence-grounded memory retrieval, reference resolution, information-seeking & clarification calibration, multimodal grounding, epistemic calibration 중 필요한 기능을 사전에 선언한다.
+
+- correction event handling은 pre-commit state update와 post-commit recovery를 구분하는 probe로 보존한다.
+- claim-level evidence grounding은 epistemic calibration과 별도 행동으로 파일럿하되, 새 상위 진단축으로 즉시 승격하지 않는다.
+- 실행 후에는 capability behavior의 관측 증거를 기록한다.
+- 실패 원인은 기존 Orchestration, Model Routing, Memory, Tool/API Use, Localization, Safety, Recovery 중 최초 결정적 primary cause 하나로 귀속한다.
+- required capability, observed behavior와 primary diagnosis는 다대다 mapping registry로 연결하되 공식 결과 점수에 합산하지 않는다.
+
 ### Constraints
 
 예산, 시간, 위치, 식이 조건, 접근성, 승인 권한, 개인정보 범위와 같은 조건이다.
@@ -451,7 +492,7 @@ MICA의 평가 taxonomy는 소비자의 일상생활 전반을 다음 10개 카�
 
 ## 9. 핵심 결과 지표
 
-MICA는 Accuracy, Speed, Cost를 하나의 종합점수로 합치지 않는다.
+MICA는 Accuracy, Speed, Cost 원시 결과를 각각 공개하며 이를 하나의 글로벌 리더보드 숫자나 단일 MICA 순위로 축약하지 않는다. 구현에 존재하는 run-level `100 × accuracy component × speed component × cost component` 산식은 동일 attempt의 eligibility와 정규화를 위한 계산 계약으로 유지하되, 세 공개 축을 대체하는 종합 지표로 사용하지 않는다.
 
 ### 9.1 Accuracy
 
@@ -526,10 +567,11 @@ Safety는 평균 성능 속에 숨기지 않고 별도 gate와 사건 수로 공
 - Model Routing
 - Memory
 - Tool/API Use
-- Browser Control
 - Localization
 - Safety
 - Recovery
+
+브라우저 선택자 해석, 탐색, 입력과 상태 read-back은 별도 8번째 축이 아니라 `Tool/API Use`의 browser subtype 및 관측 행동으로 기록한다.
 
 초기 단계에서는 근거 없는 1점부터 5점의 주관적 점수를 부여하지 않는다. 각 진단축은 evidence-led 방식으로 다음을 공개한다.
 
@@ -897,7 +939,7 @@ Demo와 preview 데이터는 항상 다음 상태를 유지한다.
 
 ### 공식 edition 전까지 보류할 것
 
-- 하나의 종합 MICA 점수
+- Accuracy, Speed, Cost를 축약한 하나의 글로벌 종합 MICA 점수
 - 국가 간 Cost의 단순 환율 변환
 - 실제 소비자 계정 사용
 - 무제한 live transaction
@@ -986,7 +1028,7 @@ MICA 프로젝트는 다음 조건을 충족할 때 의미 있는 벤치마크�
 - Accuracy, Speed, Cost 분리
 - safety와 coverage 병기
 - Pareto frontier 제공
-- 단일 composite score 금지
+- Accuracy, Speed, Cost를 대체하는 단일 글로벌 composite score 금지
 - evidence와 failure analysis를 결과와 함께 공개
 
 ### 데이터와 개인정보

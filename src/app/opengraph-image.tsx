@@ -19,8 +19,8 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#ffffff",
-          color: "#14171c",
+          background: "#111113",
+          color: "#f1f3f4",
           padding: 64,
           fontFamily: "sans-serif",
         }}
@@ -33,10 +33,10 @@ export default function OpengraphImage() {
               gap: 20,
               fontSize: 26,
               letterSpacing: "0.14em",
-              color: "#5b626c",
+              color: "#9aa0a6",
             }}
           >
-            <span style={{ fontWeight: 700, color: "#14171c" }}>MICA</span>
+            <span style={{ fontWeight: 700, color: "#f1f3f4" }}>MICA</span>
             <span>{SITE.edition.toUpperCase()}</span>
           </div>
           <div
@@ -57,7 +57,7 @@ export default function OpengraphImage() {
               display: "flex",
               marginTop: 24,
               fontSize: 30,
-              color: "#363c45",
+              color: "#bdc1c6",
               maxWidth: 900,
             }}
           >
@@ -69,7 +69,7 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             flexDirection: "column",
-            borderTop: "4px solid #a8331a",
+            borderTop: "4px solid #5cc8e6",
             paddingTop: 28,
           }}
         >
@@ -78,13 +78,13 @@ export default function OpengraphImage() {
               display: "flex",
               fontSize: 40,
               fontWeight: 700,
-              color: "#a8331a",
+              color: "#5cc8e6",
               letterSpacing: "-0.01em",
             }}
           >
             Consumer-agent benchmark preview
           </div>
-          <div style={{ display: "flex", marginTop: 12, fontSize: 24, color: "#5b626c" }}>
+          <div style={{ display: "flex", marginTop: 12, fontSize: 24, color: "#9aa0a6" }}>
             Preview build · publicationEligible: false
           </div>
         </div>

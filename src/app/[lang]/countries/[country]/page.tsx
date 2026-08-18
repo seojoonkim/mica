@@ -285,8 +285,7 @@ export default async function CountryPage({
       ) : null}
 
       <nav aria-label="Other markets" className="mt-14">
-        <span className="mica-ticks" aria-hidden="true" />
-        <p className="mica-eyebrow mt-4">Other markets</p>
+        <p className="mica-eyebrow">Other markets</p>
         <ul className="mt-2 flex list-none flex-wrap gap-x-6 p-0">
           {COUNTRIES.filter((other) => other.code !== code).map((other) => (
             <li key={other.code}>

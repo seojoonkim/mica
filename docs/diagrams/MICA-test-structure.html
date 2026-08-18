@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MICA Bench 테스트 구조</title>
+<style>
+  *{box-sizing:border-box} body{margin:0;background:#071014;color:#e9f2f4;font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR",sans-serif}
+  main{width:1600px;min-height:1100px;padding:58px 64px 48px;background:radial-gradient(circle at 15% 5%,rgba(92,200,230,.09),transparent 30%),linear-gradient(#071014,#081216)}
+  .eyebrow{font:700 13px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;color:#5cc8e6;text-transform:uppercase}
+  h1{font-size:42px;line-height:1.12;margin:12px 0 8px;letter-spacing:-.035em}.sub{color:#9cb0b6;font-size:18px;margin:0 0 32px}
+  .scopebar{display:grid;grid-template-columns:190px repeat(4,1fr);gap:10px;align-items:stretch;margin:0 0 18px}.scope-title{display:flex;flex-direction:column;justify-content:center;padding:13px 15px;border:1px solid #36535c;border-radius:12px;background:#0d1d22}.scope-title strong{font-size:15px}.scope-title span{font:700 10px ui-monospace,SFMono-Regular,Menlo,monospace;color:#5cc8e6;margin-top:4px}.scope-option{padding:12px 14px;border:1px solid #263e46;border-radius:12px;background:#0a171b}.scope-option b{display:block;font-size:13px;color:#dce9ec;margin-bottom:4px}.scope-option span{font-size:11px;line-height:1.4;color:#8fa7ae}
+  .pipeline{display:grid;grid-template-columns:1.34fr 72px .92fr 72px 1.12fr;align-items:stretch}
+  .stage{border:1px solid #24373d;border-radius:18px;background:#0b171b;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.2)}
+  .stage.test{border-top:3px solid #5cc8e6}.stage.measure{border-top:3px solid #d8e5e8}.stage.explain{border-top:3px solid #ff8bcb}
+  .stage-head{display:flex;gap:14px;align-items:center;margin-bottom:18px}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#12252b;color:#5cc8e6;border:1px solid #285565}.measure .num{color:#e9f2f4;border-color:#52666c}.explain .num{color:#ff8bcb;border-color:#6c3555}
+  h2{font-size:25px;margin:0;letter-spacing:-.025em}.ko{font-size:14px;color:#8da3aa;margin-top:2px}
+  .arrow{display:grid;place-items:center;color:#506a72;font-size:36px}.stack{display:grid;gap:12px}
+  .box{border:1px solid #294049;border-radius:12px;background:#0e1c21;padding:15px 16px}.box.cyan{background:rgba(8,51,68,.34);border-color:#277d94}.box.white{background:#101d21;border-color:#52666c}.box.pink{background:rgba(90,26,61,.22);border-color:#7e3c61}
+  .label{font:800 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;color:#5cc8e6;text-transform:uppercase}.white .label{color:#d8e5e8}.pink .label{color:#ff8bcb}
+  .title{font-size:17px;font-weight:750;margin:6px 0 8px}.items{font-size:13px;line-height:1.55;color:#abc0c6}.items b{color:#e9f2f4}.plus{height:22px;display:grid;place-items:center;color:#5c7880;font-size:20px;font-weight:700}
+  .run{margin:28px 0 22px;border:1px solid #2d444b;background:#0b171b;border-radius:18px;padding:20px 24px;display:grid;grid-template-columns:190px 1fr 210px;align-items:center;gap:22px}
+  .run-title .label{color:#f5bd61}.run-title strong{display:block;font-size:22px;margin-top:5px}.trace{display:flex;align-items:center;gap:8px}.event{flex:1;min-height:66px;padding:12px;border:1px solid #3b4d52;background:#101d21;border-radius:10px;text-align:center;font-size:12px;line-height:1.45;color:#c3d1d4}.trace-arrow{color:#62777d}.validator{border:1px solid #927038;background:rgba(120,83,15,.22);border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#f4dca9}.validator b{display:block;font-size:15px;color:#ffd58a;margin-bottom:5px}
+  .rules{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.rule{border:1px solid #263b42;background:#0a1519;border-radius:14px;padding:16px}.rule h3{font-size:14px;margin:0 0 7px}.rule p{font-size:12px;line-height:1.55;color:#91a6ac;margin:0}.rule:nth-child(1) h3{color:#5cc8e6}.rule:nth-child(2) h3{color:#e9f2f4}.rule:nth-child(3) h3{color:#ff8bcb}
+  .footer{display:flex;justify-content:space-between;margin-top:25px;color:#60777e;font:600 11px ui-monospace,SFMono-Regular,Menlo,monospace}.pill{display:inline-block;padding:3px 8px;border:1px solid #2a454e;border-radius:999px;color:#8fcddd;margin:3px 3px 0 0}
+</style>
+</head>
+<body><main>
+  <div class="eyebrow">MICA Bench · Evaluation Architecture</div>
+  <h1>테스트 구조: 현실 조건에서 실행하고, 결과와 원인을 분리한다</h1>
+  <p class="sub">6개국 전체를 지원하고, 실행마다 국가 × 과제 × 입력 변형의 범위를 선택</p>
+
+  <section class="scopebar">
+    <div class="scope-title"><strong>실행 범위 선택</strong><span>SCOPE MANIFEST</span></div>
+    <div class="scope-option"><b>국가 중심</b><span>한 국가 × 선택 과제들</span></div>
+    <div class="scope-option"><b>과제 중심</b><span>한 과제 × 6개국 전체 또는 선택 국가</span></div>
+    <div class="scope-option"><b>맞춤 Matrix</b><span>지정한 국가 × 과제 셀만</span></div>
+    <div class="scope-option"><b>전체 Benchmark</b><span>검증된 전체 범위</span></div>
+  </section>
+
+  <section class="pipeline">
+    <article class="stage test">
+      <div class="stage-head"><div class="num">1</div><div><h2>TEST</h2><div class="ko">무엇을 어떤 현실에서 시험하는가</div></div></div>
+      <div class="stack">
+        <div class="box cyan"><div class="label">WHAT · Canonical Task</div><div class="title">안정적인 공통 목표</div><div class="items"><b>10개 도메인 · 100개 과제</b><br>최종 상태 · 필수 제약 · 확인 경계 · hard validator</div></div>
+        <div class="plus">＋</div>
+        <div class="box cyan"><div class="label">WHERE · Market Binding</div><div class="title">선택한 국가의 실제 실행 환경</div><div class="items"><span class="pill">KR</span><span class="pill">JP</span><span class="pill">SG</span><span class="pill">TW</span><span class="pill">TH</span><span class="pill">AE</span><br>1개, 여러 개 또는 전체 · 서비스 · 결제 · 인증 · 정책</div></div>
+        <div class="plus">＋</div>
+        <div class="box cyan"><div class="label">HOW ASKED · Task Instance</div><div class="title">현실적인 사용자 입력</div><div class="items">불완전 요청 · 멀티턴 · 수정/번복 · 모호한 참조<br>이미지/문서/음성 · OCR 저하 · artifact 충돌</div></div>
+      </div>
+    </article>
+
+    <div class="arrow">→</div>
+
+    <article class="stage measure">
+      <div class="stage-head"><div class="num">2</div><div><h2>MEASURE</h2><div class="ko">실제로 끝냈는가</div></div></div>
+      <div class="stack">
+        <div class="box white"><div class="label">ACCURACY</div><div class="title">완료 검증</div><div class="items">선언된 final state를 실제 backend 또는 post-condition으로 확인</div></div>
+        <div class="box white"><div class="label">SPEED</div><div class="title">벽시계 시간</div><div class="items">첫 입력부터 성공 또는 정당한 handoff까지</div></div>
+        <div class="box white"><div class="label">COST</div><div class="title">실행 비용</div><div class="items">모델 · 도구/API · 검색 · 재시도 비용</div></div>
+        <div class="box white"><div class="label">AUDIT CONTRACT</div><div class="title">100 × A × S × C</div><div class="items">run-level 내부 계산만 사용<br><b>원시 3축은 각각 공개 · 글로벌 단일 순위 없음</b></div></div>
+      </div>
+    </article>
+
+    <div class="arrow">→</div>
+
+    <article class="stage explain">
+      <div class="stage-head"><div class="num">3</div><div><h2>EXPLAIN</h2><div class="ko">왜 성공하거나 실패했는가</div></div></div>
+      <div class="stack">
+        <div class="box pink"><div class="label">REQUIRED CAPABILITIES</div><div class="title">실행 전 요구 능력</div><div class="items">의도 해석 · 제약 추적 · 기억 검색 · 참조 해결<br>질문 조절 · 멀티모달 grounding · 인식론적 보정</div></div>
+        <div class="box pink"><div class="label">OBSERVED BEHAVIOR</div><div class="title">실행 trace의 행동 증거</div><div class="items">질문 · 검색 · 도구 호출 · handoff · 상태 변경<br>claim-to-evidence · constraint supersession</div></div>
+        <div class="box pink"><div class="label">PRIMARY DIAGNOSIS</div><div class="title">최초 결정적 실패 원인 1개</div><div class="items">Orchestration · Model Routing · Memory<br>Tool/API · Localization · Safety · Recovery<br><b>근거 부족 시 unresolved</b></div></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="run">
+    <div class="run-title"><div class="label">EXECUTION UNIT</div><strong>하나의 Run</strong></div>
+    <div class="trace"><div class="event">Fixture<br>Reset</div><div class="trace-arrow">→</div><div class="event">Agent +<br>Tools</div><div class="trace-arrow">→</div><div class="event">User Question<br>/ Handoff</div><div class="trace-arrow">→</div><div class="event">State Change<br>/ Final State</div><div class="trace-arrow">→</div><div class="event">Readback<br>Evidence</div></div>
+    <div class="validator"><b>Deterministic Validator</b>성공 · 실패 · 정당한 handoff · harness failure를 분리</div>
+  </section>
+
+  <section class="rules">
+    <div class="rule"><h3>독립 조건</h3><p>Domain, 시장·정보 환경, Input Realism은 실행 전에 evaluator가 고정한다.</p></div>
+    <div class="rule"><h3>종속 결과</h3><p>Accuracy, Speed, Cost는 실행 후 측정하며 realism이나 capability를 가산하지 않는다.</p></div>
+    <div class="rule"><h3>사후 설명</h3><p>Capability behavior와 diagnosis는 결과를 설명하지만 공식 결과 점수에는 들어가지 않는다.</p></div>
+  </section>
+  <div class="footer"><span>MICA TEST STRUCTURE · INTEGRATED MECE FRAMEWORK</span><span>TEST CONDITIONS ≠ OUTCOMES ≠ DIAGNOSIS</span></div>
+</main></body></html>

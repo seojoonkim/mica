@@ -6,6 +6,7 @@ import { LOCALES, localeHref } from "@/lib/i18n/config";
 const STATIC_PATHS = [
   "/",
   "/countries",
+  "/evaluate",
   "/rankings",
   "/agents",
   "/tasks",

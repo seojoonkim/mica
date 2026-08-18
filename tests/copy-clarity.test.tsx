@@ -32,7 +32,7 @@ import SubmitPage, {
 
 describe("plain-language public copy", () => {
   it("uses a concise bilingual H1 and keeps the scoped world-first claim in the subtitle", async () => {
-    expect(en.site.tagline).toBe("The consumer-agent benchmark");
+    expect(en.site.tagline).toBe("Consumer Agent Benchmark");
     expect(ko.site.tagline).toBe("소비자 에이전트 벤치마크");
 
     for (const [lang, dict] of [["en", en], ["ko", ko]] as const) {

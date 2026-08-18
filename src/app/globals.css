@@ -1,8 +1,27 @@
 @import "tailwindcss";
 @import "@fontsource-variable/instrument-sans";
-@import "@fontsource-variable/newsreader";
 @import "@fontsource-variable/noto-sans-kr";
-@import "@fontsource-variable/noto-serif-kr";
+
+/* Evaluation scope planner: flat, rule-led controls consistent with the evidence register. */
+.mica-evaluate-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(17rem, 1fr); gap: 2rem; align-items: start; }
+.mica-evaluate-controls fieldset { border: 1px solid var(--color-rule); padding: 1rem; margin: 0 0 1rem; }
+.mica-evaluate-controls legend { color: var(--color-bone); font-weight: 650; padding: 0 .45rem; }
+.mica-evaluate-modes, .mica-evaluate-checks { display: flex; flex-wrap: wrap; gap: .65rem 1rem; }
+.mica-evaluate-controls label { display: flex; gap: .55rem; align-items: flex-start; cursor: pointer; color: var(--color-ink-soft); }
+.mica-evaluate-controls input { accent-color: var(--color-institutional); margin-top: .2rem; }
+.mica-evaluate-controls fieldset:disabled { opacity: .5; }
+.mica-evaluate-task-list { max-height: 34rem; overflow: auto; border-top: 1px solid var(--color-rule); }
+.mica-evaluate-task-list section { padding: .8rem 0; border-bottom: 1px solid var(--color-rule); }
+.mica-evaluate-task-list h3 { color: var(--color-bone); font-size: .9rem; margin-bottom: .55rem; }
+.mica-evaluate-task-list label + label { margin-top: .45rem; }
+.mica-evaluate-summary { position: sticky; top: 1rem; border-top: 3px solid var(--color-institutional); background: var(--color-paper-alt); padding: 1.2rem; }
+.mica-evaluate-summary dl { margin: 1rem 0; }
+.mica-evaluate-summary dl div { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--color-rule); padding: .6rem 0; }
+.mica-evaluate-summary dd { color: var(--color-bone); font-variant-numeric: tabular-nums; }
+.mica-evaluate-summary details { border-top: 1px solid var(--color-rule); padding: .7rem 0; }
+.mica-evaluate-summary summary { cursor: pointer; color: var(--color-institutional); }
+.mica-evaluate-summary ol { padding-left: 1.2rem; max-height: 15rem; overflow: auto; }
+@media (max-width: 760px) { .mica-evaluate-layout { grid-template-columns: 1fr; } .mica-evaluate-summary { position: static; } }
 
 /*
  * MICA — Public Evidence Interface
@@ -23,31 +42,31 @@
    * Archival stock. Four warm papers, each a half-step deeper than the last, so
    * a zone change reads as a change of paper rather than as a panel.
    */
-  --color-paper: #0b1117;
-  --color-paper-alt: #0e151d;
-  --color-paper-deep: #080d12;
-  --color-surface: #111922;
-  --color-terminal-fill: #151f2a;
+  --color-paper: #111113;
+  --color-paper-alt: #171719;
+  --color-paper-deep: #0d0d0f;
+  --color-surface: #1d1d20;
+  --color-terminal-fill: #232326;
 
   /*
    * Deep navy ink rather than neutral black: on warm stock a navy reads as
    * printed ink, keeps 14:1 against paper, and lets the signal red stay the
    * only warm mark on the page.
    */
-  --color-ink: #d8e2ec;
-  --color-ink-soft: #aab8c5;
+  --color-ink: #f1f3f4;
+  --color-ink-soft: #bdc1c6;
   /*
    * The faint stop is the smallest type on the page — folios, stamps, captions
    * — so it is held at ~7.3:1 on paper rather than at the 4.5:1 floor. It stays
    * a clear step below `--color-ink-soft` (~9.4:1), so the three-stop ink ramp
    * still reads as a hierarchy and not as one grey.
    */
-  --color-ink-faint: #93a3b3;
-  --color-bone: #edf4fa;
-  --color-rule: #263442;
-  --color-rule-strong: #425466;
-  --color-institutional: #75c7d4;
-  --color-institutional-soft: #13252b;
+  --color-ink-faint: #9aa0a6;
+  --color-bone: #ffffff;
+  --color-rule: #303033;
+  --color-rule-strong: #454549;
+  --color-institutional: #8ab4f8;
+  --color-institutional-soft: #1b273d;
 
   /*
    * The one controlled signal. It marks the journal's own apparatus — folios,
@@ -55,8 +74,8 @@
    * is deliberately outside both the axis and market families so it can never
    * be read as an outcome or an edition.
    */
-  --color-signal: #e19a72;
-  --color-signal-soft: #3a241d;
+  --color-signal: #ff8bcb;
+  --color-signal-soft: #351d2c;
 
   /*
    * The three outcome axes carry one fixed hue each, site-wide. Each has a
@@ -65,15 +84,15 @@
    * hues are semantic: they appear only where an outcome axis is named, and
    * never as a generic hover or accent colour.
    */
-  --color-axis-accuracy: #31589c;
-  --color-axis-accuracy-text: #9db9ff;
-  --color-axis-accuracy-tint: #121d31;
-  --color-axis-speed: #9c4f2f;
-  --color-axis-speed-text: #f0b58f;
-  --color-axis-speed-tint: #241812;
-  --color-axis-cost: #287052;
-  --color-axis-cost-text: #8fd6b2;
-  --color-axis-cost-tint: #10231d;
+  --color-axis-accuracy: #4c8bf5;
+  --color-axis-accuracy-text: #aecbfa;
+  --color-axis-accuracy-tint: #18243a;
+  --color-axis-speed: #a970d6;
+  --color-axis-speed-text: #d7aefb;
+  --color-axis-speed-tint: #2a2034;
+  --color-axis-cost: #4f9d72;
+  --color-axis-cost-text: #81c995;
+  --color-axis-cost-tint: #172a20;
 
   /*
    * The five market editions. A deliberately different family from the axes —
@@ -82,12 +101,12 @@
    * fill behind prose. All five differ in value as well as hue, so the band
    * still separates in a greyscale print.
    */
-  --color-mkt-kr: #d98b9b;
-  --color-mkt-jp: #8fb4d8;
-  --color-mkt-sg: #77c6ad;
-  --color-mkt-tw: #d6ad69;
-  --color-mkt-th: #ae98d8;
-  --color-mkt-ae: #83b8bf;
+  --color-mkt-kr: #f28b82;
+  --color-mkt-jp: #8ab4f8;
+  --color-mkt-sg: #81c995;
+  --color-mkt-tw: #fdd663;
+  --color-mkt-th: #c58af9;
+  --color-mkt-ae: #78d9ec;
 
   /*
    * One pale paper per market, authored explicitly rather than mixed at
@@ -95,12 +114,12 @@
    * are identical in every browser. Each sits above 88% lightness, so ink
    * copy on top of it stays well past 12:1.
    */
-  --color-mkt-kr-tint: #25171d;
-  --color-mkt-jp-tint: #14202d;
-  --color-mkt-sg-tint: #10231f;
-  --color-mkt-tw-tint: #261f13;
-  --color-mkt-th-tint: #1d1829;
-  --color-mkt-ae-tint: #142328;
+  --color-mkt-kr-tint: #321d1d;
+  --color-mkt-jp-tint: #19263a;
+  --color-mkt-sg-tint: #192b21;
+  --color-mkt-tw-tint: #302a16;
+  --color-mkt-th-tint: #2a2035;
+  --color-mkt-ae-tint: #172b31;
 
   /*
    * Editorial ink and acid highlighter, deliberately outside both the axis and
@@ -119,38 +138,31 @@
    * state of this benchmark, not an error. Every state edge travels with its
    * own text label, so colour is never the only carrier.
    */
-  --color-state-built: #77c6ad;
-  --color-state-open: #d6ad69;
-  --color-state-empty: #8293a3;
-  --color-state-blocked: #e88f82;
+  --color-state-built: #81c995;
+  --color-state-open: #fdd663;
+  --color-state-empty: #9aa0a6;
+  --color-state-blocked: #f28b82;
 
   /* Legacy aliases remain non-semantic editorial accents. */
   --color-atlas: var(--color-editorial-blue);
   --color-vermilion: var(--color-editorial-coral);
 
-  --font-display: var(--font-serif-display);
+  --font-display: var(--font-sans-ui);
   --font-sans: var(--font-sans-ui);
-  --font-mono: var(--font-mono-data);
+  --font-mono: var(--font-sans-ui);
 }
 
 :root {
   color-scheme: dark;
   /* Self-hosted editorial families keep the publication identical across OSes. */
-  --font-serif-display:
-    "Newsreader Variable", "Noto Serif KR Variable", "Iowan Old Style",
-    "Source Serif 4", "Charter", "Hoefler Text", "Times New Roman",
-    "Nanum Myeongjo", "AppleMyungjo",
-    "Batang", "Hiragino Mincho ProN", "Yu Mincho", "Songti SC", "Noto Serif KR",
-    serif;
+  --font-serif-display: var(--font-sans-ui);
   --font-sans-ui:
     "Instrument Sans Variable", "Noto Sans KR Variable", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple SD Gothic Neo",
     "Pretendard", "Noto Sans KR", "Malgun Gothic", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "PingFang SC",
     "Microsoft YaHei", "Noto Sans CJK KR", sans-serif;
-  --font-mono-data:
-    ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", "Roboto Mono",
-    Menlo, Consolas, monospace;
+  --font-mono-data: var(--font-sans-ui);
 
   /*
    * Fluid but bounded at both ends. The display steps are larger and the gap
@@ -2553,4 +2565,317 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
 
 .mica-country-plate {
   margin-block: 0 28px;
+}
+
+/* --- 2026 visual-system consolidation ---------------------------------
+ * Linear supplies the quiet chrome and spatial hierarchy. Carbon supplies
+ * the square, rigorous data registers. Semantic axis, market and state hues
+ * remain local to the data they identify; the rest of the interface uses one
+ * restrained accent and one structural border ramp.
+ */
+
+:root {
+  --color-border: #303033;
+  --color-border-strong: #454549;
+  --color-accent: #5cc8e6;
+  --color-accent-soft: #142a31;
+  --radius-control: 6px;
+  --masthead-h: 118px;
+  --step-hero: clamp(2.35rem, 1.7rem + 2.8vw, 3.6rem);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --masthead-h: 132px;
+  }
+}
+
+/* Quiet chrome: structural lines no longer compete with the text. */
+.mica-masthead {
+  border-top: 0;
+  border-bottom-color: var(--color-border);
+}
+
+.mica-masthead-top {
+  min-height: 52px;
+  padding-block: 6px;
+}
+
+@media (min-width: 48rem) {
+  .mica-masthead-top {
+    min-height: 60px;
+    padding-block: 8px;
+  }
+}
+
+.mica-wordmark {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 720;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.mica-wordmark-expansion {
+  font-family: var(--font-sans);
+  display: block;
+  max-width: min(66vw, 560px);
+  font-size: clamp(10px, 2.3vw, 11px);
+  font-weight: 580;
+  line-height: 1.25;
+  letter-spacing: 0.055em;
+  color: var(--color-ink-soft);
+}
+
+.mica-masthead nav,
+.mica-home-hero,
+.mica-grid.border-t,
+.mica-footer,
+footer.border-t {
+  border-color: var(--color-border) !important;
+}
+
+/* Sans labels are the interface voice. Mono uppercase is reserved for data. */
+.mica-eyebrow,
+.mica-nav-toggle,
+.mica-navlink,
+.mica-langlink,
+.mica-toc a,
+.mica-button,
+.mica-cta,
+.mica-scroll-cue {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.mica-nav-list,
+.mica-nav-list.is-open {
+  column-gap: 24px;
+}
+
+.mica-navlink {
+  color: var(--color-ink-soft);
+  border-bottom-width: 1px;
+}
+
+.mica-navlink[aria-current="page"] {
+  border-bottom-color: var(--color-accent);
+}
+
+.mica-langlink {
+  border-radius: var(--radius-control);
+}
+
+.mica-langlink:hover,
+.mica-langlink[aria-current="true"] {
+  border-color: var(--color-border-strong);
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* Sections separate through rhythm and one hairline, not bands and folios. */
+.mica-section {
+  margin-top: 80px;
+}
+
+.mica-section:nth-of-type(even) {
+  margin-inline: 0;
+  padding: 0 0 8px;
+  border: 0;
+  background: transparent;
+}
+
+.mica-section-head {
+  border-top: 1px solid var(--color-border);
+  padding-top: 24px;
+}
+
+.mica-section-head::before {
+  display: none;
+}
+
+.mica-section-num::before {
+  padding: 0;
+  background: transparent;
+  color: var(--color-ink-faint);
+}
+
+.mica-rule,
+.mica-rule-double {
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* The hero returns to the page surface; meaning, not decoration, carries color. */
+.mica-home-hero {
+  margin-inline: 0;
+  padding-inline: 0;
+  border-top: 0;
+  border-bottom-color: var(--color-border) !important;
+  background: transparent;
+}
+
+.mica-home-hero .mica-grid.border-t {
+  border-color: var(--color-border) !important;
+}
+
+.mica-cta,
+.mica-button {
+  width: auto;
+  min-height: 42px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  padding-inline: 15px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.mica-cta:hover,
+.mica-button:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+.mica-control {
+  border-color: var(--color-border-strong);
+  border-radius: var(--radius-control);
+}
+
+.mica-control:hover {
+  border-color: var(--color-accent);
+}
+
+/* One interaction grammar for rows, one for inline links. */
+.mica-task-index a:hover,
+.mica-home-family-index a:hover,
+.mica-home-family-index a:focus-visible,
+.mica-leaderboard-nav a:hover,
+.mica-leaderboard-nav a:focus-visible,
+.mica-leaderboard-register a:hover,
+.mica-leaderboard-register a:focus-visible,
+.mica-method-toc a:hover,
+.mica-method-toc a:focus-visible {
+  background: var(--color-accent-soft);
+}
+
+.mica-method-toc a:hover .mica-toc-label,
+.mica-method-toc a:focus-visible .mica-toc-label {
+  color: var(--color-ink);
+  text-decoration-color: var(--color-border-strong);
+}
+
+.mica-detail-cue {
+  color: var(--color-ink-faint);
+  transition: color 120ms ease;
+}
+
+:is(a:hover, a:focus-visible) .mica-detail-cue {
+  color: var(--color-accent);
+  transform: none;
+}
+
+/* Carbon-like registers: square and precise, but no high-contrast cage. */
+.mica-table,
+.mica-scroll,
+.mica-panel,
+.mica-band,
+.mica-triptych,
+.mica-leaderboard-axes,
+.mica-invert,
+.mica-home-status {
+  border-color: var(--color-border-strong);
+}
+
+.mica-table thead th {
+  border-bottom-color: var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-ink-soft);
+}
+
+.mica-table thead th.is-metric {
+  background: var(--axis-hue);
+  color: var(--color-bone);
+}
+
+.mica-band li {
+  border-top-width: 3px;
+}
+
+.mica-leaderboard-axis {
+  border-top-width: 3px;
+}
+
+.mica-axis-body {
+  border-left-width: 3px;
+}
+
+.mica-leaderboard-register li {
+  border-left-width: 2px;
+}
+
+.mica-leaderboard-nav {
+  border-bottom-color: var(--color-border);
+  background: var(--color-paper);
+  backdrop-filter: none;
+}
+
+.mica-leaderboard-nav ol,
+.mica-leaderboard-nav a {
+  border-color: var(--color-border);
+}
+
+/* Notices retain semantic state edges, but no longer invert the whole block. */
+.mica-invert {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.mica-invert .mica-eyebrow,
+.mica-invert .mica-body,
+.mica-invert .mica-body-sm,
+.mica-invert .mica-micro {
+  color: var(--color-ink-soft);
+}
+
+.mica-invert a,
+.mica-invert .mica-link {
+  color: var(--color-ink);
+  text-decoration-color: var(--color-border-strong);
+}
+
+.mica-notice,
+.mica-home-status {
+  border-top-color: var(--color-border);
+  border-right-color: var(--color-border);
+  border-bottom-color: var(--color-border);
+}
+
+@media (max-width: 47.999rem) {
+  .mica-cta {
+    width: 100%;
+  }
+
+  .mica-section {
+    margin-top: 64px;
+  }
+}
+
+/* Print returns the dark interface to neutral paper without changing hierarchy. */
+@media print {
+  html,
+  body {
+    background: #f4f5f6 !important;
+    color: #111820 !important;
+  }
+
+  .mica-langlink[aria-current="true"] {
+    background: #f4f5f6 !important;
+    color: #111820 !important;
+  }
 }

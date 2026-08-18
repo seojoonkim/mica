@@ -47,7 +47,7 @@ export const en = {
 
   site: {
     longName: "Multinational Index of Consumer Agents",
-    tagline: "The consumer-agent benchmark",
+    tagline: "Consumer Agent Benchmark",
     secondary:
       "The world’s first public benchmark for end-to-end consumer-agent execution across 6 localized markets and everyday consumer domains.",
     definition:
@@ -59,6 +59,7 @@ export const en = {
 
   nav: {
     countries: "Countries",
+    evaluate: "Plan evaluation",
     rankings: "Rankings",
     agents: "Systems",
     tasks: "Tasks",
@@ -66,6 +67,34 @@ export const en = {
     methodology: "Methodology",
     governance: "Governance",
     submit: "Submission requirements",
+  },
+
+  evaluate: {
+    metaTitle: "Evaluation scope planner",
+    metaDescription: "Preview a selectable MICA evaluation scope without executing runs.",
+    eyebrow: "Scope preview",
+    title: "Evaluation scope planner",
+    standfirst: "Choose markets and public tasks to preview a benchmark matrix. This planner does not start, queue or simulate runs.",
+    boundary: "No runs execute here. MICA has no execution backend or connected harness, and no results are inferred.",
+    modeLegend: "Planning mode",
+    countryFocused: "Country-focused",
+    taskFocused: "Task-focused cross-market",
+    custom: "Custom matrix",
+    fullBenchmark: "Full benchmark",
+    countriesLegend: "Countries",
+    tasksLegend: "Public tasks",
+    selectCountryHint: "Select one or more countries.",
+    selectTaskHint: "Select one or more public tasks.",
+    invalid: "Select at least one country and one task. Empty custom scopes plan zero cells.",
+    summaryTitle: "Scope preview",
+    selectedCountries: "Selected countries",
+    selectedTasks: "Selected tasks",
+    planned: "Planned cells",
+    executionEligible: "Execution-eligible",
+    executed: "Executed",
+    failed: "Failed",
+    harnessFailed: "Harness-failed",
+    notApplicable: "Not applicable to execution",
   },
 
   chrome: {

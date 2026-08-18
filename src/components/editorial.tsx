@@ -96,8 +96,7 @@ export function PageHeader({
           <p className="mica-lead mt-5 max-w-[58ch]">{standfirst}</p>
         </div>
         <div className="md:col-span-3 md:col-start-10">
-          <span className="mica-ticks" aria-hidden="true" />
-          <p className="mica-eyebrow mt-3">{dict.site.edition}</p>
+          <p className="mica-eyebrow">{dict.site.edition}</p>
           <p className="mica-micro mt-2">
             {dict.common.editionSummary}
           </p>
