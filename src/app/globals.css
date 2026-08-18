@@ -2614,7 +2614,16 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
   }
 }
 
+.mica-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .mica-wordmark {
+  flex: none;
   font-family: var(--font-sans);
   font-size: 1.5rem;
   font-weight: 720;
@@ -2623,13 +2632,16 @@ html[lang="ko"] .mica-methodology .mica-section-body :is(p, li, dd) {
 }
 
 .mica-wordmark-expansion {
+  min-width: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--color-border-strong);
+  padding-left: clamp(10px, 1.4vw, 18px);
   font-family: var(--font-sans);
-  display: block;
-  max-width: min(66vw, 560px);
-  font-size: clamp(10px, 2.3vw, 11px);
+  font-size: clamp(9px, 1.1vw, 11px);
   font-weight: 580;
   line-height: 1.25;
-  letter-spacing: 0.055em;
+  letter-spacing: 0.045em;
+  text-overflow: ellipsis;
   color: var(--color-ink-soft);
 }
 

@@ -48,6 +48,14 @@ describe("plain-language public copy", () => {
     }
   });
 
+  it("renders the masthead brand and long name as one semantic lockup", () => {
+    const mastheadSource = readFileSync(join(process.cwd(), "src/components/chrome.tsx"), "utf8");
+    expect(mastheadSource).toContain('className="mica-brand-lockup');
+    expect(mastheadSource).toContain('<span className="mica-wordmark">MICA</span>');
+    expect(mastheadSource).toContain('<span className="mica-wordmark-expansion">');
+    expect(mastheadSource).not.toContain("mica-wordmark-expansion mt-1.5");
+  });
+
   it("numbers all seven system capability axes consistently in the summary and explanations", async () => {
     for (const lang of ["en", "ko"] as const) {
       const { container, unmount } = render(await HomePage({ params: Promise.resolve({ lang }) }));

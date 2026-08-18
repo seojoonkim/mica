@@ -31,10 +31,10 @@ export function Masthead({ lang }: { lang: Locale }) {
             lang={lang}
             href="/"
             aria-label={dict.chrome.homeLabel}
-            className="block min-h-11 min-w-0 text-[var(--color-ink)] no-underline"
+            className="mica-brand-lockup min-h-11 min-w-0 text-[var(--color-ink)] no-underline"
           >
             <span className="mica-wordmark">MICA</span>
-            <span className="mica-wordmark-expansion mt-1.5">
+            <span className="mica-wordmark-expansion">
               {dict.site.longName}
             </span>
           </LocaleLink>
