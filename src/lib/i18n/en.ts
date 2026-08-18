@@ -205,6 +205,19 @@ export const en = {
     statRuns: "Measured runs",
     countedNote: "Counted from the canonical records at build time.",
     stackEyebrow: "The unit of measurement is the system",
+    frameworkEyebrow: "The MICA capability framework",
+    frameworkTitle: "Test the whole agent. Measure the outcome. Explain the system.",
+    frameworkIntro:
+      "MICA is not an API integration test. It evaluates an assembled consumer-agent system across understanding, orchestration, model routing, memory, tool use, localisation, safety and recovery.",
+    frameworkStages: [
+      { label: "Test", title: "Reality, not a clean prompt", detail: "Exercise the system under local language, identity, payment, permission, handoff and recovery conditions, with realistic user context and changing constraints." },
+      { label: "Measure", title: "Confirmed completion, not a successful call", detail: "Publish raw accuracy, speed and cost, then derive the per-run score as 100 × normalized Accuracy × normalized Speed × normalized Cost." },
+      { label: "Explain", title: "Diagnose why the system succeeded or failed", detail: "Trace outcomes across seven system-capability axes without folding diagnosis into the score." },
+    ],
+    frameworkFieldTitle: "10 everyday task domains are the proving ground",
+    frameworkFormulaLabel: "MICA Score · Accuracy × Speed × Cost",
+    frameworkFieldDetail:
+      "100 canonical tasks across 6 localized markets form MICA’s current observation environment. They make broad agent capability concrete and comparable; they are not 10 isolated API suites.",
     bandEyebrow: `${COUNTRIES.length} market editions`,
     disclosureDetail:
       "The interface is ready; the index is empty. MICA has published no verified system results.",

@@ -177,6 +177,19 @@ export const ko = {
     statRuns: "측정한 실행",
     countedNote: "빌드할 때 원본 데이터에서 직접 센 값입니다.",
     stackEyebrow: "재는 대상은 모델이 아니라 시스템",
+    frameworkEyebrow: "MICA 에이전트 역량 프레임워크",
+    frameworkTitle: "에이전트 전체를 시험하고, 결과를 측정하고, 원인을 설명합니다",
+    frameworkIntro:
+      "MICA는 API 연동 테스트가 아닙니다. 입력 이해부터 오케스트레이션, 모델 라우팅, 기억, 도구 사용, 현지화, 안전, 복구까지 조립된 소비자 에이전트 시스템의 기본 성능 전반을 평가합니다.",
+    frameworkStages: [
+      { label: "Test · 현실을 시험한다", title: "정돈된 프롬프트가 아니라 실제 조건", detail: "현지 언어, 본인확인, 결제, 권한, 인계, 복구 조건과 현실적인 사용자 맥락, 바뀌는 제약 안에서 시스템을 시험합니다." },
+      { label: "Measure · 완료를 측정한다", title: "호출 성공이 아니라 확인된 완료", detail: "정확도·속도·비용 원값을 공개하고, 실행별 점수를 100 × 정규화 정확도 × 정규화 속도 × 정규화 비용으로 계산합니다." },
+      { label: "Explain · 원인을 설명한다", title: "왜 성공하고 실패했는지 진단", detail: "결과를 7개 시스템 역량 축으로 추적하되 진단값을 점수에 섞지 않습니다." },
+    ],
+    frameworkFieldTitle: "10개 생활 과제 영역이 에이전트의 시험장입니다",
+    frameworkFormulaLabel: "MICA 점수 · 정확도 × 속도 × 비용",
+    frameworkFieldDetail:
+      "100개 canonical task가 6개 현지 시장에서 MICA의 현재 관찰 환경을 이룹니다. 에이전트의 넓은 기본 역량을 구체적이고 비교 가능하게 만드는 시험장이며, 서로 분리된 10개 API 테스트 묶음이 아닙니다.",
     bandEyebrow: `${COUNTRIES.length}개 시장 에디션`,
     disclosureDetail:
       "인터페이스는 준비됐고 지수는 비어 있습니다. MICA가 공개한 검증 결과는 아직 없습니다.",

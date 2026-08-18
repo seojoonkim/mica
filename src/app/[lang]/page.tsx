@@ -187,6 +187,42 @@ export default async function HomePage({
         </div>
       </header>
 
+      <Section
+        eyebrow={dict.home.frameworkEyebrow}
+        title={dict.home.frameworkTitle}
+        intro={dict.home.frameworkIntro}
+      >
+        <div data-testid="agent-capability-framework">
+          <ol className="mica-framework-stages">
+            {dict.home.frameworkStages.map((stage, index) => (
+              <li key={stage.label}>
+                <p className="mica-framework-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <p className="mica-eyebrow">{stage.label}</p>
+                <h3 className="mica-display mica-h3">{stage.title}</h3>
+                <p className="mica-body-sm">{stage.detail}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mica-framework-formula">{dict.home.frameworkFormulaLabel}</p>
+          <div className="mica-framework-field">
+            <div>
+              <p className="mica-eyebrow">{dict.home.frameworkFieldTitle}</p>
+              <p className="mica-body-sm mt-2 mb-0">{dict.home.frameworkFieldDetail}</p>
+            </div>
+            <ul className="mica-stack" aria-label={dict.home.stackEyebrow}>
+              {DIAGNOSTIC_AXES.map((axis) => (
+                <li key={axis.id}>
+                  <span className="mica-stack-term">{dict.diagnosticAxes[axis.id].label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+
       <div className="mt-9">
         <PublicationStatus text={dict.home.publicationStatus} />
         {/*

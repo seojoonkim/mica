@@ -119,6 +119,54 @@ describe("plain-language public copy", () => {
     render(await HomePage({ params: Promise.resolve({ lang: "ko" }) }));
     expect(document.querySelector(".mica-strip")).toBeNull();
   });
+
+  it.each(["en", "ko"] as const)(
+    "leads with the %s whole-agent Test Measure Explain framework rather than an API task catalogue",
+    async (lang) => {
+      const dict = getDict(lang);
+      const { container } = render(await HomePage({ params: Promise.resolve({ lang }) }));
+      const framework = container.querySelector('[data-testid="agent-capability-framework"]');
+      const publication = container.querySelector('[data-testid="publication-status"]');
+      const families = container.querySelector(".mica-home-family-index");
+
+      expect(framework).not.toBeNull();
+      const frameworkSection = framework!.closest("section");
+      expect(frameworkSection).not.toBeNull();
+      expect(frameworkSection).toHaveTextContent(dict.home.frameworkTitle);
+      for (const stage of dict.home.frameworkStages) {
+        expect(framework).toHaveTextContent(stage.label);
+        expect(framework).toHaveTextContent(stage.title);
+      }
+      for (const axis of Object.values(dict.diagnosticAxes)) {
+        expect(framework).toHaveTextContent(axis.label);
+      }
+      expect(frameworkSection).toHaveTextContent(
+        lang === "en" ? /not an API integration test/i : /API 연동 테스트가 아닙니다/,
+      );
+      expect(framework).toHaveTextContent(
+        lang === "en" ? /10 everyday task domains/i : /10개 생활 과제 영역/,
+      );
+      expect(framework).toHaveTextContent(
+        lang === "en" ? /100 canonical tasks/i : /100개 canonical task/,
+      );
+      expect(framework).toHaveTextContent(
+        lang === "en"
+          ? /100 × normalized accuracy × normalized speed × normalized cost/i
+          : /100 × 정규화 정확도 × 정규화 속도 × 정규화 비용/,
+      );
+      expect(framework!.querySelector(".mica-framework-formula")).toHaveTextContent(
+        lang === "en"
+          ? "Accuracy × Speed × Cost"
+          : "정확도 × 속도 × 비용",
+      );
+      expect(
+        framework!.compareDocumentPosition(publication!) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(
+        framework!.compareDocumentPosition(families!) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    },
+  );
 });
 
 const LOCALES = ["en", "ko"] as const;
