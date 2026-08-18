@@ -76,6 +76,15 @@
         "money-banking-investing"
       ],
       "note": "Fable 검수에서 발견한 결측 보완. 재작업 투입 27건 중 9건의 failureRecoveryEvents가 빈 배열(원본 63건은 100% 충전)이어서 격리 producer+reviewer로 원문 근거 사건을 작성, 수락분만 반영(전량 수락 3건, 검토자 항목별 승인 부분 수락 4건, 정당한 0건 유지 1건, 카테고리 이견 보류 1건). em dash 3곳 구두점 치환 포함."
+    },
+    {
+      "waveId": "wave-5-remediation",
+      "categories": [
+        "restaurants-local",
+        "email-calendar",
+        "healthcare-administration"
+      ],
+      "note": "인계 브리프(2026-08-18)의 4개 known-defect 슬롯 재발굴. 격리 producer(Sonnet high)+reviewer(Opus xhigh) 2라운드 생산(10건) + authorityRoleCompliant 명칭 불일치 1건 기계적 재교정. 4개 슬롯(restaurants-local-08/10, email-calendar-07, healthcare-administration-10) 전부 신규 후보로 교체, res3-draft-14는 categoryMatch 재실격(예식장 계약을 외식 영역으로 오분류)으로 폐기, hc-admin-workinjury-reimburse-04는 category-overflow로 추가. 기록: work/method-reviews/2026-08-18-wave5-remediation-closure.md, 커밋 a861bfa."
     }
   ],
   "modelRecord": {
