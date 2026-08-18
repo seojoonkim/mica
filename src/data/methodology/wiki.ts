@@ -270,7 +270,7 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
     },
     notAdopted: {
       en: "Its apps are installed and controlled by the harness. MICA's markets include signed-in channels the harness will never own.",
-      ko: "그 앱들은 하니스가 설치하고 통제합니다. MICA의 시장에는 하니스가 결코 소유할 수 없는 로그인 채널이 포함됩니다.",
+      ko: "그 앱들은 하니스가 설치하고 통제합니다. MICA의 시장에는 하니스가 소유할 수 없는 로그인 채널이 포함됩니다.",
     },
   },
   {
@@ -346,7 +346,7 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
     url: "https://arxiv.org/abs/2401.13919",
     borrowed: {
       en: "Operation on live websites rather than a frozen replica: 643 tasks across 15 real sites, which is the published precedent for evaluating against services the harness does not own.",
-      ko: "고정된 복제본이 아니라 살아 있는 웹사이트에서 동작시키는 방식입니다. 실제 사이트 15곳에 걸친 과제 643개이며, 하니스가 소유하지 않은 서비스를 대상으로 평가한 공개 선례입니다.",
+      ko: "고정된 복제본이 아니라 실제 운영 웹사이트에서 동작시키는 방식입니다. 실제 사이트 15곳에 걸친 과제 643개이며, 하니스가 소유하지 않은 서비스를 대상으로 평가한 공개 선례입니다.",
     },
     notAdopted: {
       en: "There is no systematic per-country localized suite, and success is judged in part by a GPT-4V reading of screenshots and agent output rather than by authoritative market-side completion. MICA requires a receipt, readback or handoff record instead.",
@@ -398,7 +398,7 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
     },
     notAdopted: {
       en: "A well-formed call is not a completed errand. MICA scores the final state, and uses call diagnostics only to explain it.",
-      ko: "형식이 맞는 호출이 완료된 용무는 아닙니다. MICA는 최종 상태를 채점하고, 호출 진단은 그것을 설명하는 데만 씁니다.",
+      ko: "형식이 맞는 호출만으로 소비자 과제가 완료되지는 않습니다. MICA는 최종 상태를 채점하고, 호출 진단은 그것을 설명하는 데만 씁니다.",
     },
   },
   {
@@ -830,7 +830,7 @@ export const PRIMARY_REFERENCES: readonly PrimaryReference[] = [
     },
     notAdopted: {
       en: "Exam items have fixed answers. A consumer errand's correct outcome depends on live local state, so MICA validates final state instead.",
-      ko: "시험 문항에는 고정된 정답이 있습니다. 소비자 용무의 올바른 결과는 살아 있는 현지 상태에 달려 있으므로 MICA는 최종 상태를 검증합니다.",
+      ko: "시험 문항에는 고정된 정답이 있습니다. 소비자 과제의 올바른 결과는 실제 현지 상태에 달려 있으므로 MICA는 최종 상태를 검증합니다.",
     },
   },
   {
@@ -1264,7 +1264,7 @@ export const GLOSSARY: readonly GlossaryEntry[] = [
     term: { en: "Evaluation execution cost", ko: "평가 실행 비용" },
     definition: {
       en: "Model, routing, retry, subagent, browser, search, maps and paid tool spend for running the attempt, in USD. Never the purchase price of goods or services the agent handled.",
-      ko: "시도를 실행하는 데 든 모델, 라우팅, 재시도, 하위 에이전트, 브라우저, 검색, 지도, 유료 도구 비용이며 단위는 USD입니다. 에이전트가 다룬 상품이나 서비스의 구매 가격은 결코 포함되지 않습니다.",
+      ko: "시도를 실행하는 데 든 모델, 라우팅, 재시도, 하위 에이전트, 브라우저, 검색, 지도, 유료 도구 비용이며 단위는 USD입니다. 에이전트가 다룬 상품이나 서비스의 구매 가격은 포함되지 않습니다.",
     },
   },
   {
@@ -1397,7 +1397,7 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         term: { en: "The measurable gap", ko: "측정되지 않고 있는 간극" },
         detail: {
           en: `Execution-based benchmarks established that a task can be graded on final state rather than on a transcript, and they are not confined to controlled environments: WebVoyager operates on live websites, WebArena, WebShop, AndroidWorld and AppWorld use controlled or simulated ones, and tau-bench judges interaction against simulated domain policy and backend state. What none of them assembles is the conjunction: ${WIKI_FACTS.markets} country-localized real-life markets, multiple everyday consumer domains, execution carried through to the end, and an authoritative completion record, in the language and register the user actually uses.`,
-          ko: `실행 기반 벤치마크들은 과제를 기록이 아니라 최종 상태로 채점할 수 있음을 확립했고, 통제된 환경에만 머무르지도 않습니다. WebVoyager는 살아 있는 웹사이트에서 동작하고, WebArena와 WebShop, AndroidWorld, AppWorld는 통제되거나 시뮬레이션된 환경을 쓰며, tau-bench는 시뮬레이션된 도메인 정책과 백엔드 상태로 상호작용을 판정합니다. 다만 어느 쪽도 다음 결합을 함께 갖추지는 않습니다. ${WIKI_FACTS.markets}개의 국가별 현지 실생활 시장, 여러 일상 소비 영역, 끝까지 수행되는 실행, 권위 있는 완료 기록, 그리고 사용자가 실제로 쓰는 언어와 화계입니다.`,
+          ko: `실행 기반 벤치마크들은 과제를 기록이 아니라 최종 상태로 채점할 수 있음을 확립했고, 통제된 환경에만 머무르지도 않습니다. WebVoyager는 실제 운영 웹사이트에서 동작하고, WebArena와 WebShop, AndroidWorld, AppWorld는 통제되거나 시뮬레이션된 환경을 쓰며, tau-bench는 시뮬레이션된 도메인 정책과 백엔드 상태로 상호작용을 판정합니다. 다만 어느 쪽도 다음 결합을 함께 갖추지는 않습니다. ${WIKI_FACTS.markets}개의 국가별 현지 실생활 시장, 여러 일상 소비 영역, 끝까지 수행되는 실행, 권위 있는 완료 기록, 그리고 사용자가 실제로 쓰는 언어와 화계입니다.`,
         },
         refs: ["webarena", "webvoyager", "webshop", "androidworld", "appworld", "tau-bench", "osworld"],
       },
@@ -1407,7 +1407,7 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         term: { en: "The system is the subject", ko: "시스템이 평가 대상이다" },
         detail: {
           en: "A base model score does not predict whether an errand completes. Scaffolding, routing, memory, permissions and recovery decide that, and they are the parts a buyer chooses between. MICA therefore measures the assembled system and never a model in isolation.",
-          ko: "기반 모델의 점수는 용무가 완료되는지를 예측하지 못합니다. 그것을 결정하는 것은 스캐폴딩과 라우팅, 메모리, 권한, 복구이며, 구매자가 실제로 고르는 대상도 그것들입니다. 그래서 MICA는 조립된 시스템을 측정하고 모델을 단독으로 측정하지 않습니다.",
+          ko: "기반 모델의 점수는 소비자 과제의 완료 여부를 예측하지 못합니다. 그것을 결정하는 것은 스캐폴딩과 라우팅, 메모리, 권한, 복구이며, 구매자가 실제로 고르는 대상도 그것들입니다. 그래서 MICA는 조립된 시스템을 측정하고 모델을 단독으로 측정하지 않습니다.",
         },
       },
       {
@@ -1528,7 +1528,7 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         term: { en: "Fail-closed publication", ko: "실패 시 차단되는 공개" },
         detail: {
           en: "Minimum sample size and minimum coverage are unset, and the gate refuses rather than assuming a value. Demo and preview data can never become publication eligible, which the schema layer enforces at build time.",
-          ko: "최소 표본 수와 최소 커버리지가 정해지지 않았고, 관문은 값을 가정하는 대신 거부합니다. 데모와 프리뷰 데이터는 결코 공개 적격이 될 수 없으며, 이는 스키마 계층이 빌드 시점에 강제합니다.",
+          ko: "최소 표본 수와 최소 커버리지가 정해지지 않았고, 관문은 값을 가정하는 대신 거부합니다. 데모와 프리뷰 데이터는 공개 적격이 될 수 없으며, 이는 스키마 계층이 빌드 시점에 강제합니다.",
         },
       },
     ],
@@ -1654,7 +1654,7 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         },
         detail: {
           en: "Official platform documentation shows that discovery and read access is often credentialed but broadly documented, while state-changing execution is conditioned. Messaging, payment, account operations and mini-app execution can require a registered application or channel, OAuth or platform consent, reviewed scopes, a permitted recipient relationship, merchant or partner onboarding, a user gesture, a controlled runtime and a release review. None of that means a market has no APIs; it means the presence of an API does not establish that a consumer errand can be completed in production by a given system on a given date. MICA therefore records production executability as a separate fact from API existence, per market edition, and treats it as a condition of the environment rather than a property of a system.",
-          ko: "공식 플랫폼 문서를 보면 탐색과 읽기 접근은 자격 증명이 필요하더라도 대체로 폭넓게 문서화되어 있는 반면, 상태를 바꾸는 실행에는 조건이 붙습니다. 메시징, 결제, 계정 기능, 미니앱 실행에는 등록된 애플리케이션이나 채널, OAuth 또는 플랫폼 동의, 심사를 거친 스코프, 허용된 수신자 관계, 가맹점이나 파트너 온보딩, 사용자 조작, 통제된 런타임, 배포 심사가 요구될 수 있습니다. 이는 어떤 시장에 API가 없다는 뜻이 결코 아니며, API가 있다는 사실만으로 특정 시점에 특정 시스템이 소비자 용무를 운영 환경에서 완료할 수 있음이 성립하지는 않는다는 뜻입니다. 그래서 MICA는 운영 환경에서의 실행 가능성을 API 존재 여부와 분리된 사실로 시장 에디션마다 기록하고, 시스템의 속성이 아니라 환경의 조건으로 다룹니다.",
+          ko: "공식 플랫폼 문서를 보면 탐색과 읽기 접근은 자격 증명이 필요하더라도 대체로 폭넓게 문서화되어 있는 반면, 상태를 바꾸는 실행에는 조건이 붙습니다. 메시징, 결제, 계정 기능, 미니앱 실행에는 등록된 애플리케이션이나 채널, OAuth 또는 플랫폼 동의, 심사를 거친 스코프, 허용된 수신자 관계, 가맹점이나 파트너 온보딩, 사용자 조작, 통제된 런타임, 배포 심사가 요구될 수 있습니다. 이는 어떤 시장에 API가 없다는 뜻이 아니며, API가 있다는 사실만으로 특정 시점에 특정 시스템이 소비자 과제를 운영 환경에서 완료할 수 있음이 성립하지는 않는다는 뜻입니다. 그래서 MICA는 운영 환경에서의 실행 가능성을 API 존재 여부와 분리된 사실로 시장 에디션마다 기록하고, 시스템의 속성이 아니라 환경의 조건으로 다룹니다.",
         },
         refs: [
           "kakao-app",
@@ -1700,7 +1700,7 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
     title: { en: "Completion, handoff, safety and final-state evaluation", ko: "완료와 인계, 안전, 최종 상태 평가" },
     lead: {
       en: "The hardest definitional problem in the method: deciding when an errand is actually done, in services that finish asynchronously and off the agent's own surface.",
-      ko: "이 방법론에서 정의상 가장 어려운 문제입니다. 비동기로, 그리고 에이전트 자신의 표면 바깥에서 완료되는 서비스에서 용무가 실제로 끝났는지를 판정해야 합니다.",
+      ko: "이 방법론에서 정의상 가장 어려운 문제입니다. 비동기 방식으로 에이전트의 자체 인터페이스 밖에서 완료되는 서비스에서 소비자 과제의 실제 완료 여부를 판정해야 합니다.",
     },
     entries: [
       {
@@ -2025,7 +2025,7 @@ export const WIKI_CHAPTERS: readonly WikiChapter[] = [
         term: { en: "Separated sets", ko: "분리된 세트" },
         detail: {
           en: "Public candidates and the private holdout are separate sets, and the separation is enforced at export time rather than trusted to editorial care. A holdout item is never reachable from a public artifact.",
-          ko: "공개 후보와 비공개 홀드아웃은 서로 다른 세트이며, 분리는 편집상의 주의에 맡기지 않고 내보내기 시점에 강제합니다. 홀드아웃 항목은 공개 산출물에서 결코 도달할 수 없습니다.",
+          ko: "공개 후보와 비공개 홀드아웃은 서로 다른 세트이며, 분리는 편집상의 주의에 맡기지 않고 내보내기 시점에 강제합니다. 홀드아웃 항목은 공개 산출물에서 접근할 수 없습니다.",
         },
       },
       {

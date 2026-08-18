@@ -14,6 +14,14 @@ function entry(chapterId: string, entryId: string) {
 }
 
 describe("benchmark integrity contracts", () => {
+  it("keeps canonical Korean methodology in formal benchmark prose", () => {
+    const koreanMethodology = JSON.stringify(WIKI_CHAPTERS);
+
+    for (const term of ["용무", "살아 있는 웹사이트", "결코"]) {
+      expect(koreanMethodology, `canonical Korean methodology still contains: ${term}`).not.toContain(term);
+    }
+  });
+
   it("tests transfer beyond known task templates and services", () => {
     const contract = entry("task-authoring", "unseen-generalization");
     expect(contract.badge).toBe("current-rule");
